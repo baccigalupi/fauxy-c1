@@ -1,5 +1,6 @@
+#line 2 "lib/parser/lex.yy.c"
 
-#line 3 "lex.yy.c"
+#line 4 "lib/parser/lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -523,7 +524,7 @@ char *yytext;
 #line 1 "lib/parser/lex.l"
 #line 2 "lib/parser/lex.l"
 #include <stdio.h>
-#line 527 "lex.yy.c"
+#line 528 "lib/parser/lex.yy.c"
 
 #define INITIAL 0
 
@@ -707,7 +708,7 @@ YY_DECL
     
 #line 5 "lib/parser/lex.l"
 
-#line 711 "lex.yy.c"
+#line 712 "lib/parser/lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -940,7 +941,7 @@ YY_RULE_SETUP
 #line 34 "lib/parser/lex.l"
 ECHO;
 	YY_BREAK
-#line 944 "lex.yy.c"
+#line 945 "lib/parser/lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 

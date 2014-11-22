@@ -1,47 +1,64 @@
-# Extracted from ZedShaw C learn like a badass stuff
-
-COMPILE_FLAGS=-g -O2 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
+# taken from Zed Shaw's learn C the hard way
+CFLAGS=-g -O2 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
+LIBS=-ldl $(OPTLIBS)
+PREFIX?=/usr/local
 
 SOURCES=$(wildcard lib/**/*.c lib/*.c)
-COMPILED_SOURCE=$(patsubst %.c,%.o,$(SOURCES))
+OBJECTS=$(patsubst %.c,%.o,$(SOURCES))
 
-SPEC_SOURCES=$(wildcard c_spec/**/_spec.c c_spec/*_spec.c)
-COMPILED_SPECS=$(patsubst %.c,%,$(SPEC_SOURCES))
+TEST_SRC=$(wildcard c_spec/**/*_spec.c c_spec/*_spec.c)
+TESTS=$(patsubst %.c,%,$(TEST_SRC))
 
 TARGET=build/fauxy.a
 SO_TARGET=$(patsubst %.a,%.so,$(TARGET))
 
+# The Target Build
 all: $(TARGET) $(SO_TARGET) cspec
 
-dev: COMPILE_FLAGS=-g -Wall -Isrc -Wall -Wextra $(OPTFLAGS)
-dev: clean all
+dev: CFLAGS=-g -Wall -Isrc -Wall -Wextra $(OPTFLAGS)
+dev: all
 
-$(TARGET): COMPILE_FLAGS += -fPIC
-$(TARGET): build $(COMPILED_SOURCE)
-	ar rcs $@ $(COMPILED_SOURCE)
+$(TARGET): CFLAGS += -fPIC
+$(TARGET): build $(OBJECTS)
+	ar rcs $@ $(OBJECTS)
 	ranlib $@
 
-$(SO_TARGET): $(TARGET) $(COMPILED_SOURCE)
-	$(CC) -shared -o $@ $(COMPILED_SOURCE)
+$(SO_TARGET): $(TARGET) $(OBJECTS)
+	$(CC) -shared -o $@ $(OBJECTS)
 
 build:
 	@mkdir -p build
 	@mkdir -p bin
 
 lex:
-	flex lib/parser/lex.l
-	gcc lex.yy.c -ll -o lib/parser/f_lex
+	flex -o lib/parser/lex.yy.c lib/parser/lex.l
+	gcc lib/parser/lex.yy.c -ll -o lib/parser/lex
 
-clean:
-	rm -rf lib/parser/f_lex lib/parser/lex.yy.c
-	rm -rf build $(COMPILED_SOURCE) $(COMPILED_SPECS)
-	rm -f c_spec/spec.log
-	find . -name "*.gc*" -exec rm {} \;
-	rm -rf `find . -name "*.dSYM" -print`
 
-.PHONY: cspec
-cspec: $(SPEC_SOURCES)
+# The Unit Tests
+.PHONY: tests
+cspec: CFLAGS += $(TARGET)
+cspec: $(TESTS)
 	sh ./c_spec/lib/run_specs.sh
 
 valgrind:
 	VALGRIND="valgrind --log-file=/tmp/valgrind-%p.log" $(MAKE)
+
+# The Cleaner
+clean:
+	rm -rf build $(OBJECTS) $(TESTS)
+	rm -f cscpe/spec.log
+	rm -f lib/parser/lex.yy.c
+	find . -name "*.gc*" -exec rm {} \;
+	rm -rf `find . -name "*.dSYM" -print`
+
+# The Install
+install: all
+	install -d $(DESTDIR)/$(PREFIX)/lib/
+	install $(TARGET) $(DESTDIR)/$(PREFIX)/lib/
+
+# The Checker
+BADFUNCS='[^_.>a-zA-Z0-9](str(n?cpy|n?cat|xfrm|n?dup|str|pbrk|tok|_)|stpn?cpy|a?sn?printf|byte_)'
+check:
+	@echo Files with potentially dangerous functions.
+	@egrep $(BADFUNCS) $(SOURCES) || true
