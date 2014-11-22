@@ -30,8 +30,10 @@ typedef enum {
   FX_TOKEN_BLOCK_START,         // "{"
   FX_TOKEN_BLOCK_END,           // "}"
   FX_TOKEN_DEFERRED_ARGUMENT,   // "_"
+  FX_TOKEN_NOT_OPERATOR,        // "!"
 
-  FX_TOKEN_BLOCK_DECLARATION    // "->"
+  FX_TOKEN_BLOCK_DECLARATION,    // "->"
+  FX_TOKEN_BACKGROUND_OPERATOR  // ".." or "..."
 
 } TokenType;
 

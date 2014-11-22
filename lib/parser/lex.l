@@ -1,5 +1,8 @@
 %{
+
 #include <stdio.h>
+#include "token.h"
+
 %}
 
 %%
@@ -8,8 +11,8 @@
 ;                         		{ printf("statement end\n"); }
 \(                         		{ printf("open paren\n"); }
 \)                         		{ printf("close paren\n"); }
-,                         		{ printf("comma paren\n"); }
-_                         		{ printf("defer operator\n"); }
+,                         		{ printf("comma\n"); }
+_                         		{ printf("deferred arg\n"); }
 =                         		{ printf("local assign operator\n"); }
 :                         		{ printf("attr assign operator\n"); }
 ->                         		{ printf("block declaration\n"); }
@@ -28,7 +31,7 @@ _                         		{ printf("defer operator\n"); }
 \/\*[^*]*\*\/             		{ printf("block comment: %s\n", yytext); }
 \/\/[^\n]*                		{ printf("line end comment: %s\n", yytext); }
 \/.*\/[a-z]? 									{ printf("regex: %s\n", yytext); }
-[\n]+                      		{ printf("line end\n"); }
+[\n]                      		{ printf("line end\n"); }
 [^ \t]                    		{ printf("unknown token: %s\n", yytext);};
 [ \t]                     		;
 %%
