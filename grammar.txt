@@ -1,0 +1,102 @@
+GRAMMAR - Statement types
+-------------------------
+
+Statement
+  literal | id | class name    | block | list | attribute set | local set | method call | grouped statement | statements
+
+Statements
+  statement (";" | "\n" | "\r") statement
+
+Literal
+  number | string | regex | atom
+
+List
+  "(" statement? (, statement)* ")"
+
+Block
+  "->" list? "{" ("\n"|"\r")? statements? "}"
+
+Grouped statement
+  "(" statement ")"
+
+
+Attribute Assign
+  statement ":" statement
+
+Local Assign
+  identifier "=" statement
+
+Method Call
+  statement ("." | " ") statement list? block?
+
+---------------------------
+
+Missing stuff:
+* unary operators ! etc
+* partial evaluation/currying
+* if/guard/return statement
+* named arguments
+* pattern matching expressions on arguments
+* coroutines and related '..'
+
+---------------------------
+
+"3.14 ; 4.15"
+  statements[literal, literal]
+
+" foo.to_s \n"
+  statements[
+    method_call[identifier, identifier, null, null]
+  ]
+
+" foo print"
+  statements[
+    method_call[identifier, identifier, null, null]
+  ]
+
+" foo each ->(i) { print i } "
+  statements[
+    method_call[identifier, identifier, null, block[
+      list[identifier], statements[
+        method_call[identifier, identifier]
+      ]
+    ]]
+  ]
+
+" foo each ->(i) {\n print i\n} "
+statements[
+  method_call[identifier, identifier, null, block[
+    list[identifier], statements[
+      method_call[identifier, identifier]
+    ]
+  ]]
+]
+
+"
+ClassName << (BaseClass, MidClass) -> {
+  foo: ->(str) {
+    x = str
+    "foo {{x}}"
+  }
+}
+"
+statements[
+  method_call[class_name, identifier(<<), list[class_name, class_name], block[
+    null, statements[
+      attr_assign[identifier, block[list[identifier], statements[
+        local_assign[identifier, identifier]
+        literal
+      ]]]
+    ]
+  ]]
+]
+
+"z = (x = str) || (y = gerbil)"
+
+statements[
+  local_assign[
+    method_call[
+      group[local_assign[identifier, identifier]], identifier(||), list[group[local_assign[identifier, identifier]]]
+    ]
+  ]
+]
