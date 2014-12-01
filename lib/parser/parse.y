@@ -15,9 +15,10 @@
 %file-prefix "lib/parser/parse"
 %defines
 
+%token TRUE FALSE NIL
 %token ELIPSES DOT EQUAL_SIGN COLON
 %token SEMICOLON LINE_END COMMA
-%token STRING INTEGER FLOAT ATOM REGEX
+%token STRING EVAL_STRING INTEGER FLOAT ATOM REGEX
 %token ID CLASS_ID DEFERRED_ARGUMENT
 %token BLOCK_DECLARATION OPEN_BRACE CLOSE_BRACE
 %token OPEN_PAREN CLOSE_PAREN
@@ -30,48 +31,77 @@
 program: expressions
 
 expressions
-  : expressions expression
+  : /* empty */
+  | expressions expression
   | expression
+  | unterminated_expression
+  | expression_end
+  ;
+
+expression_end
+  : LINE_END
+  | SEMICOLON
+  ;
+
+unterminated_expression
+  : literal
+  | identifier
+  | block
+  | list
+  | operator_call
+  | method_call
   ;
 
 expression
-  : literal LINE_END { printf("Literal \n");}
-  | identifier LINE_END { printf("Identifier \n");}
-  | block LINE_END { printf("Block \n");}
-  | list LINE_END { printf("List \n");}
-  // operator call
-  // method call
+  : unterminated_expression expression_end
   ;
 
 literal
-  : STRING
+  : string { printf("String \n");}
   | number
-  | ATOM
-  | REGEX
+  | ATOM   { printf("Atom \n"); }
+  | REGEX  { printf("Regex \n"); }
+  | TRUE   { printf("true\n"); }
+  | FALSE  { printf("false\n"); }
+  | NIL    { printf("nil\n"); }
   ;
 
 number
-  : INTEGER
-  | FLOAT
+  : INTEGER { printf("Integer \n");}
+  | FLOAT   { printf("Float \n");}
+  ;
+
+string
+  : STRING
+  | EVAL_STRING
   ;
 
 identifier
-  : ID
-  | CLASS_ID
+  : ID        { printf("Id \n");}
+  | CLASS_ID  { printf("Class Id \n");}
   ;
 
-/* need to add in commas and multiple args*/
-/* need to disambiguate grouped statement*/
 list
-  : OPEN_PAREN expression CLOSE_PAREN
+  : OPEN_PAREN list_elements CLOSE_PAREN
   ;
 
-/* need to add optional argument/list passing */
+list_elements
+  :
+  | unterminated_expression
+  | unterminated_expression COMMA list_elements
+  ;
+
 block
-  : BLOCK_DECLARATION OPEN_BRACE expressions CLOSE_BRACE
+  : BLOCK_DECLARATION OPEN_BRACE expressions CLOSE_BRACE { printf("block\n"); }
+  | BLOCK_DECLARATION list OPEN_BRACE expressions CLOSE_BRACE { printf("block with args\n"); }
   ;
 
-/* METHOD CALLS HERE, HOLY COW! */
+operator_call
+  : unterminated_expression identifier unterminated_expression { printf("operator expression\n"); }
+  ;
 
-
+method_call
+  : unterminated_expression DOT identifier { printf("method call\n"); }
+  | unterminated_expression DOT identifier list { printf("method call with arguments\n"); }
+  ;
 %%

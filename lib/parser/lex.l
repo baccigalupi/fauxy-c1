@@ -12,6 +12,9 @@
 
 %%
 
+"true"												{ return TOKEN_TRUE; }
+"false"												{ return TOKEN_FALSE; }
+"nil"													{ return TOKEN_NIL; }
 "..."													{ return TOKEN_ELIPSES; }
 ".."													{ return TOKEN_ELIPSES; }
 "."														{ return TOKEN_DOT; }
@@ -32,14 +35,13 @@
 [ \t]                     		{ /* white space, move along */ }
 
 [A-Z]+[A-Za-z0-9_\-]* 					{ T_VALUE(TOKEN_CLASS_ID); }
-[\-=a-z_]+[a-z0-9_\-]*[!?]? 		{ T_VALUE(TOKEN_ID); }
 -?[0-9]+\.[0-9]+          			{ T_VALUE(TOKEN_FLOAT); }
 -?[0-9]\.[0-9]+(e|E)-?[0-9]+  	{ T_VALUE(TOKEN_FLOAT); }
 -?[0-9]+                  			{ T_VALUE(TOKEN_INTEGER); }
-[\-=a-z0-9_]+[a-z0-9_\-]*[!?]? 	{ T_VALUE(TOKEN_ID); }
+[\-<+&a-z0-9_]+[a-z0-9_\-]*[!?]? 	{ T_VALUE(TOKEN_ID); }
 :[a-z0-9_]+[a-z0-9_\-]* 		  	{ T_VALUE(TOKEN_ATOM); }
 \/.*\/[a-z]? 										{ T_VALUE(TOKEN_REGEX); }
-\"([^"]|\\.)*\"           			{ T_VALUE(TOKEN_STRING); }
+\"([^"]|\\.)*\"           			{ T_VALUE(TOKEN_EVAL_STRING); }
 \'([^']|\\.)*\'           			{ T_VALUE(TOKEN_STRING); }
 
 .                    						{ printf("unknown token: %s\n", yytext);};
