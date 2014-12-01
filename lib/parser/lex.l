@@ -1,41 +1,45 @@
 %{
+	#include <stdio.h>
+	#include "../core/bit.h"
+	#include "parse.tab.h"
 
-#include <stdio.h>
-#include "token.h"
-
+	#define T_VALUE(T_TYPE) yylval = FauxyBit_create(T_TYPE, yytext); return T_TYPE
+// %option bison-locations
 %}
 
-%%
-\.\.\.?												{ printf("background operator\n"); }
-\.														{ printf("attr operator\n"); }
-;                         		{ printf("statement end\n"); }
-\(                         		{ printf("open paren\n"); }
-\)                         		{ printf("close paren\n"); }
-,                         		{ printf("comma\n"); }
-_                         		{ printf("deferred arg\n"); }
-=                         		{ printf("local assign operator\n"); }
-:                         		{ printf("attr assign operator\n"); }
-->                         		{ printf("block declaration\n"); }
-\{                         		{ printf("block start\n"); }
-\}                         		{ printf("block end\n"); }
-!                         		{ printf("not unary operator\n"); }
-[\-=a-z_]+[=a-z0-9_\-]* 			{ printf("id: %s\n", yytext); }
-[A-Z]+[A-Za-z0-9_\-]* 				{ printf("class id: %s\n", yytext); }
--?[0-9]+\.[0-9]+          		{ printf("floating-point number: %s\n", yytext); }
--?[0-9]\.[0-9]+(e|E)-?[0-9]+  { printf("floating-point number: %s\n", yytext); }
--?[0-9]+                  		{ printf("integer: %s\n", yytext); }
-[\-=a-z0-9_]+[=a-z0-9_\-]* 		{ printf("id: %s\n", yytext); }
-:[a-z0-9_]+[a-z0-9_\-]* 		  { printf("atom: %s\n", yytext); }
-\"([^"]|\\.)*\"           		{ printf("string: %s\n", yytext); }
-\'([^']|\\.)*\'           		{ printf("string: %s\n", yytext); }
-\/\*[^*]*\*\/             		{ printf("block comment: %s\n", yytext); }
-\/\/[^\n]*                		{ printf("line end comment: %s\n", yytext); }
-\/.*\/[a-z]? 									{ printf("regex: %s\n", yytext); }
-[\n]                      		{ printf("line end\n"); }
-[^ \t]                    		{ printf("unknown token: %s\n", yytext);};
-[ \t]                     		;
+%option noyywrap
+%option bison-bridge
+
 %%
 
-int main() {
-	yylex();
-}
+"..."													{ return TOKEN_ELIPSES; }
+".."													{ return TOKEN_ELIPSES; }
+"."														{ return TOKEN_DOT; }
+";"                         	{ return TOKEN_SEMICOLON; }
+"("                         	{ return TOKEN_OPEN_PAREN; }
+")"                         	{ return TOKEN_CLOSE_PAREN; }
+","                         	{ return TOKEN_COMMA; }
+"_"                         	{ return TOKEN_DEFERRED_ARGUMENT; }
+"="                         	{ return TOKEN_EQUAL_SIGN; }
+":"                         	{ return TOKEN_COLON; }
+"->"                         	{ return TOKEN_BLOCK_DECLARATION; }
+"{"                         	{ return TOKEN_OPEN_BRACE; }
+"}"                         	{ return TOKEN_CLOSE_BRACE; }
+"!"                         	{ return TOKEN_NOT_OPERATOR; }
+\/\*[^*]*\*\/             		{ /* comment, treat as white space */ }
+\/\/[^\n]*                		{ /* comment, treat as white space */ }
+[\n]                      		{ return TOKEN_LINE_END; }
+[ \t]                     		{ /* white space, move along */ }
+
+[A-Z]+[A-Za-z0-9_\-]* 					{ T_VALUE(TOKEN_CLASS_ID); }
+[\-=a-z_]+[a-z0-9_\-]*[!?]? 		{ T_VALUE(TOKEN_ID); }
+-?[0-9]+\.[0-9]+          			{ T_VALUE(TOKEN_FLOAT); }
+-?[0-9]\.[0-9]+(e|E)-?[0-9]+  	{ T_VALUE(TOKEN_FLOAT); }
+-?[0-9]+                  			{ T_VALUE(TOKEN_INTEGER); }
+[\-=a-z0-9_]+[a-z0-9_\-]*[!?]? 	{ T_VALUE(TOKEN_ID); }
+:[a-z0-9_]+[a-z0-9_\-]* 		  	{ T_VALUE(TOKEN_ATOM); }
+\/.*\/[a-z]? 										{ T_VALUE(TOKEN_REGEX); }
+\"([^"]|\\.)*\"           			{ T_VALUE(TOKEN_STRING); }
+\'([^']|\\.)*\'           			{ T_VALUE(TOKEN_STRING); }
+
+.                    						{ printf("unknown token: %s\n", yytext);};

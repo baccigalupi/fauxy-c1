@@ -1,4 +1,5 @@
 # taken from Zed Shaw's learn C the hard way
+BISON=/usr/local/Cellar/bison/3.0.2/bin/bison
 CFLAGS=-g -O2 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
 LIBS=-ldl $(OPTLIBS)
 PREFIX?=/usr/local
@@ -30,10 +31,23 @@ build:
 	@mkdir -p build
 	@mkdir -p bin
 
-lex:
-	flex -o lib/parser/lex.yy.c lib/parser/lex.l
-	gcc lib/parser/lex.yy.c -ll -o lib/parser/lex
+# COMPILATION WITH FLEX/BISON -----------
 
+fauxy: bison flex compile
+
+bison: lib/parser/parse.y
+	$(BISON) lib/parser/parse.y
+
+flex:lib/parser/lex.l
+	flex -o lib/parser/lex.yy.c lib/parser/lex.l
+
+compile:
+	gcc -o bin/fauxy $(SOURCES) lib/parser/parse.tab.c lib/parser/lex.yy.c -ll
+
+run:
+	bin/fauxy
+
+# ---------
 
 # The Unit Tests
 .PHONY: tests
@@ -48,9 +62,12 @@ valgrind:
 clean:
 	rm -rf build $(OBJECTS) $(TESTS)
 	rm -f cscpe/spec.log
+	rm -f lib/parser/parse.tab.*
 	rm -f lib/parser/lex.yy.c
+	rm -f bin/fauxy
 	find . -name "*.gc*" -exec rm {} \;
 	rm -rf `find . -name "*.dSYM" -print`
+
 
 # The Install
 install: all
