@@ -6,8 +6,9 @@
   void yyerror(char const *s) { fprintf(stderr, "%s\n", s); }
 %}
 
-%define api.token.prefix { TOKEN_}
+%define parse.error verbose
 
+%define api.token.prefix { TOKEN_}
 %define api.value.type { FauxyBit }
 
 // bison outputs header and c files in right location
@@ -34,10 +35,10 @@ expressions
   ;
 
 expression
-  : literal
-  | identifier
-  | block
-  | list
+  : literal LINE_END { printf("Literal \n");}
+  | identifier LINE_END { printf("Identifier \n");}
+  | block LINE_END { printf("Block \n");}
+  | list LINE_END { printf("List \n");}
   // operator call
   // method call
   ;
