@@ -36,7 +36,7 @@ build:
 fauxy: bison flex compile
 
 bison: lib/parser/parse.y
-	$(BISON) lib/parser/parse.y
+	$(BISON) --verbose lib/parser/parse.y
 
 flex:lib/parser/lex.l
 	flex -o lib/parser/lex.yy.c lib/parser/lex.l
