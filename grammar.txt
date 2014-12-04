@@ -49,7 +49,7 @@ Missing stuff:
     method_call[identifier, identifier, null, null]
   ]
 
-" foo print"
+" foo.print"
   statements[
     method_call[identifier, identifier, null, null]
   ]
@@ -63,7 +63,7 @@ Missing stuff:
     ]]
   ]
 
-" foo each ->(i) {\n print i\n} "
+" foo.each ->(i) {\n print i\n} "
 statements[
   method_call[identifier, identifier, null, block[
     list[identifier], statements[

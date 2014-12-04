@@ -1,6 +1,6 @@
 # taken from Zed Shaw's learn C the hard way
 BISON=/usr/local/Cellar/bison/3.0.2/bin/bison
-CFLAGS=-g -O2 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
+CFLAGS=-g -O3 -std=gnu11 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
 LIBS=-ldl $(OPTLIBS)
 PREFIX?=/usr/local
 

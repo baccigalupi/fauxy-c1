@@ -44,14 +44,16 @@ expression_end
   ;
 
 unterminated_expression
-  : literal
-  | identifier
-  | block
-  | list
-  /*
-  | operator_call
-  | method_call
-  */
+  : literal { printf("literal\n"); }
+  | lookup { printf("lookup\n"); }
+  | block { printf("block\n"); }
+  | list { printf("list\n"); }
+  | binary_operator_call { printf("binary operator\n"); }
+  | method_call { printf("method call\n"); }
+  | block_method_call { printf("method with block\n"); }
+  | implicit_method_call /* adding this added 13 new conflicts! */ { printf("implicit call\n"); }
+  | local_assignment { printf("local assign\n"); }
+  | attr_assignment { printf("attr assign\n"); }
   ;
 
 expression
@@ -59,13 +61,13 @@ expression
   ;
 
 literal
-  : string { printf("String \n");}
+  : string
   | number
-  | ATOM   { printf("Atom \n"); }
-  | REGEX  { printf("Regex \n"); }
-  | TRUE   { printf("true\n"); }
-  | FALSE  { printf("false\n"); }
-  | NIL    { printf("nil\n"); }
+  | ATOM
+  | REGEX
+  | TRUE
+  | FALSE
+  | NIL
   ;
 
 string
@@ -74,14 +76,14 @@ string
   ;
 
 number
-  : INTEGER { printf("Integer \n");}
-  | FLOAT   { printf("Float \n");}
+  : INTEGER
+  | FLOAT
   ;
 
 
-identifier
-  : ID        { printf("Id \n");}
-  | CLASS_ID  { printf("Class Id \n");}
+lookup
+  : ID
+  | CLASS_ID
   ;
 
 
@@ -92,23 +94,38 @@ list
 list_elements
   :
   | unterminated_expression
+  | DEFERRED_ARGUMENT
   | unterminated_expression COMMA list_elements
   ;
 
-
 block
-  : BLOCK_DECLARATION OPEN_BRACE expressions CLOSE_BRACE { printf("block\n"); }
-  | BLOCK_DECLARATION list OPEN_BRACE expressions CLOSE_BRACE { printf("block with args\n"); }
+  : BLOCK_DECLARATION OPEN_BRACE expressions CLOSE_BRACE
+  | BLOCK_DECLARATION list OPEN_BRACE expressions CLOSE_BRACE
   ;
 
-/*
-operator_call
-  : unterminated_expression identifier unterminated_expression { printf("operator expression\n"); }
+implicit_method_call
+  : ID unterminated_expression
   ;
 
-method_call
-  : unterminated_expression DOT identifier { printf("method call\n"); }
-  | unterminated_expression DOT identifier list { printf("method call with arguments\n"); }
+binary_operator_call
+  : unterminated_expression implicit_method_call
+  | OPEN_PAREN unterminated_expression implicit_method_call CLOSE_PAREN
   ;
-  */
+
+method_call /* ambiguity of implicit method call adds another 14 conflicts */
+  : unterminated_expression DOT implicit_method_call
+  | unterminated_expression DOT ID
+  ;
+
+block_method_call
+  : method_call block
+  ;
+
+local_assignment
+  : ID EQUAL_SIGN unterminated_expression
+  ;
+
+attr_assignment
+  : ID COLON unterminated_expression
+  ;
 %%
