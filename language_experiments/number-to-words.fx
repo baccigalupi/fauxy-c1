@@ -1,25 +1,20 @@
-// How could we do this from the stream side
-// Add numbers less than 1000 into the stream, all the processing happens in the stream
-
 NumberToWords: class(n) -> {
   setup: -> {
-    descriptions: Stream.new
+    describer: Stream.Accumulating.new -> (n) {
+      Hundreds.new(n).to-words
+    }
   }
 
   to-words: -> {
-    descriptions.on(:finish) -> (list) { list.reverse.join(' ') }
-    convert(n)
+    split(n)
+    describer.join -> (list) { list.reverse.join(' ') }
   }
 
-  convert: -> (n: n < 1) {
-    descriptions.finish
+  split: -> (n: n < 1000) {
+    describer << n
   }
 
-  convert: -> (n: n < 1000) {
-    descriptions << Hundreds.new(n).to-words
-  }
-
-  convert: -> (n) {
+  split: -> (n) {
     convert(n - ((n / 1000).truncate * 1000))
     convert(n / 1000)
   }

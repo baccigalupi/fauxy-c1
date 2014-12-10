@@ -1,81 +1,122 @@
-/*
-  .class allows a method call which will make more sense in the system ??
-
-*/
-
-Stream: class(callbacks) -> {
-  init: -> {
-    init(List.new)
-  }
-
-  on: -> (name, block) {
-    add-callback(name, block)
+Stream: Class.new(:transformer) -> {
+  init: ->(class: Class) {
+    transformer: -> (object) { class.new(object).run }
   }
 
   add: -> (object) {
-    trigger(:add, object)
+    transformer(object) // could also be transform.run(object)
   }
 
   alias(:<<, to: :add)
-
-  // ---------
-  trigger: -> (name, object) {
-    callbacks-for.each -> (callback) {
-      callback.run(object)
-    }
-  }
-
-  add-callback: -> (name, block) {
-    callbacks << Callback.new(name, block)
-  }
-
-  callbacks-for: -> (name) {
-    callbacks // In base class, only add events and callbacks
-  }
 }
 
-Stream.Accumulating.class(objects, callbacks) << Stream -> {
-  init: -> {
-    objects: List.new
-    super
+// This kind of a stream is like each, requires side effects, unless we pass in a curried
+// function, maybe
+Stream.new -> (data) {
+  DataParser.new(data) >> DbRecord.create(_)
+}
+
+// If we call an object like a function .. it runs the 'run' method ??
+// Or just do the simpler thing like this? and the init above
+Stream.new(RecordWriter)
+
+Stream.Accumulating: Stream.inherit -> {
+  setup: -> {
+    actor: true
+    collection: List.new
   }
 
-  init: -> (objects) {
-    objects: objects
-    init
-  }
-
-  on: -> (name, block) {
-    add-callback(name, block)
+  add: -> (object) {
+    collection << super
     self
   }
 
-  on: -> (name: name == :add, block) {
-    // handles object already in the objects
-    objects.each -> (object) { block.run(object) }
-    add-callback(name, block)
-    self
-  }
-
-  finish: -> (object) {
-    objects.freeze
-    trigger(:finish, object)
-  }
-
-  finish: -> {
-    finish(:finish, nil)
+  join: -> (reducer) {
+    // something here to wait for concurrency ??
+    reducer.run(list)
   }
 }
 
-Stream.Callback.class(name, block) -> {
-  delegate_to(:block, :run)
+describer = Stream.Accumulating.new -> (n) {
+  Hundreds.new(n).to-words
 }
 
-// ------
+describer << 234 << 20 << 1
+describer.join -> (list) { list.reverse.join(' ') }
 
-stream = Stream.new
-stream.on(:add) -> (object) { Console.pl object } // pl == print-line, p == print
-stream << "something"
+// Stream: class(callbacks) -> {
+//   init: -> {
+//     init(List.new)
+//   }
+//
+//   on: -> (name, block) {
+//     add-callback(name, block)
+//   }
+//
+//   add: -> (object) {
+//     trigger(:add, object)
+//   }
+//
+//   alias(:<<, to: :add)
+//
+//   // ---------
+//   trigger: -> (name, object) {
+//     callbacks-for.each -> (callback) {
+//       callback.run(object)
+//     }
+//   }
+//
+//   add-callback: -> (name, block) {
+//     callbacks << Callback.new(name, block)
+//   }
+//
+//   callbacks-for: -> (name) {
+//     callbacks // In base class, only add events and callbacks
+//   }
+// }
+
+// Stream.Accumulating: class(objects, callbacks) << Stream -> {
+//   init: -> {
+//     objects: List.new
+//     super
+//   }
+//
+//   init: -> (objects) {
+//     objects: objects
+//     init
+//   }
+//
+//   on: -> (name, block) {
+//     add-callback(name, block)
+//     self
+//   }
+//
+//   on: -> (name: name == :add, block) {
+//     // handles object already in the objects
+//     objects.each -> (object) { block.run(object) }
+//     add-callback(name, block)
+//     self
+//   }
+//
+//   finish: -> (object) {
+//     objects.freeze
+//     trigger(:finish, object)
+//   }
+//
+//   finish: -> {
+//     finish(:finish, nil)
+//   }
+// }
+//
+// Stream.Callback.class(name, block) -> {
+//   delegate_to(:block, :run)
+// }
+//
+// // ------
+//
+// stream = Stream.new
+// stream.on(:add) -> (object) { Console.pl object } // pl == print-line, p == print
+// stream << "something"
 
 // "something"
 // ------

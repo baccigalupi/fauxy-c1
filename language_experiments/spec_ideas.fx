@@ -181,10 +181,14 @@ export Spec.Describe.new("Spec Class") -> {
     assert(true)
   }
 
-
   it("should assert truth") {
     assert(true)
   }
+
+  it("should assert truth") _> {
+    assert(true)
+  }
+
 
   // ------------
 }
