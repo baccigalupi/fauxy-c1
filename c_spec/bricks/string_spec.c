@@ -22,7 +22,7 @@ char *test_create_from_allocated() {
 
   String *string = String_create(str);
 
-  pfree(str);
+  fx_pfree(str);
 
   assert_ints_equal(string_length(string), 3, "length");
   assert_ints_equal(string_capacity(string), 8, "capacity");

@@ -3,7 +3,7 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include "bricks.h"
+#include "helpers.h"
 
 #define CHAR      char
 #define STRLEN    strlen
@@ -22,7 +22,7 @@ typedef uint32_t Hash;
 #define string_length(S)      ((S)->length)
 #define string_capacity(S)    ((S)->capacity)
 #define string_value(S)       ((S)->value)
-#define string_free(S)        ((pfree(string_value((String *)S))), (pfree(S)))
+#define string_free(S)        ((fx_pfree(string_value((String *)S))), (fx_pfree(S)))
 #define string_char_at(S, I)  ((string_length(S) > I) ? (string_value(S)[I]) : '\0')
 #define string_empty(S)       (string_length(S) == 0)
 #define strings_equal(S1, S2) (strcmp(string_value(S1), string_value(S2)) == 0)

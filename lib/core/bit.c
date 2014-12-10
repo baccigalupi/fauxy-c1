@@ -34,6 +34,6 @@ FauxyBit *FauxyBit_create(int token_type, char *text) {
 
   return bit;
 error:
-  if (bit) { pfree(bit); }
+  if (bit) { fx_pfree(bit); }
   return NULL;
 }

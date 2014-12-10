@@ -1,18 +1,18 @@
 #include <stdlib.h>
 
 #include "error_handling.h"
-#include "bricks.h"
-
-#include "./string.h"
+#include "helpers.h"
+#include "expandable.h"
+#include "string.h"
 
 String *String_create(CHAR *str) {
   String *string = calloc(1, sizeof(String));
-  check_mem(string);
+  verify_memory(string);
 
   int length = STRLEN(str);
   int capacity = Expandable_capacity(length);
   CHAR *value = calloc(capacity + 1, sizeof(CHAR));
-  check_mem(value);
+  verify_memory(value);
 
   string_length(string) = length;
   string_capacity(string)  = capacity;
@@ -22,7 +22,7 @@ String *String_create(CHAR *str) {
 
   return string;
 error:
-  if (string) { pfree(string); }
+  if (string) { fx_pfree(string); }
   return NULL;
 }
 
@@ -42,7 +42,7 @@ error:
 
 Boolean string_expand(String *string, int capacity) {
   CHAR *value = realloc(string_value(string), sizeof(CHAR)*capacity);
-  check_mem(value);
+  verify_memory(value);
   string_value(string) = value;
   string_capacity(string) = capacity;
 

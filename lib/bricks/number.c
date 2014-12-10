@@ -1,15 +1,11 @@
 #include <stdlib.h>
 #include <string.h>
-
-#include "error_handling.h"
-#include "bricks.h"
-
+#include "helpers.h"
 #include "number.h"
-
 
 Number *Number_create(const char *str) {
   Number *number = calloc(1, sizeof(Number));
-  check_mem(number);
+  verify_memory(number);
 
   unsigned int is_float = 0;
   unsigned int i;
@@ -37,8 +33,4 @@ void number_convert(Number *number, int type) {
     number_type(number) = FloatType;
     number->value.as_float = (FLOAT)original;
   }
-}
-
-void number_destroy(Number *number) {
-  pfree(number);
 }

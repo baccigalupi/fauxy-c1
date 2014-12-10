@@ -14,6 +14,7 @@ typedef enum {
 
 #define number_type(N)    ((N)->type)
 #define number_value(N)   ((number_type(N) == IntegerType) ? ((N)->value.as_int) : ((N)->value.as_float))
+#define number_destroy(N) (fx_pfree(N))
 
 typedef struct {
   int type;
@@ -25,7 +26,6 @@ typedef struct {
 } Number;
 
 Number *Number_create(const char *str);
-void    number_destroy(Number *number);
 void    number_convert(Number *number, int type);
 
 #endif
