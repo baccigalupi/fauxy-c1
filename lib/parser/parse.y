@@ -16,14 +16,15 @@
 %defines
 
 %token TRUE FALSE NIL
-%right EQUAL_SIGN COLON
+%right EQUAL_SIGN COLON EXPORT // import
 %token SEMICOLON LINE_END COMMA
 %token STRING EVAL_STRING INTEGER FLOAT ATOM REGEX
 %token ID CLASS_ID DEFERRED_ARGUMENT
 %left  ELIPSES DOT
 %token BLOCK_DECLARATION OPEN_BRACE CLOSE_BRACE
 %token OPEN_PAREN CLOSE_PAREN
-%token NOT_OPERATOR
+%left  AND OR
+%token NOT
 
 %start program
 
@@ -54,6 +55,7 @@ unterminated_expression
   | implicit_method_call /* adding this added 13 new conflicts! */ { printf("implicit call\n"); }
   | local_assignment { printf("local assign\n"); }
   | attr_assignment { printf("attr assign\n"); }
+  | export_expression { printf("export expression"); }
   ;
 
 expression
@@ -109,7 +111,8 @@ implicit_method_call
 
 binary_operator_call
   : unterminated_expression implicit_method_call
-  | OPEN_PAREN unterminated_expression implicit_method_call CLOSE_PAREN
+  | unterminated_expression AND unterminated_expression
+  | unterminated_expression OR unterminated_expression
   ;
 
 method_call /* ambiguity of implicit method call adds another 14 conflicts */
@@ -127,5 +130,9 @@ local_assignment
 
 attr_assignment
   : ID COLON unterminated_expression
+  ;
+
+export_expression
+  : EXPORT unterminated_expression
   ;
 %%

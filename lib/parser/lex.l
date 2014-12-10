@@ -15,6 +15,11 @@
 "true"												{ return TOKEN_TRUE; }
 "false"												{ return TOKEN_FALSE; }
 "nil"													{ return TOKEN_NIL; }
+"export"											{ return TOKEN_EXPORT; }
+"and"													{ return TOKEN_AND; }
+"&&"													{ return TOKEN_AND; }
+"or"													{ return TOKEN_OR; }
+"||"													{ return TOKEN_OR; }
 "..."													{ return TOKEN_ELIPSES; }
 ".."													{ return TOKEN_ELIPSES; }
 "."														{ return TOKEN_DOT; }
@@ -28,7 +33,7 @@
 "->"                         	{ return TOKEN_BLOCK_DECLARATION; }
 "{"                         	{ return TOKEN_OPEN_BRACE; }
 "}"                         	{ return TOKEN_CLOSE_BRACE; }
-"!"                         	{ return TOKEN_NOT_OPERATOR; }
+"!"                         	{ return TOKEN_NOT; }
 \/\*[^*]*\*\/             		{ /* comment, treat as white space */ }
 \/\/[^\n]*                		{ /* comment, treat as white space */ }
 [\n]                      		{ return TOKEN_LINE_END; }

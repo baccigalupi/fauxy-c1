@@ -71,19 +71,14 @@ Spec.Describe(description) -> {
     each -> (s) { s.run }
   }
 
-  delegate_to(:specs, :map, :each)
+  delegate_to(:specs, (:map, :each))
 }
 
 // ------------------------
 
-Spec.FileRunner -> {
+Spec.FileRunner(directory, pattern) -> {
   init: -> {
     init(Dir.new, "*_spec.fx")
-  }
-
-  init: -> (directory, pattern) {
-    directory: directory
-    pattern: pattern
   }
 
   files: -> {
@@ -171,6 +166,27 @@ export Spec.Describe.new("Spec Class") -> {
   it("should understand failure") -> (s) {
     s.assert(true)
   }
+
+  // Syntax for unbinding ???
+
+  it("should assert truth") -> {
+    assert(true)
+  }.unbind
+
+  it("should assert truth") -> {
+    assert(true)
+  }-
+
+  it("should assert truth") ~> {
+    assert(true)
+  }
+
+
+  it("should assert truth") {
+    assert(true)
+  }
+
+  // ------------
 }
 
 // -------------------------
