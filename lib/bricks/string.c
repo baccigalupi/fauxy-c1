@@ -1,6 +1,5 @@
 #include <stdlib.h>
 
-#include "error_handling.h"
 #include "helpers.h"
 #include "expandable.h"
 #include "string.h"
@@ -30,7 +29,7 @@ void string_push(String *string, CHAR c) {
   if ( !(string_length(string) < string_capacity(string)) ) {
     int capacity = Expandable_capacity(string_length(string));
     Boolean success = string_expand(string, capacity);
-    check(success, "Unable to allocate memory to expand string");
+    verify(success);
   }
 
   string_value(string)[string_length(string)] = c;
@@ -57,7 +56,7 @@ void string_concat(String *string, CHAR *str) {
   if ( !(needed_length < string_capacity(string)) ) {
     int capacity = Expandable_capacity(needed_length);
     Boolean success = string_expand(string, capacity);
-    check(success, "Unable to allocate memory to expand string");
+    verify(success);
   }
 
   STRCAT(string_value(string), str);

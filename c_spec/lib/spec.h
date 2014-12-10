@@ -7,7 +7,7 @@
 #include <assert.h>
 
 #include "../../lib/bricks/bricks.h"
-#include "../../lib/bricks/error_handling.h"
+#include "../lib/error_handling.h"
 
 #define spec_describe(S)          printf("\n%s %s %s\n", CONSOLE_ORANGE, S, CONSOLE_RESET)
 
