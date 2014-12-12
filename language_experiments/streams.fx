@@ -3,6 +3,7 @@ Stream: Class.new(:transformer) -> {
     transformer: -> (object) { class.new(object).run }
   }
 
+  // http://mudge.name/2014/11/26/data-structures-as-functions.html?utm_source=rubyweekly&utm_medium=email
   add: -> (object) {
     transformer(object) // could also be transform.run(object)
   }

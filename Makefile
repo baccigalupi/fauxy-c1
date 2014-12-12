@@ -61,7 +61,7 @@ valgrind:
 # The Cleaner
 clean:
 	rm -rf build $(OBJECTS) $(TESTS)
-	rm -f cscpe/spec.log
+	rm -f c_scpe/spec.log
 	rm -f lib/parser/parse.tab.*
 	rm -f lib/parser/lex.yy.c
 	rm -f bin/fauxy

@@ -1,4 +1,3 @@
-#undef NDEBUG
 #ifndef _spec_h
 #define _spec_h
 
@@ -25,8 +24,8 @@
 #define print_failure(S)          print_status(S, CONSOLE_RED)
 #define print_location()          (printf("    file: '%s' line '%d'\n", __FILE__, __LINE__))
 
-#define print_int_expectation(A, B)     (printf("    Expected %d to be %d\n", A, B))
-#define print_float_expectation(A, B)   (printf("    Expected %f to be %f\n", A, B))
+#define print_int_expectation(A, B)     (printf("    Expected %d to be %d\n", (int)A, (int)B))
+#define print_float_expectation(A, B)   (printf("    Expected %f to be %f\n", (float)A, (float)B))
 #define print_string_expectation(A, B)  (printf("    Expected '%s' to be '%s'\n", A, B))
 
 

@@ -12,6 +12,10 @@
 #define WARN_MESSAGE          "%s[WARN]%s (%s:%d) "
 #define INFO_MESSAGE          "%s[INFO]%s (%s:%d) "
 
+typedef enum { false, true }  Boolean;
+#define SUCCESS               true
+#define FAILURE               false
+
 #define print_error(M)        fprintf(stderr, ERROR_MESSAGE M "\n", CONSOLE_RED, CONSOLE_RESET, __FILE__, __LINE__)
 #define print_warning(M)      fprintf(stderr, WARN_MESSAGE M "\n", CONSOLE_ORANGE, CONSOLE_RESET, __FILE__, __LINE__)
 #define print_info(M)         fprintf(stderr, INFO_MESSAGE M "\n", CONSOLE_ORANGE, CONSOLE_RESET, __FILE__, __LINE__)
@@ -25,6 +29,5 @@
 #define fx_alloc(S)         (calloc(1, sizeof(S)))
 #define fx_pfree(P)         ((P) != NULL) ? (free(P), ((P) = NULL)) : (NULL)
 
-typedef enum { false, true } Boolean;
 
 #endif

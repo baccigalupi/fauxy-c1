@@ -44,3 +44,6 @@ O: -> { Object.new(arguments)}
 o = Object.new('hello', 'world')
 Print.line o.options
 // "('hello', 'world')"
+
+// http://mudge.name/2014/11/26/data-structures-as-functions.html?utm_source=rubyweekly&utm_medium=email
+// object() calls object run??
