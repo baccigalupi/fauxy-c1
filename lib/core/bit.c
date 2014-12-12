@@ -55,7 +55,7 @@ inline Boolean fauxy_bit_add_short_value(FauxyBit *bit, char *text) {
   short *value = calloc(1, sizeof(short));
   verify_memory(value);
   *value = atoi(text);
-  fauxy_bit_value(bit).as_short = value;
+  fauxy_bit_value(bit) = value;
 
   return true;
 error:
@@ -67,7 +67,7 @@ Boolean fauxy_bit_add_long_value(FauxyBit *bit, char *text) {
   verify_memory(value);
   char *endpoint;
   *value = strtoll(text, &endpoint, 10);
-  fauxy_bit_value(bit).as_long = value;
+  fauxy_bit_value(bit) = value;
 
 
   return true;
@@ -79,7 +79,7 @@ Boolean fauxy_bit_add_float_value(FauxyBit *bit, char *text) {
   double *value = calloc(1, sizeof(float));
   verify_memory(value);
   *value = atof(text);
-  fauxy_bit_value(bit).as_float = value;
+  fauxy_bit_value(bit) = value;
 
   return true;
 error:
@@ -103,9 +103,27 @@ Boolean fauxy_bit_add_string_value(FauxyBit *bit, char *text) {
   char *value = calloc(strlen(text) + 1, sizeof(char));
   verify_memory(value);
   strcpy(value, text);
-  fauxy_bit_value(bit).as_string = value;
+  fauxy_bit_value(bit) = value;
 
   return true;
 error:
   return false;
+}
+
+void fauxy_bit_free(FauxyBit *bit) {
+  int type = fauxy_bit_type(bit);
+
+  fx_pfree(fauxy_bit_value(bit));
+
+  // if (type == FX_BIT_FLOAT) {
+  //   fx_pfree(fauxy_bit_float__value(bit));
+  // } else if (type == FX_BIT_SHORT) {
+  //   fx_pfree(fauxy_bit_short__value(bit));
+  // } else if (type == FX_BIT_LONG) {
+  //   fx_pfree(fauxy_bit_long__value(bit));
+  // } else {
+  //   fx_pfree(fauxy_bit_string__value(bit));
+  // }
+
+  fx_pfree(bit);
 }

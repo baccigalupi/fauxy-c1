@@ -54,6 +54,8 @@ char *test_string_type_creation() {
   assert_ints_equal(fauxy_bit_type(bit), FX_BIT_STRING, "type");
   assert_strings_equal(fauxy_bit_string_value(bit), "text", "value");
 
+  fauxy_bit_free(bit);
+
   return NULL;
 }
 
@@ -68,6 +70,8 @@ char *test_small_integer_type_creation() {
 
   assert_ints_equal(fauxy_bit_type(bit), FX_BIT_SHORT, "type");
   assert_ints_equal(fauxy_bit_short_value(bit), 42, "value");
+
+  fauxy_bit_free(bit);
 
   return NULL;
 }
@@ -84,6 +88,8 @@ char *test_large_integer_type_creation() {
   assert_ints_equal(fauxy_bit_type(bit), FX_BIT_LONG, "type");
   assert_ints_equal(fauxy_bit_long_value(bit), 4200346, "value");
 
+  fauxy_bit_free(bit);
+
   return NULL;
 }
 
@@ -99,6 +105,8 @@ char *test_float_type_creation() {
   assert_ints_equal(fauxy_bit_type(bit), FX_BIT_FLOAT, "type");
   assert_floats_equal(fauxy_bit_float_value(bit), (double)3.14, "value");
 
+  fauxy_bit_free(bit);
+  
   return NULL;
 }
 
