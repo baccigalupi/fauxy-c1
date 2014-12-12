@@ -7,7 +7,7 @@ PREFIX?=/usr/local
 SOURCES=$(wildcard lib/**/*.c lib/*.c)
 OBJECTS=$(patsubst %.c,%.o,$(SOURCES))
 
-TEST_SRC=$(wildcard c_spec/**/*_spec.c c_spec/*_spec.c)
+TEST_SRC=$(wildcard c-spec/**/*_spec.c c-spec/*_spec.c)
 TESTS=$(patsubst %.c,%,$(TEST_SRC))
 
 TARGET=build/fauxy.a
@@ -53,7 +53,7 @@ run:
 .PHONY: tests
 cspec: CFLAGS += $(TARGET)
 cspec: $(TESTS)
-	sh ./c_spec/lib/run_specs.sh
+	sh ./c-spec/lib/run_specs.sh
 
 valgrind:
 	VALGRIND="valgrind --log-file=/tmp/valgrind-%p.log" $(MAKE)
