@@ -1,19 +1,34 @@
 %{
   #include <stdio.h>
+
+  #include "parser_state.h"
   #include "../core/bit.h"
-
-  extern int yylex(void);
-  void yyerror(char const *s) { fprintf(stderr, "%s\n", s); }
 %}
-
-%define parse.error verbose
-
-%define api.token.prefix { TOKEN_}
-%define api.value.type { FauxyBit }
 
 // bison outputs header and c files in right location
 %file-prefix "lib/parser/parse"
 %defines
+
+%error-verbose
+
+%define api.token.prefix { TOKEN_}
+%define api.value.type { FauxyBit }
+
+%pure-parser
+%lex-param { void *scanner }
+%parse-param { ParserState *state }
+
+%{
+  #include "parse.tab.h"
+  #include "lex.yy.h"
+
+  static void yyerror(ParserState *state, const char *s) {
+    fprintf(stderr, "%s\n", s);
+  }
+
+  #define YYLEX_PARAM state->scanner
+  #define scanner     YYLEX_PARAM
+%}
 
 %token TRUE FALSE NIL
 %right EQUAL_SIGN COLON EXPORT // import

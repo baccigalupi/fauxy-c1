@@ -1,7 +1,6 @@
 #ifndef __FauxyBit
 #define __FauxyBit
 
-#include "../bricks/helpers.h"
 
 enum {
   FX_BIT_STRING = 300,
@@ -11,20 +10,16 @@ enum {
   FX_BIT_LONG_FLOAT
 };
 
-// Keep these in sync, with the create ... or :(
 
 typedef struct {
   int type;
   int size;
   void *value;
-  // union {
-  //   char        *as_string;
-  //   short       *as_short;
-  //   long long   *as_long;
-  //   double      *as_float;
-  //   long double *as_long_float;
-  // } value;
 } FauxyBit;
+
+#include "../bricks/helpers.h"
+#include "../parser/parser_state.h"
+#include "../parser/parse.tab.h"
 
 #define FX_BIT_SIZE_LIMIT 5
 

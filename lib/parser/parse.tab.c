@@ -50,7 +50,7 @@
 #define YYSKELETON_NAME "yacc.c"
 
 /* Pure parsers.  */
-#define YYPURE 0
+#define YYPURE 1
 
 /* Push parsers.  */
 #define YYPUSH 0
@@ -65,12 +65,22 @@
 #line 1 "lib/parser/parse.y" /* yacc.c:339  */
 
   #include <stdio.h>
+
+  #include "parser_state.h"
   #include "../core/bit.h"
+#line 21 "lib/parser/parse.y" /* yacc.c:339  */
 
-  extern int yylex(void);
-  void yyerror(char const *s) { fprintf(stderr, "%s\n", s); }
+  #include "parse.tab.h"
+  #include "lex.yy.h"
 
-#line 74 "lib/parser/parse.tab.c" /* yacc.c:339  */
+  static void yyerror(ParserState *state, const char *s) {
+    fprintf(stderr, "%s\n", s);
+  }
+
+  #define YYLEX_PARAM state->scanner
+  #define scanner     YYLEX_PARAM
+
+#line 84 "lib/parser/parse.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -144,15 +154,14 @@ typedef  FauxyBit  YYSTYPE;
 #endif
 
 
-extern YYSTYPE yylval;
 
-int yyparse (void);
+int yyparse (ParserState *state);
 
 #endif /* !YY_YY_LIB_PARSER_PARSE_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 156 "lib/parser/parse.tab.c" /* yacc.c:358  */
+#line 165 "lib/parser/parse.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -452,12 +461,12 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    33,    33,    35,    37,    38,    39,    43,    44,    48,
-      49,    50,    51,    52,    53,    54,    55,    56,    57,    58,
-      62,    66,    67,    68,    69,    70,    71,    72,    76,    77,
-      81,    82,    87,    88,    93,    96,    98,    99,   100,   104,
-     105,   109,   113,   114,   115,   119,   120,   124,   128,   132,
-     136
+       0,    48,    48,    50,    52,    53,    54,    58,    59,    63,
+      64,    65,    66,    67,    68,    69,    70,    71,    72,    73,
+      77,    81,    82,    83,    84,    85,    86,    87,    91,    92,
+      96,    97,   102,   103,   108,   111,   113,   114,   115,   119,
+     120,   124,   128,   129,   130,   134,   135,   139,   143,   147,
+     151
 };
 #endif
 
@@ -647,7 +656,7 @@ do                                                              \
     }                                                           \
   else                                                          \
     {                                                           \
-      yyerror (YY_("syntax error: cannot back up")); \
+      yyerror (state, YY_("syntax error: cannot back up")); \
       YYERROR;                                                  \
     }                                                           \
 while (0)
@@ -684,7 +693,7 @@ do {                                                                      \
     {                                                                     \
       YYFPRINTF (stderr, "%s ", Title);                                   \
       yy_symbol_print (stderr,                                            \
-                  Type, Value); \
+                  Type, Value, state); \
       YYFPRINTF (stderr, "\n");                                           \
     }                                                                     \
 } while (0)
@@ -695,10 +704,11 @@ do {                                                                      \
 `----------------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, ParserState *state)
 {
   FILE *yyo = yyoutput;
   YYUSE (yyo);
+  YYUSE (state);
   if (!yyvaluep)
     return;
 # ifdef YYPRINT
@@ -714,12 +724,12 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 `--------------------------------*/
 
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, ParserState *state)
 {
   YYFPRINTF (yyoutput, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
-  yy_symbol_value_print (yyoutput, yytype, yyvaluep);
+  yy_symbol_value_print (yyoutput, yytype, yyvaluep, state);
   YYFPRINTF (yyoutput, ")");
 }
 
@@ -752,7 +762,7 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
+yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule, ParserState *state)
 {
   unsigned long int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
@@ -766,7 +776,7 @@ yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
       yy_symbol_print (stderr,
                        yystos[yyssp[yyi + 1 - yynrhs]],
                        &(yyvsp[(yyi + 1) - (yynrhs)])
-                                              );
+                                              , state);
       YYFPRINTF (stderr, "\n");
     }
 }
@@ -774,7 +784,7 @@ yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
 # define YY_REDUCE_PRINT(Rule)          \
 do {                                    \
   if (yydebug)                          \
-    yy_reduce_print (yyssp, yyvsp, Rule); \
+    yy_reduce_print (yyssp, yyvsp, Rule, state); \
 } while (0)
 
 /* Nonzero means print parse trace.  It is left uninitialized so that
@@ -1032,9 +1042,10 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
 `-----------------------------------------------*/
 
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
+yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, ParserState *state)
 {
   YYUSE (yyvaluep);
+  YYUSE (state);
   if (!yymsg)
     yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
@@ -1047,22 +1058,26 @@ yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
 
 
 
-/* The lookahead symbol.  */
-int yychar;
-
-/* The semantic value of the lookahead symbol.  */
-YYSTYPE yylval;
-/* Number of syntax errors so far.  */
-int yynerrs;
-
-
 /*----------.
 | yyparse.  |
 `----------*/
 
 int
-yyparse (void)
+yyparse (ParserState *state)
 {
+/* The lookahead symbol.  */
+int yychar;
+
+
+/* The semantic value of the lookahead symbol.  */
+/* Default value used for initialization, for pacifying older GCCs
+   or non-GCC compilers.  */
+YY_INITIAL_VALUE (static YYSTYPE yyval_default;)
+YYSTYPE yylval YY_INITIAL_VALUE (= yyval_default);
+
+    /* Number of syntax errors so far.  */
+    int yynerrs;
+
     int yystate;
     /* Number of tokens to shift before error messages enabled.  */
     int yyerrstatus;
@@ -1217,7 +1232,7 @@ yybackup:
   if (yychar == YYEMPTY)
     {
       YYDPRINTF ((stderr, "Reading a token: "));
-      yychar = yylex ();
+      yychar = yylex (&yylval, scanner);
     }
 
   if (yychar <= YYEOF)
@@ -1296,73 +1311,73 @@ yyreduce:
   switch (yyn)
     {
         case 9:
-#line 48 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 63 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("literal\n"); }
-#line 1302 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1317 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 10:
-#line 49 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 64 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("lookup\n"); }
-#line 1308 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1323 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 11:
-#line 50 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 65 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("block\n"); }
-#line 1314 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1329 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 12:
-#line 51 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 66 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("list\n"); }
-#line 1320 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1335 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 13:
-#line 52 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 67 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("binary operator\n"); }
-#line 1326 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1341 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 14:
-#line 53 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 68 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("method call\n"); }
-#line 1332 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1347 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 15:
-#line 54 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 69 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("method with block\n"); }
-#line 1338 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1353 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 16:
-#line 55 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 70 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("implicit call\n"); }
-#line 1344 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1359 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 17:
-#line 56 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 71 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("local assign\n"); }
-#line 1350 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1365 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 18:
-#line 57 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 72 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("attr assign\n"); }
-#line 1356 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1371 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 19:
-#line 58 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 73 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("export expression"); }
-#line 1362 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1377 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
 
-#line 1366 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1381 "lib/parser/parse.tab.c" /* yacc.c:1661  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1412,7 +1427,7 @@ yyerrlab:
     {
       ++yynerrs;
 #if ! YYERROR_VERBOSE
-      yyerror (YY_("syntax error"));
+      yyerror (state, YY_("syntax error"));
 #else
 # define YYSYNTAX_ERROR yysyntax_error (&yymsg_alloc, &yymsg, \
                                         yyssp, yytoken)
@@ -1439,7 +1454,7 @@ yyerrlab:
                 yymsgp = yymsg;
               }
           }
-        yyerror (yymsgp);
+        yyerror (state, yymsgp);
         if (yysyntax_error_status == 2)
           goto yyexhaustedlab;
       }
@@ -1463,7 +1478,7 @@ yyerrlab:
       else
         {
           yydestruct ("Error: discarding",
-                      yytoken, &yylval);
+                      yytoken, &yylval, state);
           yychar = YYEMPTY;
         }
     }
@@ -1519,7 +1534,7 @@ yyerrlab1:
 
 
       yydestruct ("Error: popping",
-                  yystos[yystate], yyvsp);
+                  yystos[yystate], yyvsp, state);
       YYPOPSTACK (1);
       yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
@@ -1556,7 +1571,7 @@ yyabortlab:
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
 yyexhaustedlab:
-  yyerror (YY_("memory exhausted"));
+  yyerror (state, YY_("memory exhausted"));
   yyresult = 2;
   /* Fall through.  */
 #endif
@@ -1568,7 +1583,7 @@ yyreturn:
          user semantic actions for why this is necessary.  */
       yytoken = YYTRANSLATE (yychar);
       yydestruct ("Cleanup: discarding lookahead",
-                  yytoken, &yylval);
+                  yytoken, &yylval, state);
     }
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYABORT or YYACCEPT.  */
@@ -1577,7 +1592,7 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-                  yystos[*yyssp], yyvsp);
+                  yystos[*yyssp], yyvsp, state);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
@@ -1590,5 +1605,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 138 "lib/parser/parse.y" /* yacc.c:1906  */
+#line 153 "lib/parser/parse.y" /* yacc.c:1906  */
 

@@ -84,8 +84,7 @@ typedef  FauxyBit  YYSTYPE;
 #endif
 
 
-extern YYSTYPE yylval;
 
-int yyparse (void);
+int yyparse (ParserState *state);
 
 #endif /* !YY_YY_LIB_PARSER_PARSE_TAB_H_INCLUDED  */

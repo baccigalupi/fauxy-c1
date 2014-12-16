@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "fx_parse.h"
 
-extern FILE* yyin;
-// extern int yylex(void);
-int yyparse ();
 
 int main(int argc, char *argv[]) {
-  if (argc > 1) {
-    yyin = fopen(argv[1], "r");
-  }
-  yyparse();
+  printf("\nFauxy -> Go!\n\n");
 
-  return EXIT_SUCCESS;
+  int status = 0;
+  while(status == 0) {
+    status = parse_stdin();
+    printf("\n\n");
+  }
+
+  return status;
 }

@@ -1,5 +1,6 @@
 %{
 	#include <stdio.h>
+	#include "parser_state.h"
 	#include "../core/bit.h"
 	#include "parse.tab.h"
 
@@ -7,9 +8,10 @@
 // %option bison-locations
 %}
 
+%option reentrant
 %option bison-bridge
 %option noyywrap
-%option header-file="lex.yy.h"
+%option header-file="lib/parser/lex.yy.h"
 
 %%
 

@@ -38,7 +38,7 @@ fauxy: bison flex compile
 bison: lib/parser/parse.y
 	$(BISON) --verbose lib/parser/parse.y
 
-flex:lib/parser/lex.l
+flex: lib/parser/lex.l
 	flex -o lib/parser/lex.yy.c lib/parser/lex.l
 
 compile:
@@ -63,7 +63,7 @@ clean:
 	rm -rf build $(OBJECTS) $(TESTS)
 	rm -f c_scpe/spec.log
 	rm -f lib/parser/parse.tab.*
-	rm -f lib/parser/lex.yy.c
+	rm -f lib/parser/lex.yy.*
 	rm -f bin/fauxy
 	find . -name "*.gc*" -exec rm {} \;
 	rm -rf `find . -name "*.dSYM" -print`

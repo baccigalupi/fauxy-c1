@@ -2,8 +2,6 @@
 
 #include "bit.h"
 
-#include "../parser/parse.tab.h"
-
 #include "../bricks/bricks.h"
 #include "../bricks/helpers.h"
 #include "../bricks/string.h"
