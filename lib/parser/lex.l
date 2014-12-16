@@ -7,8 +7,9 @@
 // %option bison-locations
 %}
 
-%option noyywrap
 %option bison-bridge
+%option noyywrap
+%option header-file="lex.yy.h"
 
 %%
 
