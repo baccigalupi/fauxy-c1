@@ -111,19 +111,6 @@ error:
 }
 
 void fauxy_bit_free(FauxyBit *bit) {
-  int type = fauxy_bit_type(bit);
-
   fx_pfree(fauxy_bit_value(bit));
-
-  // if (type == FX_BIT_FLOAT) {
-  //   fx_pfree(fauxy_bit_float__value(bit));
-  // } else if (type == FX_BIT_SHORT) {
-  //   fx_pfree(fauxy_bit_short__value(bit));
-  // } else if (type == FX_BIT_LONG) {
-  //   fx_pfree(fauxy_bit_long__value(bit));
-  // } else {
-  //   fx_pfree(fauxy_bit_string__value(bit));
-  // }
-
   fx_pfree(bit);
 }
