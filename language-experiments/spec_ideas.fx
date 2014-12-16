@@ -160,7 +160,7 @@ export describe
 
 export Spec.Describe.new("Spec Class") -> {
   it("should assert truth") -> (s) {
-    s.assert(true)
+    s.assert(1 == 1, "expected equal")
   }
 
   it("should understand failure") -> (s) {

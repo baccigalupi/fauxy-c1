@@ -1,4 +1,4 @@
-a(x) >> b(_)
+a(x) >> b(:foo, _.value) >> c(_, 'bar')
 
 DataParser.new(data) >> DbRecord.new(_).create
 

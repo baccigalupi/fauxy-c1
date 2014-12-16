@@ -1,15 +1,53 @@
 Stream: Class.new(:transformer) -> {
-  init: ->(class: Class) {
-    transformer: -> (object) { class.new(object).run }
+  init: -> (class: Class) {
+    transformer: -> (object) { class.new(object) }
   }
 
   // http://mudge.name/2014/11/26/data-structures-as-functions.html?utm_source=rubyweekly&utm_medium=email
   add: -> (object) {
-    transformer(object) // could also be transform.run(object)
+    transformer.run(object) // could also be transform.run(object)
   }
 
   alias(:<<, to: :add)
 }
+
+// Stream.new(MyClass) // MyClass.new // calls run on add
+// Stream.new -> (arg) { Console.print-line arg }
+// stream = Stream.new(MyClass)
+// stream.add "foo"
+
+// creating your own if case
+
+if: ->(condition: !!condition == true, block) {
+  block.run
+}
+
+if: ->(condition, block) {
+  // no op
+}
+
+if (something) -> { do-something }
+
+if: -> (condition: !!condition == true, true-case, false-case) {
+  true-case.run
+}
+
+if: -> (condition: !!condition == true, true-case, false-case) {
+  false-case.run
+}
+
+if (something) -> {
+  // true case
+} -> {
+  // false case
+}
+
+
+
+else: -> (block) {
+
+}
+
 
 // This kind of a stream is like each, requires side effects, unless we pass in a curried
 // function, maybe
