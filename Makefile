@@ -1,5 +1,7 @@
 BISON=/usr/local/Cellar/bison/3.0.2/bin/bison
 FLEX=/usr/local/Cellar/flex/2.5.37/bin/flex
+
+# currently any optimization -O1 to -O3 causes the core/bit.c code to segfault
 CFLAGS=-g -O3 -std=gnu11 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
 LIBS=-ldl $(OPTLIBS)
 PREFIX?=/usr/local
@@ -15,7 +17,7 @@ SO_TARGET=$(patsubst %.a,%.so,$(TARGET))
 
 all: bin/fauxy dev
 
-dev: CFLAGS=-g -Wall -Isrc -Wall -Wextra $(OPTFLAGS)
+dev: CFLAGS=-g -std=gnu11 -Wall -Wextra -Isrc $(OPTFLAGS)
 dev: $(TARGET) c-unit
 
 # converts to an archive static lib, produces build/fauxy.a
@@ -31,7 +33,7 @@ build:
 
 # flex and bison -----------
 bin/fauxy: lib/parser/parse.tab.c lib/parser/lex.yy.c
-	$(CC) -o bin/fauxy $(SOURCES) lib/parser/parse.tab.c lib/parser/lex.yy.c -ll
+	$(CC) $(CFLAGS) -o bin/fauxy $(SOURCES) lib/parser/parse.tab.c lib/parser/lex.yy.c -ll
 
 lib/parser/parse.tab.c: lib/parser/parse.y
 	$(BISON) --verbose lib/parser/parse.y
