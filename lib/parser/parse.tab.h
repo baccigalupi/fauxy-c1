@@ -99,6 +99,6 @@ struct YYLTYPE
 
 
 
-int yyparse (ParserState *state);
+int yyparse (ParserState *state, Array *stack);
 
 #endif /* !YY_YY_LIB_PARSER_PARSE_TAB_H_INCLUDED  */

@@ -17,9 +17,13 @@ typedef struct {
   void *value;
 } FauxyBit;
 
+// Lots of this shit needs to be included because bits need to know about
+// token types. Including parse.tab.h leads to a cascade of entangled shit
+// where everything needs to be included here
 #include "../bricks/helpers.h"
 #include "../bricks/string.h"
 #include "../parser/parser_state.h"
+#include "../bricks/array.h"
 #include "../parser/parse.tab.h"
 
 #define FX_BIT_SIZE_LIMIT 5
