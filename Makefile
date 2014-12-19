@@ -4,7 +4,6 @@ FLEX=/usr/local/Cellar/flex/2.5.37/bin/flex
 # currently any optimization -O1 to -O3 causes the core/bit.c code to segfault
 CFLAGS=-g -O3 -std=gnu11 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
 LIBS=-ldl $(OPTLIBS)
-PREFIX?=/usr/local
 
 SOURCES=$(wildcard lib/**/*.c lib/*.c)
 OBJECTS=$(patsubst %.c,%.o,$(SOURCES))
@@ -46,11 +45,6 @@ run:
 	bin/fauxy
 # ---------
 
-# specs -----------
-
-
-# ---------
-
 # C unit tests
 c-unit: CFLAGS += $(TARGET)
 c-unit: $(TESTS)
@@ -67,13 +61,8 @@ clean:
 	rm -rf `find . -name "*.dSYM" -print`
 
 
-# The Install
-install: all
-	install -d $(DESTDIR)/$(PREFIX)/lib/
-	install $(TARGET) $(DESTDIR)/$(PREFIX)/lib/
-
-# The Checker
-BADFUNCS='[^_.>a-zA-Z0-9](str(n?cpy|n?cat|xfrm|n?dup|str|pbrk|tok|_)|stpn?cpy|a?sn?printf|byte_)'
-check:
-	@echo Files with potentially dangerous functions.
-	@egrep $(BADFUNCS) $(SOURCES) || true
+# # System Install
+# PREFIX?=/usr/local
+# install: all
+# 	install -d $(DESTDIR)/$(PREFIX)/lib/
+# 	install $(TARGET) $(DESTDIR)/$(PREFIX)/lib/
