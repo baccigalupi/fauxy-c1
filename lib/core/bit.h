@@ -18,6 +18,7 @@ typedef struct {
 } FauxyBit;
 
 #include "../bricks/helpers.h"
+#include "../bricks/string.h"
 #include "../parser/parser_state.h"
 #include "../parser/parse.tab.h"
 
@@ -50,5 +51,7 @@ Boolean         fauxy_bit_add_short_value(FauxyBit *bit, char *text);
 Boolean         fauxy_bit_add_long_value(FauxyBit *bit, char *text);
 Boolean         fauxy_bit_add_string_value(FauxyBit *bit, char *text);
 void            fauxy_bit_free(FauxyBit *bit);
+String         *fauxy_bit_inspect(FauxyBit *bit);
+String         *fauxy_bit_value_inspect(FauxyBit *bit);
 
 #endif

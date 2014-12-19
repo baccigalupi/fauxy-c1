@@ -112,3 +112,92 @@ void fauxy_bit_free(FauxyBit *bit) {
   fx_pfree(fauxy_bit_value(bit));
   fx_pfree(bit);
 }
+
+String *fauxy_bit_value_inspect(FauxyBit *bit) {
+  int type = fauxy_bit_type(bit);
+  char str[16] = "";
+  String *string;
+
+  if (type == FX_BIT_FLOAT) {
+    sprintf(str, "%.2f", fauxy_bit_float_value(bit));
+    string = String_create(str);
+  } else if (type == FX_BIT_LONG_FLOAT) {
+    sprintf(str, "%.1e", fauxy_bit_float_value(bit));
+    string = String_create(str);
+  } else if (type == FX_BIT_SHORT) {
+    sprintf(str, "%d", fauxy_bit_short_value(bit));
+    string = String_create(str);
+  } else if (type == FX_BIT_LONG) {
+    sprintf(str, "%.1e", (float)fauxy_bit_long_value(bit));
+    string = String_create(str);
+  } else {
+    str[0] = '"';
+    char *bit_string = fauxy_bit_string_value(bit);
+    int length;
+    if (strlen(bit_string) > 10) {
+      // "hello worl..."\0
+      strncpy(str, bit_string, 10);
+      length = strlen(str);
+      str[length] = str[length+1] = str[length+2] = '.';
+      length += 3;
+    } else {
+      strcpy(str, bit_string);
+      length = strlen(str);
+    }
+    str[length] = '"';
+    str[length+1] = '\0';
+
+    string = String_create(str);
+  }
+  verify_memory(string);
+
+  return string;
+error:
+  return NULL;
+}
+
+String *fauxy_bit_type_inspect(FauxyBit *bit) {
+  int type = fauxy_bit_type(bit);
+  String *string;
+
+  if (type == FX_BIT_FLOAT || type == FX_BIT_LONG_FLOAT) {
+    string = String_create("FLOAT");
+  } else if (type == FX_BIT_SHORT || type == FX_BIT_LONG) {
+    string = String_create("FLOAT");
+  } else {
+    string = String_create("STRING");
+  }
+
+  verify_memory(string);
+
+  return string;
+error:
+  return NULL;
+}
+
+String *fauxy_bit_inspect(FauxyBit *bit) {
+  int type = fauxy_bit_type(bit);
+  String *string = String_create_with_capacity(32);
+  verify_memory(string);
+  String *value = fauxy_bit_value_inspect(bit);
+  verify_memory(value);
+
+  string_push(string, '<');
+  if (type == FX_BIT_FLOAT || type == FX_BIT_LONG_FLOAT) {
+    string_concat(string, "FLOAT");
+  } else if (type == FX_BIT_SHORT || type == FX_BIT_LONG) {
+    string_concat(string, "INTEGER");
+  } else {
+    string_concat(string, "STRING");
+  }
+  string_concat(string, ": ");
+  string_add(string, value);
+  string_push(string, '>');
+
+  string_free(value);
+
+  return string;
+error:
+  if (string) { string_free(string); }
+  return NULL;
+}

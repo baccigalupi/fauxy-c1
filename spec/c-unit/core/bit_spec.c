@@ -129,6 +129,60 @@ char *test_float_type_creation() {
 //   return NULL;
 // }
 
+char *test_integer_inspection() {
+  spec_describe("inspecting small bit integers");
+  int token_type = TOKEN_INTEGER;
+  char *text = calloc(9, sizeof(char));
+  strcpy(text, "23");
+
+  FauxyBit *bit = FauxyBit_create(token_type, text);
+  free(text);
+
+  String *inspection = fauxy_bit_inspect(bit);
+
+  assert_strings_equal(string_value(inspection), "<INTEGER: 23>", "representation");
+
+  fauxy_bit_free(bit);
+
+  return NULL;
+}
+
+char *test_long_integer_inspection() {
+  spec_describe("inspecting large bit integers");
+  int token_type = TOKEN_INTEGER;
+  char *text = calloc(9, sizeof(char));
+  strcpy(text, "23004567");
+
+  FauxyBit *bit = FauxyBit_create(token_type, text);
+  free(text);
+
+  String *inspection = fauxy_bit_inspect(bit);
+
+  assert_strings_equal(string_value(inspection), "<INTEGER: 2.3e+07>", "representation");
+
+  fauxy_bit_free(bit);
+
+  return NULL;
+}
+
+char *test_float_inspection() {
+  spec_describe("inspecting bit floats");
+  int token_type = TOKEN_FLOAT;
+  char *text = calloc(9, sizeof(char));
+  strcpy(text, "230.0456");
+
+  FauxyBit *bit = FauxyBit_create(token_type, text);
+  free(text);
+
+  String *inspection = fauxy_bit_inspect(bit);
+
+  assert_strings_equal(string_value(inspection), "<FLOAT: 230.05>", "representation");
+
+  fauxy_bit_free(bit);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Core Bit");
 
@@ -142,6 +196,10 @@ char *all_specs() {
   run_spec(test_large_integer_type_creation);
   run_spec(test_float_type_creation);
   // run_spec(test_long_float_type_creation);
+
+  run_spec(test_integer_inspection);
+  run_spec(test_long_integer_inspection);
+  run_spec(test_float_inspection);
 
   spec_teardown();
 

@@ -28,8 +28,10 @@ typedef uint32_t Hash;
 #define strings_equal(S1, S2) (strcmp(string_value(S1), string_value(S2)) == 0)
 
 String        *String_create(CHAR *value);
+String        *String_create_with_capacity(int capacity);
 void           string_push(String *string, CHAR c);
 void           string_concat(String *string, CHAR *str);
+void           string_add(String *string, String *addition);
 Boolean        string_expand(String *string, int length);
 Hash           string_hash(String *string);
 

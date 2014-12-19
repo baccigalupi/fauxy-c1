@@ -4,24 +4,34 @@
 #include "expandable.h"
 #include "string.h"
 
-String *String_create(CHAR *str) {
-  String *string = calloc(1, sizeof(String));
+String *String_create_with_capacity(int capacity) {
+  String *string = fx_alloc(String);
   verify_memory(string);
 
-  int length = STRLEN(str);
-  int capacity = Expandable_capacity(length);
   CHAR *value = calloc(capacity + 1, sizeof(CHAR));
   verify_memory(value);
 
-  string_length(string) = length;
+  string_length(string) = 0;
   string_capacity(string)  = capacity;
   string_value(string)  = value;
-
-  STRCPY(value, str);
 
   return string;
 error:
   if (string) { fx_pfree(string); }
+  return NULL;
+}
+
+String *String_create(CHAR *str) {
+  int length = STRLEN(str);
+  int capacity = Expandable_capacity(length);
+  String *string = String_create_with_capacity(capacity);
+  verify_memory(string);
+
+  string_length(string) = length;
+  STRCPY(string_value(string), str);
+
+  return string;
+error:
   return NULL;
 }
 
@@ -64,6 +74,10 @@ void string_concat(String *string, CHAR *str) {
   string_value(string)[string_length(string)] = '\0'; // just in case
 error:
   return;
+}
+
+void string_add(String *string, String *addition) {
+  string_concat(string, string_value(addition));
 }
 
 /**
