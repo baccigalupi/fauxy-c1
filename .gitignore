@@ -7,3 +7,5 @@
 **/*.dSYM/*
 
 bin/*
+
+lib/parser/parse.output
