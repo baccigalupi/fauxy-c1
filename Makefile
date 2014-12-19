@@ -22,8 +22,8 @@ dev: all
 
 $(TARGET): CFLAGS += -fPIC
 $(TARGET): build $(OBJECTS)
-	ar rcs $@ $(OBJECTS)
-	ranlib $@
+	ar rcs $@ $(OBJECTS) # converts to an archive static lib, produces build/fauxy.a
+	ranlib $@ # indexes archive for use
 
 $(SO_TARGET): $(TARGET) $(OBJECTS)
 	$(CC) -shared -o $@ $(OBJECTS)
@@ -32,9 +32,9 @@ build:
 	@mkdir -p build
 	@mkdir -p bin
 
-# COMPILATION WITH FLEX/BISON -----------
-
-fauxy: bison flex compile
+# flex and bison -----------
+fauxy: bison flex
+	$(CC) -o bin/fauxy $(SOURCES) lib/parser/parse.tab.c lib/parser/lex.yy.c -ll
 
 bison: lib/parser/parse.y
 	$(BISON) --verbose lib/parser/parse.y
@@ -42,21 +42,19 @@ bison: lib/parser/parse.y
 flex: lib/parser/lex.l
 	$(FLEX) -o lib/parser/lex.yy.c lib/parser/lex.l
 
-compile:
-	$(CC) -o bin/fauxy $(SOURCES) lib/parser/parse.tab.c lib/parser/lex.yy.c -ll
-
 run:
 	bin/fauxy
+# ---------
+
+# specs -----------
+
 
 # ---------
 
-# The Unit Tests
+# C unit tests
 c-unit: CFLAGS += $(TARGET)
 c-unit: $(TESTS)
 	sh ./spec/c-unit/lib/run_specs.sh
-
-valgrind:
-	VALGRIND="valgrind --log-file=/tmp/valgrind-%p.log" $(MAKE)
 
 # The Cleaner
 clean:
