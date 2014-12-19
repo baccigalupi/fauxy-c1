@@ -33,15 +33,16 @@ build:
 	@mkdir -p bin
 
 # flex and bison -----------
-fauxy: bison flex
+bin/fauxy: lib/parser/parse.tab.c lib/parser/lex.yy.c
 	$(CC) -o bin/fauxy $(SOURCES) lib/parser/parse.tab.c lib/parser/lex.yy.c -ll
 
-bison: lib/parser/parse.y
+lib/parser/parse.tab.c: lib/parser/parse.y
 	$(BISON) --verbose lib/parser/parse.y
 
-flex: lib/parser/lex.l
+lib/parser/lex.yy.c: lib/parser/lex.l
 	$(FLEX) -o lib/parser/lex.yy.c lib/parser/lex.l
 
+.PHONY: run
 run:
 	bin/fauxy
 # ---------
