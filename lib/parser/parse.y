@@ -25,7 +25,7 @@
   #include "lex.yy.h"
 
   static void yyerror(YYLTYPE *location, ParserState *state, const char *s) {
-    fprintf(stderr, "%s\n", s);
+    fprintf(stderr, "line %d:%d error %s\n", location->first_line, location->first_column, s);
   }
 
   #define YYLEX_PARAM state->scanner
@@ -52,8 +52,6 @@ program: expressions
 expressions
   : /* empty, so that -> {}  works */
   | expressions expression
-  | expressions unterminated_expression
-  | expression_end
   ;
 
 expression_end
@@ -75,6 +73,7 @@ unterminated_expression
 
 expression
   : unterminated_expression expression_end
+  | expression_end
   ;
 
 literal
