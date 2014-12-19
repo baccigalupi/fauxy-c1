@@ -1,5 +1,6 @@
 # taken from Zed Shaw's learn C the hard way
 BISON=/usr/local/Cellar/bison/3.0.2/bin/bison
+FLEX=/usr/local/Cellar/flex/2.5.37/bin/flex
 CFLAGS=-g -O3 -std=gnu11 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
 LIBS=-ldl $(OPTLIBS)
 PREFIX?=/usr/local
@@ -39,10 +40,10 @@ bison: lib/parser/parse.y
 	$(BISON) --verbose lib/parser/parse.y
 
 flex: lib/parser/lex.l
-	flex -o lib/parser/lex.yy.c lib/parser/lex.l
+	$(FLEX) -o lib/parser/lex.yy.c lib/parser/lex.l
 
 compile:
-	gcc -o bin/fauxy $(SOURCES) lib/parser/parse.tab.c lib/parser/lex.yy.c -ll
+	$(CC) -o bin/fauxy $(SOURCES) lib/parser/parse.tab.c lib/parser/lex.yy.c -ll
 
 run:
 	bin/fauxy
