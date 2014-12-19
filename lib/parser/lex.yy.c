@@ -551,7 +551,7 @@ static yyconst flex_int16_t yy_chk[380] =
 	#include "../core/bit.h"
 	#include "parse.tab.h"
 
-	#define T_VALUE(T_TYPE) yylval = FauxyBit_create(T_TYPE, yytext); return T_TYPE
+	#define T_VALUE(T_TYPE) *yylval = FauxyBit_create(T_TYPE, yytext); return T_TYPE
 #line 556 "lib/parser/lex.yy.c"
 
 #define INITIAL 0

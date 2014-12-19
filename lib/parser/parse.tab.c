@@ -67,14 +67,14 @@
   #include <stdio.h>
 
   #include "parser_state.h"
-  #include "../bricks/array.h"
+  #include "expressions.h"
   #include "../core/bit.h"
 #line 25 "lib/parser/parse.y" /* yacc.c:339  */
 
   #include "parse.tab.h"
   #include "lex.yy.h"
 
-  static void yyerror(YYLTYPE *location, ParserState *state, Array *stack, const char *s) {
+  static void yyerror(YYLTYPE *location, FxParserState *state, Array *stack, const char *s) {
     fprintf(stderr, "line %d:%d error %s\n", location->first_line, location->first_column, s);
   }
 
@@ -149,7 +149,7 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef  FauxyBit  YYSTYPE;
+typedef  FauxyBit *  YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -170,7 +170,7 @@ struct YYLTYPE
 
 
 
-int yyparse (ParserState *state, Array *stack);
+int yyparse (FxParserState *state, Array *stack);
 
 #endif /* !YY_YY_LIB_PARSER_PARSE_TAB_H_INCLUDED  */
 
@@ -793,7 +793,7 @@ do {                                                                      \
 `----------------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, ParserState *state, Array *stack)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, FxParserState *state, Array *stack)
 {
   FILE *yyo = yyoutput;
   YYUSE (yyo);
@@ -815,7 +815,7 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 `--------------------------------*/
 
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, ParserState *state, Array *stack)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, FxParserState *state, Array *stack)
 {
   YYFPRINTF (yyoutput, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
@@ -855,7 +855,7 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule, ParserState *state, Array *stack)
+yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule, FxParserState *state, Array *stack)
 {
   unsigned long int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
@@ -1135,7 +1135,7 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
 `-----------------------------------------------*/
 
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp, ParserState *state, Array *stack)
+yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp, FxParserState *state, Array *stack)
 {
   YYUSE (yyvaluep);
   YYUSE (yylocationp);
@@ -1158,7 +1158,7 @@ yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocatio
 `----------*/
 
 int
-yyparse (ParserState *state, Array *stack)
+yyparse (FxParserState *state, Array *stack)
 {
 /* The lookahead symbol.  */
 int yychar;
@@ -1479,26 +1479,32 @@ yyreduce:
 #line 1480 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
+  case 16:
+#line 77 "lib/parser/parse.y" /* yacc.c:1661  */
+    { printf("terminating expression\n"); }
+#line 1486 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    break;
+
   case 44:
 #line 140 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("binary operator\n"); }
-#line 1486 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1492 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 45:
 #line 141 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("method call\n"); }
-#line 1492 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1498 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 46:
 #line 142 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("method with block\n"); }
-#line 1498 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1504 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
 
-#line 1502 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1508 "lib/parser/parse.tab.c" /* yacc.c:1661  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

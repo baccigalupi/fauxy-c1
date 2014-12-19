@@ -1,16 +1,20 @@
 #include "fx_parse.h"
-#include "../bricks/array.h"
 #include "../core/bit.h"
 #include "parser_state.h"
+#include "expressions.h"
 #include "parse.tab.h"
 #include "lex.yy.h"
 
 int parse_stdin() {
-  ParserState state;
-  Array *stack = Array_create(1000);
+  FxExpressions *expressions = FxExpressions_create(1000);
+
+  FxParserState state;
   yylex_init(&state.scanner);
-  int status = yyparse(&state, stack);
+
+  int status = yyparse(&state, expressions);
+
   yylex_destroy(state.scanner);
-  array_free(stack);
+  fx_expressions_free(expressions);
+
   return status;
 }

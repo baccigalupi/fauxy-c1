@@ -2,7 +2,7 @@
   #include <stdio.h>
 
   #include "parser_state.h"
-  #include "../bricks/array.h"
+  #include "expressions.h"
   #include "../core/bit.h"
 %}
 
@@ -15,18 +15,18 @@
 %locations
 
 %define api.token.prefix { TOKEN_}
-%define api.value.type { FauxyBit }
+%define api.value.type { FauxyBit * }
 
 %pure-parser
 %lex-param { void *scanner }
-%parse-param { ParserState *state }
+%parse-param { FxParserState *state }
 %parse-param { Array *stack }
 
 %{
   #include "parse.tab.h"
   #include "lex.yy.h"
 
-  static void yyerror(YYLTYPE *location, ParserState *state, Array *stack, const char *s) {
+  static void yyerror(YYLTYPE *location, FxParserState *state, Array *stack, const char *s) {
     fprintf(stderr, "line %d:%d error %s\n", location->first_line, location->first_column, s);
   }
 
@@ -67,14 +67,14 @@ unterminated_expression
   | block { printf("block\n"); }
   | list { printf("list\n"); }
   | method_call
-  | implicit_method_call /* adding this added 13 new conflicts! */ { printf("implicit call\n"); }
+  | implicit_method_call /* conflicts galore! */ { printf("implicit call\n"); }
   | local_assignment { printf("local assign\n"); }
   | attr_assignment { printf("attr assign\n"); }
   | export_expression { printf("export expression"); }
   ;
 
 expression
-  : unterminated_expression expression_end
+  : unterminated_expression expression_end { printf("terminating expression\n"); }
   | expression_end
   ;
 
@@ -93,13 +93,13 @@ string
   | EVAL_STRING
   ;
 
-number
+number // add literal to current statement
   : INTEGER
   | FLOAT
   ;
 
 
-lookup
+lookup // add lookup statement to current statement
   : ID
   | CLASS_ID
   ;
@@ -131,7 +131,7 @@ binary_operator_call
   | unterminated_expression OR unterminated_expression
   ;
 
-standard_method_call /* ambiguity of implicit method call adds another 14 conflicts */
+standard_method_call /* ambiguity of implicit method call adds conflicts */
   : unterminated_expression DOT implicit_method_call
   | unterminated_expression DOT ID
   ;

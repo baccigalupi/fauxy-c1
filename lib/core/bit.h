@@ -1,16 +1,6 @@
 #ifndef __FauxyBit
 #define __FauxyBit
 
-
-enum {
-  FX_BIT_STRING = 300,
-  FX_BIT_SHORT,
-  FX_BIT_LONG,
-  FX_BIT_FLOAT,
-  FX_BIT_LONG_FLOAT
-};
-
-
 typedef struct {
   int type;
   int size;
@@ -23,8 +13,17 @@ typedef struct {
 #include "../bricks/helpers.h"
 #include "../bricks/string.h"
 #include "../parser/parser_state.h"
-#include "../bricks/array.h"
+#include "../parser/expressions.h"
 #include "../parser/parse.tab.h"
+
+enum {
+  FX_BIT_STRING = 300,
+  FX_BIT_SHORT,
+  FX_BIT_LONG,
+  FX_BIT_FLOAT,
+  FX_BIT_LONG_FLOAT
+};
+
 
 #define FX_BIT_SIZE_LIMIT 5
 

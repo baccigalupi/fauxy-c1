@@ -78,7 +78,7 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef  FauxyBit  YYSTYPE;
+typedef  FauxyBit *  YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -99,6 +99,6 @@ struct YYLTYPE
 
 
 
-int yyparse (ParserState *state, Array *stack);
+int yyparse (FxParserState *state, Array *stack);
 
 #endif /* !YY_YY_LIB_PARSER_PARSE_TAB_H_INCLUDED  */
