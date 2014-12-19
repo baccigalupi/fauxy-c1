@@ -1,4 +1,3 @@
-# taken from Zed Shaw's learn C the hard way
 BISON=/usr/local/Cellar/bison/3.0.2/bin/bison
 FLEX=/usr/local/Cellar/flex/2.5.37/bin/flex
 CFLAGS=-g -O3 -std=gnu11 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
@@ -15,10 +14,10 @@ TARGET=build/fauxy.a
 SO_TARGET=$(patsubst %.a,%.so,$(TARGET))
 
 # The Target Build
-all: $(TARGET) $(SO_TARGET) c-unit
+all: bin/fauxy dev
 
 dev: CFLAGS=-g -Wall -Isrc -Wall -Wextra $(OPTFLAGS)
-dev: all
+dev: $(TARGET) c-unit
 
 $(TARGET): CFLAGS += -fPIC
 $(TARGET): build $(OBJECTS)
