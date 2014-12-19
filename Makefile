@@ -56,7 +56,7 @@ clean:
 	rm -f c_scpe/spec.log
 	rm -f lib/parser/parse.tab.*
 	rm -f lib/parser/lex.yy.*
-	rm -f bin/fauxy
+	rm -f bin/*
 	find . -name "*.gc*" -exec rm {} \;
 	rm -rf `find . -name "*.dSYM" -print`
 
