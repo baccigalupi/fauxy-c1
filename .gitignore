@@ -11,4 +11,5 @@ bin/*
 lib/parser/parse.output
 
 spec/c-unit/bricks/string_spec
+spec/c-unit/bricks/array_spec
 spec/c-unit/core/bit_spec

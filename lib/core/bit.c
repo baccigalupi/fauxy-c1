@@ -2,7 +2,6 @@
 
 #include "bit.h"
 
-#include "../bricks/bricks.h"
 #include "../bricks/helpers.h"
 #include "../bricks/string.h"
 
