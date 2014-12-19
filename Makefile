@@ -13,19 +13,17 @@ TESTS=$(patsubst %.c,%,$(TEST_SRC))
 TARGET=build/fauxy.a
 SO_TARGET=$(patsubst %.a,%.so,$(TARGET))
 
-# The Target Build
 all: bin/fauxy dev
 
 dev: CFLAGS=-g -Wall -Isrc -Wall -Wextra $(OPTFLAGS)
 dev: $(TARGET) c-unit
 
+# converts to an archive static lib, produces build/fauxy.a
+# indexes archive for use
 $(TARGET): CFLAGS += -fPIC
 $(TARGET): build $(OBJECTS)
-	ar rcs $@ $(OBJECTS) # converts to an archive static lib, produces build/fauxy.a
-	ranlib $@ # indexes archive for use
-
-$(SO_TARGET): $(TARGET) $(OBJECTS)
-	$(CC) -shared -o $@ $(OBJECTS)
+	ar rcs $@ $(OBJECTS)
+	ranlib $@
 
 build:
 	@mkdir -p build
