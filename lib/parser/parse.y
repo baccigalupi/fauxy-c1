@@ -11,6 +11,8 @@
 
 %error-verbose
 
+%locations
+
 %define api.token.prefix { TOKEN_}
 %define api.value.type { FauxyBit }
 
@@ -22,7 +24,7 @@
   #include "parse.tab.h"
   #include "lex.yy.h"
 
-  static void yyerror(ParserState *state, const char *s) {
+  static void yyerror(YYLTYPE *location, ParserState *state, const char *s) {
     fprintf(stderr, "%s\n", s);
   }
 
@@ -64,9 +66,7 @@ unterminated_expression
   | lookup { printf("lookup\n"); }
   | block { printf("block\n"); }
   | list { printf("list\n"); }
-  | binary_operator_call { printf("binary operator\n"); }
-  | method_call { printf("method call\n"); }
-  | block_method_call { printf("method with block\n"); }
+  | method_call
   | implicit_method_call /* adding this added 13 new conflicts! */ { printf("implicit call\n"); }
   | local_assignment { printf("local assign\n"); }
   | attr_assignment { printf("attr assign\n"); }
@@ -130,13 +130,19 @@ binary_operator_call
   | unterminated_expression OR unterminated_expression
   ;
 
-method_call /* ambiguity of implicit method call adds another 14 conflicts */
+standard_method_call /* ambiguity of implicit method call adds another 14 conflicts */
   : unterminated_expression DOT implicit_method_call
   | unterminated_expression DOT ID
   ;
 
+method_call
+  : binary_operator_call { printf("binary operator\n"); }
+  | standard_method_call { printf("method call\n"); }
+  | block_method_call { printf("method with block\n"); }
+  ;
+
 block_method_call
-  : method_call block
+  : standard_method_call block
   ;
 
 local_assignment

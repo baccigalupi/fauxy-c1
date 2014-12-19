@@ -552,8 +552,7 @@ static yyconst flex_int16_t yy_chk[380] =
 	#include "parse.tab.h"
 
 	#define T_VALUE(T_TYPE) yylval = FauxyBit_create(T_TYPE, yytext); return T_TYPE
-// %option bison-locations
-#line 557 "lib/parser/lex.yy.c"
+#line 556 "lib/parser/lex.yy.c"
 
 #define INITIAL 0
 
@@ -603,6 +602,8 @@ struct yyguts_t
 
     YYSTYPE * yylval_r;
 
+    YYLTYPE * yylloc_r;
+
     }; /* end struct yyguts_t */
 
 static int yy_init_globals (yyscan_t yyscanner );
@@ -610,6 +611,8 @@ static int yy_init_globals (yyscan_t yyscanner );
     /* This must go here because YYSTYPE and YYLTYPE are included
      * from bison output in section 1.*/
     #    define yylval yyg->yylval_r
+    
+    #    define yylloc yyg->yylloc_r
     
 int yylex_init (yyscan_t* scanner);
 
@@ -648,6 +651,10 @@ YYSTYPE * yyget_lval (yyscan_t yyscanner );
 
 void yyset_lval (YYSTYPE * yylval_param ,yyscan_t yyscanner );
 
+       YYLTYPE *yyget_lloc (yyscan_t yyscanner );
+    
+        void yyset_lloc (YYLTYPE * yylloc_param ,yyscan_t yyscanner );
+    
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
  */
@@ -756,10 +763,10 @@ static int input (yyscan_t yyscanner );
 #define YY_DECL_IS_OURS 1
 
 extern int yylex \
-               (YYSTYPE * yylval_param ,yyscan_t yyscanner);
+               (YYSTYPE * yylval_param,YYLTYPE * yylloc_param ,yyscan_t yyscanner);
 
 #define YY_DECL int yylex \
-               (YYSTYPE * yylval_param , yyscan_t yyscanner)
+               (YYSTYPE * yylval_param, YYLTYPE * yylloc_param , yyscan_t yyscanner)
 #endif /* !YY_DECL */
 
 /* Code executed at the beginning of each rule, after yytext and yyleng
@@ -789,9 +796,11 @@ YY_DECL
 #line 16 "lib/parser/lex.l"
 
 
-#line 793 "lib/parser/lex.yy.c"
+#line 800 "lib/parser/lex.yy.c"
 
     yylval = yylval_param;
+
+    yylloc = yylloc_param;
 
 	if ( !yyg->yy_init )
 		{
@@ -1056,14 +1065,14 @@ YY_RULE_SETUP
 case 36:
 YY_RULE_SETUP
 #line 55 "lib/parser/lex.l"
-{ printf("unknown token: %s\n", yytext);};
+{ printf("unknown token: %s\n", yytext); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 56 "lib/parser/lex.l"
 ECHO;
 	YY_BREAK
-#line 1067 "lib/parser/lex.yy.c"
+#line 1076 "lib/parser/lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2054,6 +2063,18 @@ void yyset_lval (YYSTYPE *  yylval_param , yyscan_t yyscanner)
     yylval = yylval_param;
 }
 
+YYLTYPE *yyget_lloc  (yyscan_t yyscanner)
+{
+    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    return yylloc;
+}
+    
+void yyset_lloc (YYLTYPE *  yylloc_param , yyscan_t yyscanner)
+{
+    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    yylloc = yylloc_param;
+}
+    
 /* User-visible API */
 
 /* yylex_init is special because it creates the scanner itself, so it is

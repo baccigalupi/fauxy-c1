@@ -5,13 +5,13 @@
 	#include "parse.tab.h"
 
 	#define T_VALUE(T_TYPE) yylval = FauxyBit_create(T_TYPE, yytext); return T_TYPE
-// %option bison-locations
 %}
 
 %option reentrant
 %option bison-bridge
 %option noyywrap
 %option header-file="lib/parser/lex.yy.h"
+%option bison-locations
 
 %%
 
@@ -52,4 +52,4 @@
 \"([^"]|\\.)*\"           			{ T_VALUE(TOKEN_EVAL_STRING); }
 \'([^']|\\.)*\'           			{ T_VALUE(TOKEN_STRING); }
 
-.                    						{ printf("unknown token: %s\n", yytext);};
+.                    						{ printf("unknown token: %s\n", yytext); }
