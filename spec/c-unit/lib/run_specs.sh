@@ -15,7 +15,7 @@ do
     else
       echo "ERROR in test $i: here's spec/c-unit/spec.log"
       echo "------"
-      tail c-spec/spec.log
+      tail spec/c-unit/spec.log
       exit 1
     fi
   fi
