@@ -5,15 +5,15 @@
 
 echo "\n\nRunning C Specs:"
 
-for i in $(find ./c-spec -name "*_spec" -type f -maxdepth 4) $specs/*_spec
+for i in $(find ./spec/c-unit -name "*_spec" -type f -maxdepth 4) $specs/*_spec
 do
   if test -f $i
   then
-    if $VALGRIND ./$i 2>> c-spec/spec.log
+    if $VALGRIND ./$i 2>> spec/c-unit/spec.log
     then
       echo $i PASS
     else
-      echo "ERROR in test $i: here's c-spec/spec.log"
+      echo "ERROR in test $i: here's spec/c-unit/spec.log"
       echo "------"
       tail c-spec/spec.log
       exit 1

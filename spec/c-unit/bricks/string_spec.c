@@ -1,4 +1,4 @@
-#include "../../lib/bricks/string.h"
+#include "../../../lib/bricks/string.h"
 
 #include "../lib/spec.h"
 

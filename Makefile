@@ -7,14 +7,14 @@ PREFIX?=/usr/local
 SOURCES=$(wildcard lib/**/*.c lib/*.c)
 OBJECTS=$(patsubst %.c,%.o,$(SOURCES))
 
-TEST_SRC=$(wildcard c-spec/**/*_spec.c c-spec/*_spec.c)
+TEST_SRC=$(wildcard spec/c-unit/**/*_spec.c spec/c-unit/*_spec.c)
 TESTS=$(patsubst %.c,%,$(TEST_SRC))
 
 TARGET=build/fauxy.a
 SO_TARGET=$(patsubst %.a,%.so,$(TARGET))
 
 # The Target Build
-all: $(TARGET) $(SO_TARGET) cspec
+all: $(TARGET) $(SO_TARGET) c-unit
 
 dev: CFLAGS=-g -Wall -Isrc -Wall -Wextra $(OPTFLAGS)
 dev: all
@@ -50,10 +50,9 @@ run:
 # ---------
 
 # The Unit Tests
-.PHONY: tests
-cspec: CFLAGS += $(TARGET)
-cspec: $(TESTS)
-	sh ./c-spec/lib/run_specs.sh
+c-unit: CFLAGS += $(TARGET)
+c-unit: $(TESTS)
+	sh ./spec/c-unit/lib/run_specs.sh
 
 valgrind:
 	VALGRIND="valgrind --log-file=/tmp/valgrind-%p.log" $(MAKE)

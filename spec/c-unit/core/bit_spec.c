@@ -1,7 +1,7 @@
 #include <string.h>
 
-#include "../../lib/core/bit.h"
-#include "../../lib/parser/parse.tab.h"
+#include "../../../lib/core/bit.h"
+#include "../../../lib/parser/parse.tab.h"
 #include "../lib/spec.h"
 
 
@@ -106,7 +106,7 @@ char *test_float_type_creation() {
   assert_floats_equal(fauxy_bit_float_value(bit), (double)3.14, "value");
 
   fauxy_bit_free(bit);
-  
+
   return NULL;
 }
 
