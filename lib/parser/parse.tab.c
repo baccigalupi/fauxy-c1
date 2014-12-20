@@ -67,9 +67,8 @@
   #include <stdio.h>
 
   #include "parser_state.h"
-  #include "expressions.h"
-  #include "bit.h"
-#line 25 "lib/parser/parse.y" /* yacc.c:339  */
+  #include "object.h"
+#line 24 "lib/parser/parse.y" /* yacc.c:339  */
 
   #include "parse.tab.h"
   #include "lex.yy.h"
@@ -81,7 +80,7 @@
   #define YYLEX_PARAM state->scanner
   #define scanner     YYLEX_PARAM
 
-#line 85 "lib/parser/parse.tab.c" /* yacc.c:339  */
+#line 84 "lib/parser/parse.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -149,7 +148,7 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef  FxBit *  YYSTYPE;
+typedef  FxParseObject *  YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -176,7 +175,7 @@ int yyparse (FxParserState *state, Array *stack);
 
 /* Copy the second part of user declarations.  */
 
-#line 180 "lib/parser/parse.tab.c" /* yacc.c:358  */
+#line 179 "lib/parser/parse.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -478,12 +477,12 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    52,    52,    54,    56,    60,    61,    65,    66,    67,
-      68,    69,    70,    71,    72,    73,    77,    78,    82,    83,
-      84,    85,    86,    87,    88,    92,    93,    97,    98,   103,
-     104,   109,   112,   114,   115,   116,   120,   121,   125,   129,
-     130,   131,   135,   136,   140,   141,   142,   146,   150,   154,
-     158
+       0,    51,    51,    53,    55,    59,    60,    64,    65,    66,
+      67,    68,    69,    70,    71,    72,    76,    77,    81,    82,
+      83,    84,    85,    86,    87,    91,    92,    96,    97,   102,
+     103,   108,   111,   113,   114,   115,   119,   120,   124,   128,
+     129,   130,   134,   135,   139,   140,   141,   145,   149,   153,
+     157
 };
 #endif
 
@@ -1432,79 +1431,79 @@ yyreduce:
   switch (yyn)
     {
         case 7:
-#line 65 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 64 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("literal\n"); }
-#line 1438 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1437 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 8:
-#line 66 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 65 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("lookup\n"); }
-#line 1444 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1443 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 9:
-#line 67 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 66 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("block\n"); }
-#line 1450 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1449 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 10:
-#line 68 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 67 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("list\n"); }
-#line 1456 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1455 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 12:
-#line 70 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 69 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("implicit call\n"); }
-#line 1462 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1461 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 13:
-#line 71 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 70 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("local assign\n"); }
-#line 1468 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1467 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 14:
-#line 72 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 71 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("attr assign\n"); }
-#line 1474 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1473 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 15:
-#line 73 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 72 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("export expression"); }
-#line 1480 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1479 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 16:
-#line 77 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 76 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("terminating expression\n"); }
-#line 1486 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1485 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 44:
-#line 140 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 139 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("binary operator\n"); }
-#line 1492 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1491 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 45:
-#line 141 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 140 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("method call\n"); }
-#line 1498 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1497 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 46:
-#line 142 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 141 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("method with block\n"); }
-#line 1504 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1503 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
 
-#line 1508 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1507 "lib/parser/parse.tab.c" /* yacc.c:1661  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1739,5 +1738,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 160 "lib/parser/parse.y" /* yacc.c:1906  */
+#line 159 "lib/parser/parse.y" /* yacc.c:1906  */
 

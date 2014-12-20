@@ -12,9 +12,10 @@ typedef struct {
 // where everything needs to be included here
 #include "../bricks/helpers.h"
 #include "../bricks/string.h"
-#include "../parser/parser_state.h"
-#include "../parser/expressions.h"
-#include "../parser/parse.tab.h"
+#include "parser_state.h"
+#include "object.h"
+#include "expressions.h"
+#include "parse.tab.h"
 
 enum {
   FX_BIT_STRING = 300,

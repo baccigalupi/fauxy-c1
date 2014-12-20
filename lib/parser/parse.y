@@ -2,8 +2,7 @@
   #include <stdio.h>
 
   #include "parser_state.h"
-  #include "expressions.h"
-  #include "bit.h"
+  #include "object.h"
 %}
 
 // bison outputs header and c files in right location
@@ -15,7 +14,7 @@
 %locations
 
 %define api.token.prefix { TOKEN_}
-%define api.value.type { FxBit * }
+%define api.value.type { FxParseObject * }
 
 %pure-parser
 %lex-param { void *scanner }

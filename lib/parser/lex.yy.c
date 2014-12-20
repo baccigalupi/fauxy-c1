@@ -548,10 +548,10 @@ static yyconst flex_int16_t yy_chk[380] =
 #line 2 "lib/parser/lex.l"
 	#include <stdio.h>
 	#include "parser_state.h"
-	#include "../parser/bit.h"
+	#include "object.h"
 	#include "parse.tab.h"
 
-	#define T_VALUE(T_TYPE) *yylval = FxBit_create(T_TYPE, yytext); return T_TYPE
+	#define ParseObject_wrap(T, S) *yylval = FxParseObject_create_bit(T, S); return T
 #line 556 "lib/parser/lex.yy.c"
 
 #define INITIAL 0
@@ -1022,49 +1022,49 @@ YY_RULE_SETUP
 case 27:
 YY_RULE_SETUP
 #line 45 "lib/parser/lex.l"
-{ T_VALUE(TOKEN_CLASS_ID); }
+{ ParseObject_wrap(TOKEN_CLASS_ID, yytext); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 46 "lib/parser/lex.l"
-{ T_VALUE(TOKEN_FLOAT); }
+{ ParseObject_wrap(TOKEN_FLOAT, yytext); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 47 "lib/parser/lex.l"
-{ T_VALUE(TOKEN_FLOAT); }
+{ ParseObject_wrap(TOKEN_FLOAT, yytext); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 48 "lib/parser/lex.l"
-{ T_VALUE(TOKEN_INTEGER); }
+{ ParseObject_wrap(TOKEN_INTEGER, yytext); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 49 "lib/parser/lex.l"
-{ T_VALUE(TOKEN_ID); }
+{ ParseObject_wrap(TOKEN_ID, yytext); }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 50 "lib/parser/lex.l"
-{ T_VALUE(TOKEN_ATOM); }
+{ ParseObject_wrap(TOKEN_ATOM, yytext); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 51 "lib/parser/lex.l"
-{ T_VALUE(TOKEN_REGEX); }
+{ ParseObject_wrap(TOKEN_REGEX, yytext); }
 	YY_BREAK
 case 34:
 /* rule 34 can match eol */
 YY_RULE_SETUP
 #line 52 "lib/parser/lex.l"
-{ T_VALUE(TOKEN_EVAL_STRING); }
+{ ParseObject_wrap(TOKEN_EVAL_STRING, yytext); }
 	YY_BREAK
 case 35:
 /* rule 35 can match eol */
 YY_RULE_SETUP
 #line 53 "lib/parser/lex.l"
-{ T_VALUE(TOKEN_STRING); }
+{ ParseObject_wrap(TOKEN_STRING, yytext); }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP

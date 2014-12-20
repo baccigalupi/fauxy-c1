@@ -1,9 +1,11 @@
 #include "fx_parse.h"
-#include "bit.h"
-#include "parser_state.h"
+#include "object.h"
+
 #include "expressions.h"
-#include "parse.tab.h"
-#include "lex.yy.h"
+#include "parser_state.h"
+
+#include "parse.tab.h" // yyparse
+#include "lex.yy.h"    // yylex_init, and yylex_destroy
 
 int parse_stdin() {
   FxExpressions *expressions = FxExpressions_create(1000);

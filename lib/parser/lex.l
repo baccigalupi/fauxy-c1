@@ -1,16 +1,16 @@
 %{
 	#include <stdio.h>
 	#include "parser_state.h"
-	#include "../parser/bit.h"
+	#include "object.h"
 	#include "parse.tab.h"
 
-	#define T_VALUE(T_TYPE) *yylval = FxBit_create(T_TYPE, yytext); return T_TYPE
+	#define ParseObject_wrap(T, S) *yylval = FxParseObject_create_bit(T, S); return T
 %}
 
 %option reentrant
-%option bison-bridge
 %option noyywrap
 %option header-file="lib/parser/lex.yy.h"
+%option bison-bridge
 %option bison-locations
 
 %%
@@ -42,14 +42,14 @@
 [\n]                      		{ return TOKEN_LINE_END; }
 [ \t]                     		{ /* white space, move along */ }
 
-[A-Z]+[A-Za-z0-9_\-]* 					{ T_VALUE(TOKEN_CLASS_ID); }
--?[0-9]+\.[0-9]+          			{ T_VALUE(TOKEN_FLOAT); }
--?[0-9]\.[0-9]+(e|E)-?[0-9]+  	{ T_VALUE(TOKEN_FLOAT); }
--?[0-9]+                  			{ T_VALUE(TOKEN_INTEGER); }
-[\-<+&a-z0-9_]+[a-z0-9_\-]*[!?]? 	{ T_VALUE(TOKEN_ID); }
-:[a-z0-9_]+[a-z0-9_\-]* 		  	{ T_VALUE(TOKEN_ATOM); }
-\/.*\/[a-z]? 										{ T_VALUE(TOKEN_REGEX); }
-\"([^"]|\\.)*\"           			{ T_VALUE(TOKEN_EVAL_STRING); }
-\'([^']|\\.)*\'           			{ T_VALUE(TOKEN_STRING); }
+[A-Z]+[A-Za-z0-9_\-]* 					{ ParseObject_wrap(TOKEN_CLASS_ID, yytext); }
+-?[0-9]+\.[0-9]+          			{ ParseObject_wrap(TOKEN_FLOAT, yytext); }
+-?[0-9]\.[0-9]+(e|E)-?[0-9]+  	{ ParseObject_wrap(TOKEN_FLOAT, yytext); }
+-?[0-9]+                  			{ ParseObject_wrap(TOKEN_INTEGER, yytext); }
+[\-<+&a-z0-9_]+[a-z0-9_\-]*[!?]? 	{ ParseObject_wrap(TOKEN_ID, yytext); }
+:[a-z0-9_]+[a-z0-9_\-]* 		  	{ ParseObject_wrap(TOKEN_ATOM, yytext); }
+\/.*\/[a-z]? 										{ ParseObject_wrap(TOKEN_REGEX, yytext); }
+\"([^"]|\\.)*\"           			{ ParseObject_wrap(TOKEN_EVAL_STRING, yytext); }
+\'([^']|\\.)*\'           			{ ParseObject_wrap(TOKEN_STRING, yytext); }
 
 .                    						{ printf("unknown token: %s\n", yytext); }
