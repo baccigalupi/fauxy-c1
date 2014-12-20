@@ -1,11 +1,11 @@
-#ifndef __FauxyBit
-#define __FauxyBit
+#ifndef __FxBit
+#define __FxBit
 
 typedef struct {
   int type;
   int size;
   void *value;
-} FauxyBit;
+} FxBit;
 
 // Lots of this shit needs to be included because bits need to know about
 // token types. Including parse.tab.h leads to a cascade of entangled shit
@@ -27,34 +27,34 @@ enum {
 
 #define FX_BIT_SIZE_LIMIT 5
 
-#define fauxy_bit_type(F)           ((F)->type)
-#define fauxy_bit_size(F)           ((F)->size)
-#define fauxy_bit_size_is_small(I)  (I < FX_BIT_SIZE_LIMIT)
-#define fauxy_bit_is_small(F)       (fauxy_bit_size_is_small(fauxy_bit_size(F)))
+#define fx_bit_type(F)           ((F)->type)
+#define fx_bit_size(F)           ((F)->size)
+#define fx_bit_size_is_small(I)  (I < FX_BIT_SIZE_LIMIT)
+#define fx_bit_is_small(F)       (fx_bit_size_is_small(fx_bit_size(F)))
 
-#define fauxy_bit_value(F)            ((F)->value)
+#define fx_bit_value(F)            ((F)->value)
 
-#define fauxy_bit_string__value(F)     ((char *)fauxy_bit_value(F))
-#define fauxy_bit_short__value(F)      ((short *)(fauxy_bit_value(F)))
-#define fauxy_bit_long__value(F)       ((long long *)(fauxy_bit_value(F)))
-#define fauxy_bit_float__value(F)      ((double *)(fauxy_bit_value(F)))
+#define fx_bit_string__value(F)     ((char *)fx_bit_value(F))
+#define fx_bit_short__value(F)      ((short *)(fx_bit_value(F)))
+#define fx_bit_long__value(F)       ((long long *)(fx_bit_value(F)))
+#define fx_bit_float__value(F)      ((double *)(fx_bit_value(F)))
 
-#define fauxy_bit_string_value(F)     fauxy_bit_string__value(F)
-#define fauxy_bit_short_value(F)      *(fauxy_bit_short__value(F))
-#define fauxy_bit_long_value(F)       *(fauxy_bit_long__value(F))
-#define fauxy_bit_float_value(F)      *(fauxy_bit_float__value(F))
+#define fx_bit_string_value(F)     fx_bit_string__value(F)
+#define fx_bit_short_value(F)      *(fx_bit_short__value(F))
+#define fx_bit_long_value(F)       *(fx_bit_long__value(F))
+#define fx_bit_float_value(F)      *(fx_bit_float__value(F))
 
 
 
-FauxyBit       *FauxyBit_create(int token_type, char *text);
-int             FauxyBit_bit_type(int token_type, Boolean is_small);
-Boolean         fauxy_bit_add_float_value(FauxyBit *bit, char *text);
-// Boolean fauxy_bit_add_long_float_value(FauxyBit *bit, char *text);
-Boolean         fauxy_bit_add_short_value(FauxyBit *bit, char *text);
-Boolean         fauxy_bit_add_long_value(FauxyBit *bit, char *text);
-Boolean         fauxy_bit_add_string_value(FauxyBit *bit, char *text);
-void            fauxy_bit_free(FauxyBit *bit);
-String         *fauxy_bit_inspect(FauxyBit *bit);
-String         *fauxy_bit_value_inspect(FauxyBit *bit);
+FxBit       *FxBit_create(int token_type, char *text);
+int             FxBit_bit_type(int token_type, Boolean is_small);
+Boolean         fx_bit_add_float_value(FxBit *bit, char *text);
+// Boolean fx_bit_add_long_float_value(FxBit *bit, char *text);
+Boolean         fx_bit_add_short_value(FxBit *bit, char *text);
+Boolean         fx_bit_add_long_value(FxBit *bit, char *text);
+Boolean         fx_bit_add_string_value(FxBit *bit, char *text);
+void            fx_bit_free(FxBit *bit);
+String         *fx_bit_inspect(FxBit *bit);
+String         *fx_bit_value_inspect(FxBit *bit);
 
 #endif

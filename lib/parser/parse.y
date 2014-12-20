@@ -15,7 +15,7 @@
 %locations
 
 %define api.token.prefix { TOKEN_}
-%define api.value.type { FauxyBit * }
+%define api.value.type { FxBit * }
 
 %pure-parser
 %lex-param { void *scanner }

@@ -4,7 +4,7 @@
 	#include "../parser/bit.h"
 	#include "parse.tab.h"
 
-	#define T_VALUE(T_TYPE) *yylval = FauxyBit_create(T_TYPE, yytext); return T_TYPE
+	#define T_VALUE(T_TYPE) *yylval = FxBit_create(T_TYPE, yytext); return T_TYPE
 %}
 
 %option reentrant
