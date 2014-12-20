@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "../../../lib/core/bit.h"
+#include "../../../lib/parser/bit.h"
 #include "../../../lib/parser/parse.tab.h"
 #include "../lib/spec.h"
 

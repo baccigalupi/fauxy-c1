@@ -3,7 +3,7 @@
 
   #include "parser_state.h"
   #include "expressions.h"
-  #include "../core/bit.h"
+  #include "bit.h"
 %}
 
 // bison outputs header and c files in right location

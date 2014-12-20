@@ -1,7 +1,7 @@
 %{
 	#include <stdio.h>
 	#include "parser_state.h"
-	#include "../core/bit.h"
+	#include "../parser/bit.h"
 	#include "parse.tab.h"
 
 	#define T_VALUE(T_TYPE) *yylval = FauxyBit_create(T_TYPE, yytext); return T_TYPE
