@@ -1,5 +1,5 @@
 #include "fx_parse.h"
-#include "object.h"
+#include "bit.h"
 
 #include "expressions.h"
 #include "parser_state.h"

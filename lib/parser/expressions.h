@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #include "../bricks/array.h"
-#include "object.h"
+#include "bit.h"
 
 #define FX_EXPRESSION_INITAL_SIZE 5
 
@@ -37,7 +37,7 @@ typedef struct FxExpression {
 #define fx_expression_value(E)       ((E)->value)
 
 FxExpression *FxExpression_create(int type, int token_type);
-FxExpression *FxExpression_convert_literal(FxParseObject *bit_wrapper, int token_type);
+FxExpression *FxExpression_convert_literal(FxBit *bit, int token_type);
 void          fx_expression_free(FxExpression *expression);
 
 #endif

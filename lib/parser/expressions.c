@@ -19,12 +19,12 @@ error:
 }
 
 
-FxExpression *FxExpression_convert_literal(FxParseObject *bit_wrapper, int token_type) {
+FxExpression *FxExpression_convert_literal(FxBit *bit, int token_type) {
   FxExpression *expression = FxExpression_create(FX_ST_LITERAL, token_type);
   verify_memory(expression);
 
   FxExpressions *set = fx_expression_value(expression);
-  fx_expressions_push(set, fx_parse_object_value(bit_wrapper));
+  fx_expressions_push(set, bit);
 
   return expression;
 error:

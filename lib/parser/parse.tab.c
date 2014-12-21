@@ -67,7 +67,7 @@
   #include <stdio.h>
 
   #include "parser_state.h"
-  #include "object.h"
+  #include "bit.h"
 #line 24 "lib/parser/parse.y" /* yacc.c:339  */
 
   #include "parse.tab.h"

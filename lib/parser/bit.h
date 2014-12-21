@@ -13,7 +13,6 @@ typedef struct {
 #include "../bricks/helpers.h"
 #include "../bricks/string.h"
 #include "parser_state.h"
-#include "object.h"
 #include "expressions.h"
 #include "parse.tab.h"
 
