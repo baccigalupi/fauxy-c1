@@ -1,10 +1,10 @@
 %{
 	#include <stdio.h>
 	#include "parser_state.h"
-	#include "object.h"
+	#include "bit.h"
 	#include "parse.tab.h"
 
-	#define ParseObject_wrap(T, S) *yylval = FxParseObject_create_bit(T, S); return T
+	#define ParseObject_wrap(T, S) *yylval = FxBit_create(T, S); return T
 %}
 
 %option reentrant

@@ -548,11 +548,12 @@ static yyconst flex_int16_t yy_chk[380] =
 #line 2 "lib/parser/lex.l"
 	#include <stdio.h>
 	#include "parser_state.h"
-	#include "object.h"
+	#include "bit.h"
+	// #include "object.h"
 	#include "parse.tab.h"
 
-	#define ParseObject_wrap(T, S) *yylval = FxParseObject_create_bit(T, S); return T
-#line 556 "lib/parser/lex.yy.c"
+	#define ParseObject_wrap(T, S) *yylval = FxBit_create(T, S); return T
+#line 557 "lib/parser/lex.yy.c"
 
 #define INITIAL 0
 
@@ -797,10 +798,10 @@ YY_DECL
 	register int yy_act;
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
 
-#line 16 "lib/parser/lex.l"
+#line 17 "lib/parser/lex.l"
 
 
-#line 804 "lib/parser/lex.yy.c"
+#line 805 "lib/parser/lex.yy.c"
 
     yylval = yylval_param;
 
@@ -889,194 +890,194 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 18 "lib/parser/lex.l"
+#line 19 "lib/parser/lex.l"
 { return TOKEN_TRUE; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 19 "lib/parser/lex.l"
+#line 20 "lib/parser/lex.l"
 { return TOKEN_FALSE; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 20 "lib/parser/lex.l"
+#line 21 "lib/parser/lex.l"
 { return TOKEN_NIL; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 21 "lib/parser/lex.l"
+#line 22 "lib/parser/lex.l"
 { return TOKEN_EXPORT; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 22 "lib/parser/lex.l"
+#line 23 "lib/parser/lex.l"
 { return TOKEN_AND; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 23 "lib/parser/lex.l"
+#line 24 "lib/parser/lex.l"
 { return TOKEN_AND; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 24 "lib/parser/lex.l"
+#line 25 "lib/parser/lex.l"
 { return TOKEN_OR; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 25 "lib/parser/lex.l"
+#line 26 "lib/parser/lex.l"
 { return TOKEN_OR; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 26 "lib/parser/lex.l"
+#line 27 "lib/parser/lex.l"
 { return TOKEN_ELIPSES; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 27 "lib/parser/lex.l"
+#line 28 "lib/parser/lex.l"
 { return TOKEN_ELIPSES; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 28 "lib/parser/lex.l"
+#line 29 "lib/parser/lex.l"
 { return TOKEN_DOT; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 29 "lib/parser/lex.l"
+#line 30 "lib/parser/lex.l"
 { return TOKEN_SEMICOLON; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 30 "lib/parser/lex.l"
+#line 31 "lib/parser/lex.l"
 { return TOKEN_OPEN_PAREN; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 31 "lib/parser/lex.l"
+#line 32 "lib/parser/lex.l"
 { return TOKEN_CLOSE_PAREN; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 32 "lib/parser/lex.l"
+#line 33 "lib/parser/lex.l"
 { return TOKEN_COMMA; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 33 "lib/parser/lex.l"
+#line 34 "lib/parser/lex.l"
 { return TOKEN_DEFERRED_ARGUMENT; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 34 "lib/parser/lex.l"
+#line 35 "lib/parser/lex.l"
 { return TOKEN_EQUAL_SIGN; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 35 "lib/parser/lex.l"
+#line 36 "lib/parser/lex.l"
 { return TOKEN_COLON; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 36 "lib/parser/lex.l"
+#line 37 "lib/parser/lex.l"
 { return TOKEN_BLOCK_DECLARATION; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 37 "lib/parser/lex.l"
+#line 38 "lib/parser/lex.l"
 { return TOKEN_OPEN_BRACE; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 38 "lib/parser/lex.l"
+#line 39 "lib/parser/lex.l"
 { return TOKEN_CLOSE_BRACE; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 39 "lib/parser/lex.l"
+#line 40 "lib/parser/lex.l"
 { return TOKEN_NOT; }
 	YY_BREAK
 case 23:
 /* rule 23 can match eol */
 YY_RULE_SETUP
-#line 40 "lib/parser/lex.l"
+#line 41 "lib/parser/lex.l"
 { /* comment, treat as white space */ }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 41 "lib/parser/lex.l"
+#line 42 "lib/parser/lex.l"
 { /* comment, treat as white space */ }
 	YY_BREAK
 case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
-#line 42 "lib/parser/lex.l"
+#line 43 "lib/parser/lex.l"
 { return TOKEN_LINE_END; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 43 "lib/parser/lex.l"
+#line 44 "lib/parser/lex.l"
 { /* white space, move along */ }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 45 "lib/parser/lex.l"
+#line 46 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_CLASS_ID, yytext); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 46 "lib/parser/lex.l"
+#line 47 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_FLOAT, yytext); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 47 "lib/parser/lex.l"
+#line 48 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_FLOAT, yytext); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 48 "lib/parser/lex.l"
+#line 49 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_INTEGER, yytext); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 49 "lib/parser/lex.l"
+#line 50 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_ID, yytext); }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 50 "lib/parser/lex.l"
+#line 51 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_SYMBOL, yytext); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 51 "lib/parser/lex.l"
+#line 52 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_REGEX, yytext); }
 	YY_BREAK
 case 34:
 /* rule 34 can match eol */
 YY_RULE_SETUP
-#line 52 "lib/parser/lex.l"
+#line 53 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_EVAL_STRING, yytext); }
 	YY_BREAK
 case 35:
 /* rule 35 can match eol */
 YY_RULE_SETUP
-#line 53 "lib/parser/lex.l"
+#line 54 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_STRING, yytext); }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 55 "lib/parser/lex.l"
+#line 56 "lib/parser/lex.l"
 { printf("unknown token: %s\n", yytext); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 56 "lib/parser/lex.l"
+#line 57 "lib/parser/lex.l"
 ECHO;
 	YY_BREAK
-#line 1080 "lib/parser/lex.yy.c"
+#line 1081 "lib/parser/lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2252,4 +2253,4 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 56 "lib/parser/lex.l"
+#line 57 "lib/parser/lex.l"

@@ -14,7 +14,7 @@
 %locations
 
 %define api.token.prefix { TOKEN_}
-%define api.value.type { FxParseObject * }
+%define api.value.type { void * }
 
 %pure-parser
 %lex-param   { void *scanner }
