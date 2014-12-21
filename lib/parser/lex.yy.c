@@ -1047,7 +1047,7 @@ YY_RULE_SETUP
 case 32:
 YY_RULE_SETUP
 #line 50 "lib/parser/lex.l"
-{ ParseObject_wrap(TOKEN_ATOM, yytext); }
+{ ParseObject_wrap(TOKEN_SYMBOL, yytext); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP

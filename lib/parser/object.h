@@ -2,7 +2,7 @@
 #define __fx_parse_object 1
 
 enum {
-  FX_O_BIT,
+  FX_O_BIT = 310,
   FX_O_EXPRESSION
 };
 

@@ -128,7 +128,7 @@ extern int yydebug;
      TOKEN_EVAL_STRING = 268,
      TOKEN_INTEGER = 269,
      TOKEN_FLOAT = 270,
-     TOKEN_ATOM = 271,
+     TOKEN_SYMBOL = 271,
      TOKEN_REGEX = 272,
      TOKEN_ID = 273,
      TOKEN_CLASS_ID = 274,
@@ -493,7 +493,7 @@ static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "TRUE", "FALSE", "NIL", "EQUAL_SIGN",
   "COLON", "EXPORT", "SEMICOLON", "LINE_END", "COMMA", "STRING",
-  "EVAL_STRING", "INTEGER", "FLOAT", "ATOM", "REGEX", "ID", "CLASS_ID",
+  "EVAL_STRING", "INTEGER", "FLOAT", "SYMBOL", "REGEX", "ID", "CLASS_ID",
   "DEFERRED_ARGUMENT", "ELIPSES", "DOT", "BLOCK_DECLARATION", "OPEN_BRACE",
   "CLOSE_BRACE", "OPEN_PAREN", "CLOSE_PAREN", "AND", "OR", "NOT",
   "$accept", "program", "expressions", "expression_end",

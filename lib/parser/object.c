@@ -21,7 +21,7 @@ void fx_parse_object_free(FxParseObject *object) {
   if (fx_parse_object_type(object) == FX_O_BIT) {
     fx_bit_free(fx_parse_object_value(object));
   } else {
-    // call the free function for expression ... when it exists
+    fx_expression_free(fx_parse_object_value(object));
   }
 
   fx_pfree(object);

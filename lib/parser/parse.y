@@ -17,7 +17,7 @@
 %define api.value.type { FxParseObject * }
 
 %pure-parser
-%lex-param { void *scanner }
+%lex-param   { void *scanner }
 %parse-param { FxParserState *state }
 %parse-param { Array *stack }
 
@@ -36,7 +36,7 @@
 %token TRUE FALSE NIL
 %right EQUAL_SIGN COLON EXPORT // import
 %token SEMICOLON LINE_END COMMA
-%token STRING EVAL_STRING INTEGER FLOAT ATOM REGEX
+%token STRING EVAL_STRING INTEGER FLOAT SYMBOL REGEX
 %token ID CLASS_ID DEFERRED_ARGUMENT
 %left  ELIPSES DOT
 %token BLOCK_DECLARATION OPEN_BRACE CLOSE_BRACE
@@ -80,7 +80,7 @@ expression
 literal
   : string
   | number
-  | ATOM
+  | SYMBOL
   | REGEX
   | TRUE
   | FALSE

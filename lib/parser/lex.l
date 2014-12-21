@@ -47,7 +47,7 @@
 -?[0-9]\.[0-9]+(e|E)-?[0-9]+  	{ ParseObject_wrap(TOKEN_FLOAT, yytext); }
 -?[0-9]+                  			{ ParseObject_wrap(TOKEN_INTEGER, yytext); }
 [\-<+&a-z0-9_]+[a-z0-9_\-]*[!?]? 	{ ParseObject_wrap(TOKEN_ID, yytext); }
-:[a-z0-9_]+[a-z0-9_\-]* 		  	{ ParseObject_wrap(TOKEN_ATOM, yytext); }
+:[a-z0-9_]+[a-z0-9_\-]* 		  	{ ParseObject_wrap(TOKEN_SYMBOL, yytext); }
 \/.*\/[a-z]? 										{ ParseObject_wrap(TOKEN_REGEX, yytext); }
 \"([^"]|\\.)*\"           			{ ParseObject_wrap(TOKEN_EVAL_STRING, yytext); }
 \'([^']|\\.)*\'           			{ ParseObject_wrap(TOKEN_STRING, yytext); }

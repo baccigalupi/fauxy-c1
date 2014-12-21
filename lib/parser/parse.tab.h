@@ -58,7 +58,7 @@ extern int yydebug;
      TOKEN_EVAL_STRING = 268,
      TOKEN_INTEGER = 269,
      TOKEN_FLOAT = 270,
-     TOKEN_ATOM = 271,
+     TOKEN_SYMBOL = 271,
      TOKEN_REGEX = 272,
      TOKEN_ID = 273,
      TOKEN_CLASS_ID = 274,
