@@ -8,7 +8,7 @@
 #include "lex.yy.h"    // yylex_init, and yylex_destroy
 
 int parse_stdin() {
-  FxExpressions *expressions = Array_create(1000);
+  Array *expressions = Array_create(1000);
 
   FxParserState state;
   yylex_init(&state.scanner);
@@ -16,7 +16,7 @@ int parse_stdin() {
   int status = yyparse(&state, expressions);
 
   yylex_destroy(state.scanner);
-  fx_expressions_free(expressions);
+  array_free(expressions);
 
   return status;
 }

@@ -5,7 +5,7 @@ FxExpression *FxExpression_create(int type) {
   FxExpression *expression = fx_alloc(FxExpression);
   verify_memory(expression);
 
-  FxExpressions *value = FxExpressions_create();
+  Array *value = Array_create(4);
   verify_memory(value);
 
   fx_expression_type(expression) = type;
@@ -22,15 +22,27 @@ void fx_expression_free(FxExpression *expression) {
   fx_pfree(expression);
 }
 
+FxExpressions *FxExpressions_create() {
+  FxExpression *expressions = FxExpression_create(FX_ST_EXPRESSIONS);
+  verify(expressions);
+  return expressions;
+error:
+  return NULL;
+}
+
+void fx_expressions_free(FxExpressions *expressions) {
+  // TODO: case for each type of statement
+}
+
 FxExpression *FxTypedExpression_create(FxBit *bit, int exp_type, int token_type) {
   FxExpression *expression = FxExpression_create(exp_type);
   verify_memory(expression);
 
-  FxExpressions *values = fx_expression_value(expression);
+  Array *values = fx_expression_value(expression);
   int *type = fx_alloc(int);
   *type = token_type;
-  fx_expressions_push(values, type);
-  fx_expressions_push(values, bit);
+  array_push(values, type);
+  array_push(values, bit);
 
   return expression;
 error:

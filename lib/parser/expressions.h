@@ -19,17 +19,13 @@ enum {
   FX_ST_METHOD,
   FX_ST_LOCAL_ASSIGN,
   FX_ST_ATTR_ASSIGN,
-  FX_ST_EXPORT
+  FX_ST_EXPORT,
+  FX_ST_EXPRESSIONS
 }; // statement types
-
-typedef Array FxExpressions;
-#define FxExpressions_create()      Array_create(FX_EXPRESSION_INITAL_SIZE)
-#define fx_expressions_free(E)      array_free(E)
-#define fx_expressions_push(E, V)   array_push(E, V)
 
 typedef struct FxExpression {
   int type;
-  FxExpressions *value;
+  Array *value;
 } FxExpression;
 
 #define fx_expression_type(E)        ((E)->type)
@@ -37,6 +33,12 @@ typedef struct FxExpression {
 
 FxExpression *FxExpression_create(int type);
 void          fx_expression_free(FxExpression *expression);
+
+// Expressions are a type of expression!
+// value array is the list of sub expressions
+typedef FxExpression FxExpressions;
+FxExpressions *FxExpressions_create();
+void           fx_expressions_free(FxExpressions *expressions);
 
 FxExpression *FxTypedExpression_create(FxBit *bit, int type, int token_type);
 String       *fx_typed_expression_inspect(FxExpression *expression, String *description, String *preface);
@@ -63,7 +65,7 @@ FxLookup  *FxLookup_create(FxBit *bit, int token_type);
 String    *fx_lookup_inspect(FxLookup *literal);
 String    *fx_lookup_description(FxLookup *literal);
 
-// Block value array [arguments, statements]
+// Block value array [arguments, expressions]
 typedef FxExpression FxBlock;
 #define fx_block_arguments(E)     (FxExpression *)(array_get(fx_expression_value(E), 0))
 #define fx_block_expressions(E)   (FxExpressions *)(array_get(fx_expression_value(E), 1))
