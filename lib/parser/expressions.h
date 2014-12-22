@@ -38,6 +38,9 @@ typedef struct FxExpression {
 FxExpression *FxExpression_create(int type);
 void          fx_expression_free(FxExpression *expression);
 
+FxExpression *FxTypedExpression_create(FxBit *bit, int type, int token_type);
+String       *fx_typed_expression_inspect(FxExpression *expression, String *description, String *preface);
+
 // Literals have value array [token_type, bit]
 typedef FxExpression FxLiteral;
 #define fx_literal__type(E)           (array_get(fx_expression_value(E), 0))
@@ -48,5 +51,16 @@ FxLiteral *FxLiteral_create(FxBit *bit, int token_type);
 String    *fx_literal_inspect(FxLiteral *literal);
 String    *fx_literal_description(FxLiteral *literal);
 void      fx_literal_free(FxLiteral *literal);
+
+// Lookups are similar to literal, with value array [token_type, bit]
+typedef FxExpression FxLookup;
+#define fx_lookup__type(E)           (array_get(fx_expression_value(E), 0))
+#define fx_lookup_type(E)            (*((int *)fx_lookup__type(E)))
+#define fx_lookup_bit(E)             (FxBit *)(array_get(fx_expression_value(E), 1))
+#define fx_lookup_free(E)            fx_literal_free(E)
+
+FxLookup  *FxLookup_create(FxBit *bit, int token_type);
+String    *fx_lookup_inspect(FxLookup *literal);
+String    *fx_lookup_description(FxLookup *literal);
 
 #endif
