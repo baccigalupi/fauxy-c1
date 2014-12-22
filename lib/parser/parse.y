@@ -90,8 +90,8 @@ literal
   ;
 
 lookup // add lookup statement to current statement
-  : ID
-  | CLASS_ID
+  : ID        { $$ = FxLiteral_create((FxBit *)$1, TOKEN_ID); }
+  | CLASS_ID  { $$ = FxLiteral_create((FxBit *)$1, TOKEN_CLASS_ID); }
   ;
 
 

@@ -1534,26 +1534,38 @@ yyreduce:
 #line 1535 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
+  case 27:
+#line 93 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxLiteral_create((FxBit *)(yyvsp[0]), TOKEN_ID); }
+#line 1541 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 28:
+#line 94 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxLiteral_create((FxBit *)(yyvsp[0]), TOKEN_CLASS_ID); }
+#line 1547 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    break;
+
   case 42:
 #line 130 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("binary operator\n"); }
-#line 1541 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1553 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 43:
 #line 131 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("method call\n"); }
-#line 1547 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1559 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 44:
 #line 132 "lib/parser/parse.y" /* yacc.c:1661  */
     { printf("method with block\n"); }
-#line 1553 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1565 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
 
-#line 1557 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1569 "lib/parser/parse.tab.c" /* yacc.c:1661  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
