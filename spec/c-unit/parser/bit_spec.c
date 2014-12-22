@@ -183,7 +183,7 @@ char *test_float_inspection() {
 }
 
 char *all_specs() {
-  spec_setup("Core Bit");
+  spec_setup("Parser Bit");
 
   run_spec(test_typing_token_string);
   run_spec(test_typing_token_eval_string);

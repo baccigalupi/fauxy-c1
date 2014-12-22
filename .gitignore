@@ -12,4 +12,6 @@ lib/parser/parse.output
 
 spec/c-unit/bricks/string_spec
 spec/c-unit/bricks/array_spec
+
 spec/c-unit/parser/bit_spec
+spec/c-unit/parser/expression_spec

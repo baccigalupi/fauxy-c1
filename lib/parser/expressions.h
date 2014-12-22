@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 
+#include "../bricks/string.h"
 #include "../bricks/array.h"
 #include "bit.h"
 
@@ -28,16 +29,24 @@ typedef Array FxExpressions;
 
 typedef struct FxExpression {
   int type;
-  int token_type; // for lookups and literals
   FxExpressions *value;
 } FxExpression;
 
 #define fx_expression_type(E)        ((E)->type)
-#define fx_expression_token_type(E)  ((E)->token_type)
 #define fx_expression_value(E)       ((E)->value)
 
-FxExpression *FxExpression_create(int type, int token_type);
-FxExpression *FxExpression_convert_literal(FxBit *bit, int token_type);
+FxExpression *FxExpression_create(int type);
 void          fx_expression_free(FxExpression *expression);
+
+// Literals have value array [token_type, bit]
+typedef FxExpression FxLiteral;
+#define fx_literal__type(E)           (array_get(fx_expression_value(E), 0))
+#define fx_literal_type(E)            (*((int *)fx_literal__type(E)))
+#define fx_literal_bit(E)             (FxBit *)(array_get(fx_expression_value(E), 1))
+
+FxLiteral *FxLiteral_create(FxBit *bit, int token_type);
+String    *fx_literal_inspect(FxLiteral *literal);
+String    *fx_literal_description(FxLiteral *literal);
+void      fx_literal_free(FxLiteral *literal);
 
 #endif

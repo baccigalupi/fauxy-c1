@@ -130,21 +130,20 @@ String *fx_bit_value_inspect(FxBit *bit) {
     sprintf(str, "%.1e", (float)fx_bit_long_value(bit));
     string = String_create(str);
   } else {
-    str[0] = '"';
     char *bit_string = fx_bit_string_value(bit);
-    int length;
-    if (strlen(bit_string) > 10) {
-      // "hello worl..."\0
-      strncpy(str, bit_string, 10);
-      length = strlen(str);
-      str[length] = str[length+1] = str[length+2] = '.';
-      length += 3;
-    } else {
-      strcpy(str, bit_string);
-      length = strlen(str);
+    int  bit_length = strlen(bit_string);
+    int  copy_length = bit_length > 10 ? 10 : bit_length;
+    int  ending_i =    bit_length > 10 ? 14 : bit_length;
+    int  i;
+
+    str[0] = '"';
+    for (i = 0; i < copy_length; i++) {
+      str[i+1] = bit_string[i];
     }
-    str[length] = '"';
-    str[length+1] = '\0';
+    if (bit_length != copy_length) {
+      str[11] = str[12] = str[13] = '.';
+    }
+    str[ending_i] = '"';
 
     string = String_create(str);
   }

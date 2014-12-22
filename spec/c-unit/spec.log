@@ -1,3 +1,5 @@
 [31m[ERROR][0m (lib/parser/bit.c:32) Memory error
 [31m[ERROR][0m (lib/parser/bit.c:32) Memory error
 [31m[ERROR][0m (lib/parser/bit.c:28) Memory error
+expression_spec(50702,0x7fff7c789300) malloc: *** error for object 0x140: pointer being freed was not allocated
+*** set a breakpoint in malloc_error_break to debug
