@@ -2,8 +2,8 @@
   #include <stdio.h>
 
   #include "parser_state.h"
-  #include "bit.h"
   #include "expressions.h"
+  #include "bit.h"
 %}
 
 // bison outputs header and c files in right location
@@ -20,13 +20,13 @@
 %pure-parser
 %lex-param   { void *scanner }
 %parse-param { FxParserState *state }
-%parse-param { Array *stack }
+%parse-param { FxExpressions *expressions }
 
 %{
   #include "parse.tab.h"
   #include "lex.yy.h"
 
-  static void yyerror(YYLTYPE *location, FxParserState *state, Array *stack, const char *s) {
+  static void yyerror(YYLTYPE *location, FxParserState *state, FxExpressions *expressions, const char *s) {
     fprintf(stderr, "line %d:%d error %s\n", location->first_line, location->first_column, s);
   }
 
