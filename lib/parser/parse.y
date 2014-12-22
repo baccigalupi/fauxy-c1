@@ -78,25 +78,16 @@ expression
   ;
 
 literal
-  : string
-  | number
-  | SYMBOL
-  | REGEX
-  | TRUE
-  | FALSE
-  | NIL
+  : STRING        { $$ = FxLiteral_create((FxBit *)$1, TOKEN_STRING); }
+  | EVAL_STRING   { $$ = FxLiteral_create((FxBit *)$1, TOKEN_EVAL_STRING); }
+  | INTEGER       { $$ = FxLiteral_create((FxBit *)$1, TOKEN_INTEGER); }
+  | FLOAT         { $$ = FxLiteral_create((FxBit *)$1, TOKEN_FLOAT); }
+  | SYMBOL        { $$ = FxLiteral_create((FxBit *)$1, TOKEN_SYMBOL); }
+  | REGEX         { $$ = FxLiteral_create((FxBit *)$1, TOKEN_REGEX); }
+  | TRUE          { $$ = FxLiteral_create(NULL, TOKEN_TRUE); }
+  | FALSE         { $$ = FxLiteral_create(NULL, TOKEN_FALSE); }
+  | NIL           { $$ = FxLiteral_create(NULL, TOKEN_NIL); }
   ;
-
-string
-  : STRING
-  | EVAL_STRING
-  ;
-
-number // add literal to current statement
-  : INTEGER
-  | FLOAT
-  ;
-
 
 lookup // add lookup statement to current statement
   : ID
