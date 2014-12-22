@@ -18,7 +18,7 @@ error:
 }
 
 void fx_expression_free(FxExpression *expression) {
-  fx_expressions_free(fx_expression_value(expression));
+  array_free(fx_expression_value(expression));
   fx_pfree(expression);
 }
 
