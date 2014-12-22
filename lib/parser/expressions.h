@@ -50,7 +50,7 @@ typedef FxExpression FxLiteral;
 FxLiteral *FxLiteral_create(FxBit *bit, int token_type);
 String    *fx_literal_inspect(FxLiteral *literal);
 String    *fx_literal_description(FxLiteral *literal);
-void      fx_literal_free(FxLiteral *literal);
+void       fx_literal_free(FxLiteral *literal);
 
 // Lookups are similar to literal, with value array [token_type, bit]
 typedef FxExpression FxLookup;

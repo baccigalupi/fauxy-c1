@@ -33,11 +33,27 @@ char *test_inspect_literal() {
   return NULL;
 }
 
+char *test_inspect_lookup() {
+  spec_describe("inspecting a lookup expression");
+
+  FxBit *bit = FxBit_create(TOKEN_ID, "foo");
+  FxLiteral *lookup = FxLiteral_create(bit, TOKEN_ID);
+
+  String *inspection = fx_lookup_inspect(lookup);
+  assert_strings_equal(string_value(inspection), "(lookup: Identifier, <STRING: \"foo\">)", "Identifier type");
+
+  fx_literal_free(lookup);
+  string_free(inspection);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Parser Literal Expression");
 
   run_spec(test_create_literal);
   run_spec(test_inspect_literal);
+  run_spec(test_inspect_lookup);
 
   spec_teardown();
 

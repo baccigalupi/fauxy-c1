@@ -133,7 +133,7 @@ String *fx_bit_value_inspect(FxBit *bit) {
     char *bit_string = fx_bit_string_value(bit);
     int  bit_length = strlen(bit_string);
     int  copy_length = bit_length > 10 ? 10 : bit_length;
-    int  ending_i =    bit_length > 10 ? 14 : bit_length;
+    int  ending_i =    bit_length > 10 ? 14 : bit_length + 1;
     int  i;
 
     str[0] = '"';

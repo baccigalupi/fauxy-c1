@@ -96,7 +96,7 @@ String *fx_typed_expression_inspect(FxExpression *expression, String *descriptio
   string_free(bit);
 
   return inspection;
-  error:
+error:
   return NULL;
 }
 
@@ -112,7 +112,7 @@ error:
   return NULL;
 }
 
-FxLookup  *FxLookup_create(FxBit *bit, int token_type) {
+FxLookup *FxLookup_create(FxBit *bit, int token_type) {
   FxExpression *lookup = FxTypedExpression_create(bit, FX_ST_LOOKUP, token_type);
   verify(lookup);
 
@@ -121,5 +121,31 @@ error:
   return NULL;
 }
 
-String    *fx_lookup_inspect(FxLookup *literal);
-String    *fx_lookup_description(FxLookup *literal);
+String *fx_lookup_inspect(FxLookup *lookup) {
+  String *preface = String_create("(lookup: ");
+  String *description = fx_lookup_description(lookup);
+  verify(preface);
+  verify(description);
+
+  String *inspection = fx_typed_expression_inspect(lookup, description, preface);
+  return inspection;
+error:
+  return NULL;
+}
+
+String *fx_lookup_description(FxLookup *lookup) {
+  char str[24];
+
+  if (fx_lookup_type(lookup) == TOKEN_ID) {
+    strcpy(str, "Identifier");
+  } else {
+    strcpy(str, "Class Identifier");
+  }
+
+  String *description = String_create(str);
+  verify_memory(description);
+
+  return description;
+error:
+  return NULL;
+}
