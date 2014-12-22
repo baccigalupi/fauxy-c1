@@ -44,8 +44,8 @@ char *test_typing_token_int() {
 char *test_string_type_creation() {
   spec_describe("creating bits with string type");
   int token_type = TOKEN_STRING;
-  char *text = calloc(5, sizeof(char));
-  strcpy(text, "text");
+  char *text = calloc(7, sizeof(char));
+  strcpy(text, "\"text\"");
 
   FxBit *bit = FxBit_create(token_type, text);
   free(text);

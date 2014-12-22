@@ -53,6 +53,7 @@ Boolean         fx_bit_add_float_value(FxBit *bit, char *text);
 Boolean         fx_bit_add_short_value(FxBit *bit, char *text);
 Boolean         fx_bit_add_long_value(FxBit *bit, char *text);
 Boolean         fx_bit_add_string_value(FxBit *bit, char *text);
+Boolean         fx_trim_string_value(FxBit *bit, char *text);
 void            fx_bit_free(FxBit *bit);
 String         *fx_bit_inspect(FxBit *bit);
 String         *fx_bit_value_inspect(FxBit *bit);

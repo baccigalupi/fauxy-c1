@@ -1428,13 +1428,13 @@ yyreduce:
     {
         case 7:
 #line 64 "lib/parser/parse.y" /* yacc.c:1661  */
-    { printf("literal\n"); }
+    { (yyval) = (yyvsp[0]); printf("%s\n", string_value(fx_literal_inspect((yyvsp[0])))); }
 #line 1433 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 8:
 #line 65 "lib/parser/parse.y" /* yacc.c:1661  */
-    { printf("lookup\n"); }
+    { (yyval) = (yyvsp[0]); printf("%s\n", string_value(fx_lookup_inspect((yyvsp[0])))); }
 #line 1439 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 

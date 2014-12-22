@@ -25,7 +25,13 @@ FxBit *FxBit_create(int token_type, char *text) {
   } else if (type == FX_BIT_LONG) {
     success = fx_bit_add_long_value(bit, text);
   } else {
-    success = fx_bit_add_string_value(bit, text);
+    // little wonky to have this here, maybe should switch up and
+    // do this work when a literal statement is defined, not here
+    if (text[0] == '\'' || text[0] == '"') {
+      success = fx_trim_string_value(bit, text);
+    } else {
+      success = fx_bit_add_string_value(bit, text);
+    }
   }
   verify(success);
 
@@ -96,9 +102,27 @@ error:
 //   return false;
 // }
 
-Boolean fx_bit_add_string_value(FxBit *bit, char *text) {
-  char *value = calloc(strlen(text) + 1, sizeof(char));
+Boolean fx_trim_string_value(FxBit *bit, char *text) {
+  int length = strlen(text) - 2;
+  char *value = calloc(length + 1, sizeof(char));
   verify_memory(value);
+
+  int i;
+  for(i = 0; i < length; i++) {
+    value[i] = text[i+1];
+  }
+  fx_bit_value(bit) = value;
+
+  return true;
+error:
+  return false;
+}
+
+Boolean fx_bit_add_string_value(FxBit *bit, char *text) {
+  int length = strlen(text);
+  char *value = calloc(length + 1, sizeof(char));
+  verify_memory(value);
+
   strcpy(value, text);
   fx_bit_value(bit) = value;
 

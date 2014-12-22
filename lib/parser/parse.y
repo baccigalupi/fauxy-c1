@@ -61,8 +61,8 @@ expression_end
   ;
 
 unterminated_expression
-  : literal { printf("literal\n"); }
-  | lookup { printf("lookup\n"); }
+  : literal { $$ = $1; printf("%s\n", string_value(fx_literal_inspect($1))); }
+  | lookup  { $$ = $1; printf("%s\n", string_value(fx_lookup_inspect($1))); }
   | block { printf("block\n"); }
   | list { printf("list\n"); }
   | method_call

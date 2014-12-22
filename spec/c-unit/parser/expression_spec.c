@@ -7,7 +7,7 @@
 char *test_create_literal() {
   spec_describe("creating literal expression from bit");
 
-  FxBit *bit = FxBit_create(TOKEN_STRING, "hello world");
+  FxBit *bit = FxBit_create(TOKEN_STRING, "\"hello world\"");
   FxLiteral *literal = FxLiteral_create(bit, TOKEN_STRING);
 
   assert_ints_equal(fx_literal_type(literal), TOKEN_STRING, "type");
@@ -21,7 +21,7 @@ char *test_create_literal() {
 char *test_inspect_literal() {
   spec_describe("inspecting a literal expression");
 
-  FxBit *bit = FxBit_create(TOKEN_STRING, "hello world");
+  FxBit *bit = FxBit_create(TOKEN_STRING, "\"hello world\"");
   FxLiteral *literal = FxLiteral_create(bit, TOKEN_STRING);
 
   String *inspection = fx_literal_inspect(literal);
