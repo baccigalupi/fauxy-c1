@@ -72,9 +72,8 @@ unterminated_expression
   | block { printf("block\n"); }
   | grouped_statement { printf("grouped_statement\n"); }
   | method_call
-  | implicit_method_call /* conflicts galore! */ { printf("implicit call\n"); }
   | local_assignment { printf("local assign\n"); }
-  | attr_assignment { printf("attr assign\n"); }
+  | colonized_statement { printf("attr assign\n"); }
   | export_expression { printf("export expression"); }
   ;
 
@@ -122,7 +121,7 @@ implicit_method_call
   ;
 
 binary_operator_call
-  : unterminated_expression implicit_method_call
+  : unterminated_expression ID unterminated_expression
   | unterminated_expression AND unterminated_expression
   | unterminated_expression OR unterminated_expression
   ;
@@ -132,21 +131,22 @@ standard_method_call /* ambiguity of implicit method call adds conflicts */
   | unterminated_expression DOT ID
   ;
 
+block_method_call
+  : standard_method_call block
+  ;
+
 method_call
   : binary_operator_call { printf("binary operator\n"); }
   | standard_method_call { printf("method call\n"); }
   | block_method_call { printf("method with block\n"); }
-  ;
-
-block_method_call
-  : standard_method_call block
+  | implicit_method_call { printf("implicit self method call\n"); }
   ;
 
 local_assignment
   : ID EQUAL_SIGN unterminated_expression
   ;
 
-attr_assignment
+colonized_statement // either argument conditions in method def, named arguments, or local assignment
   : ID COLON unterminated_expression
   ;
 

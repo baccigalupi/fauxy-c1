@@ -63,4 +63,9 @@ FxLookup  *FxLookup_create(FxBit *bit, int token_type);
 String    *fx_lookup_inspect(FxLookup *literal);
 String    *fx_lookup_description(FxLookup *literal);
 
+// Block value array [arguments, statements]
+typedef FxExpression FxBlock;
+#define fx_block_arguments(E)     (FxExpression *)(array_get(fx_expression_value(E), 0))
+#define fx_block_expressions(E)   (FxExpressions *)(array_get(fx_expression_value(E), 1))
+
 #endif
