@@ -61,10 +61,16 @@ expression_end
   ;
 
 unterminated_expression
-  : literal { $$ = $1; printf("%s\n", string_value(fx_literal_inspect($1))); }
-  | lookup  { $$ = $1; printf("%s\n", string_value(fx_lookup_inspect($1))); }
+  : literal {
+              $$ = $1;
+              printf("%s\n", string_value(fx_literal_inspect($1)));
+            }
+  | lookup  {
+              $$ = $1;
+              printf("%s\n", string_value(fx_lookup_inspect($1)));
+            }
   | block { printf("block\n"); }
-  | list { printf("list\n"); }
+  | grouped_statement { printf("grouped_statement\n"); }
   | method_call
   | implicit_method_call /* conflicts galore! */ { printf("implicit call\n"); }
   | local_assignment { printf("local assign\n"); }
@@ -89,13 +95,13 @@ literal
   | NIL           { $$ = FxLiteral_create(NULL, TOKEN_NIL); }
   ;
 
-lookup // add lookup statement to current statement
-  : ID        { $$ = FxLiteral_create((FxBit *)$1, TOKEN_ID); }
-  | CLASS_ID  { $$ = FxLiteral_create((FxBit *)$1, TOKEN_CLASS_ID); }
+lookup
+  : ID            { $$ = FxLiteral_create((FxBit *)$1, TOKEN_ID); }
+  | CLASS_ID      { $$ = FxLiteral_create((FxBit *)$1, TOKEN_CLASS_ID); }
   ;
 
 
-list
+grouped_statement
   : OPEN_PAREN list_elements CLOSE_PAREN
   ;
 
@@ -108,7 +114,7 @@ list_elements
 
 block
   : BLOCK_DECLARATION OPEN_BRACE expressions CLOSE_BRACE
-  | BLOCK_DECLARATION list OPEN_BRACE expressions CLOSE_BRACE
+  | BLOCK_DECLARATION grouped_statement OPEN_BRACE expressions CLOSE_BRACE
   ;
 
 implicit_method_call

@@ -53,6 +53,8 @@ void fx_literal_free(FxLiteral *literal) {
 }
 
 String *fx_literal_description(FxLiteral *literal) {
+
+
   char str[24];
 
   if (fx_literal_type(literal) == TOKEN_STRING) {
@@ -65,8 +67,14 @@ String *fx_literal_description(FxLiteral *literal) {
     strcpy(str, "Symbol");
   } else if (fx_literal_type(literal) == TOKEN_INTEGER) {
     strcpy(str, "Integer");
-  } else {
+  } else if (fx_literal_type(literal) == TOKEN_FLOAT) {
     strcpy(str, "Float");
+  } else if (fx_literal_type(literal) == TOKEN_NIL) {
+    strcpy(str, "Nil");
+  } else if (fx_literal_type(literal) == TOKEN_TRUE) {
+    strcpy(str, "True");
+  } else if (fx_literal_type(literal) == TOKEN_FALSE) {
+    strcpy(str, "False");
   }
 
   String *description = String_create(str);
@@ -78,7 +86,12 @@ error:
 }
 
 String *fx_typed_expression_inspect(FxExpression *expression, String *description, String *preface) {
-  String *bit = fx_bit_inspect(fx_literal_bit(expression));
+  String *bit;
+  if (fx_literal_bit(expression)) {
+    bit = fx_bit_inspect(fx_literal_bit(expression));
+  } else {
+    bit = String_create_with_capacity(1);
+  }
   verify(bit);
   String *inspection = String_create_with_capacity(128);
   verify_memory(inspection);
@@ -87,7 +100,9 @@ String *fx_typed_expression_inspect(FxExpression *expression, String *descriptio
 
   string_add(inspection, preface);
   string_add(inspection, description);
-  string_concat(inspection, ", ");
+  if (string_length(bit)) {
+    string_concat(inspection, ", ");
+  }
   string_add(inspection, bit);
   string_push(inspection, ')');
 
@@ -102,8 +117,9 @@ error:
 
 String *fx_literal_inspect(FxLiteral *literal) {
   String *preface = String_create("(literal: ");
-  String *description = fx_literal_description(literal);
   verify(preface);
+
+  String *description = fx_literal_description(literal);
   verify(description);
 
   String *inspection = fx_typed_expression_inspect(literal, description, preface);

@@ -5,7 +5,6 @@
 #include "../bricks/helpers.h"
 #include "../bricks/string.h"
 
-
 FxBit *FxBit_create(int token_type, char *text) {
   FxBit *bit = fx_alloc(FxBit);
   verify_memory(bit);
