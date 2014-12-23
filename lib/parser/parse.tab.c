@@ -66,7 +66,7 @@
 
   #include <stdio.h>
 
-  #include "parser_state.h"
+  #include "lex_wrapper.h"
   #include "expressions.h"
   #include "bit.h"
 #line 25 "lib/parser/parse.y" /* yacc.c:339  */
@@ -74,7 +74,7 @@
   #include "parse.tab.h"
   #include "lex.yy.h"
 
-  static void yyerror(YYLTYPE *location, FxParserState *state, FxExpressions *expressions, const char *s) {
+  static void yyerror(YYLTYPE *location, FxLexWrapper *state, FxExpressions *expressions, const char *s) {
     fprintf(stderr, "line %d:%d error %s\n", location->first_line, location->first_column, s);
   }
 
@@ -170,7 +170,7 @@ struct YYLTYPE
 
 
 
-int yyparse (FxParserState *state, FxExpressions *expressions);
+int yyparse (FxLexWrapper *state, FxExpressions *expressions);
 
 #endif /* !YY_YY_LIB_PARSER_PARSE_TAB_H_INCLUDED  */
 
@@ -784,7 +784,7 @@ do {                                                                      \
 `----------------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, FxParserState *state, FxExpressions *expressions)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, FxLexWrapper *state, FxExpressions *expressions)
 {
   FILE *yyo = yyoutput;
   YYUSE (yyo);
@@ -806,7 +806,7 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 `--------------------------------*/
 
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, FxParserState *state, FxExpressions *expressions)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, FxLexWrapper *state, FxExpressions *expressions)
 {
   YYFPRINTF (yyoutput, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
@@ -846,7 +846,7 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule, FxParserState *state, FxExpressions *expressions)
+yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule, FxLexWrapper *state, FxExpressions *expressions)
 {
   unsigned long int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
@@ -1126,7 +1126,7 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
 `-----------------------------------------------*/
 
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp, FxParserState *state, FxExpressions *expressions)
+yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp, FxLexWrapper *state, FxExpressions *expressions)
 {
   YYUSE (yyvaluep);
   YYUSE (yylocationp);
@@ -1149,7 +1149,7 @@ yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocatio
 `----------*/
 
 int
-yyparse (FxParserState *state, FxExpressions *expressions)
+yyparse (FxLexWrapper *state, FxExpressions *expressions)
 {
 /* The lookahead symbol.  */
 int yychar;

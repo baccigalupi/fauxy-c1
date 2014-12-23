@@ -12,7 +12,7 @@ typedef struct {
 // where everything needs to be included here
 #include "../bricks/helpers.h"
 #include "../bricks/string.h"
-#include "parser_state.h"
+#include "lex_wrapper.h"
 #include "expressions.h"
 #include "parse.tab.h"
 

@@ -1,6 +1,6 @@
 %{
 	#include <stdio.h>
-	#include "parser_state.h"
+	#include "lex_wrapper.h"
 	#include "bit.h"
 	#include "parse.tab.h"
 

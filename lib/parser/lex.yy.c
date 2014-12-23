@@ -547,7 +547,7 @@ static yyconst flex_int16_t yy_chk[380] =
 #line 1 "lib/parser/lex.l"
 #line 2 "lib/parser/lex.l"
 	#include <stdio.h>
-	#include "parser_state.h"
+	#include "lex_wrapper.h"
 	#include "bit.h"
 	#include "parse.tab.h"
 
