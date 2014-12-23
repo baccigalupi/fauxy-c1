@@ -13,7 +13,7 @@ typedef struct {
 #include "../bricks/helpers.h"
 #include "../bricks/string.h"
 #include "lex_wrapper.h"
-#include "expressions.h"
+#include "parser_context.h"
 #include "parse.tab.h"
 
 enum {
@@ -31,8 +31,7 @@ enum {
 #define fx_bit_size(F)           ((F)->size)
 #define fx_bit_size_is_small(I)  (I < FX_BIT_SIZE_LIMIT)
 #define fx_bit_is_small(F)       (fx_bit_size_is_small(fx_bit_size(F)))
-
-#define fx_bit_value(F)            ((F)->value)
+#define fx_bit_value(F)          ((F)->value)
 
 #define fx_bit_string__value(F)     ((char *)fx_bit_value(F))
 #define fx_bit_short__value(F)      ((short *)(fx_bit_value(F)))

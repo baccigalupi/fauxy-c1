@@ -2,6 +2,7 @@
   #include <stdio.h>
 
   #include "lex_wrapper.h"
+  #include "parser_context.h"
   #include "expressions.h"
   #include "bit.h"
 %}
@@ -20,13 +21,13 @@
 %pure-parser
 %lex-param   { void *scanner }
 %parse-param { FxLexWrapper *state }
-%parse-param { FxExpressions *expressions }
+%parse-param { FxParserContext *context }
 
 %{
   #include "parse.tab.h"
   #include "lex.yy.h"
 
-  static void yyerror(YYLTYPE *location, FxLexWrapper *state, FxExpressions *expressions, const char *s) {
+  static void yyerror(YYLTYPE *location, FxLexWrapper *state, FxParserContext *context, const char *s) {
     fprintf(stderr, "line %d:%d error %s\n", location->first_line, location->first_column, s);
   }
 
