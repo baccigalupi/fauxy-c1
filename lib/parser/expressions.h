@@ -15,6 +15,7 @@ typedef FxExpression FxExpressions;
 typedef FxExpression FxLiteral;
 typedef FxExpression FxLookup;
 typedef FxExpression FxBlock;
+typedef FxExpression FxMethodCall;
 
 // IMPORTANT, this bit thing is a bitch and has to stay
 // below the typedefs!
@@ -74,5 +75,16 @@ String    *fx_lookup_description(FxLookup *literal);
 // Block value array [arguments, expressions]
 #define fx_block_arguments(E)     (FxExpression *)(array_get(fx_expression_value(E), 0))
 #define fx_block_expressions(E)   (FxExpressions *)(array_get(fx_expression_value(E), 1))
+
+// Method calls [receiver, method_name, argument_list]
+#define fx_method_receiver(E)           (FxExpression *)(array_get(fx_expression_value(E), 0))
+#define fx_method_set_receiver(E, V)    (array_set(fx_expression_value(E), 0, V))
+#define fx_method_message(E)            (FxExpression *)(array_get(fx_expression_value(E), 1))
+#define fx_method_set_message(E, V)     (array_set(fx_expression_value(E), 1, V))
+#define fx_method_arguments(E)          (FxExpression *)(array_get(fx_expression_value(E), 2))
+#define fx_method_set_arguments(E, V)   (array_set(fx_expression_value(E), 2, V))
+#define FxMethodCall_create()           FxExpression_create(FX_ST_METHOD)
+
+FxMethodCall *FxMethodCall_create_implicit(FxBit *id, FxExpression *argument);
 
 #endif

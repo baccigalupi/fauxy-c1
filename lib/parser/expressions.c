@@ -177,3 +177,15 @@ String *fx_lookup_description(FxLookup *lookup) {
 error:
   return NULL;
 }
+
+FxMethodCall *FxMethodCall_create_implicit(FxBit *method_name, FxExpression *argument) {
+  FxMethodCall *call = FxMethodCall_create();
+  verify_memory(call);
+
+  fx_method_set_message(call, method_name);
+  fx_method_set_arguments(call, argument);
+
+  return call;
+error:
+  return NULL;
+}

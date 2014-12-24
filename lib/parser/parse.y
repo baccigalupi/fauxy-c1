@@ -119,7 +119,7 @@ block
   ;
 
 implicit_method_call
-  : ID unterminated_expression
+  : ID unterminated_expression { $$ = FxMethodCall_create_implicit($1, $2); }
   ;
 
 binary_operator_call

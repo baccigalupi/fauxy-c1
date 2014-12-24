@@ -1543,32 +1543,38 @@ yyreduce:
 #line 1544 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
+  case 35:
+#line 122 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxMethodCall_create_implicit((yyvsp[-1]), (yyvsp[0])); }
+#line 1550 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    break;
+
   case 42:
 #line 141 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1550 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1556 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 43:
 #line 142 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1556 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1562 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 44:
 #line 143 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1562 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1568 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 45:
 #line 144 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1568 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1574 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
 
-#line 1572 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1578 "lib/parser/parse.tab.c" /* yacc.c:1661  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
