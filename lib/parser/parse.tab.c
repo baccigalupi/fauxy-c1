@@ -1473,7 +1473,7 @@ yyreduce:
 
   case 15:
 #line 83 "lib/parser/parse.y" /* yacc.c:1661  */
-    { printf("terminating expression\n"); }
+    { fx_parser_context_push(context, (yyvsp[-1])); }
 #line 1478 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
@@ -1545,25 +1545,25 @@ yyreduce:
 
   case 42:
 #line 141 "lib/parser/parse.y" /* yacc.c:1661  */
-    { printf("binary operator\n"); }
+    { (yyval) = (yyvsp[0]); }
 #line 1550 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 43:
 #line 142 "lib/parser/parse.y" /* yacc.c:1661  */
-    { printf("method call\n"); }
+    { (yyval) = (yyvsp[0]); }
 #line 1556 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 44:
 #line 143 "lib/parser/parse.y" /* yacc.c:1661  */
-    { printf("method with block\n"); }
+    { (yyval) = (yyvsp[0]); }
 #line 1562 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 45:
 #line 144 "lib/parser/parse.y" /* yacc.c:1661  */
-    { printf("implicit self method call\n"); }
+    { (yyval) = (yyvsp[0]); }
 #line 1568 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 

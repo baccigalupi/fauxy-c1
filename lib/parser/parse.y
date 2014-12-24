@@ -80,7 +80,7 @@ unterminated_expression
   ;
 
 expression
-  : unterminated_expression expression_end { printf("terminating expression\n"); }
+  : unterminated_expression expression_end { fx_parser_context_push(context, $1); }
   | expression_end
   ;
 
@@ -134,14 +134,14 @@ standard_method_call /* ambiguity of implicit method call adds conflicts */
   ;
 
 block_method_call
-  : standard_method_call block
+  : standard_method_call block // add block to arguments list
   ;
 
-method_call
-  : binary_operator_call { printf("binary operator\n"); }
-  | standard_method_call { printf("method call\n"); }
-  | block_method_call { printf("method with block\n"); }
-  | implicit_method_call { printf("implicit self method call\n"); }
+method_call // pass along already constructed method expression
+  : binary_operator_call { $$ = $1; }
+  | standard_method_call { $$ = $1; }
+  | block_method_call    { $$ = $1; }
+  | implicit_method_call { $$ = $1; }
   ;
 
 local_assignment
