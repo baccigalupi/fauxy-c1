@@ -128,8 +128,17 @@ literal
   ;
 
 lookup
-  : ID            { $$ = FxLiteral_create((FxBit *)$1, TOKEN_ID); }
+  : id_lookup     { $$ = $1; }
   | CLASS_ID      { $$ = FxLiteral_create((FxBit *)$1, TOKEN_CLASS_ID); }
+  ;
+
+id_lookup
+  : ID           { $$ = FxLiteral_create((FxBit *)$1, TOKEN_ID); }
+  ;
+
+operator // for precedence
+  : AND           { $$ = FxLiteral_create((FxBit *)$1, TOKEN_ID); }
+  | OR            { $$ = FxLiteral_create((FxBit *)$1, TOKEN_ID); }
   ;
 
 block
@@ -138,18 +147,17 @@ block
   ;
 
 implicit_method_call
-  : ID list { $$ = FxMethodCall_create_implicit($1, $2); }
+  : id_lookup list                                       { $$ = FxMethodCall_create_implicit($1, $2); }
   ;
 
 operator_call
-  : unterminated_expression ID unterminated_expression
-  | unterminated_expression AND unterminated_expression
-  | unterminated_expression OR unterminated_expression
+  : unterminated_expression id_lookup unterminated_expression
+  | unterminated_expression operator unterminated_expression
   ;
 
 dot_method_call /* ambiguity of implicit method call adds conflicts */
-  : unterminated_expression DOT implicit_method_call
-  | unterminated_expression DOT ID
+  : unterminated_expression DOT implicit_method_call    { $$ = fx_method_call_convert_implicit($3, $1); }
+  | unterminated_expression DOT id_lookup               { $$ = FxMethodCall_create_no_args($1, $3); }
   ;
 
 block_method_call
@@ -164,7 +172,7 @@ method_call // pass along already constructed method expression
   ;
 
 local_assignment
-  : ID EQUAL_SIGN unterminated_expression
+  : lookup EQUAL_SIGN unterminated_expression
   ;
 
 /*
@@ -180,7 +188,7 @@ local_assignment
     foo: -> { Print.line 'foo' }
 */
 colonized_statement
-  : ID COLON unterminated_expression
+  : lookup COLON unterminated_expression
   ;
 
 export_expression

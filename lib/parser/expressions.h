@@ -85,6 +85,8 @@ String    *fx_lookup_description(FxLookup *literal);
 #define fx_method_set_arguments(E, V)   (array_set(fx_expression_value(E), 2, V))
 #define FxMethodCall_create()           FxExpression_create(FX_ST_METHOD)
 
-FxMethodCall *FxMethodCall_create_implicit(FxBit *id, FxExpression *argument);
+FxMethodCall *FxMethodCall_create_implicit(FxBit *message, FxExpression *argument);
+FxMethodCall *fx_method_call_convert_implicit(FxMethodCall *self, FxExpression *receivier);
+FxMethodCall *FxMethodCall_create_no_args(FxExpression *receiver, FxBit *message);
 
 #endif

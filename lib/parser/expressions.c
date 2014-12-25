@@ -189,3 +189,20 @@ FxMethodCall *FxMethodCall_create_implicit(FxBit *method_name, FxExpression *arg
 error:
   return NULL;
 }
+
+FxMethodCall *fx_method_call_convert_implicit(FxMethodCall *self, FxExpression *receiver) {
+  fx_method_set_receiver(self, receiver);
+  return self;
+}
+
+FxMethodCall *FxMethodCall_create_no_args(FxExpression *receiver, FxBit *message) {
+  FxMethodCall *method = FxMethodCall_create();
+  verify_memory(method);
+
+  fx_method_set_receiver(method, receiver);
+  fx_method_set_message(method, message);
+
+  return method;
+error:
+  return NULL;
+}
