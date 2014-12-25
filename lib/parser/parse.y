@@ -63,21 +63,52 @@ expression_end
   ;
 
 unterminated_expression
-  : literal {
-              $$ = $1;
-              printf("%s\n", string_value(fx_literal_inspect($1)));
-            }
-  | lookup  {
-              $$ = $1;
-              printf("%s\n", string_value(fx_lookup_inspect($1)));
-            }
+  : literal { $$ = $1; }
+  | lookup  { $$ = $1; }
   | block { printf("block\n"); }
-  | grouped_statement { printf("grouped_statement\n"); }
   | method_call
   | local_assignment { printf("local assign\n"); }
   | colonized_statement { printf("attr assign\n"); }
   | export_expression { printf("export expression"); }
+  | list
   ;
+
+grouped_statement
+  : OPEN_PAREN grouped_list_elements CLOSE_PAREN
+  ;
+
+grouped_list_elements
+  :
+  | unterminated_expression
+  ;
+
+list
+  : grouped_statement
+  | DEFERRED_ARGUMENT
+  | OPEN_PAREN list_elements CLOSE_PAREN
+  ;
+
+list_elements
+  : grouped_list_elements
+  | grouped_list_elements COMMA list_elements
+  ;
+
+  /*
+    Grouped statements vs arguments vs lists
+
+    Grouped:
+    (1 + 1) * 2
+    (1 == foo) && (2 == bar)
+
+    Arguments:
+    foo(1 + 1)
+    bar(2 == bar)
+    zardoz(1 + 1, 2 == bar)
+
+    Lists:
+    (1 + 1)
+    (1, 2, foo)
+  */
 
 expression
   : unterminated_expression expression_end { fx_parser_context_push(context, $1); }
@@ -101,45 +132,33 @@ lookup
   | CLASS_ID      { $$ = FxLiteral_create((FxBit *)$1, TOKEN_CLASS_ID); }
   ;
 
-
-grouped_statement
-  : OPEN_PAREN list_elements CLOSE_PAREN
-  ;
-
-list_elements
-  :
-  | unterminated_expression
-  | DEFERRED_ARGUMENT
-  | unterminated_expression COMMA list_elements
-  ;
-
 block
   : BLOCK_DECLARATION OPEN_BRACE expressions CLOSE_BRACE
-  | BLOCK_DECLARATION grouped_statement OPEN_BRACE expressions CLOSE_BRACE
+  | BLOCK_DECLARATION list OPEN_BRACE expressions CLOSE_BRACE
   ;
 
 implicit_method_call
-  : ID unterminated_expression { $$ = FxMethodCall_create_implicit($1, $2); }
+  : ID list { $$ = FxMethodCall_create_implicit($1, $2); }
   ;
 
-binary_operator_call
+operator_call
   : unterminated_expression ID unterminated_expression
   | unterminated_expression AND unterminated_expression
   | unterminated_expression OR unterminated_expression
   ;
 
-standard_method_call /* ambiguity of implicit method call adds conflicts */
+dot_method_call /* ambiguity of implicit method call adds conflicts */
   : unterminated_expression DOT implicit_method_call
   | unterminated_expression DOT ID
   ;
 
 block_method_call
-  : standard_method_call block // add block to arguments list
+  : dot_method_call block // add block to arguments list
   ;
 
 method_call // pass along already constructed method expression
-  : binary_operator_call { $$ = $1; }
-  | standard_method_call { $$ = $1; }
+  : operator_call        { $$ = $1; }
+  | dot_method_call      { $$ = $1; }
   | block_method_call    { $$ = $1; }
   | implicit_method_call { $$ = $1; }
   ;
@@ -148,7 +167,19 @@ local_assignment
   : ID EQUAL_SIGN unterminated_expression
   ;
 
-colonized_statement // either argument conditions in method def, named arguments, or local assignment
+/*
+  either argument conditions in method def, named arguments, or local assignment:
+
+  defining arguments:
+    -> (x: x <= 1) { 1 }
+
+  named arguments:
+    Object.new(foo: 0, bar: 1)
+
+  local assignment:
+    foo: -> { Print.line 'foo' }
+*/
+colonized_statement
   : ID COLON unterminated_expression
   ;
 
