@@ -92,6 +92,15 @@ String    *fx_lookup_description(FxLookup *literal);
 // they could be an actual paren-ed exp or a list of one element
 FxGroupedExpression *FxGroupedExpression_create(FxExpression *value);
 
+#define fx_list_length(E)             (array_length(fx_expression_value(E)))
+#define fx_list_get(E, I)             (array_get(fx_expression_value(E), I))
+#define fx_list_set(E, I, V)          (array_set(fx_expression_value(E), I, V))
+
+FxList *fx_list_convert(FxGroupedExpression *group);
+FxList *FxList_create_deferred();
+FxList *FxList_create_double(FxExpression *first, FxExpression *second);
+FxList *fx_list_unshift(FxList *list, FxExpression *value);
+
 // TODO: ensure arguments are a list, always
 FxMethodCall *FxMethodCall_create_implicit(FxBit *message, FxExpression *argument);
 FxMethodCall *fx_method_call_convert_implicit(FxMethodCall *self, FxExpression *receivier);

@@ -79,19 +79,19 @@ grouped_statement
   ;
 
 list
-  : grouped_statement                             { $$ = $1; }
-  | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      // { $$ = FxLiteral_create(NULL, TOKEN_DEFERRED_ARGUMENT); }
-  | OPEN_PAREN list_elements CLOSE_PAREN
+  : grouped_statement                             { $$ = fx_list_convert($1); }
+  | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      { $$ = FxList_create_deferred(); }
+  | OPEN_PAREN list_elements CLOSE_PAREN          { $$ = $1; }
   ;
 
 list_element
-  : DEFERRED_ARGUMENT
-  | unterminated_expression
+  : DEFERRED_ARGUMENT                             { $$ = FxLiteral_create(NULL, TOKEN_DEFERRED_ARGUMENT); }
+  | unterminated_expression                       { $$ = $1; }
   ;
 
 list_elements
-  : list_element COMMA list_element
-  | list_element COMMA list_elements
+  : list_element COMMA list_element               { $$ = FxList_create_double($1, $3); }
+  | list_element COMMA list_elements              { $$ = fx_list_unshift($2, $1); }
   ;
 
   /*

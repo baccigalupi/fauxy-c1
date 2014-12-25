@@ -229,3 +229,54 @@ FxGroupedExpression *FxGroupedExpression_create(FxExpression *value) {
 error:
   return NULL;
 }
+
+FxList *fx_list_convert(FxGroupedExpression *group) {
+  fx_expression_type(group) = FX_ST_LIST;
+  return group;
+}
+
+FxList *FxList_create_deferred() {
+  FxLiteral *value = FxLiteral_create(NULL, TOKEN_DEFERRED_ARGUMENT);
+  verify(value);
+
+  FxList *list = FxExpression_create(FX_ST_LIST);
+  verify(list);
+  fx_expression_push(list, value);
+
+  return list;
+error:
+  if (value) { fx_literal_free(value); }
+  return NULL;
+}
+
+FxList *FxList_create_double(FxExpression *first, FxExpression *second) {
+  FxList *list = FxExpression_create(FX_ST_LIST);
+  verify(list);
+
+  fx_expression_push(list, first);
+  fx_expression_push(list, second);
+
+  return list;
+error:
+  return NULL;
+}
+
+// this is pretty inefficient for longer lists since tail is finished first
+// actual list, or optimized array with empty beginning and cursor would be better
+FxList *fx_list_unshift(FxList *list, FxExpression *value) {
+  int length = fx_list_length(list);
+
+  // shove last element in again to trigger auto expansion if necessary
+  fx_expression_push(list, fx_list_get(list, length - 1));
+
+  // move each element to the one behind it
+  int i;
+  for (i = 1; i <= length; i++) {
+    fx_list_set(list, i, fx_list_get(list, i - 1));
+  }
+
+  // put new value in the front
+  fx_list_set(list, 0, value);
+
+  return list;
+}
