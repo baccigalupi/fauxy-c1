@@ -16,6 +16,8 @@ typedef FxExpression FxLiteral;
 typedef FxExpression FxLookup;
 typedef FxExpression FxBlock;
 typedef FxExpression FxMethodCall;
+typedef FxExpression FxGroupedExpression;
+typedef FxExpression FxList;
 
 // IMPORTANT, this bit thing is a bitch and has to stay
 // below the typedefs!
@@ -27,9 +29,9 @@ enum {
   FX_ST_LITERAL = 320,
   FX_ST_LOOKUP,
   FX_ST_BLOCK,
+  FX_ST_GROUPED,
   FX_ST_LIST,
   FX_ST_ARGS,
-  FX_ST_GROUPED,
   FX_ST_METHOD,
   FX_ST_LOCAL_ASSIGN,
   FX_ST_ATTR_ASSIGN,
@@ -40,6 +42,7 @@ enum {
 
 #define fx_expression_type(E)        ((E)->type)
 #define fx_expression_value(E)       ((E)->value)
+#define fx_expression_push(E, V)     (array_push(fx_expression_value(E), V))
 
 FxExpression *FxExpression_create(int type);
 void          fx_expression_free(FxExpression *expression);
@@ -85,8 +88,14 @@ String    *fx_lookup_description(FxLookup *literal);
 #define fx_method_set_arguments(E, V)   (array_set(fx_expression_value(E), 2, V))
 #define FxMethodCall_create()           FxExpression_create(FX_ST_METHOD)
 
+// Grouped expressions are lists with one value,
+// they could be an actual paren-ed exp or a list of one element
+FxGroupedExpression *FxGroupedExpression_create(FxExpression *value);
+
+// TODO: ensure arguments are a list, always
 FxMethodCall *FxMethodCall_create_implicit(FxBit *message, FxExpression *argument);
 FxMethodCall *fx_method_call_convert_implicit(FxMethodCall *self, FxExpression *receivier);
 FxMethodCall *FxMethodCall_create_no_args(FxExpression *receiver, FxBit *message);
+FxMethodCall *FxMethodCall_create_operator(FxExpression *receiver, FxBit *message, FxExpression *argument);
 
 #endif

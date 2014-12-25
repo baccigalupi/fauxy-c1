@@ -66,7 +66,7 @@ unterminated_expression
   : literal { $$ = $1; }
   | lookup  { $$ = $1; }
   | block { printf("block\n"); }
-  | method_call
+  | method_call { $$ = $1; }
   | local_assignment { printf("local assign\n"); }
   | colonized_statement { printf("attr assign\n"); }
   | export_expression { printf("export expression"); }
@@ -74,23 +74,24 @@ unterminated_expression
   ;
 
 grouped_statement
-  : OPEN_PAREN grouped_list_elements CLOSE_PAREN
-  ;
-
-grouped_list_elements
-  :
-  | unterminated_expression
+  : OPEN_PAREN CLOSE_PAREN                          { $$ = FxGroupedExpression_create(NULL); }
+  | OPEN_PAREN unterminated_expression CLOSE_PAREN  { $$ = FxGroupedExpression_create($2); }
   ;
 
 list
-  : grouped_statement
-  | DEFERRED_ARGUMENT
+  : grouped_statement                             { $$ = $1; }
+  | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      // { $$ = FxLiteral_create(NULL, TOKEN_DEFERRED_ARGUMENT); }
   | OPEN_PAREN list_elements CLOSE_PAREN
   ;
 
+list_element
+  : DEFERRED_ARGUMENT
+  | unterminated_expression
+  ;
+
 list_elements
-  : grouped_list_elements
-  | grouped_list_elements COMMA list_elements
+  : list_element COMMA list_element
+  | list_element COMMA list_elements
   ;
 
   /*
@@ -147,17 +148,17 @@ block
   ;
 
 implicit_method_call
-  : id_lookup list                                       { $$ = FxMethodCall_create_implicit($1, $2); }
+  : id_lookup list                                            { $$ = FxMethodCall_create_implicit($1, $2); }
   ;
 
 operator_call
-  : unterminated_expression id_lookup unterminated_expression
-  | unterminated_expression operator unterminated_expression
+  : unterminated_expression id_lookup unterminated_expression { $$ = FxMethodCall_create_operator($1, $2, $3); }
+  | unterminated_expression operator unterminated_expression  { $$ = FxMethodCall_create_operator($1, $2, $3); }
   ;
 
-dot_method_call /* ambiguity of implicit method call adds conflicts */
-  : unterminated_expression DOT implicit_method_call    { $$ = fx_method_call_convert_implicit($3, $1); }
-  | unterminated_expression DOT id_lookup               { $$ = FxMethodCall_create_no_args($1, $3); }
+dot_method_call
+  : unterminated_expression DOT implicit_method_call          { $$ = fx_method_call_convert_implicit($3, $1); }
+  | unterminated_expression DOT id_lookup                     { $$ = FxMethodCall_create_no_args($1, $3); }
   ;
 
 block_method_call

@@ -65,8 +65,6 @@ void fx_literal_free(FxLiteral *literal) {
 }
 
 String *fx_literal_description(FxLiteral *literal) {
-
-
   char str[24];
 
   if (fx_literal_type(literal) == TOKEN_STRING) {
@@ -203,6 +201,31 @@ FxMethodCall *FxMethodCall_create_no_args(FxExpression *receiver, FxBit *message
   fx_method_set_message(method, message);
 
   return method;
+error:
+  return NULL;
+}
+
+FxMethodCall *FxMethodCall_create_operator(FxExpression *receiver, FxBit *message, FxExpression *argument) {
+  FxMethodCall *method = FxMethodCall_create();
+  verify_memory(method);
+
+  fx_method_set_receiver(method, receiver);
+  fx_method_set_message(method, message);
+  fx_method_set_arguments(method, argument);
+
+  return method;
+error:
+  return NULL;
+}
+
+FxGroupedExpression *FxGroupedExpression_create(FxExpression *value) {
+  FxGroupedExpression *group = FxExpression_create(FX_ST_GROUPED);
+  verify_memory(group);
+
+  if (value) {
+    fx_expression_push(group, value);
+  }
+  return group;
 error:
   return NULL;
 }
