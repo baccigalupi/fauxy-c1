@@ -501,8 +501,8 @@ static const char *const yytname[] =
   "$accept", "program", "expressions", "expression_end",
   "unterminated_expression", "grouped_statement", "list", "list_element",
   "list_elements", "expression", "literal", "lookup", "id_lookup",
-  "operator", "block", "implicit_method_call", "operator_call",
-  "dot_method_call", "block_method_call", "method_call",
+  "operator", "function", "implicit_method_call", "operator_call",
+  "dot_method_call", "function_method_call", "method_call",
   "local_assignment", "colonized_statement", "export_expression", YY_NULLPTR
 };
 #endif
@@ -1451,7 +1451,7 @@ yyreduce:
 
   case 9:
 #line 68 "lib/parser/parse.y" /* yacc.c:1661  */
-    { printf("block\n"); }
+    { printf("function\n"); }
 #line 1456 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
@@ -1653,32 +1653,38 @@ yyreduce:
 #line 1654 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
+  case 47:
+#line 165 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = fx_method_call_add_function_argument((yyvsp[-1]), (yyvsp[0])); }
+#line 1660 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    break;
+
   case 48:
 #line 169 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1660 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1666 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 49:
 #line 170 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1666 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1672 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 50:
 #line 171 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1672 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1678 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 51:
 #line 172 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1678 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1684 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
 
-#line 1682 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1688 "lib/parser/parse.tab.c" /* yacc.c:1661  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

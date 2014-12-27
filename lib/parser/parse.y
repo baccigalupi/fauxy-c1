@@ -65,7 +65,7 @@ expression_end
 unterminated_expression
   : literal { $$ = $1; }
   | lookup  { $$ = $1; }
-  | block { printf("block\n"); }
+  | function { printf("function\n"); }
   | method_call { $$ = $1; }
   | local_assignment { printf("local assign\n"); }
   | colonized_statement { printf("attr assign\n"); }
@@ -142,7 +142,7 @@ operator // for precedence
   | OR            { $$ = FxLiteral_create((FxBit *)$1, TOKEN_ID); }
   ;
 
-block
+function
   : BLOCK_DECLARATION OPEN_BRACE expressions CLOSE_BRACE
   | BLOCK_DECLARATION list OPEN_BRACE expressions CLOSE_BRACE
   ;
@@ -161,14 +161,14 @@ dot_method_call
   | unterminated_expression DOT id_lookup                     { $$ = FxMethodCall_create_no_args($1, $3); }
   ;
 
-block_method_call
-  : dot_method_call block // add block to arguments list
+function_method_call
+  : dot_method_call function                                  { $$ = fx_method_call_add_function_argument($1, $2); }
   ;
 
 method_call // pass along already constructed method expression
   : operator_call        { $$ = $1; }
   | dot_method_call      { $$ = $1; }
-  | block_method_call    { $$ = $1; }
+  | function_method_call    { $$ = $1; }
   | implicit_method_call { $$ = $1; }
   ;
 

@@ -181,6 +181,7 @@ FxMethodCall *FxMethodCall_create_implicit(FxBit *method_name, FxExpression *arg
   verify_memory(call);
 
   fx_method_set_message(call, method_name);
+  fx_expression_type(argument) = FX_ST_ARG_LIST;
   fx_method_set_arguments(call, argument);
 
   return call;
@@ -191,6 +192,23 @@ error:
 FxMethodCall *fx_method_call_convert_implicit(FxMethodCall *self, FxExpression *receiver) {
   fx_method_set_receiver(self, receiver);
   return self;
+}
+
+FxMethodCall *fx_method_call_add_function_argument(FxMethodCall *method, FxFunction *function) {
+  FxArgumentList *list;
+
+  if (fx_expression_length(method) == 2) {
+    list = FxExpression_create(FX_ST_ARG_LIST);
+    verify(list);
+    fx_method_set_arguments(method, list);
+  }
+
+  list = fx_method_arguments(method);
+  fx_list_unshift(list, function);
+
+  return method;
+error:
+  return NULL;
 }
 
 FxMethodCall *FxMethodCall_create_no_args(FxExpression *receiver, FxBit *message) {
@@ -206,15 +224,19 @@ error:
 }
 
 FxMethodCall *FxMethodCall_create_operator(FxExpression *receiver, FxBit *message, FxExpression *argument) {
+  FxArgumentList *list = fx_argument_list_convert(argument);
+  verify(list);
+
   FxMethodCall *method = FxMethodCall_create();
-  verify_memory(method);
+  verify(method);
 
   fx_method_set_receiver(method, receiver);
   fx_method_set_message(method, message);
-  fx_method_set_arguments(method, argument);
+  fx_method_set_arguments(method, list);
 
   return method;
 error:
+  if (list) { fx_expression_free(list); }
   return NULL;
 }
 
@@ -262,7 +284,7 @@ error:
 }
 
 // this is pretty inefficient for longer lists since tail is finished first
-// actual list, or optimized array with empty beginning and cursor would be better
+// would be better to just reverse the index on read and write to end
 FxList *fx_list_unshift(FxList *list, FxExpression *value) {
   int length = fx_list_length(list);
 
@@ -279,4 +301,21 @@ FxList *fx_list_unshift(FxList *list, FxExpression *value) {
   fx_list_set(list, 0, value);
 
   return list;
+}
+
+FxArgumentList *fx_argument_list_convert(FxExpression *expression) {
+  FxArgumentList *list = NULL;
+  int type = fx_expression_type(expression);
+
+  if (type == FX_ST_LIST || type == FX_ST_GROUPED) {
+    list = expression;
+  } else {
+    list = FxGroupedExpression_create(expression);
+    verify(list);
+  }
+
+  fx_expression_type(list) = FX_ST_ARG_LIST;
+  return list;
+error:
+  return NULL;
 }

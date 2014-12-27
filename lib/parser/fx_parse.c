@@ -16,8 +16,7 @@ int parse_stdin() {
   int status = yyparse(&state, context);
 
   yylex_destroy(state.scanner);
-  // TODO: free function 
-  // fx_expressions_free(expressions);
+  // TODO: context free method
 
   return status;
 }
