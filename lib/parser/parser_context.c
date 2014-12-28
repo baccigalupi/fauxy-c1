@@ -3,8 +3,8 @@
 #include "parser_context.h"
 #include "expressions.h"
 
-FxParserContext *FxParserContext_create() {
-  FxParserContext *context = List_create();
+FxP_ParserContext *FxP_ParserContext_create() {
+  FxP_ParserContext *context = List_create();
   verify(context);
 
   FxP_Expressions *expressions = FxP_Expressions_create();

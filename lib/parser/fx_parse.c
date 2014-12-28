@@ -8,7 +8,7 @@
 #include "lex.yy.h"    // yylex_init, and yylex_destroy
 
 int parse_stdin() {
-  FxParserContext *context = FxParserContext_create();
+  FxP_ParserContext *context = FxP_ParserContext_create();
 
   FxP_LexWrapper state;
   yylex_init(&state.scanner);

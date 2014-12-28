@@ -21,13 +21,13 @@
 %pure-parser
 %lex-param   { void *scanner }
 %parse-param { FxP_LexWrapper *state }
-%parse-param { FxParserContext *context }
+%parse-param { FxP_ParserContext *context }
 
 %{
   #include "parse.tab.h"
   #include "lex.yy.h"
 
-  static void yyerror(YYLTYPE *location, FxP_LexWrapper *state, FxParserContext *context, const char *s) {
+  static void yyerror(YYLTYPE *location, FxP_LexWrapper *state, FxP_ParserContext *context, const char *s) {
     fprintf(stderr, "line %d:%d error %s\n", location->first_line, location->first_column, s);
   }
 
@@ -112,7 +112,7 @@ list_elements
   */
 
 expression
-  : unterminated_expression expression_end { fx_parser_context_push(context, $1); }
+  : unterminated_expression expression_end { fxp_parser_context_push(context, $1); }
   | expression_end
   ;
 
