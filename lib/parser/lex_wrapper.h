@@ -1,8 +1,8 @@
-#ifndef __FxLexWrapper
-#define __FxLexWrapper
+#ifndef __FxP_LexWrapper
+#define __FxP_LexWrapper
 
-typedef struct FxLexWrapper {
+typedef struct FxP_LexWrapper {
   void *scanner;
-} FxLexWrapper;
+} FxP_LexWrapper;
 
 #endif

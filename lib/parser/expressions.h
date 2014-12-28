@@ -6,19 +6,19 @@
 #include "../bricks/string.h"
 #include "../bricks/array.h"
 
-typedef struct FxExpression {
+typedef struct FxP_Expression {
   int type;
   Array *value;
-} FxExpression;
+} FxP_Expression;
 
-typedef FxExpression FxExpressions;
-typedef FxExpression FxLiteral;
-typedef FxExpression FxLookup;
-typedef FxExpression FxFunction;
-typedef FxExpression FxMethodCall;
-typedef FxExpression FxGroupedExpression;
-typedef FxExpression FxList;
-typedef FxExpression FxArgumentList;
+typedef FxP_Expression FxP_Expressions;
+typedef FxP_Expression FxP_Literal;
+typedef FxP_Expression FxP_Lookup;
+typedef FxP_Expression FxP_Function;
+typedef FxP_Expression FxP_MethodCall;
+typedef FxP_Expression FxP_GroupedExpression;
+typedef FxP_Expression FxP_List;
+typedef FxP_Expression FxP_ArgumentList;
 
 // IMPORTANT, this bit thing is a bitch and has to stay
 // below the typedefs!
@@ -27,89 +27,89 @@ typedef FxExpression FxArgumentList;
 #define FX_EXPRESSION_INITAL_SIZE 5
 
 enum {
-  FX_ST_LITERAL = 320,
-  FX_ST_LOOKUP,
-  FX_ST_BLOCK,
-  FX_ST_GROUPED,
-  FX_ST_LIST,
-  FX_ST_ARG_LIST,
-  FX_ST_METHOD,
-  FX_ST_LOCAL_ASSIGN,
-  FX_ST_ATTR_ASSIGN,
-  FX_ST_EXPORT,
-  FX_ST_EXPRESSIONS
+  FXP_ST_LITERAL = 320,
+  FXP_ST_LOOKUP,
+  FXP_ST_BLOCK,
+  FXP_ST_GROUPED,
+  FXP_ST_LIST,
+  FXP_ST_ARG_LIST,
+  FXP_ST_METHOD,
+  FXP_ST_LOCAL_ASSIGN,
+  FXP_ST_ATTR_ASSIGN,
+  FXP_ST_EXPORT,
+  FXP_ST_EXPRESSIONS
 }; // statement types
 
 
-#define fx_expression_type(E)        ((E)->type)
-#define fx_expression_value(E)       ((E)->value)
-#define fx_expression_length(E)      (array_length(fx_expression_value(E)))
-#define fx_expression_push(E, V)     (array_push(fx_expression_value(E), V))
+#define fxp_expression_type(E)        ((E)->type)
+#define fxp_expression_value(E)       ((E)->value)
+#define fxp_expression_length(E)      (array_length(fxp_expression_value(E)))
+#define fxp_expression_push(E, V)     (array_push(fxp_expression_value(E), V))
 
-FxExpression *FxExpression_create(int type);
-void          fx_expression_free(FxExpression *expression);
+FxP_Expression *FxP_Expression_create(int type);
+void            fxp_expression_free(FxP_Expression *expression);
 
 // Expressions are a type of expression!
 // value array is the list of sub expressions
-FxExpressions *FxExpressions_create();
-void           fx_expressions_free(FxExpressions *expressions);
+FxP_Expressions *FxP_Expressions_create();
+void             fxp_expressions_free(FxP_Expressions *expressions);
 
-FxExpression *FxTypedExpression_create(FxBit *bit, int type, int token_type);
-String       *fx_typed_expression_inspect(FxExpression *expression, String *description, String *preface);
+FxP_Expression *FxP_TypedExpression_create(FxP_Bit *bit, int type, int token_type);
+String         *fxp_typed_expression_inspect(FxP_Expression *expression, String *description, String *preface);
 
 // Literals have value array [token_type, bit]
-#define fx_literal__type(E)           (array_get(fx_expression_value(E), 0))
-#define fx_literal_type(E)            (*((int *)fx_literal__type(E)))
-#define fx_literal_bit(E)             (FxBit *)(array_get(fx_expression_value(E), 1))
+#define fxp_literal__type(E)           (array_get(fxp_expression_value(E), 0))
+#define fxp_literal_type(E)            (*((int *)fxp_literal__type(E)))
+#define fxp_literal_bit(E)             (FxP_Bit *)(array_get(fxp_expression_value(E), 1))
 
-FxLiteral *FxLiteral_create(FxBit *bit, int token_type);
-String    *fx_literal_inspect(FxLiteral *literal);
-String    *fx_literal_description(FxLiteral *literal);
-void       fx_literal_free(FxLiteral *literal);
+FxP_Literal *FxP_Literal_create(FxP_Bit *bit, int token_type);
+String      *fxp_literal_inspect(FxP_Literal *literal);
+String      *fxp_literal_description(FxP_Literal *literal);
+void         fxp_literal_free(FxP_Literal *literal);
 
 // Lookups are similar to literal, with value array [token_type, bit]
-#define fx_lookup__type(E)           (array_get(fx_expression_value(E), 0))
-#define fx_lookup_type(E)            (*((int *)fx_lookup__type(E)))
-#define fx_lookup_bit(E)             (FxBit *)(array_get(fx_expression_value(E), 1))
-#define fx_lookup_free(E)            fx_literal_free(E)
+#define fxp_lookup__type(E)           (array_get(fxp_expression_value(E), 0))
+#define fxp_lookup_type(E)            (*((int *)fxp_lookup__type(E)))
+#define fxp_lookup_bit(E)             (FxP_Bit *)(array_get(fxp_expression_value(E), 1))
+#define fxp_lookup_free(E)            fxp_literal_free(E)
 
-FxLookup  *FxLookup_create(FxBit *bit, int token_type);
-String    *fx_lookup_inspect(FxLookup *literal);
-String    *fx_lookup_description(FxLookup *literal);
+FxP_Lookup  *FxP_Lookup_create(FxP_Bit *bit, int token_type);
+String      *fxp_lookup_inspect(FxP_Lookup *literal);
+String      *fxp_lookup_description(FxP_Lookup *literal);
 
 // Block value array [arguments, expressions]
-#define fx_function_arguments(E)     (FxExpression *)(array_get(fx_expression_value(E), 0))
-#define fx_function_expressions(E)   (FxExpressions *)(array_get(fx_expression_value(E), 1))
+#define fxp_function_arguments(E)     (FxP_Expression *)(array_get(fxp_expression_value(E), 0))
+#define fxp_function_expressions(E)   (FxP_Expressions *)(array_get(fxp_expression_value(E), 1))
 
 // Method calls [receiver, method_name, argument_list]
-#define fx_method_receiver(E)           (FxExpression *)(array_get(fx_expression_value(E), 0))
-#define fx_method_set_receiver(E, V)    (array_set(fx_expression_value(E), 0, V))
-#define fx_method_message(E)            (FxExpression *)(array_get(fx_expression_value(E), 1))
-#define fx_method_set_message(E, V)     (array_set(fx_expression_value(E), 1, V))
-#define fx_method_arguments(E)          (FxExpression *)(array_get(fx_expression_value(E), 2))
-#define fx_method_set_arguments(E, V)   (array_set(fx_expression_value(E), 2, V))
-#define FxMethodCall_create()           FxExpression_create(FX_ST_METHOD)
+#define fxp_method_receiver(E)           (FxP_Expression *)(array_get(fxp_expression_value(E), 0))
+#define fxp_method_set_receiver(E, V)    (array_set(fxp_expression_value(E), 0, V))
+#define fxp_method_message(E)            (FxP_Expression *)(array_get(fxp_expression_value(E), 1))
+#define fxp_method_set_message(E, V)     (array_set(fxp_expression_value(E), 1, V))
+#define fxp_method_arguments(E)          (FxP_Expression *)(array_get(fxp_expression_value(E), 2))
+#define fxp_method_set_arguments(E, V)   (array_set(fxp_expression_value(E), 2, V))
+#define FxP_MethodCall_create()           FxP_Expression_create(FXP_ST_METHOD)
 
-FxMethodCall *FxMethodCall_create_implicit(FxBit *message, FxExpression *argument);
-FxMethodCall *fx_method_call_convert_implicit(FxMethodCall *self, FxExpression *receivier);
-FxMethodCall *FxMethodCall_create_no_args(FxExpression *receiver, FxBit *message);
-FxMethodCall *FxMethodCall_create_operator(FxExpression *receiver, FxBit *message, FxExpression *argument);
-FxMethodCall *fx_method_call_add_function_argument(FxMethodCall *method, FxFunction *function);
+FxP_MethodCall *FxP_MethodCall_create_implicit(FxP_Bit *message, FxP_Expression *argument);
+FxP_MethodCall *fxp_method_call_convert_implicit(FxP_MethodCall *self, FxP_Expression *receivier);
+FxP_MethodCall *FxP_MethodCall_create_no_args(FxP_Expression *receiver, FxP_Bit *message);
+FxP_MethodCall *FxP_MethodCall_create_operator(FxP_Expression *receiver, FxP_Bit *message, FxP_Expression *argument);
+FxP_MethodCall *fxp_method_call_add_function_argument(FxP_MethodCall *method, FxP_Function *function);
 
 
 // Grouped expressions are lists with one value,
 // they could be an actual paren-ed exp or a list of one element
-FxGroupedExpression *FxGroupedExpression_create(FxExpression *value);
+FxP_GroupedExpression *FxP_GroupedExpression_create(FxP_Expression *value);
 
-#define fx_list_length(E)             (array_length(fx_expression_value(E)))
-#define fx_list_get(E, I)             (array_get(fx_expression_value(E), I))
-#define fx_list_set(E, I, V)          (array_set(fx_expression_value(E), I, V))
+#define fxp_list_length(E)             (array_length(fxp_expression_value(E)))
+#define fxp_list_get(E, I)             (array_get(fxp_expression_value(E), I))
+#define fxp_list_set(E, I, V)          (array_set(fxp_expression_value(E), I, V))
 
-FxList *fx_list_convert(FxGroupedExpression *group);
-FxList *FxList_create_deferred();
-FxList *FxList_create_double(FxExpression *first, FxExpression *second);
-FxList *fx_list_unshift(FxList *list, FxExpression *value);
+FxP_List *fxp_list_convert(FxP_GroupedExpression *group);
+FxP_List *FxP_List_create_deferred();
+FxP_List *FxP_List_create_double(FxP_Expression *first, FxP_Expression *second);
+FxP_List *fxp_list_unshift(FxP_List *list, FxP_Expression *value);
 
-FxArgumentList *fx_argument_list_convert(FxExpression *expression);
+FxP_ArgumentList *fxp_argument_list_convert(FxP_Expression *expression);
 
 #endif

@@ -4,7 +4,7 @@
 	#include "bit.h"
 	#include "parse.tab.h"
 
-	#define ParseObject_wrap(T, S) *yylval = FxBit_create(T, S); return T
+	#define ParseObject_wrap(T, S) *yylval = FxP_Bit_create(T, S); return T
 %}
 
 %option reentrant

@@ -551,7 +551,7 @@ static yyconst flex_int16_t yy_chk[380] =
 	#include "bit.h"
 	#include "parse.tab.h"
 
-	#define ParseObject_wrap(T, S) *yylval = FxBit_create(T, S); return T
+	#define ParseObject_wrap(T, S) *yylval = FxP_Bit_create(T, S); return T
 #line 556 "lib/parser/lex.yy.c"
 
 #define INITIAL 0

@@ -75,7 +75,7 @@
   #include "parse.tab.h"
   #include "lex.yy.h"
 
-  static void yyerror(YYLTYPE *location, FxLexWrapper *state, FxParserContext *context, const char *s) {
+  static void yyerror(YYLTYPE *location, FxP_LexWrapper *state, FxParserContext *context, const char *s) {
     fprintf(stderr, "line %d:%d error %s\n", location->first_line, location->first_column, s);
   }
 
@@ -171,7 +171,7 @@ struct YYLTYPE
 
 
 
-int yyparse (FxLexWrapper *state, FxParserContext *context);
+int yyparse (FxP_LexWrapper *state, FxParserContext *context);
 
 #endif /* !YY_YY_LIB_PARSER_PARSE_TAB_H_INCLUDED  */
 
@@ -799,7 +799,7 @@ do {                                                                      \
 `----------------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, FxLexWrapper *state, FxParserContext *context)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, FxP_LexWrapper *state, FxParserContext *context)
 {
   FILE *yyo = yyoutput;
   YYUSE (yyo);
@@ -821,7 +821,7 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 `--------------------------------*/
 
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, FxLexWrapper *state, FxParserContext *context)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, FxP_LexWrapper *state, FxParserContext *context)
 {
   YYFPRINTF (yyoutput, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
@@ -861,7 +861,7 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule, FxLexWrapper *state, FxParserContext *context)
+yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule, FxP_LexWrapper *state, FxParserContext *context)
 {
   unsigned long int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
@@ -1141,7 +1141,7 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
 `-----------------------------------------------*/
 
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp, FxLexWrapper *state, FxParserContext *context)
+yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp, FxP_LexWrapper *state, FxParserContext *context)
 {
   YYUSE (yyvaluep);
   YYUSE (yylocationp);
@@ -1164,7 +1164,7 @@ yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocatio
 `----------*/
 
 int
-yyparse (FxLexWrapper *state, FxParserContext *context)
+yyparse (FxP_LexWrapper *state, FxParserContext *context)
 {
 /* The lookahead symbol.  */
 int yychar;
@@ -1481,25 +1481,25 @@ yyreduce:
 
   case 15:
 #line 77 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxGroupedExpression_create(NULL); }
+    { (yyval) = FxP_GroupedExpression_create(NULL); }
 #line 1486 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 16:
 #line 78 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxGroupedExpression_create((yyvsp[-1])); }
+    { (yyval) = FxP_GroupedExpression_create((yyvsp[-1])); }
 #line 1492 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 17:
 #line 82 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = fx_list_convert((yyvsp[0])); }
+    { (yyval) = fxp_list_convert((yyvsp[0])); }
 #line 1498 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 18:
 #line 83 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxList_create_deferred(); }
+    { (yyval) = FxP_List_create_deferred(); }
 #line 1504 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
@@ -1511,7 +1511,7 @@ yyreduce:
 
   case 20:
 #line 88 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create(NULL, TOKEN_DEFERRED_ARGUMENT); }
+    { (yyval) = FxP_Literal_create(NULL, TOKEN_DEFERRED_ARGUMENT); }
 #line 1516 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
@@ -1523,13 +1523,13 @@ yyreduce:
 
   case 22:
 #line 93 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxList_create_double((yyvsp[-2]), (yyvsp[0])); }
+    { (yyval) = FxP_List_create_double((yyvsp[-2]), (yyvsp[0])); }
 #line 1528 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 23:
 #line 94 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = fx_list_unshift((yyvsp[-1]), (yyvsp[-2])); }
+    { (yyval) = fxp_list_unshift((yyvsp[-1]), (yyvsp[-2])); }
 #line 1534 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
@@ -1541,55 +1541,55 @@ yyreduce:
 
   case 26:
 #line 120 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create((FxBit *)(yyvsp[0]), TOKEN_STRING); }
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_STRING); }
 #line 1546 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 27:
 #line 121 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create((FxBit *)(yyvsp[0]), TOKEN_EVAL_STRING); }
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_EVAL_STRING); }
 #line 1552 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 28:
 #line 122 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create((FxBit *)(yyvsp[0]), TOKEN_INTEGER); }
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_INTEGER); }
 #line 1558 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 29:
 #line 123 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create((FxBit *)(yyvsp[0]), TOKEN_FLOAT); }
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_FLOAT); }
 #line 1564 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 30:
 #line 124 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create((FxBit *)(yyvsp[0]), TOKEN_SYMBOL); }
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_SYMBOL); }
 #line 1570 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 31:
 #line 125 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create((FxBit *)(yyvsp[0]), TOKEN_REGEX); }
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_REGEX); }
 #line 1576 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 32:
 #line 126 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create(NULL, TOKEN_TRUE); }
+    { (yyval) = FxP_Literal_create(NULL, TOKEN_TRUE); }
 #line 1582 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 33:
 #line 127 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create(NULL, TOKEN_FALSE); }
+    { (yyval) = FxP_Literal_create(NULL, TOKEN_FALSE); }
 #line 1588 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 34:
 #line 128 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create(NULL, TOKEN_NIL); }
+    { (yyval) = FxP_Literal_create(NULL, TOKEN_NIL); }
 #line 1594 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
@@ -1601,61 +1601,61 @@ yyreduce:
 
   case 36:
 #line 133 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create((FxBit *)(yyvsp[0]), TOKEN_CLASS_ID); }
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_CLASS_ID); }
 #line 1606 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 37:
 #line 137 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create((FxBit *)(yyvsp[0]), TOKEN_ID); }
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
 #line 1612 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 38:
 #line 141 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create((FxBit *)(yyvsp[0]), TOKEN_ID); }
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
 #line 1618 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 39:
 #line 142 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxLiteral_create((FxBit *)(yyvsp[0]), TOKEN_ID); }
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
 #line 1624 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 42:
 #line 151 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxMethodCall_create_implicit((yyvsp[-1]), (yyvsp[0])); }
+    { (yyval) = FxP_MethodCall_create_implicit((yyvsp[-1]), (yyvsp[0])); }
 #line 1630 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 43:
 #line 155 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxMethodCall_create_operator((yyvsp[-2]), (yyvsp[-1]), (yyvsp[0])); }
+    { (yyval) = FxP_MethodCall_create_operator((yyvsp[-2]), (yyvsp[-1]), (yyvsp[0])); }
 #line 1636 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 44:
 #line 156 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxMethodCall_create_operator((yyvsp[-2]), (yyvsp[-1]), (yyvsp[0])); }
+    { (yyval) = FxP_MethodCall_create_operator((yyvsp[-2]), (yyvsp[-1]), (yyvsp[0])); }
 #line 1642 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 45:
 #line 160 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = fx_method_call_convert_implicit((yyvsp[0]), (yyvsp[-2])); }
+    { (yyval) = fxp_method_call_convert_implicit((yyvsp[0]), (yyvsp[-2])); }
 #line 1648 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 46:
 #line 161 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxMethodCall_create_no_args((yyvsp[-2]), (yyvsp[0])); }
+    { (yyval) = FxP_MethodCall_create_no_args((yyvsp[-2]), (yyvsp[0])); }
 #line 1654 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 47:
 #line 165 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = fx_method_call_add_function_argument((yyvsp[-1]), (yyvsp[0])); }
+    { (yyval) = fxp_method_call_add_function_argument((yyvsp[-1]), (yyvsp[0])); }
 #line 1660 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 

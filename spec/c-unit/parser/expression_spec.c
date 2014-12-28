@@ -7,13 +7,13 @@
 char *test_create_literal() {
   spec_describe("creating literal expression from bit");
 
-  FxBit *bit = FxBit_create(TOKEN_STRING, "\"hello world\"");
-  FxLiteral *literal = FxLiteral_create(bit, TOKEN_STRING);
+  FxP_Bit *bit = FxP_Bit_create(TOKEN_STRING, "\"hello world\"");
+  FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_STRING);
 
-  assert_ints_equal(fx_literal_type(literal), TOKEN_STRING, "type");
-  assert_equal(fx_literal_bit(literal), bit, "bit value");
+  assert_ints_equal(fxp_literal_type(literal), TOKEN_STRING, "type");
+  assert_equal(fxp_literal_bit(literal), bit, "bit value");
 
-  fx_literal_free(literal);
+  fxp_literal_free(literal);
 
   return NULL;
 }
@@ -21,13 +21,13 @@ char *test_create_literal() {
 char *test_inspect_literal() {
   spec_describe("inspecting a literal expression");
 
-  FxBit *bit = FxBit_create(TOKEN_STRING, "\"hello world\"");
-  FxLiteral *literal = FxLiteral_create(bit, TOKEN_STRING);
+  FxP_Bit *bit = FxP_Bit_create(TOKEN_STRING, "\"hello world\"");
+  FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_STRING);
 
-  String *inspection = fx_literal_inspect(literal);
+  String *inspection = fxp_literal_inspect(literal);
   assert_strings_equal(string_value(inspection), "(literal: String, <STRING: \"hello worl...\">)", "String type");
 
-  fx_literal_free(literal);
+  fxp_literal_free(literal);
   string_free(inspection);
 
   return NULL;
@@ -36,13 +36,13 @@ char *test_inspect_literal() {
 char *test_inspect_lookup() {
   spec_describe("inspecting a lookup expression");
 
-  FxBit *bit = FxBit_create(TOKEN_ID, "foo");
-  FxLiteral *lookup = FxLiteral_create(bit, TOKEN_ID);
+  FxP_Bit *bit = FxP_Bit_create(TOKEN_ID, "foo");
+  FxP_Literal *lookup = FxP_Literal_create(bit, TOKEN_ID);
 
-  String *inspection = fx_lookup_inspect(lookup);
+  String *inspection = fxp_lookup_inspect(lookup);
   assert_strings_equal(string_value(inspection), "(lookup: Identifier, <STRING: \"foo\">)", "Identifier type");
 
-  fx_literal_free(lookup);
+  fxp_literal_free(lookup);
   string_free(inspection);
 
   return NULL;

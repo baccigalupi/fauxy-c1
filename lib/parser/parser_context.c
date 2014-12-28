@@ -7,7 +7,7 @@ FxParserContext *FxParserContext_create() {
   FxParserContext *context = List_create();
   verify(context);
 
-  FxExpressions *expressions = FxExpressions_create();
+  FxP_Expressions *expressions = FxP_Expressions_create();
   verify(expressions);
 
   list_push(context, expressions);

@@ -20,14 +20,14 @@
 
 %pure-parser
 %lex-param   { void *scanner }
-%parse-param { FxLexWrapper *state }
+%parse-param { FxP_LexWrapper *state }
 %parse-param { FxParserContext *context }
 
 %{
   #include "parse.tab.h"
   #include "lex.yy.h"
 
-  static void yyerror(YYLTYPE *location, FxLexWrapper *state, FxParserContext *context, const char *s) {
+  static void yyerror(YYLTYPE *location, FxP_LexWrapper *state, FxParserContext *context, const char *s) {
     fprintf(stderr, "line %d:%d error %s\n", location->first_line, location->first_column, s);
   }
 
@@ -74,24 +74,24 @@ unterminated_expression
   ;
 
 grouped_statement
-  : OPEN_PAREN CLOSE_PAREN                          { $$ = FxGroupedExpression_create(NULL); }
-  | OPEN_PAREN unterminated_expression CLOSE_PAREN  { $$ = FxGroupedExpression_create($2); }
+  : OPEN_PAREN CLOSE_PAREN                          { $$ = FxP_GroupedExpression_create(NULL); }
+  | OPEN_PAREN unterminated_expression CLOSE_PAREN  { $$ = FxP_GroupedExpression_create($2); }
   ;
 
 list
-  : grouped_statement                             { $$ = fx_list_convert($1); }
-  | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      { $$ = FxList_create_deferred(); }
+  : grouped_statement                             { $$ = fxp_list_convert($1); }
+  | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      { $$ = FxP_List_create_deferred(); }
   | OPEN_PAREN list_elements CLOSE_PAREN          { $$ = $1; }
   ;
 
 list_element
-  : DEFERRED_ARGUMENT                             { $$ = FxLiteral_create(NULL, TOKEN_DEFERRED_ARGUMENT); }
+  : DEFERRED_ARGUMENT                             { $$ = FxP_Literal_create(NULL, TOKEN_DEFERRED_ARGUMENT); }
   | unterminated_expression                       { $$ = $1; }
   ;
 
 list_elements
-  : list_element COMMA list_element               { $$ = FxList_create_double($1, $3); }
-  | list_element COMMA list_elements              { $$ = fx_list_unshift($2, $1); }
+  : list_element COMMA list_element               { $$ = FxP_List_create_double($1, $3); }
+  | list_element COMMA list_elements              { $$ = fxp_list_unshift($2, $1); }
   ;
 
   /*
@@ -117,29 +117,29 @@ expression
   ;
 
 literal
-  : STRING        { $$ = FxLiteral_create((FxBit *)$1, TOKEN_STRING); }
-  | EVAL_STRING   { $$ = FxLiteral_create((FxBit *)$1, TOKEN_EVAL_STRING); }
-  | INTEGER       { $$ = FxLiteral_create((FxBit *)$1, TOKEN_INTEGER); }
-  | FLOAT         { $$ = FxLiteral_create((FxBit *)$1, TOKEN_FLOAT); }
-  | SYMBOL        { $$ = FxLiteral_create((FxBit *)$1, TOKEN_SYMBOL); }
-  | REGEX         { $$ = FxLiteral_create((FxBit *)$1, TOKEN_REGEX); }
-  | TRUE          { $$ = FxLiteral_create(NULL, TOKEN_TRUE); }
-  | FALSE         { $$ = FxLiteral_create(NULL, TOKEN_FALSE); }
-  | NIL           { $$ = FxLiteral_create(NULL, TOKEN_NIL); }
+  : STRING        { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_STRING); }
+  | EVAL_STRING   { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_EVAL_STRING); }
+  | INTEGER       { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_INTEGER); }
+  | FLOAT         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_FLOAT); }
+  | SYMBOL        { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_SYMBOL); }
+  | REGEX         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_REGEX); }
+  | TRUE          { $$ = FxP_Literal_create(NULL, TOKEN_TRUE); }
+  | FALSE         { $$ = FxP_Literal_create(NULL, TOKEN_FALSE); }
+  | NIL           { $$ = FxP_Literal_create(NULL, TOKEN_NIL); }
   ;
 
 lookup
   : id_lookup     { $$ = $1; }
-  | CLASS_ID      { $$ = FxLiteral_create((FxBit *)$1, TOKEN_CLASS_ID); }
+  | CLASS_ID      { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_CLASS_ID); }
   ;
 
 id_lookup
-  : ID           { $$ = FxLiteral_create((FxBit *)$1, TOKEN_ID); }
+  : ID           { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
   ;
 
 operator // for precedence
-  : AND           { $$ = FxLiteral_create((FxBit *)$1, TOKEN_ID); }
-  | OR            { $$ = FxLiteral_create((FxBit *)$1, TOKEN_ID); }
+  : AND           { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
+  | OR            { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
   ;
 
 function
@@ -148,21 +148,21 @@ function
   ;
 
 implicit_method_call
-  : id_lookup list                                            { $$ = FxMethodCall_create_implicit($1, $2); }
+  : id_lookup list                                            { $$ = FxP_MethodCall_create_implicit($1, $2); }
   ;
 
 operator_call
-  : unterminated_expression id_lookup unterminated_expression { $$ = FxMethodCall_create_operator($1, $2, $3); }
-  | unterminated_expression operator unterminated_expression  { $$ = FxMethodCall_create_operator($1, $2, $3); }
+  : unterminated_expression id_lookup unterminated_expression { $$ = FxP_MethodCall_create_operator($1, $2, $3); }
+  | unterminated_expression operator unterminated_expression  { $$ = FxP_MethodCall_create_operator($1, $2, $3); }
   ;
 
 dot_method_call
-  : unterminated_expression DOT implicit_method_call          { $$ = fx_method_call_convert_implicit($3, $1); }
-  | unterminated_expression DOT id_lookup                     { $$ = FxMethodCall_create_no_args($1, $3); }
+  : unterminated_expression DOT implicit_method_call          { $$ = fxp_method_call_convert_implicit($3, $1); }
+  | unterminated_expression DOT id_lookup                     { $$ = FxP_MethodCall_create_no_args($1, $3); }
   ;
 
 function_method_call
-  : dot_method_call function                                  { $$ = fx_method_call_add_function_argument($1, $2); }
+  : dot_method_call function                                  { $$ = fxp_method_call_add_function_argument($1, $2); }
   ;
 
 method_call // pass along already constructed method expression

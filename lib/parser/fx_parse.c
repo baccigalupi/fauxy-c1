@@ -10,7 +10,7 @@
 int parse_stdin() {
   FxParserContext *context = FxParserContext_create();
 
-  FxLexWrapper state;
+  FxP_LexWrapper state;
   yylex_init(&state.scanner);
 
   int status = yyparse(&state, context);
