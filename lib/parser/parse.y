@@ -57,20 +57,25 @@ expressions
   | expressions expression
   ;
 
+expression
+  : unterminated_expression expression_end { fxp_parser_context_push(context, $1); }
+  | expression_end
+  ;
+
 expression_end
   : LINE_END
   | SEMICOLON
   ;
 
 unterminated_expression
-  : literal { $$ = $1; }
-  | lookup  { $$ = $1; }
-  | function { printf("function\n"); }
-  | method_call { $$ = $1; }
-  | local_assignment { printf("local assign\n"); }
-  | colonized_statement { printf("attr assign\n"); }
-  | export_expression { printf("export expression"); }
-  | list
+  : literal               { $$ = $1; }
+  | lookup                { $$ = $1; }
+  | function              { $$ = $1; }
+  | method_call           { $$ = $1; }
+  | local_assignment      { $$ = $1; }
+  | colonized_expression  { $$ = $1; }
+  | list                  { $$ = $1; }
+  | export_expression // { printf("export expression"); }
   ;
 
 grouped_statement
@@ -110,11 +115,6 @@ list_elements
     (1 + 1)
     (1, 2, foo)
   */
-
-expression
-  : unterminated_expression expression_end { fxp_parser_context_push(context, $1); }
-  | expression_end
-  ;
 
 literal
   : STRING        { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_STRING); }
@@ -166,14 +166,14 @@ function_method_call
   ;
 
 method_call // pass along already constructed method expression
-  : operator_call        { $$ = $1; }
-  | dot_method_call      { $$ = $1; }
+  : operator_call           { $$ = $1; }
+  | dot_method_call         { $$ = $1; }
   | function_method_call    { $$ = $1; }
-  | implicit_method_call { $$ = $1; }
+  | implicit_method_call    { $$ = $1; }
   ;
 
 local_assignment
-  : lookup EQUAL_SIGN unterminated_expression
+  : lookup EQUAL_SIGN unterminated_expression               { $$ = FxP_LocalAssign_create($1, $2); }
   ;
 
 /*
@@ -188,11 +188,11 @@ local_assignment
   local assignment:
     foo: -> { Print.line 'foo' }
 */
-colonized_statement
-  : lookup COLON unterminated_expression
+colonized_expression
+  : lookup COLON unterminated_expression                    { $$ = FxP_ColonExpression_create($1, $2); }
   ;
 
 export_expression
-  : EXPORT unterminated_expression
+  : EXPORT unterminated_expression    // waiting until know more about import export process, and requiring
   ;
 %%

@@ -344,3 +344,27 @@ FxP_Function *FxP_Function_create(FxP_Expressions *expressions, FxP_List *list) 
 error:
   return NULL;
 }
+
+FxP_LocalAssign *FxP_LocalAssign_create(FxP_Lookup *variable, FxP_Expression *value) {
+  FxP_Function *local = FxP_Expression_create(FXP_ST_LOCAL_ASSIGN);
+  verify(local);
+
+  fxp_local_assignment_set_variable(local, variable);
+  fxp_local_assignment_set_value(local, value);
+
+  return local;
+error:
+  return NULL;
+}
+
+FxP_LocalAssign *FxP_ColonExpression_create(FxP_Lookup *variable, FxP_Expression *value) {
+  FxP_Function *colon = FxP_Expression_create(FXP_ST_COLON_EXPRESSION);
+  verify(colon);
+
+  fxp_colon_expression_set_variable(colon, variable);
+  fxp_colon_expression_set_value(colon, value);
+
+  return colon;
+error:
+  return NULL;
+}
