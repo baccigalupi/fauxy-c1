@@ -1,5 +1,5 @@
-#ifndef __fauxy_expression
-#define __fauxy_expression 1
+#ifndef __FxP_Expression
+#define __FxP_Expression 1
 
 #include <stdlib.h>
 
