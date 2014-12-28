@@ -15,10 +15,11 @@ typedef FxP_Expression FxP_Expressions;
 typedef FxP_Expression FxP_Literal;
 typedef FxP_Expression FxP_Lookup;
 typedef FxP_Expression FxP_Function;
-typedef FxP_Expression FxP_MethodCall;
-typedef FxP_Expression FxP_GroupedExpression;
+typedef FxP_Expression FxP_Method;
+typedef FxP_Expression FxP_Grouped;
 typedef FxP_Expression FxP_List;
-typedef FxP_Expression FxP_ArgumentList;
+typedef FxP_Expression FxP_MethodArguments;
+typedef FxP_Expression FxP_FunctionArguments;
 
 // IMPORTANT, this bit thing is a bitch and has to stay
 // below the typedefs!
@@ -29,11 +30,12 @@ typedef FxP_Expression FxP_ArgumentList;
 enum {
   FXP_ST_LITERAL = 320,
   FXP_ST_LOOKUP,
-  FXP_ST_BLOCK,
+  FXP_ST_METHOD,
+  FXP_ST_FUNCTION,
   FXP_ST_GROUPED,
   FXP_ST_LIST,
-  FXP_ST_ARG_LIST,
-  FXP_ST_METHOD,
+  FXP_ST_METHOD_ARGUMENTS, // may not need these distinctions, being a list in a method or block is enough
+  FXP_ST_FUNCTION_ARGUMENTS,
   FXP_ST_LOCAL_ASSIGN,
   FXP_ST_ATTR_ASSIGN,
   FXP_ST_EXPORT,
@@ -81,35 +83,37 @@ String      *fxp_lookup_description(FxP_Lookup *literal);
 #define fxp_function_arguments(E)     (FxP_Expression *)(array_get(fxp_expression_value(E), 0))
 #define fxp_function_expressions(E)   (FxP_Expressions *)(array_get(fxp_expression_value(E), 1))
 
-// Method calls [receiver, method_name, argument_list]
+FxP_Function *FxP_Function_create_no_args(FxP_Expressions *expressions);
+FxP_Function *FxP_Function_create(FxP_Expressions *expressions, FxP_List *list);
+
+// Method calls [receiver, method_name, method_arguments]
 #define fxp_method_receiver(E)           (FxP_Expression *)(array_get(fxp_expression_value(E), 0))
 #define fxp_method_set_receiver(E, V)    (array_set(fxp_expression_value(E), 0, V))
 #define fxp_method_message(E)            (FxP_Expression *)(array_get(fxp_expression_value(E), 1))
 #define fxp_method_set_message(E, V)     (array_set(fxp_expression_value(E), 1, V))
 #define fxp_method_arguments(E)          (FxP_Expression *)(array_get(fxp_expression_value(E), 2))
 #define fxp_method_set_arguments(E, V)   (array_set(fxp_expression_value(E), 2, V))
-#define FxP_MethodCall_create()           FxP_Expression_create(FXP_ST_METHOD)
+#define FxP_Method_create()               FxP_Expression_create(FXP_ST_METHOD)
 
-FxP_MethodCall *FxP_MethodCall_create_implicit(FxP_Bit *message, FxP_Expression *argument);
-FxP_MethodCall *fxp_method_call_convert_implicit(FxP_MethodCall *self, FxP_Expression *receivier);
-FxP_MethodCall *FxP_MethodCall_create_no_args(FxP_Expression *receiver, FxP_Bit *message);
-FxP_MethodCall *FxP_MethodCall_create_operator(FxP_Expression *receiver, FxP_Bit *message, FxP_Expression *argument);
-FxP_MethodCall *fxp_method_call_add_function_argument(FxP_MethodCall *method, FxP_Function *function);
-
+FxP_Method *FxP_Method_create_implicit(FxP_Bit *message, FxP_Expression *argument);
+FxP_Method *fxp_method_convert_implicit(FxP_Method *self, FxP_Expression *receivier);
+FxP_Method *FxP_Method_create_no_args(FxP_Expression *receiver, FxP_Bit *message);
+FxP_Method *FxP_Method_create_operator(FxP_Expression *receiver, FxP_Bit *message, FxP_Expression *argument);
+FxP_Method *fxp_method_add_function_argument(FxP_Method *method, FxP_Function *function);
 
 // Grouped expressions are lists with one value,
 // they could be an actual paren-ed exp or a list of one element
-FxP_GroupedExpression *FxP_GroupedExpression_create(FxP_Expression *value);
+FxP_Grouped *FxP_Grouped_create(FxP_Expression *value);
 
 #define fxp_list_length(E)             (array_length(fxp_expression_value(E)))
 #define fxp_list_get(E, I)             (array_get(fxp_expression_value(E), I))
 #define fxp_list_set(E, I, V)          (array_set(fxp_expression_value(E), I, V))
 
-FxP_List *fxp_list_convert(FxP_GroupedExpression *group);
+FxP_List *fxp_list_convert(FxP_Grouped *group);
 FxP_List *FxP_List_create_deferred();
 FxP_List *FxP_List_create_double(FxP_Expression *first, FxP_Expression *second);
 FxP_List *fxp_list_unshift(FxP_List *list, FxP_Expression *value);
 
-FxP_ArgumentList *fxp_argument_list_convert(FxP_Expression *expression);
+FxP_MethodArguments *fxp_method_arguments_convert(FxP_Expression *expression);
 
 #endif

@@ -41,7 +41,7 @@
 %token STRING EVAL_STRING INTEGER FLOAT SYMBOL REGEX
 %token ID CLASS_ID DEFERRED_ARGUMENT
 %left  ELIPSES DOT
-%token BLOCK_DECLARATION OPEN_BRACE CLOSE_BRACE
+%token FUNCTION_DECLARATION OPEN_BRACE CLOSE_BRACE
 %token OPEN_PAREN CLOSE_PAREN
 %left  AND OR
 %token NOT
@@ -74,8 +74,8 @@ unterminated_expression
   ;
 
 grouped_statement
-  : OPEN_PAREN CLOSE_PAREN                          { $$ = FxP_GroupedExpression_create(NULL); }
-  | OPEN_PAREN unterminated_expression CLOSE_PAREN  { $$ = FxP_GroupedExpression_create($2); }
+  : OPEN_PAREN CLOSE_PAREN                          { $$ = FxP_Grouped_create(NULL); }
+  | OPEN_PAREN unterminated_expression CLOSE_PAREN  { $$ = FxP_Grouped_create($2); }
   ;
 
 list
@@ -143,26 +143,26 @@ operator // for precedence
   ;
 
 function
-  : BLOCK_DECLARATION OPEN_BRACE expressions CLOSE_BRACE
-  | BLOCK_DECLARATION list OPEN_BRACE expressions CLOSE_BRACE
+  : FUNCTION_DECLARATION OPEN_BRACE expressions CLOSE_BRACE         // { $$ = FxP_Function_create_no_args($3); }
+  | FUNCTION_DECLARATION list OPEN_BRACE expressions CLOSE_BRACE    // { $$ = FxP_Function_create($3, $1); }
   ;
 
 implicit_method_call
-  : id_lookup list                                            { $$ = FxP_MethodCall_create_implicit($1, $2); }
+  : id_lookup list                                            { $$ = FxP_Method_create_implicit($1, $2); }
   ;
 
 operator_call
-  : unterminated_expression id_lookup unterminated_expression { $$ = FxP_MethodCall_create_operator($1, $2, $3); }
-  | unterminated_expression operator unterminated_expression  { $$ = FxP_MethodCall_create_operator($1, $2, $3); }
+  : unterminated_expression id_lookup unterminated_expression { $$ = FxP_Method_create_operator($1, $2, $3); }
+  | unterminated_expression operator unterminated_expression  { $$ = FxP_Method_create_operator($1, $2, $3); }
   ;
 
 dot_method_call
-  : unterminated_expression DOT implicit_method_call          { $$ = fxp_method_call_convert_implicit($3, $1); }
-  | unterminated_expression DOT id_lookup                     { $$ = FxP_MethodCall_create_no_args($1, $3); }
+  : unterminated_expression DOT implicit_method_call          { $$ = fxp_method_convert_implicit($3, $1); }
+  | unterminated_expression DOT id_lookup                     { $$ = FxP_Method_create_no_args($1, $3); }
   ;
 
 function_method_call
-  : dot_method_call function                                  { $$ = fxp_method_call_add_function_argument($1, $2); }
+  : dot_method_call function                                  { $$ = fxp_method_add_function_argument($1, $2); }
   ;
 
 method_call // pass along already constructed method expression

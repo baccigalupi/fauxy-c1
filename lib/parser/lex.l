@@ -33,7 +33,7 @@
 "_"                         	{ return TOKEN_DEFERRED_ARGUMENT; }
 "="                         	{ return TOKEN_EQUAL_SIGN; }
 ":"                         	{ return TOKEN_COLON; }
-"->"                         	{ return TOKEN_BLOCK_DECLARATION; }
+"->"                         	{ return TOKEN_FUNCTION_DECLARATION; }
 "{"                         	{ return TOKEN_OPEN_BRACE; }
 "}"                         	{ return TOKEN_CLOSE_BRACE; }
 "!"                         	{ return TOKEN_NOT; }

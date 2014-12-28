@@ -980,7 +980,7 @@ YY_RULE_SETUP
 case 19:
 YY_RULE_SETUP
 #line 36 "lib/parser/lex.l"
-{ return TOKEN_BLOCK_DECLARATION; }
+{ return TOKEN_FUNCTION_DECLARATION; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP

@@ -176,12 +176,12 @@ error:
   return NULL;
 }
 
-FxP_MethodCall *FxP_MethodCall_create_implicit(FxP_Bit *method_name, FxP_Expression *argument) {
-  FxP_MethodCall *call = FxP_MethodCall_create();
+FxP_Method *FxP_Method_create_implicit(FxP_Bit *method_name, FxP_Expression *argument) {
+  FxP_Method *call = FxP_Method_create();
   verify_memory(call);
 
   fxp_method_set_message(call, method_name);
-  fxp_expression_type(argument) = FXP_ST_ARG_LIST;
+  fxp_expression_type(argument) = FXP_ST_METHOD_ARGUMENTS;
   fxp_method_set_arguments(call, argument);
 
   return call;
@@ -189,16 +189,16 @@ error:
   return NULL;
 }
 
-FxP_MethodCall *fxp_method_call_convert_implicit(FxP_MethodCall *self, FxP_Expression *receiver) {
+FxP_Method *fxp_method_convert_implicit(FxP_Method *self, FxP_Expression *receiver) {
   fxp_method_set_receiver(self, receiver);
   return self;
 }
 
-FxP_MethodCall *fxp_method_call_add_function_argument(FxP_MethodCall *method, FxP_Function *function) {
-  FxP_ArgumentList *list;
+FxP_Method *fxp_method_add_function_argument(FxP_Method *method, FxP_Function *function) {
+  FxP_MethodArguments *list;
 
   if (fxp_expression_length(method) == 2) {
-    list = FxP_Expression_create(FXP_ST_ARG_LIST);
+    list = FxP_Expression_create(FXP_ST_METHOD_ARGUMENTS);
     verify(list);
     fxp_method_set_arguments(method, list);
   }
@@ -211,8 +211,8 @@ error:
   return NULL;
 }
 
-FxP_MethodCall *FxP_MethodCall_create_no_args(FxP_Expression *receiver, FxP_Bit *message) {
-  FxP_MethodCall *method = FxP_MethodCall_create();
+FxP_Method *FxP_Method_create_no_args(FxP_Expression *receiver, FxP_Bit *message) {
+  FxP_Method *method = FxP_Method_create();
   verify_memory(method);
 
   fxp_method_set_receiver(method, receiver);
@@ -223,11 +223,11 @@ error:
   return NULL;
 }
 
-FxP_MethodCall *FxP_MethodCall_create_operator(FxP_Expression *receiver, FxP_Bit *message, FxP_Expression *argument) {
-  FxP_ArgumentList *list = fxp_argument_list_convert(argument);
+FxP_Method *FxP_Method_create_operator(FxP_Expression *receiver, FxP_Bit *message, FxP_Expression *argument) {
+  FxP_MethodArguments *list = fxp_method_arguments_convert(argument);
   verify(list);
 
-  FxP_MethodCall *method = FxP_MethodCall_create();
+  FxP_Method *method = FxP_Method_create();
   verify(method);
 
   fxp_method_set_receiver(method, receiver);
@@ -240,8 +240,8 @@ error:
   return NULL;
 }
 
-FxP_GroupedExpression *FxP_GroupedExpression_create(FxP_Expression *value) {
-  FxP_GroupedExpression *group = FxP_Expression_create(FXP_ST_GROUPED);
+FxP_Grouped *FxP_Grouped_create(FxP_Expression *value) {
+  FxP_Grouped *group = FxP_Expression_create(FXP_ST_GROUPED);
   verify_memory(group);
 
   if (value) {
@@ -252,7 +252,7 @@ error:
   return NULL;
 }
 
-FxP_List *fxp_list_convert(FxP_GroupedExpression *group) {
+FxP_List *fxp_list_convert(FxP_Grouped *group) {
   fxp_expression_type(group) = FXP_ST_LIST;
   return group;
 }
@@ -303,18 +303,18 @@ FxP_List *fxp_list_unshift(FxP_List *list, FxP_Expression *value) {
   return list;
 }
 
-FxP_ArgumentList *fxp_argument_list_convert(FxP_Expression *expression) {
-  FxP_ArgumentList *list = NULL;
+FxP_MethodArguments *fxp_method_arguments_convert(FxP_Expression *expression) {
+  FxP_MethodArguments *list = NULL;
   int type = fxp_expression_type(expression);
 
   if (type == FXP_ST_LIST || type == FXP_ST_GROUPED) {
     list = expression;
   } else {
-    list = FxP_GroupedExpression_create(expression);
+    list = FxP_Grouped_create(expression);
     verify(list);
   }
 
-  fxp_expression_type(list) = FXP_ST_ARG_LIST;
+  fxp_expression_type(list) = FXP_ST_METHOD_ARGUMENTS;
   return list;
 error:
   return NULL;
