@@ -319,3 +319,28 @@ FxP_MethodArguments *fxp_method_arguments_convert(FxP_Expression *expression) {
 error:
   return NULL;
 }
+
+FxP_Function *FxP_Function_create_no_args(FxP_Expressions *expressions) {
+  FxP_Function *function = FxP_Expression_create(FXP_ST_FUNCTION);
+  verify(function);
+
+  fxp_function_set_expressions(function, expressions);
+
+  return function;
+error:
+  return NULL;
+}
+
+FxP_Function *FxP_Function_create(FxP_Expressions *expressions, FxP_List *list) {
+  FxP_Function *function = FxP_Expression_create(FXP_ST_FUNCTION);
+  verify(function);
+
+  fxp_expression_type(list) = FXP_ST_FUNCTION_ARGUMENTS;
+
+  fxp_function_set_expressions(function, expressions);
+  fxp_function_set_arguments(function, list);
+
+  return function;
+error:
+  return NULL;
+}

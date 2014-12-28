@@ -80,8 +80,10 @@ String      *fxp_lookup_inspect(FxP_Lookup *literal);
 String      *fxp_lookup_description(FxP_Lookup *literal);
 
 // Block value array [arguments, expressions]
-#define fxp_function_arguments(E)     (FxP_Expression *)(array_get(fxp_expression_value(E), 0))
-#define fxp_function_expressions(E)   (FxP_Expressions *)(array_get(fxp_expression_value(E), 1))
+#define fxp_function_arguments(E)           (FxP_Expression *)(array_get(fxp_expression_value(E), 0))
+#define fxp_function_set_arguments(E, V)    (array_set(fxp_expression_value(E), 0, V))
+#define fxp_function_expressions(E)         (FxP_Expressions *)(array_get(fxp_expression_value(E), 1))
+#define fxp_function_set_expressions(E, V)  (array_set(fxp_expression_value(E), 1, V))
 
 FxP_Function *FxP_Function_create_no_args(FxP_Expressions *expressions);
 FxP_Function *FxP_Function_create(FxP_Expressions *expressions, FxP_List *list);

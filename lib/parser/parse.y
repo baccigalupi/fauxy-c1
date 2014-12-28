@@ -143,8 +143,8 @@ operator // for precedence
   ;
 
 function
-  : FUNCTION_DECLARATION OPEN_BRACE expressions CLOSE_BRACE         // { $$ = FxP_Function_create_no_args($3); }
-  | FUNCTION_DECLARATION list OPEN_BRACE expressions CLOSE_BRACE    // { $$ = FxP_Function_create($3, $1); }
+  : FUNCTION_DECLARATION OPEN_BRACE expressions CLOSE_BRACE         { $$ = FxP_Function_create_no_args($3); }
+  | FUNCTION_DECLARATION list OPEN_BRACE expressions CLOSE_BRACE    { $$ = FxP_Function_create($3, $1); }
   ;
 
 implicit_method_call
