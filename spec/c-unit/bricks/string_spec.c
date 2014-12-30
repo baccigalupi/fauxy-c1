@@ -130,6 +130,7 @@ char *test_duplication() {
   assert_not_equal(string, duplicate, "different addresses");
 
   string_free(string);
+  string_free(duplicate);
 
   return NULL;
 }
