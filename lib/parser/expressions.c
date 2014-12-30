@@ -64,114 +64,11 @@ void fxp_literal_free(FxP_Literal *literal) {
   fx_pfree(literal);
 }
 
-String *fxp_literal_description(FxP_Literal *literal) {
-  char str[24];
-
-  if (fxp_literal_type(literal) == TOKEN_STRING) {
-    strcpy(str, "String");
-  } else if (fxp_literal_type(literal) == TOKEN_EVAL_STRING) {
-    strcpy(str, "String.Evaluable");
-  } else if (fxp_literal_type(literal) == TOKEN_REGEX) {
-    strcpy(str, "Regex");
-  } else if (fxp_literal_type(literal) == TOKEN_SYMBOL) {
-    strcpy(str, "Symbol");
-  } else if (fxp_literal_type(literal) == TOKEN_INTEGER) {
-    strcpy(str, "Integer");
-  } else if (fxp_literal_type(literal) == TOKEN_FLOAT) {
-    strcpy(str, "Float");
-  } else if (fxp_literal_type(literal) == TOKEN_NIL) {
-    strcpy(str, "Nil");
-  } else if (fxp_literal_type(literal) == TOKEN_TRUE) {
-    strcpy(str, "True");
-  } else if (fxp_literal_type(literal) == TOKEN_FALSE) {
-    strcpy(str, "False");
-  }
-
-  String *description = String_create(str);
-  verify_memory(description);
-
-  return description;
-error:
-  return NULL;
-}
-
-String *fxp_typed_expression_inspect(FxP_Expression *expression, String *description, String *preface) {
-  String *bit;
-  if (fxp_literal_bit(expression)) {
-    bit = fxp_bit_inspect(fxp_literal_bit(expression));
-  } else {
-    bit = String_create_with_capacity(1);
-  }
-  verify(bit);
-  String *inspection = String_create_with_capacity(128);
-  verify_memory(inspection);
-
-  // TODO: verify return values of all string operations
-
-  string_add_string(inspection, preface);
-  string_add_string(inspection, description);
-  if (string_length(bit)) {
-    string_add_chars(inspection, ", ");
-  }
-  string_add_string(inspection, bit);
-  string_push_char(inspection, ')');
-
-  string_free(description);
-  string_free(preface);
-  string_free(bit);
-
-  return inspection;
-error:
-  return NULL;
-}
-
-String *fxp_literal_inspect(FxP_Literal *literal) {
-  String *preface = String_create("(literal: ");
-  verify(preface);
-
-  String *description = fxp_literal_description(literal);
-  verify(description);
-
-  String *inspection = fxp_typed_expression_inspect(literal, description, preface);
-  return inspection;
-error:
-  return NULL;
-}
-
 FxP_Lookup *FxP_Lookup_create(FxP_Bit *bit, int token_type) {
   FxP_Expression *lookup = FxP_TypedExpression_create(bit, FXP_ST_LOOKUP, token_type);
   verify(lookup);
 
   return lookup;
-error:
-  return NULL;
-}
-
-String *fxp_lookup_inspect(FxP_Lookup *lookup) {
-  String *preface = String_create("(lookup: ");
-  String *description = fxp_lookup_description(lookup);
-  verify(preface);
-  verify(description);
-
-  String *inspection = fxp_typed_expression_inspect(lookup, description, preface);
-  return inspection;
-error:
-  return NULL;
-}
-
-String *fxp_lookup_description(FxP_Lookup *lookup) {
-  char str[24];
-
-  if (fxp_lookup_type(lookup) == TOKEN_ID) {
-    strcpy(str, "Identifier");
-  } else {
-    strcpy(str, "Class Identifier");
-  }
-
-  String *description = String_create(str);
-  verify_memory(description);
-
-  return description;
 error:
   return NULL;
 }

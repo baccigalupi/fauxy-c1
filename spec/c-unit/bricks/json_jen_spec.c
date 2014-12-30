@@ -47,7 +47,7 @@ char *test_wrap_pair() {
   string_free(key_1);
   string_free(value_1);
   string_free(pair_1);
-  
+
   string_free(json);
 
   return NULL;
@@ -55,7 +55,6 @@ char *test_wrap_pair() {
 
 
 char *test_wrap_three_pairs() {
-
   String *key_1 = String_create("\"one\"");
   String *value_1 = String_create("1");
   String *pair_1 = json_gen_bald_pair(key_1, value_1);

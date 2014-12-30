@@ -4,6 +4,7 @@
 
 #include "../bricks/helpers.h"
 #include "../bricks/string.h"
+#include "../bricks/json_gen.h"
 
 FxP_Bit *FxP_Bit_create(int token_type, char *text) {
   FxP_Bit *bit = fx_alloc(FxP_Bit);
@@ -135,7 +136,7 @@ void fxp_bit_free(FxP_Bit *bit) {
   fx_pfree(bit);
 }
 
-String *fxp_bit_value_inspect(FxP_Bit *bit) {
+String *fxp_bit_value_description(FxP_Bit *bit) {
   int type = fxp_bit_type(bit);
   char str[16] = "";
   String *string;
@@ -177,19 +178,19 @@ error:
   return NULL;
 }
 
-String *fxp_bit_type_inspect(FxP_Bit *bit) {
+String *fxp_bit_type_description(FxP_Bit *bit) {
   int type = fxp_bit_type(bit);
   String *string;
 
   if (type == FX_BIT_FLOAT || type == FX_BIT_LONG_FLOAT) {
     string = String_create("FLOAT");
   } else if (type == FX_BIT_SHORT || type == FX_BIT_LONG) {
-    string = String_create("FLOAT");
+    string = String_create("INTEGER");
   } else {
     string = String_create("STRING");
   }
 
-  verify_memory(string);
+  verify(string);
 
   return string;
 error:
@@ -197,28 +198,30 @@ error:
 }
 
 String *fxp_bit_inspect(FxP_Bit *bit) {
-  int type = fxp_bit_type(bit);
-  String *string = String_create_with_capacity(32);
-  verify_memory(string);
-  String *value = fxp_bit_value_inspect(bit);
-  verify_memory(value);
+  String *bit_key = NULL;
+  String *bit_value = NULL;
+  String *pair = NULL;
+  String *json = NULL;
 
-  string_push_char(string, '<');
-  if (type == FX_BIT_FLOAT || type == FX_BIT_LONG_FLOAT) {
-    string_add_chars(string, "FLOAT");
-  } else if (type == FX_BIT_SHORT || type == FX_BIT_LONG) {
-    string_add_chars(string, "INTEGER");
-  } else {
-    string_add_chars(string, "STRING");
-  }
-  string_add_chars(string, ": ");
-  string_add_string(string, value);
-  string_push_char(string, '>');
+  bit_key = fxp_bit_type_description(bit);
+  verify(bit_key);
+  bit_value = fxp_bit_value_description(bit);
+  verify(bit_value);
 
-  string_free(value);
+  pair = json_gen_bald_pair(bit_key, bit_value);
+  verify(pair);
 
-  return string;
+  json = json_gen_wrap_pairs(1, pair);
+  verify(json);
+
+  string_free(bit_key);
+  string_free(bit_value);
+  string_free(pair);
+
+  return json;
 error:
-  if (string) { string_free(string); }
+  if (bit_key) { string_free(bit_key); }
+  if (bit_value) { string_free(bit_value); }
+  if (pair) { string_free(pair); }
   return NULL;
 }

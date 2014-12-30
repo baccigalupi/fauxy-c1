@@ -139,7 +139,7 @@ char *test_integer_inspection() {
 
   String *inspection = fxp_bit_inspect(bit);
 
-  assert_strings_equal(string_value(inspection), "<INTEGER: 23>", "representation");
+  assert_strings_equal(string_value(inspection), "{\"INTEGER\": 23}", "representation");
 
   fxp_bit_free(bit);
 
@@ -157,7 +157,7 @@ char *test_long_integer_inspection() {
 
   String *inspection = fxp_bit_inspect(bit);
 
-  assert_strings_equal(string_value(inspection), "<INTEGER: 2.3e+07>", "representation");
+  assert_strings_equal(string_value(inspection), "{\"INTEGER\": 2.3e+07}", "representation");
 
   fxp_bit_free(bit);
 
@@ -175,7 +175,7 @@ char *test_float_inspection() {
 
   String *inspection = fxp_bit_inspect(bit);
 
-  assert_strings_equal(string_value(inspection), "<FLOAT: 230.05>", "representation");
+  assert_strings_equal(string_value(inspection), "{\"FLOAT\": 230.05}", "representation");
 
   fxp_bit_free(bit);
 

@@ -59,7 +59,6 @@ FxP_Expressions *FxP_Expressions_create();
 void             fxp_expressions_free(FxP_Expressions *expressions);
 
 FxP_Expression *FxP_TypedExpression_create(FxP_Bit *bit, int type, int token_type);
-String         *fxp_typed_expression_inspect(FxP_Expression *expression, String *description, String *preface);
 
 // Literals have value array [token_type, bit]
 #define fxp_literal__type(E)           (array_get(fxp_expression_value(E), 0))
@@ -67,8 +66,6 @@ String         *fxp_typed_expression_inspect(FxP_Expression *expression, String 
 #define fxp_literal_bit(E)             (FxP_Bit *)(array_get(fxp_expression_value(E), 1))
 
 FxP_Literal *FxP_Literal_create(FxP_Bit *bit, int token_type);
-String      *fxp_literal_inspect(FxP_Literal *literal);
-String      *fxp_literal_description(FxP_Literal *literal);
 void         fxp_literal_free(FxP_Literal *literal);
 
 // Lookups are similar to literal, with value array [token_type, bit]
@@ -78,8 +75,6 @@ void         fxp_literal_free(FxP_Literal *literal);
 #define fxp_lookup_free(E)            fxp_literal_free(E)
 
 FxP_Lookup  *FxP_Lookup_create(FxP_Bit *bit, int token_type);
-String      *fxp_lookup_inspect(FxP_Lookup *literal);
-String      *fxp_lookup_description(FxP_Lookup *literal);
 
 // Block value array [arguments, expressions]
 #define fxp_function_arguments(E)           (FxP_Expression *)(array_get(fxp_expression_value(E), 0))

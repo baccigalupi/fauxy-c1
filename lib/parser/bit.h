@@ -55,6 +55,6 @@ Boolean         fxp_bit_add_string_value(FxP_Bit *bit, char *text);
 Boolean         fx_trim_string_value(FxP_Bit *bit, char *text);
 void            fxp_bit_free(FxP_Bit *bit);
 String         *fxp_bit_inspect(FxP_Bit *bit);
-String         *fxp_bit_value_inspect(FxP_Bit *bit);
+String         *fxp_bit_value_description(FxP_Bit *bit);
 
 #endif
