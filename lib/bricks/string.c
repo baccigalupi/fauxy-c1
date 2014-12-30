@@ -106,6 +106,38 @@ error:
   return NULL;
 }
 
+Boolean string_unshift_char(String *string, CHAR c) {
+  if ( string_offset(string) < 1 ) {
+    int capacity = Expandable_capacity(string_length(string));
+    Boolean success = string_expand(string, capacity);
+    verify(success);
+  }
+
+  string_offset(string) --;
+  string_value(string)[0] = c;
+  string_length(string) ++;
+
+  return true;
+error:
+  return false;
+}
+
+Boolean string_unshift_chars(String *string, CHAR *str) {
+  int added_offset = STRLEN(str);
+  int i;
+  for (i = 0; i < added_offset; i++) {
+    verify(string_unshift_char(string, str[i]));
+  }
+
+  return true;
+error:
+  return false;
+}
+
+Boolean string_unshift_string(String *string, String *addition) {
+  return string_unshift_chars(string, string_value(addition));
+}
+
 /**
  * Simple Bob Jenkins's hash algorithm taken from the
  * wikipedia description.

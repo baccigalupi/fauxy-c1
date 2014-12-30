@@ -35,10 +35,16 @@ typedef struct String {
 String        *String_create(CHAR *value);
 String        *String_create_with_capacity(int capacity);
 int            String_offset(int capacity, int length);
+Boolean        string_expand(String *string, int length);
+
 Boolean        string_push_char(String *string, CHAR c);
 Boolean        string_add_chars(String *string, CHAR *str);
 Boolean        string_add_string(String *string, String *addition);
-Boolean        string_expand(String *string, int length);
+
+Boolean        string_unshift_char(String *string, CHAR c);
+Boolean        string_unshift_chars(String *string, CHAR *str);
+Boolean        string_unshift_string(String *string, String *addition);
+
 String        *string_duplicate(String *original);
 
 // TODO: move somewhere else??

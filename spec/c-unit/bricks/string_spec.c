@@ -134,6 +134,49 @@ char *test_duplication() {
   return NULL;
 }
 
+char *test_unshift_character() {
+  spec_describe("Unshifting individual characters to a string");
+
+  String *string = String_create("foo");
+
+  assert_ints_equal(string_capacity(string), 8, "capacity");
+  assert_ints_equal(string_offset(string), 6, "offset"); // 16 real capacity - 3 length = 13, divide by 2, floor = 6
+
+  string_unshift_char(string, '.');
+  assert_equal(string_length(string), 4, "first push: string length");
+  assert_strings_equal(string_value(string), ".foo", "string value");
+
+  string_unshift_char(string, 'r');
+  assert_equal(string_length(string), 5, "second push: string length");
+  assert_strings_equal(string_value(string), "r.foo", "string value");
+
+  string_unshift_char(string, 'a');
+  assert_equal(string_length(string), 6, "third push: string length");
+  assert_strings_equal(string_value(string), "ar.foo", "string value");
+
+  string_unshift_char(string, 'b');
+  assert_equal(string_length(string), 7, "fourth push: string length");
+  assert_strings_equal(string_value(string), "bar.foo", "string value");
+
+  string_unshift_char(string, '-');
+  assert_equal(string_length(string), 8, "fifth push: string length");
+  assert_strings_equal(string_value(string), "-bar.foo", "string value");
+
+  string_unshift_char(string, 'x');
+  assert_ints_equal(string_length(string), 9, "fifth push: string length");
+  assert_strings_equal(string_value(string), "x-bar.foo", "string value");
+
+  string_unshift_char(string, 'f');
+  assert_ints_equal(string_capacity(string), 32, "fifth push: capacity");
+  assert_ints_equal(string_offset(string), 26, "offset");
+  assert_equal(string_length(string), 10, "string length");
+  assert_strings_equal(string_value(string), "fx-bar.foo", "string value");
+
+  string_free(string);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Brick String");
 
@@ -141,6 +184,7 @@ char *all_specs() {
   run_spec(test_create_from_allocated);
   run_spec(test_accessing_by_index);
   run_spec(test_push_character);
+  run_spec(test_unshift_character);
   run_spec(test_concat);
 
   run_spec(test_create_blank);
