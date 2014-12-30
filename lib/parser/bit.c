@@ -203,17 +203,17 @@ String *fxp_bit_inspect(FxP_Bit *bit) {
   String *value = fxp_bit_value_inspect(bit);
   verify_memory(value);
 
-  string_push(string, '<');
+  string_push_char(string, '<');
   if (type == FX_BIT_FLOAT || type == FX_BIT_LONG_FLOAT) {
-    string_concat(string, "FLOAT");
+    string_add_chars(string, "FLOAT");
   } else if (type == FX_BIT_SHORT || type == FX_BIT_LONG) {
-    string_concat(string, "INTEGER");
+    string_add_chars(string, "INTEGER");
   } else {
-    string_concat(string, "STRING");
+    string_add_chars(string, "STRING");
   }
-  string_concat(string, ": ");
-  string_add(string, value);
-  string_push(string, '>');
+  string_add_chars(string, ": ");
+  string_add_string(string, value);
+  string_push_char(string, '>');
 
   string_free(value);
 

@@ -25,7 +25,7 @@ String *String_create(CHAR *str) {
   int length = STRLEN(str);
   int capacity = Expandable_capacity(length);
   String *string = String_create_with_capacity(capacity);
-  verify_memory(string);
+  verify(string);
 
   string_length(string) = length;
   STRCPY(string_value(string), str);
@@ -35,7 +35,7 @@ error:
   return NULL;
 }
 
-void string_push(String *string, CHAR c) {
+void string_push_char(String *string, CHAR c) {
   if ( !(string_length(string) < string_capacity(string)) ) {
     int capacity = Expandable_capacity(string_length(string));
     Boolean success = string_expand(string, capacity);
@@ -60,7 +60,7 @@ error:
   return false;
 }
 
-void string_concat(String *string, CHAR *str) {
+void string_add_chars(String *string, CHAR *str) {
   int needed_length = STRLEN(str) + string_length(string);
 
   if ( !(needed_length < string_capacity(string)) ) {
@@ -76,8 +76,16 @@ error:
   return;
 }
 
-void string_add(String *string, String *addition) {
-  string_concat(string, string_value(addition));
+void string_add_string(String *string, String *addition) {
+  string_add_chars(string, string_value(addition));
+}
+
+String *string_duplicate(String *original) {
+  String *duplicate = String_create(string_value(original));
+  verify(duplicate);
+  return duplicate;
+error:
+  return NULL;
 }
 
 /**

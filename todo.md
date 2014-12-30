@@ -8,12 +8,11 @@
 ## Optimize later
 Invert argument expression order so unshift not necessary
 
-Better strings,
+Better strings:
 unshift issue when wrapping strings
 String dup
 String shorten ...
 String wrap, one or two characters
-blank string
 
 Long decimals
 String concat, push and add validation for inspect

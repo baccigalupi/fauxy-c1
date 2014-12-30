@@ -108,13 +108,13 @@ String *fxp_typed_expression_inspect(FxP_Expression *expression, String *descrip
 
   // TODO: verify return values of all string operations
 
-  string_add(inspection, preface);
-  string_add(inspection, description);
+  string_add_string(inspection, preface);
+  string_add_string(inspection, description);
   if (string_length(bit)) {
-    string_concat(inspection, ", ");
+    string_add_chars(inspection, ", ");
   }
-  string_add(inspection, bit);
-  string_push(inspection, ')');
+  string_add_string(inspection, bit);
+  string_push_char(inspection, ')');
 
   string_free(description);
   string_free(preface);

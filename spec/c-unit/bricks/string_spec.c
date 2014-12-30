@@ -56,28 +56,28 @@ char *test_push_character() {
 
   assert_ints_equal(string_capacity(string), 8, "capacity");
 
-  string_push(string, '.');
+  string_push_char(string, '.');
   assert_equal(string_length(string), 4, "first push: string length");
   assert_strings_equal(string_value(string), "foo.", "string value");
 
-  string_push(string, 'b');
+  string_push_char(string, 'b');
   assert_equal(string_length(string), 5, "second push: string length");
   assert_strings_equal(string_value(string), "foo.b", "string value");
 
-  string_push(string, 'a');
+  string_push_char(string, 'a');
   assert_equal(string_length(string), 6, "third push: string length");
   assert_strings_equal(string_value(string), "foo.ba", "string value");
 
-  string_push(string, 'r');
+  string_push_char(string, 'r');
   assert_equal(string_length(string), 7, "fourth push: string length");
   assert_strings_equal(string_value(string), "foo.bar", "string value");
 
-  string_push(string, '(');
+  string_push_char(string, '(');
   assert_equal(string_length(string), 8, "fifth push: string length");
   assert_strings_equal(string_value(string), "foo.bar(", "string value");
   assert_ints_equal(string_capacity(string), 8, "capacity");
 
-  string_push(string, ')');
+  string_push_char(string, ')');
   assert_equal(string_length(string), 9, "fifth push: string length");
   assert_strings_equal(string_value(string), "foo.bar()", "string value");
   assert_ints_equal(string_capacity(string), 32, "capacity");
@@ -94,11 +94,38 @@ char *test_concat() {
 
   assert_ints_equal(string_capacity(string), 8, "capacity");
 
-  string_concat(string, ".bar()");
+  string_add_chars(string, ".bar()");
 
   assert_equal(string_length(string), 9, "fifth push: string length");
   assert_strings_equal(string_value(string), "foo.bar()", "string value");
   assert_ints_equal(string_capacity(string), 32, "capacity");
+
+  string_free(string);
+
+  return NULL;
+}
+
+char *test_create_blank() {
+  spec_describe("Creating an empty string, for use as a null pattern string");
+
+  String *string = String_create_blank();
+
+  assert_ints_equal(string_length(string), 0, "length");
+  assert_ints_equal(string_capacity(string), 0, "capacity");
+
+  string_free(string);
+
+  return NULL;
+}
+
+char *test_duplication() {
+  spec_describe("Duplicating string");
+
+  String *string = String_create("Hello");
+  String *duplicate = string_duplicate(string);
+
+  assert_strings_equal(string_value(string), string_value(duplicate), "same value");
+  assert_not_equal(string, duplicate, "different addresses");
 
   string_free(string);
 
@@ -113,6 +140,9 @@ char *all_specs() {
   run_spec(test_accessing_by_index);
   run_spec(test_push_character);
   run_spec(test_concat);
+
+  run_spec(test_create_blank);
+  run_spec(test_duplication);
 
   spec_teardown();
 

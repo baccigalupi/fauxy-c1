@@ -36,6 +36,12 @@
                                     ((++assertions_failed), (print_failure(S)), (print_location())) \
                                   )
 
+#define assert_not_equal(A, B, S) (                                                                 \
+                                    ((A) != (B)) ?                                                  \
+                                    ((++assertions_passed) && (print_success(S))) :                 \
+                                    ((++assertions_failed), (print_failure(S)), (print_location())) \
+                                  )
+
 #define assert_ints_equal(A, B, S)    assert_equal(A, B, S); ((A) == (B)) ? 0 : print_int_expectation(A, B)
 #define assert_floats_equal(A, B, S)  assert_equal(A, B, S); ((A) == (B)) ? 0 : print_float_expectation(A, B)
 

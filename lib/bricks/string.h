@@ -26,13 +26,15 @@ typedef uint32_t Hash;
 #define string_char_at(S, I)  ((string_length(S) > I) ? (string_value(S)[I]) : '\0')
 #define string_empty(S)       (string_length(S) == 0)
 #define strings_equal(S1, S2) (strcmp(string_value(S1), string_value(S2)) == 0)
+#define String_create_blank() String_create_with_capacity(0);
 
 String        *String_create(CHAR *value);
 String        *String_create_with_capacity(int capacity);
-void           string_push(String *string, CHAR c);
-void           string_concat(String *string, CHAR *str);
-void           string_add(String *string, String *addition);
+void           string_push_char(String *string, CHAR c);
+void           string_add_chars(String *string, CHAR *str);
+void           string_add_string(String *string, String *addition);
 Boolean        string_expand(String *string, int length);
+String        *string_duplicate(String *original);
 Hash           string_hash(String *string);
 
 #endif
