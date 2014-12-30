@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <math.h>
 
 #include "helpers.h"
 #include "expandable.h"
@@ -8,9 +9,10 @@ String *String_create_with_capacity(int capacity) {
   String *string = fx_alloc(String);
   verify_memory(string);
 
-  CHAR *value = calloc(capacity + 1, sizeof(CHAR));
+  CHAR *value = calloc(capacity*2 + 1, sizeof(CHAR));
   verify_memory(value);
 
+  string_offset(string)     = 0;
   string_length(string)     = 0;
   string_capacity(string)   = capacity;
   string->value             = value;
@@ -21,6 +23,10 @@ error:
   return NULL;
 }
 
+int String_offset(int capacity, int length) {
+  return floor((capacity - length)/2);
+}
+
 String *String_create(CHAR *str) {
   int length = STRLEN(str);
   int capacity = Expandable_capacity(length);
@@ -28,11 +34,30 @@ String *String_create(CHAR *str) {
   verify(string);
 
   string_length(string) = length;
+  string_offset(string) = String_offset(string_real_capacity(string), length);
   STRCPY(string_value(string), str);
 
   return string;
 error:
   return NULL;
+}
+
+Boolean string_expand(String *string, int capacity) {
+  int real_capacity = capacity * 2;
+  int offset = String_offset(real_capacity, string_length(string));
+  CHAR *original = string__value(string);
+  CHAR *value = calloc(real_capacity, sizeof(CHAR));
+
+  STRCPY(value + offset, string_value(string));
+  verify_memory(value);
+  string->value = value;
+  string_offset(string) = offset;
+  string_capacity(string) = capacity;
+
+  string_free(original);
+  return true;
+error:
+  return false;
 }
 
 Boolean string_push_char(String *string, CHAR c) {
@@ -45,17 +70,6 @@ Boolean string_push_char(String *string, CHAR c) {
   string_value(string)[string_length(string)] = c;
   string_length(string)++;
   string_value(string)[string_length(string)] = '\0'; // just in case
-
-  return true;
-error:
-  return false;
-}
-
-Boolean string_expand(String *string, int capacity) {
-  CHAR *value = realloc(string_value(string), sizeof(CHAR)*capacity);
-  verify_memory(value);
-  string->value = value;
-  string_capacity(string) = capacity;
 
   return true;
 error:

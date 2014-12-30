@@ -55,6 +55,7 @@ char *test_push_character() {
   String *string = String_create("foo");
 
   assert_ints_equal(string_capacity(string), 8, "capacity");
+  assert_ints_equal(string_offset(string), 6, "offset"); // 16 real capacity - 3 length = 13, divide by 2, floor = 6
 
   string_push_char(string, '.');
   assert_equal(string_length(string), 4, "first push: string length");
@@ -78,9 +79,10 @@ char *test_push_character() {
   assert_ints_equal(string_capacity(string), 8, "capacity");
 
   string_push_char(string, ')');
-  assert_equal(string_length(string), 9, "fifth push: string length");
+  assert_ints_equal(string_capacity(string), 32, "fifth push: capacity");
+  assert_ints_equal(string_offset(string), 28, "offset"); // 64 real capacity - 8 length = 56, divide 2 = 28
+  assert_equal(string_length(string), 9, "string length");
   assert_strings_equal(string_value(string), "foo.bar()", "string value");
-  assert_ints_equal(string_capacity(string), 32, "capacity");
 
   string_free(string);
 
@@ -88,7 +90,7 @@ char *test_push_character() {
 }
 
 char *test_concat() {
-  spec_describe("Pushing individual characters to a string");
+  spec_describe("Pushing char arrays into to a string");
 
   String *string = String_create("foo");
 
