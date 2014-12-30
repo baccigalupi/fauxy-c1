@@ -54,7 +54,7 @@ Boolean string_expand(String *string, int capacity) {
   string_offset(string) = offset;
   string_capacity(string) = capacity;
 
-  string_free(original);
+  fx_pfree(original);
   return true;
 error:
   return false;
@@ -77,17 +77,11 @@ error:
 }
 
 Boolean string_add_chars(String *string, CHAR *str) {
-  int needed_length = STRLEN(str) + string_length(string);
-
-  if ( !(needed_length < string_capacity(string)) ) {
-    int capacity = Expandable_capacity(needed_length);
-    Boolean success = string_expand(string, capacity);
-    verify(success);
+  int added_offset = STRLEN(str);
+  int i;
+  for (i = 0; i < added_offset; i++) {
+    verify(string_push_char(string, str[i]));
   }
-
-  STRCAT(string_value(string), str);
-  string_length(string) = needed_length;
-  string_value(string)[string_length(string)] = '\0'; // just in case
 
   return true;
 error:
