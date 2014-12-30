@@ -11,9 +11,9 @@ String *String_create_with_capacity(int capacity) {
   CHAR *value = calloc(capacity + 1, sizeof(CHAR));
   verify_memory(value);
 
-  string_length(string) = 0;
-  string_capacity(string)  = capacity;
-  string_value(string)  = value;
+  string_length(string)     = 0;
+  string_capacity(string)   = capacity;
+  string->value             = value;
 
   return string;
 error:
@@ -52,7 +52,7 @@ error:
 Boolean string_expand(String *string, int capacity) {
   CHAR *value = realloc(string_value(string), sizeof(CHAR)*capacity);
   verify_memory(value);
-  string_value(string) = value;
+  string->value = value;
   string_capacity(string) = capacity;
 
   return true;
