@@ -35,7 +35,7 @@ error:
   return NULL;
 }
 
-void string_push_char(String *string, CHAR c) {
+Boolean string_push_char(String *string, CHAR c) {
   if ( !(string_length(string) < string_capacity(string)) ) {
     int capacity = Expandable_capacity(string_length(string));
     Boolean success = string_expand(string, capacity);
@@ -45,8 +45,10 @@ void string_push_char(String *string, CHAR c) {
   string_value(string)[string_length(string)] = c;
   string_length(string)++;
   string_value(string)[string_length(string)] = '\0'; // just in case
+
+  return true;
 error:
-  return;
+  return false;
 }
 
 Boolean string_expand(String *string, int capacity) {
@@ -60,7 +62,7 @@ error:
   return false;
 }
 
-void string_add_chars(String *string, CHAR *str) {
+Boolean string_add_chars(String *string, CHAR *str) {
   int needed_length = STRLEN(str) + string_length(string);
 
   if ( !(needed_length < string_capacity(string)) ) {
@@ -72,12 +74,14 @@ void string_add_chars(String *string, CHAR *str) {
   STRCAT(string_value(string), str);
   string_length(string) = needed_length;
   string_value(string)[string_length(string)] = '\0'; // just in case
+
+  return true;
 error:
-  return;
+  return false;
 }
 
-void string_add_string(String *string, String *addition) {
-  string_add_chars(string, string_value(addition));
+Boolean string_add_string(String *string, String *addition) {
+  return string_add_chars(string, string_value(addition));
 }
 
 String *string_duplicate(String *original) {
