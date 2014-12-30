@@ -9,10 +9,7 @@
 Invert argument expression order so unshift not necessary
 
 Better strings:
-unshift issue when wrapping strings
-String dup
 String shorten ...
-String wrap, one or two characters
 
 Long decimals
 String concat, push and add validation for inspect

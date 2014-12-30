@@ -138,6 +138,16 @@ Boolean string_unshift_string(String *string, String *addition) {
   return string_unshift_chars(string, string_value(addition));
 }
 
+Boolean string_wrap(String *string, CHAR start_char, CHAR end_char) {
+  verify(string_unshift_char(string, start_char));
+  verify(string_push_char(string, end_char));
+
+  return true;
+error:
+  return false;
+}
+
+
 /**
  * Simple Bob Jenkins's hash algorithm taken from the
  * wikipedia description.

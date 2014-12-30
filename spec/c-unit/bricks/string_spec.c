@@ -177,6 +177,17 @@ char *test_unshift_character() {
   return NULL;
 }
 
+char *test_wrap() {
+  String *string = String_create("\"foo\": \"bar\"");
+
+  string_wrap(string, '{', '}');
+
+  assert_strings_equal(string_value(string), "{\"foo\": \"bar\"}", "string value");
+
+  string_free(string);
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Brick String");
 
@@ -189,6 +200,8 @@ char *all_specs() {
 
   run_spec(test_create_blank);
   run_spec(test_duplication);
+
+  run_spec(test_wrap);
 
   spec_teardown();
 

@@ -46,6 +46,7 @@ Boolean        string_unshift_chars(String *string, CHAR *str);
 Boolean        string_unshift_string(String *string, String *addition);
 
 String        *string_duplicate(String *original);
+Boolean        string_wrap(String *original, CHAR start_char, CHAR end_char);
 
 // TODO: move somewhere else??
 typedef uint32_t Hash;
