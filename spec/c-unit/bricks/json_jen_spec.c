@@ -1,4 +1,5 @@
 #include "../../../lib/bricks/string.h"
+#include "../../../lib/bricks/array.h"
 #include "../../../lib/bricks/json_gen.h"
 
 #include "../lib/spec.h"
@@ -41,12 +42,17 @@ char *test_wrap_pair() {
   String *value_1 = String_create("1");
   String *pair_1 = json_gen_bald_pair(key_1, value_1);
 
-  String *json = json_gen_wrap_pairs(1, pair_1);
+  Array *pairs = Array_create(1);
+  array_push(pairs, pair_1);
+
+  String *json = json_gen_wrap_pairs(pairs);
   assert_strings_equal(string_value(json), "{\"one\": 1}", "one pair");
 
   string_free(key_1);
   string_free(value_1);
   string_free(pair_1);
+
+  array_free(pairs);
 
   string_free(json);
 
@@ -58,14 +64,21 @@ char *test_wrap_three_pairs() {
   String *key_1 = String_create("\"one\"");
   String *value_1 = String_create("1");
   String *pair_1 = json_gen_bald_pair(key_1, value_1);
+
   String *key_2 = String_create("\"two\"");
   String *value_2 = String_create("2");
   String *pair_2 = json_gen_bald_pair(key_2, value_2);
+
   String *key_3 = String_create("\"three\"");
   String *value_3 = String_create("3");
   String *pair_3 = json_gen_bald_pair(key_3, value_3);
 
-  String *json = json_gen_wrap_pairs(3, pair_1, pair_2, pair_3);
+  Array *pairs = Array_create(3);
+  array_push(pairs, pair_1);
+  array_push(pairs, pair_2);
+  array_push(pairs, pair_3);
+
+  String *json = json_gen_wrap_pairs(pairs);
   assert_strings_equal(string_value(json), "{\"one\": 1, \"two\": 2, \"three\": 3}", "three pairs");
 
   string_free(key_1);
@@ -77,6 +90,8 @@ char *test_wrap_three_pairs() {
   string_free(pair_1);
   string_free(pair_2);
   string_free(pair_3);
+
+  array_free(pairs);
 
   string_free(json);
 

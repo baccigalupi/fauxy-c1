@@ -11,7 +11,6 @@ typedef struct FxP_Expression {
   Array *value;
 } FxP_Expression;
 
-typedef FxP_Expression FxP_Expressions;
 typedef FxP_Expression FxP_Literal;
 typedef FxP_Expression FxP_Lookup;
 typedef FxP_Expression FxP_Function;
@@ -22,6 +21,7 @@ typedef FxP_Expression FxP_MethodArguments;
 typedef FxP_Expression FxP_FunctionArguments;
 typedef FxP_Expression FxP_LocalAssign;
 typedef FxP_Expression FxP_ColonExpression;
+typedef FxP_Expression FxP_Expressions;
 
 // IMPORTANT, this bit thing is a bitch and has to stay
 // below the typedefs!

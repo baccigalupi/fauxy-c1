@@ -53,6 +53,18 @@ void array_each(Array *array, ArrayIterator f) {
   }
 }
 
+Array *array_map(Array *array, ArrayMapIterator f) {
+  Array *mapped = Array_create(array_length(array));
+  int i;
+  void *element;
+  for (i = 0; i < array_length(array); i++) {
+    element = array_at_index(array, i);
+    array_set(mapped, i, f(element));
+  }
+
+  return mapped;
+}
+
 void *array_pop(Array *array) {
   void *value = NULL;
 

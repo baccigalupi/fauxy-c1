@@ -4,8 +4,19 @@
 #include "../bricks/string.h"
 #include "expressions.h"
 
-String *fxp_literal_inspect(FxP_Literal *literal);
-String *fxp_lookup_inspect(FxP_Lookup *literal);
+void   *fxp_inspect(void *element); // void * for use in array iterators
+
+String *fxp_literal_inspect(  FxP_Expression *expression);
+String *fxp_lookup_inspect(   FxP_Expression *expression);
+String *fxp_list_inspect(     FxP_Expression *expression);
+// typedef FxP_Expression FxP_MethodArguments;
+// typedef FxP_Expression FxP_FunctionArguments;
+// typedef FxP_Expression FxP_Expressions;
+// typedef FxP_Expression FxP_Method;
+// String *fxp_function_inpect( FxP_function *expression);
+// typedef FxP_Expression FxP_Grouped;
+// typedef FxP_Expression FxP_LocalAssign;
+// typedef FxP_Expression FxP_ColonExpression;
 
 String *fxp_expression_type_description(FxP_Expression *expression);
 String *fxp_literal_class_description(FxP_Literal *literal);

@@ -122,6 +122,30 @@ char *test_array_set_at_index() {
   return NULL;
 }
 
+void *__count_string(void *str) {
+  int *length = calloc(1, sizeof(int));
+  *length = strlen((char *)str);
+  return length;
+}
+
+char *test_array_map() {
+  spec_setup("Map");
+
+  Array *array = Array_create(2);
+  array_set(array, 0, "1");
+  array_set(array, 1, "two");
+
+  Array *counts = array_map(array, __count_string);
+  assert_ints_equal(array_length(array), 2, "length");
+  assert_ints_equal(*((int *)array_get(array, 0)), 1, "value at 0");
+  assert_ints_equal(*((int *)array_get(array, 1)), 3, "value at 0");
+
+  array_free(array);
+  array_free(counts);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Brick Array");
 

@@ -10,7 +10,8 @@ typedef struct Array {
   void **values;
 } Array;
 
-typedef void (ArrayIterator)(void *);
+typedef void  (ArrayIterator)(void *);
+typedef void *(ArrayMapIterator)(void *);
 
 #define array_length(A)      ((A)->length)
 #define array_capacity(A)    ((A)->capacity)
@@ -22,10 +23,11 @@ typedef void (ArrayIterator)(void *);
 #define array_r_free(A)      (array_free_each(A), array_free(A))
 
 Array     *Array_create(int capacity);
-void      array_push(Array *array, void *element);
-Boolean   array_expand(Array *array, int seed);
-void      array_each(Array *array, ArrayIterator f);
+void       array_push(Array *array, void *element);
+Boolean    array_expand(Array *array, int seed);
+void       array_each(Array *array, ArrayIterator f);
+Array     *array_map(Array *array, ArrayMapIterator f);
 void      *array_pop(Array *array);
-void      array_set(Array *array, int index, void *value);
+void       array_set(Array *array, int index, void *value);
 
 #endif

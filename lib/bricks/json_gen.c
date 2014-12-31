@@ -15,26 +15,39 @@ error:
   return NULL;
 }
 
+String *json_gen_join_pairs(Array *pairs, char *joiner) {
+  String *joined = String_create_blank();
+  verify(joined);
 
-String *json_gen_wrap_pairs(int n, ...) {
-  String *json = String_create_blank();
-  verify(json);
-
-  va_list args;
-  va_start(args, n);
-
+  int length = array_length(pairs);
   int i;
-  for (i = 0; i < n; i++) {
-    String *pair = va_arg(args, String *);
-    verify(string_add_string(json, pair));
-    if (i < n-1) {
-      verify(string_add_chars(json, ", "));
+  for(i = 0; i < length; i++) {
+    verify(string_add_string(joined, array_get(pairs, i)));
+    if (i < length - 1) {
+      verify(string_add_chars(joined, joiner));
     }
   }
 
-  va_end(args);
+  return joined;
+error:
+  return NULL;
+}
+
+String *json_gen_wrap_pairs(Array *pairs) {
+  String *json = json_gen_join_pairs(pairs, ", ");
+  verify(json);
 
   verify(string_wrap(json, '{', '}'));
+  return json;
+error:
+  return NULL;
+}
+
+String *json_gen_wrap_array_pairs(Array *pairs) {
+  String *json = json_gen_join_pairs(pairs, ",\n");
+  verify(json);
+  verify(string_wrap(json, '\n', '\n'));
+  verify(string_wrap(json, '[', ']'));
   return json;
 error:
   return NULL;

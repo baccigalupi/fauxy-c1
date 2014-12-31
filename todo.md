@@ -8,6 +8,9 @@
 ## Optimize later
 Invert argument expression order so unshift not necessary
 
+Array:
+verification with return boolean on push etc
+
 Better strings:
 String shorten ...
 
