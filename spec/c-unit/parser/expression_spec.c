@@ -79,13 +79,6 @@ char *test_inspect_implicit_method() {
   FxP_Bit *bit_2 = FxP_Bit_create(TOKEN_STRING, "\"hello world\"");
   FxP_Literal *arg = FxP_Literal_create(bit_2, TOKEN_STRING);
 
-  //{"method_call": {"message": {"lookup": {"type": "Identifier", "bit": {"STRING": "print"}}}, "arguments": {"method_arguments": [
-  //{"literal": {"class": "String", "bit": {"STRING": "hello worl..."}}}
-  //]}}}
-  //{"method_call": {"message": {"lookup": {"type": "Identifier", "bit": {"STRING": "print"}}}, "arguments": {"method_arguments": [
-  //{"literal": {"class": "String", "bit": {"STRING": "hello worl..."}}}
-  //]}}'
-
   // print "hello world"
   FxP_Method *method = FxP_Method_create_implicit(message, arg);
   String *inspection = fxp_method_inspect(method);
