@@ -201,6 +201,94 @@ error:
   return NULL;
 }
 
+String *fxp_method_inspect(FxP_Expression *expression) {
+  /*[receiver, method_name, method_arguments]*/
+  String *receiver_key = NULL;
+  String *receiver_value = NULL;
+  String *receiver_pair = NULL;
+
+  String *message_key = NULL;
+  String *message_value = NULL;
+  String *message_pair = NULL;
+
+  String *arg_key = NULL;
+  String *arg_value = NULL;
+  String *arg_pair = NULL;
+
+  String *exp_key = NULL;
+  String *exp_value = NULL;
+  String *exp_pair = NULL;
+
+  Array *json_pair = NULL;
+
+  Array  *exp_values = Array_create(3);
+  verify(exp_values);
+
+  if ( fxp_method_receiver(expression) ) {
+    receiver_key = String_create("receiver");
+    verify(receiver_key);
+    receiver_value = fxp_inspect(fxp_method_receiver(expression));
+    verify(receiver_value);
+    receiver_pair = json_gen_bald_pair(receiver_key, receiver_value);
+    verify(receiver_pair);
+    array_push(exp_values, receiver_pair);
+  }
+
+  message_key = String_create("message");
+  verify(message_key);
+  message_value = fxp_inspect(fxp_method_message(expression));
+  verify(message_value);
+  message_pair = json_gen_bald_pair(message_key, message_value);
+  verify(message_pair);
+  array_push(exp_values, message_pair);
+
+  if ( fxp_method_arguments(expression) ) {
+    arg_key = String_create("arguments");
+    verify(arg_key);
+    arg_value = fxp_inspect(fxp_method_arguments(expression));
+    verify(arg_value);
+    arg_pair = json_gen_bald_pair(arg_key, arg_value);
+    verify(arg_pair);
+    array_push(exp_values, arg_pair);
+  }
+
+  exp_key = fxp_expression_type_description(expression);
+  verify(exp_key);
+  exp_value = json_gen_wrap_pairs(exp_values);
+  verify(exp_value);
+  exp_pair = json_gen_bald_pair(exp_key, exp_value);
+
+  json_pair = Array_create(1);
+  verify(json_pair);
+  array_push(json_pair, exp_pair);
+
+  String *json = json_gen_wrap_pairs(json_pair);
+  verify(json);
+
+  return json;
+error:
+  if (receiver_key) { string_free(receiver_key); }
+  if (receiver_value) { string_free(receiver_value); }
+  if (receiver_pair) { string_free(receiver_pair); }
+
+  if (message_key) { string_free(message_key); }
+  if (message_value) { string_free(message_value); }
+  if (message_pair) { string_free(message_pair); }
+
+  if (arg_key) { string_free(arg_key); }
+  if (arg_value) { string_free(arg_value); }
+  if (arg_pair) { string_free(arg_pair); }
+
+  if (exp_key) { string_free(exp_key); }
+  if (exp_value) { string_free(exp_value); }
+  if (exp_pair) { string_free(exp_pair); }
+
+  if (exp_values) { array_free(exp_values); }
+  if (json_pair) { array_free(json_pair); }
+
+  return NULL;
+}
+
 String *fxp_expression_type_description(FxP_Expression *expression) {
   String *description;
   int type = fxp_expression_type(expression);
@@ -228,7 +316,8 @@ String *fxp_expression_type_description(FxP_Expression *expression) {
   } else if (type == FXP_ST_EXPRESSIONS) {
     description = String_create("expression");
   } else {
-    description = String_create("UNKNOWN STATEMENT");
+    description = String_create("\"UNKNOWN STATEMENT\"");
+    printf("unknown statement type: %d\n", type);
   }
 
   verify(description);
@@ -268,7 +357,8 @@ void *fxp_inspect(void *element) {
   } else if (type == FXP_ST_EXPRESSIONS) {
     json = fxp_collection_inspect(expression);
   } else {
-    json = String_create("UNKNOWN STATEMENT");
+    json = String_create("\"UNKNOWN STATEMENT\"");
+    printf("printing unknown statement: %d\n", type);
   }
 
   verify(json);

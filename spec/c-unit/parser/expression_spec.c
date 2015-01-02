@@ -70,6 +70,34 @@ char *test_inspect_list() {
   return NULL;
 }
 
+char *test_inspect_implicit_method() {
+  spec_describe("inspecting an implicit method call");
+
+  FxP_Bit *bit_1 = FxP_Bit_create(TOKEN_ID, "print");
+  FxP_Literal *message = FxP_Lookup_create(bit_1, TOKEN_ID);
+
+  FxP_Bit *bit_2 = FxP_Bit_create(TOKEN_STRING, "\"hello world\"");
+  FxP_Literal *arg = FxP_Literal_create(bit_2, TOKEN_STRING);
+
+  //{"method_call": {"message": {"lookup": {"type": "Identifier", "bit": {"STRING": "print"}}}, "arguments": {"method_arguments": [
+  //{"literal": {"class": "String", "bit": {"STRING": "hello worl..."}}}
+  //]}}}
+  //{"method_call": {"message": {"lookup": {"type": "Identifier", "bit": {"STRING": "print"}}}, "arguments": {"method_arguments": [
+  //{"literal": {"class": "String", "bit": {"STRING": "hello worl..."}}}
+  //]}}'
+
+  // print "hello world"
+  FxP_Method *method = FxP_Method_create_implicit(message, arg);
+  String *inspection = fxp_method_inspect(method);
+  char *expected = "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"arguments\": {\"method_arguments\": [\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}}}";
+  assert_strings_equal(string_value(inspection), expected, "json");
+
+  fxp_literal_free(method);
+  string_free(inspection);
+
+  return NULL;
+}
+
 // char *test_inspect_function() {
 //   spec_describe("inspecting a function expression");
 //
@@ -92,6 +120,10 @@ char *all_specs() {
   run_spec(test_inspect_literal);
   run_spec(test_inspect_lookup);
   run_spec(test_inspect_list);
+  run_spec(test_inspect_implicit_method);
+  /*run_spec(test_inspect_method_no_args);*/
+  /*run_spec(test_inspect_method_full);*/
+
   // run_spec(test_inspect_function);
 
   spec_teardown();

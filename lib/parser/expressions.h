@@ -94,10 +94,10 @@ FxP_Function *FxP_Function_create(FxP_Expressions *expressions, FxP_List *list);
 #define fxp_method_set_arguments(E, V)   (array_set(fxp_expression_value(E), 2, V))
 #define FxP_Method_create()               FxP_Expression_create(FXP_ST_METHOD)
 
-FxP_Method *FxP_Method_create_implicit(FxP_Bit *message, FxP_Expression *argument);
+FxP_Method *FxP_Method_create_implicit(FxP_Literal *message, FxP_Expression *argument);
 FxP_Method *fxp_method_convert_implicit(FxP_Method *self, FxP_Expression *receivier);
-FxP_Method *FxP_Method_create_no_args(FxP_Expression *receiver, FxP_Bit *message);
-FxP_Method *FxP_Method_create_operator(FxP_Expression *receiver, FxP_Bit *message, FxP_Expression *argument);
+FxP_Method *FxP_Method_create_no_args(FxP_Expression *receiver, FxP_Literal *message);
+FxP_Method *FxP_Method_create_operator(FxP_Expression *receiver, FxP_Literal *message, FxP_Expression *argument);
 FxP_Method *fxp_method_add_function_argument(FxP_Method *method, FxP_Function *function);
 
 // Grouped expressions are lists with one value,

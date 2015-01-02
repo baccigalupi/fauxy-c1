@@ -6,10 +6,10 @@
 
 void   *fxp_inspect(void *element); // void * for use in array iterators
 
-String *fxp_literal_inspect(  FxP_Expression *expression);
-String *fxp_lookup_inspect(   FxP_Expression *expression);
-String *fxp_collection_inspect(     FxP_Expression *expression);
-// typedef FxP_Expression FxP_Method;
+String *fxp_literal_inspect(    FxP_Expression *expression);
+String *fxp_lookup_inspect(     FxP_Expression *expression);
+String *fxp_collection_inspect( FxP_Expression *expression);
+String *fxp_method_inspect(     FxP_Expression *expression);
 // String *fxp_function_inpect( FxP_function *expression);
 // typedef FxP_Expression FxP_LocalAssign;
 // typedef FxP_Expression FxP_ColonExpression;
