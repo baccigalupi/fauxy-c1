@@ -289,6 +289,12 @@ error:
   return NULL;
 }
 
+String *fxp_function_inspect(   FxP_Expression *expression) {
+  
+error:
+  return NULL;
+}
+
 String *fxp_expression_type_description(FxP_Expression *expression) {
   String *description;
   int type = fxp_expression_type(expression);

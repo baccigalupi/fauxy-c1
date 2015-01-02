@@ -85,7 +85,29 @@ char *test_inspect_implicit_method() {
   char *expected = "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"arguments\": {\"method_arguments\": [\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}}}";
   assert_strings_equal(string_value(inspection), expected, "json");
 
-  fxp_literal_free(method);
+  fxp_expression_free(method);
+  string_free(inspection);
+
+  return NULL;
+}
+
+char *test_inspect_method_no_args() {
+  spec_describe("inspecting a method call with no args");
+
+  FxP_Bit *bit_1 = FxP_Bit_create(TOKEN_ID, "printer");
+  FxP_Literal *receiver = FxP_Lookup_create(bit_1, TOKEN_ID);
+
+  FxP_Bit *bit_2 = FxP_Bit_create(TOKEN_ID, "print");
+  FxP_Literal *message = FxP_Lookup_create(bit_2, TOKEN_ID);
+
+  // printer.print
+  FxP_Method *method = FxP_Method_create_no_args(receiver, message);
+
+  String *inspection = fxp_method_inspect(method);
+  char *expected = "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"printer\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}}}";
+  assert_strings_equal(string_value(inspection), expected, "json");
+
+  fxp_expression_free(method);
   string_free(inspection);
 
   return NULL;
@@ -114,8 +136,7 @@ char *all_specs() {
   run_spec(test_inspect_lookup);
   run_spec(test_inspect_list);
   run_spec(test_inspect_implicit_method);
-  /*run_spec(test_inspect_method_no_args);*/
-  /*run_spec(test_inspect_method_full);*/
+  run_spec(test_inspect_method_no_args);
 
   // run_spec(test_inspect_function);
 
