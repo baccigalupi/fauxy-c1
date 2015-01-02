@@ -160,7 +160,7 @@ error:
   return NULL;
 }
 
-String *fxp_list_inspect(FxP_Expression *expression) {
+String *fxp_collection_inspect(FxP_Expression *expression) {
   String *exp_key = NULL;
   String *exp_value = NULL;
   String *exp_pair = NULL;
@@ -254,19 +254,19 @@ void *fxp_inspect(void *element) {
   } else if (type == FXP_ST_FUNCTION) {
     json = String_create("function_definition");
   } else if (type == FXP_ST_GROUPED) {
-    json = String_create("grouped_expression");
+    json = fxp_collection_inspect(expression);
   } else if (type == FXP_ST_LIST) {
-    json = fxp_list_inspect(expression);
+    json = fxp_collection_inspect(expression);
   } else if (type == FXP_ST_METHOD_ARGUMENTS) {
-    json = String_create("method_arguments");
+    json = fxp_collection_inspect(expression);
   } else if (type == FXP_ST_FUNCTION_ARGUMENTS) {
-    json = String_create("function_arguments");
+    json = fxp_collection_inspect(expression);
   } else if (type == FXP_ST_LOCAL_ASSIGN) {
     json = String_create("local_assignment");
   } else if (type == FXP_ST_COLON_EXPRESSION) {
     json = String_create("colon_expression");
   } else if (type == FXP_ST_EXPRESSIONS) {
-    json = String_create("expression");
+    json = fxp_collection_inspect(expression);
   } else {
     json = String_create("UNKNOWN STATEMENT");
   }

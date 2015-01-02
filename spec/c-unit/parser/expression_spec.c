@@ -60,7 +60,7 @@ char *test_inspect_list() {
 
   FxP_List    *list = FxP_List_create_double(arg_1, arg_2);
 
-  String *inspection = fxp_list_inspect(list);
+  String *inspection = fxp_collection_inspect(list);
   char *expected = "{\"list\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}";
   assert_strings_equal(string_value(inspection), expected, "json");
 
