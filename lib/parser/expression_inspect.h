@@ -6,11 +6,11 @@
 
 void   *fxp_inspect(void *element); // void * for use in array iterators
 
-String *fxp_literal_inspect(    FxP_Expression *expression);
-String *fxp_lookup_inspect(     FxP_Expression *expression);
-String *fxp_collection_inspect( FxP_Expression *expression);
-String *fxp_method_inspect(     FxP_Expression *expression);
-String *fxp_function_inspect(   FxP_Expression *expression);
+String *fxp_literal_body_inspect(    FxP_Expression *expression);
+String *fxp_lookup_body_inspect(     FxP_Expression *expression);
+String *fxp_collection_body_inspect( FxP_Expression *expression);
+String *fxp_method_body_inspect(     FxP_Expression *expression);
+String *fxp_function_body_inspect(   FxP_Expression *expression);
 // typedef FxP_Expression FxP_LocalAssign;
 // typedef FxP_Expression FxP_ColonExpression;
 

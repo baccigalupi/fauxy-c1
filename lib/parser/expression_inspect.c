@@ -11,27 +11,27 @@ void *fxp_inspect(void *element) {
   int type = fxp_expression_type(expression);
 
   if (type == FXP_ST_LITERAL) {
-    json = fxp_literal_inspect(expression);
+    json = fxp_literal_body_inspect(expression);
   } else if (type == FXP_ST_LOOKUP) {
-    json = fxp_lookup_inspect(expression);
+    json = fxp_lookup_body_inspect(expression);
   } else if (type == FXP_ST_METHOD) {
-    json = fxp_method_inspect(expression);
+    json = fxp_method_body_inspect(expression);
   } else if (type == FXP_ST_FUNCTION) {
     json = String_create("function_definition");
   } else if (type == FXP_ST_GROUPED) {
-    json = fxp_collection_inspect(expression);
+    json = fxp_collection_body_inspect(expression);
   } else if (type == FXP_ST_LIST) {
-    json = fxp_collection_inspect(expression);
+    json = fxp_collection_body_inspect(expression);
   } else if (type == FXP_ST_METHOD_ARGUMENTS) {
-    json = fxp_collection_inspect(expression);
+    json = fxp_collection_body_inspect(expression);
   } else if (type == FXP_ST_FUNCTION_ARGUMENTS) {
-    json = fxp_collection_inspect(expression);
+    json = fxp_collection_body_inspect(expression);
   } else if (type == FXP_ST_LOCAL_ASSIGN) {
     json = String_create("local_assignment");
   } else if (type == FXP_ST_COLON_EXPRESSION) {
     json = String_create("colon_expression");
   } else if (type == FXP_ST_EXPRESSIONS) {
-    json = fxp_collection_inspect(expression);
+    json = fxp_collection_body_inspect(expression);
   } else {
     json = String_create("\"UNKNOWN STATEMENT\"");
     printf("printing unknown statement: %d\n", type);
@@ -45,7 +45,7 @@ error:
   return NULL;
 }
 
-String *fxp_literal_inspect(FxP_Literal *expression) {
+String *fxp_literal_body_inspect(FxP_Literal *expression) {
   String *exp_key = NULL;
   String *exp_value = NULL;
   String *exp_pair = NULL;
@@ -124,7 +124,7 @@ error:
   return NULL;
 }
 
-String *fxp_lookup_inspect(FxP_Lookup *expression) {
+String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   // "{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}}"
   String *exp_key = NULL;
   String *exp_value = NULL;
@@ -203,7 +203,7 @@ error:
   return NULL;
 }
 
-String *fxp_collection_inspect(FxP_Expression *expression) {
+String *fxp_collection_body_inspect(FxP_Expression *expression) {
   String *exp_key = NULL;
   String *exp_value = NULL;
   String *exp_pair = NULL;
@@ -244,7 +244,7 @@ error:
   return NULL;
 }
 
-String *fxp_method_inspect(FxP_Expression *expression) {
+String *fxp_method_body_inspect(FxP_Expression *expression) {
   /*[receiver, method_name, method_arguments]*/
   String *receiver_key = NULL;
   String *receiver_value = NULL;
@@ -332,7 +332,7 @@ error:
   return NULL;
 }
 
-String *fxp_function_inspect(FxP_Expression *expression) {
+String *fxp_function_body_inspect(FxP_Expression *expression) {
   /*[arguments, expressions]*/
   String *arguments_key = NULL;
   String *arguments_value = NULL;
