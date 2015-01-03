@@ -6,42 +6,54 @@
 // also can be used for regular inspection
 void *fxp_inspect(void *element) {
   FxP_Expression *expression = (FxP_Expression *)element;
+  String *unwrapped_pair = NULL;
+  Array *pair_array = NULL;
 
   String *json;
   int type = fxp_expression_type(expression);
 
   if (type == FXP_ST_LITERAL) {
-    json = fxp_literal_body_inspect(expression);
+    unwrapped_pair = fxp_literal_body_inspect(expression);
   } else if (type == FXP_ST_LOOKUP) {
-    json = fxp_lookup_body_inspect(expression);
+    unwrapped_pair = fxp_lookup_body_inspect(expression);
   } else if (type == FXP_ST_METHOD) {
-    json = fxp_method_body_inspect(expression);
+    unwrapped_pair = fxp_method_body_inspect(expression);
   } else if (type == FXP_ST_FUNCTION) {
-    json = String_create("function_definition");
+    unwrapped_pair = fxp_function_body_inspect(expression);
   } else if (type == FXP_ST_GROUPED) {
-    json = fxp_collection_body_inspect(expression);
+    unwrapped_pair = fxp_collection_body_inspect(expression);
   } else if (type == FXP_ST_LIST) {
-    json = fxp_collection_body_inspect(expression);
+    unwrapped_pair = fxp_collection_body_inspect(expression);
   } else if (type == FXP_ST_METHOD_ARGUMENTS) {
-    json = fxp_collection_body_inspect(expression);
+    unwrapped_pair = fxp_collection_body_inspect(expression);
   } else if (type == FXP_ST_FUNCTION_ARGUMENTS) {
-    json = fxp_collection_body_inspect(expression);
+    unwrapped_pair = fxp_collection_body_inspect(expression);
   } else if (type == FXP_ST_LOCAL_ASSIGN) {
-    json = String_create("local_assignment");
+    unwrapped_pair = String_create("local_assignment");
   } else if (type == FXP_ST_COLON_EXPRESSION) {
-    json = String_create("colon_expression");
+    unwrapped_pair = String_create("colon_expression");
   } else if (type == FXP_ST_EXPRESSIONS) {
-    json = fxp_collection_body_inspect(expression);
+    unwrapped_pair = fxp_collection_body_inspect(expression);
   } else {
-    json = String_create("\"UNKNOWN STATEMENT\"");
+    unwrapped_pair = String_create("\"UNKNOWN STATEMENT\"");
     printf("printing unknown statement: %d\n", type);
   }
 
+  verify(unwrapped_pair);
+  pair_array = Array_create(1);
+  verify(pair_array);
+  array_push(pair_array, unwrapped_pair);
+
+  json = json_gen_wrap_pairs(pair_array);
   verify(json);
-  
+
+  string_free(unwrapped_pair);
+  array_free(pair_array);
 
   return json;
 error:
+  if (unwrapped_pair) { string_free(unwrapped_pair); }
+  if (pair_array) { array_free(pair_array); }
   return NULL;
 }
 
@@ -93,7 +105,7 @@ String *fxp_literal_body_inspect(FxP_Literal *expression) {
   verify(exp_pairs);
   array_push(exp_pairs, exp_pair);
 
-  String *json = json_gen_wrap_pairs(exp_pairs);
+  String *json = json_gen_join_pairs(exp_pairs, ", ");
   verify(json);
 
   string_free(exp_key);
@@ -172,7 +184,7 @@ String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   verify(exp_pairs);
   array_push(exp_pairs, exp_pair);
 
-  String *json = json_gen_wrap_pairs(exp_pairs);
+  String *json = json_gen_join_pairs(exp_pairs, ", ");
   verify(json);
 
   string_free(exp_key);
@@ -226,7 +238,7 @@ String *fxp_collection_body_inspect(FxP_Expression *expression) {
   verify(exp_array);
   array_push(exp_array, exp_pair);
 
-  String *json = json_gen_wrap_pairs(exp_array);
+  String *json = json_gen_join_pairs(exp_array, ", ");
 
   string_free(exp_key);
   string_free(exp_value);
@@ -286,13 +298,9 @@ String *fxp_method_body_inspect(FxP_Expression *expression) {
   array_push(exp_values, message_pair);
 
   if ( fxp_method_arguments(expression) ) {
-    arg_key = String_create("arguments");
-    verify(arg_key);
-    arg_value = fxp_inspect(fxp_method_arguments(expression));
+    arg_value = fxp_collection_body_inspect(fxp_method_arguments(expression));
     verify(arg_value);
-    arg_pair = json_gen_bald_pair(arg_key, arg_value);
-    verify(arg_pair);
-    array_push(exp_values, arg_pair);
+    array_push(exp_values, arg_value);
   }
 
   exp_key = fxp_expression_type_description(expression);
@@ -305,7 +313,7 @@ String *fxp_method_body_inspect(FxP_Expression *expression) {
   verify(json_pair);
   array_push(json_pair, exp_pair);
 
-  String *json = json_gen_wrap_pairs(json_pair);
+  String *json = json_gen_join_pairs(json_pair, ", ");
   verify(json);
 
   return json;
@@ -352,22 +360,14 @@ String *fxp_function_body_inspect(FxP_Expression *expression) {
   verify(exp_values);
 
   if ( fxp_function_arguments(expression) ) {
-    arguments_key = fxp_expression_type_description(fxp_function_arguments(expression));
-    verify(arguments_key);
-    arguments_value = fxp_inspect(fxp_function_arguments(expression));
+    arguments_value = fxp_collection_body_inspect(fxp_function_arguments(expression));
     verify(arguments_value);
-    arguments_pair = json_gen_bald_pair(arguments_key, arguments_value);
-    verify(arguments_pair);
     array_push(exp_values, arguments_value);
   }
 
-  expressions_key = fxp_expression_type_description(fxp_function_expressions(expression));
-  verify(expressions_key);
-  expressions_value = fxp_inspect(fxp_function_expressions(expression));
+  expressions_value = fxp_collection_body_inspect(fxp_function_expressions(expression));
   verify(expressions_value);
-  expressions_pair = json_gen_bald_pair(expressions_key, expressions_value);
-  verify(expressions_pair);
-  array_push(exp_values, expressions_pair);
+  array_push(exp_values, expressions_value);
 
   exp_key = fxp_expression_type_description(expression);
   verify(exp_key);
@@ -379,16 +379,14 @@ String *fxp_function_body_inspect(FxP_Expression *expression) {
   exp_pairs = Array_create(1);
   array_push(exp_pairs, exp_pair);
 
-  String *json = json_gen_wrap_pairs(exp_pairs);
+  String *json = json_gen_join_pairs(exp_pairs, ", ");
   verify(json);
 
   if (arguments_key) { string_free(arguments_key); }
   if (arguments_value) { string_free(arguments_value); }
   if (arguments_pair) { string_free(arguments_pair); }
 
-  string_free(expressions_key);
   string_free(expressions_value);
-  string_free(expressions_pair);
 
   string_free(exp_key);
   string_free(exp_pair);
@@ -442,7 +440,7 @@ String *fxp_expression_type_description(FxP_Expression *expression) {
   } else if (type == FXP_ST_COLON_EXPRESSION) {
     description = String_create("colon_expression");
   } else if (type == FXP_ST_EXPRESSIONS) {
-    description = String_create("expression");
+    description = String_create("expressions");
   } else {
     description = String_create("\"UNKNOWN STATEMENT\"");
     printf("unknown statement type: %d\n", type);

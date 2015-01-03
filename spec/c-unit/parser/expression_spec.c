@@ -82,7 +82,7 @@ char *test_inspect_implicit_method() {
   // print "hello world"
   FxP_Method *method = FxP_Method_create_implicit(message, arg);
   String *inspection = fxp_inspect(method);
-  char *expected = "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"arguments\": {\"method_arguments\": [\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}}}";
+  char *expected = "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"method_arguments\": [\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}}";
   assert_strings_equal(string_value(inspection), expected, "json");
 
   fxp_expression_free(method);
@@ -114,7 +114,7 @@ char *test_inspect_method_no_args() {
 }
 
 char *test_inspect_function() {
-  spec_describe("inspecting a list expression");
+  spec_describe("inspecting a function with arguments");
 
   // arguments
   FxP_Bit     *bit_1 = FxP_Bit_create(TOKEN_ID, "foo");
@@ -133,7 +133,9 @@ char *test_inspect_function() {
   FxP_Function *function = FxP_Function_create(expressions, arguments);
 
   String *inspection = fxp_inspect(function);
-  char *expected = "{\"function_definition\": {\"function_arguments\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"bar\"}}}\n], {\"expressions\": [\n\n]}}}";
+  char *expected = "{\"function_definition\": "
+  "{\"function_arguments\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"bar\"}}}\n], "
+  "\"expressions\": [\n\n]}}";
   assert_strings_equal(string_value(inspection), expected, "json");
 
   return NULL;
