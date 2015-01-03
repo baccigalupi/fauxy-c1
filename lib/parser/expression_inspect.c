@@ -15,7 +15,7 @@ void *fxp_inspect(void *element) {
   } else if (type == FXP_ST_LOOKUP) {
     json = fxp_lookup_inspect(expression);
   } else if (type == FXP_ST_METHOD) {
-    json = String_create("method_call");
+    json = fxp_method_inspect(expression);
   } else if (type == FXP_ST_FUNCTION) {
     json = String_create("function_definition");
   } else if (type == FXP_ST_GROUPED) {
