@@ -17,6 +17,7 @@ String shorten ...
 Long decimals
 String concat, push and add validation for inspect
 
+Literal/Constant pool instead of duplicate bits
 
 ## Interpreter
 Function objects

@@ -2,6 +2,49 @@
 #include "../bricks/json_gen.h"
 #include "expression_inspect.h"
 
+// map iterator for return array of inspections
+// also can be used for regular inspection
+void *fxp_inspect(void *element) {
+  FxP_Expression *expression = (FxP_Expression *)element;
+
+  String *json;
+  int type = fxp_expression_type(expression);
+
+  if (type == FXP_ST_LITERAL) {
+    json = fxp_literal_inspect(expression);
+  } else if (type == FXP_ST_LOOKUP) {
+    json = fxp_lookup_inspect(expression);
+  } else if (type == FXP_ST_METHOD) {
+    json = String_create("method_call");
+  } else if (type == FXP_ST_FUNCTION) {
+    json = String_create("function_definition");
+  } else if (type == FXP_ST_GROUPED) {
+    json = fxp_collection_inspect(expression);
+  } else if (type == FXP_ST_LIST) {
+    json = fxp_collection_inspect(expression);
+  } else if (type == FXP_ST_METHOD_ARGUMENTS) {
+    json = fxp_collection_inspect(expression);
+  } else if (type == FXP_ST_FUNCTION_ARGUMENTS) {
+    json = fxp_collection_inspect(expression);
+  } else if (type == FXP_ST_LOCAL_ASSIGN) {
+    json = String_create("local_assignment");
+  } else if (type == FXP_ST_COLON_EXPRESSION) {
+    json = String_create("colon_expression");
+  } else if (type == FXP_ST_EXPRESSIONS) {
+    json = fxp_collection_inspect(expression);
+  } else {
+    json = String_create("\"UNKNOWN STATEMENT\"");
+    printf("printing unknown statement: %d\n", type);
+  }
+
+  verify(json);
+  
+
+  return json;
+error:
+  return NULL;
+}
+
 String *fxp_literal_inspect(FxP_Literal *expression) {
   String *exp_key = NULL;
   String *exp_value = NULL;
@@ -289,9 +332,88 @@ error:
   return NULL;
 }
 
-String *fxp_function_inspect(   FxP_Expression *expression) {
-  
+String *fxp_function_inspect(FxP_Expression *expression) {
+  /*[arguments, expressions]*/
+  String *arguments_key = NULL;
+  String *arguments_value = NULL;
+  String *arguments_pair = NULL;
+
+  String *expressions_key = NULL;
+  String *expressions_value = NULL;
+  String *expressions_pair = NULL;
+
+  String *exp_key = NULL;
+  String *exp_pair = NULL;
+  String *exp_value = NULL;
+
+  Array *exp_pairs = NULL;
+
+  Array *exp_values = Array_create(2);
+  verify(exp_values);
+
+  if ( fxp_function_arguments(expression) ) {
+    arguments_key = fxp_expression_type_description(fxp_function_arguments(expression));
+    verify(arguments_key);
+    arguments_value = fxp_inspect(fxp_function_arguments(expression));
+    verify(arguments_value);
+    arguments_pair = json_gen_bald_pair(arguments_key, arguments_value);
+    verify(arguments_pair);
+    array_push(exp_values, arguments_value);
+  }
+
+  expressions_key = fxp_expression_type_description(fxp_function_expressions(expression));
+  verify(expressions_key);
+  expressions_value = fxp_inspect(fxp_function_expressions(expression));
+  verify(expressions_value);
+  expressions_pair = json_gen_bald_pair(expressions_key, expressions_value);
+  verify(expressions_pair);
+  array_push(exp_values, expressions_pair);
+
+  exp_key = fxp_expression_type_description(expression);
+  verify(exp_key);
+  exp_value = json_gen_wrap_pairs(exp_values);
+  verify(exp_value);
+  exp_pair = json_gen_bald_pair(exp_key, exp_value);
+  verify(exp_pair);
+
+  exp_pairs = Array_create(1);
+  array_push(exp_pairs, exp_pair);
+
+  String *json = json_gen_wrap_pairs(exp_pairs);
+  verify(json);
+
+  if (arguments_key) { string_free(arguments_key); }
+  if (arguments_value) { string_free(arguments_value); }
+  if (arguments_pair) { string_free(arguments_pair); }
+
+  string_free(expressions_key);
+  string_free(expressions_value);
+  string_free(expressions_pair);
+
+  string_free(exp_key);
+  string_free(exp_pair);
+  string_free(exp_value);
+
+  array_free(exp_pairs);
+  array_free(exp_values);
+
+  return json;
 error:
+  if (arguments_key) { string_free(arguments_key); }
+  if (arguments_value) { string_free(arguments_value); }
+  if (arguments_pair) { string_free(arguments_pair); }
+
+  if (expressions_key) { string_free(expressions_key); }
+  if (expressions_value) { string_free(expressions_value); }
+  if (expressions_pair) { string_free(expressions_pair); }
+
+  if (exp_key) { string_free(exp_key); }
+  if (exp_pair) { string_free(exp_pair); }
+  if (exp_value) { string_free(exp_value); }
+
+  if (exp_pairs) { array_free(exp_pairs); }
+  if (exp_values) { array_free(exp_values); }
+
   return NULL;
 }
 
@@ -328,47 +450,6 @@ String *fxp_expression_type_description(FxP_Expression *expression) {
 
   verify(description);
   return description;
-error:
-  return NULL;
-}
-
-// map iterator for return array of inspections
-// also can be used for regular inspection
-void *fxp_inspect(void *element) {
-  FxP_Expression *expression = (FxP_Expression *)element;
-
-  String *json;
-  int type = fxp_expression_type(expression);
-
-  if (type == FXP_ST_LITERAL) {
-    json = fxp_literal_inspect(expression);
-  } else if (type == FXP_ST_LOOKUP) {
-    json = fxp_lookup_inspect(expression);
-  } else if (type == FXP_ST_METHOD) {
-    json = String_create("method_call");
-  } else if (type == FXP_ST_FUNCTION) {
-    json = String_create("function_definition");
-  } else if (type == FXP_ST_GROUPED) {
-    json = fxp_collection_inspect(expression);
-  } else if (type == FXP_ST_LIST) {
-    json = fxp_collection_inspect(expression);
-  } else if (type == FXP_ST_METHOD_ARGUMENTS) {
-    json = fxp_collection_inspect(expression);
-  } else if (type == FXP_ST_FUNCTION_ARGUMENTS) {
-    json = fxp_collection_inspect(expression);
-  } else if (type == FXP_ST_LOCAL_ASSIGN) {
-    json = String_create("local_assignment");
-  } else if (type == FXP_ST_COLON_EXPRESSION) {
-    json = String_create("colon_expression");
-  } else if (type == FXP_ST_EXPRESSIONS) {
-    json = fxp_collection_inspect(expression);
-  } else {
-    json = String_create("\"UNKNOWN STATEMENT\"");
-    printf("printing unknown statement: %d\n", type);
-  }
-
-  verify(json);
-  return json;
 error:
   return NULL;
 }

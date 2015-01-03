@@ -113,20 +113,31 @@ char *test_inspect_method_no_args() {
   return NULL;
 }
 
-// char *test_inspect_function() {
-//   spec_describe("inspecting a function expression");
-//
-//   FxP_Bit *bit = FxP_Bit_create(TOKEN_ID, "foo");
-//   FxP_Literal *lookup = FxP_Lookup_create(bit, TOKEN_ID);
-//
-//   String *inspection = fxp_lookup_inspect(lookup);
-//   assert_strings_equal(string_value(inspection), "{\"function\": {\"arguments\": [], expressions: []}}", "json");
-//
-//   fxp_literal_free(lookup);
-//   string_free(inspection);
-//
-//   return NULL;
-// }
+char *test_inspect_function() {
+  spec_describe("inspecting a list expression");
+
+  // arguments
+  FxP_Bit     *bit_1 = FxP_Bit_create(TOKEN_ID, "foo");
+  FxP_Literal *arg_1 = FxP_Lookup_create(bit_1, TOKEN_ID);
+
+  FxP_Bit     *bit_2 = FxP_Bit_create(TOKEN_ID, "bar");
+  FxP_Literal *arg_2 = FxP_Lookup_create(bit_2, TOKEN_ID);
+
+  FxP_List    *arguments = FxP_List_create_double(arg_1, arg_2);
+  fxp_expression_type(arguments) = FXP_ST_FUNCTION_ARGUMENTS;
+
+  // expressions
+  FxP_Expressions *expressions = FxP_Expressions_create();
+
+  // function
+  FxP_Function *function = FxP_Function_create(expressions, arguments);
+
+  String *inspection = fxp_function_inspect(function);
+  char *expected = "{\"function_definition\": {\"function_arguments\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"bar\"}}}\n], {\"expressions\": [\n\n]}}}";
+  assert_strings_equal(string_value(inspection), expected, "json");
+
+  return NULL;
+}
 
 char *all_specs() {
   spec_setup("Parser Literal Expression");
@@ -137,8 +148,7 @@ char *all_specs() {
   run_spec(test_inspect_list);
   run_spec(test_inspect_implicit_method);
   run_spec(test_inspect_method_no_args);
-
-  // run_spec(test_inspect_function);
+  run_spec(test_inspect_function);
 
   spec_teardown();
 
