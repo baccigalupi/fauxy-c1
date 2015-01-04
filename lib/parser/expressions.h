@@ -51,32 +51,35 @@ enum {
 #define fxp_expression_push(E, V)     (array_push(fxp_expression_value(E), V))
 
 FxP_Expression *FxP_Expression_create(int type);
-void            fxp_expression_free(FxP_Expression *expression);
+void            fxp_expression_free(void *expression);
+void            fxp_expression_free_husk(FxP_Expression *expression);
 
 // Expressions are a type of expression!
 // value array is the list of sub expressions
 FxP_Expressions *FxP_Expressions_create();
-void             fxp_expressions_free(FxP_Expressions *expressions);
 
 FxP_Expression *FxP_TypedExpression_create(FxP_Bit *bit, int type, int token_type);
+void            fxp_expression_free_typed_guts(FxP_Expression *expression);
+
+#define fxp_typed__type(E)           (array_get(fxp_expression_value(E), 0))
+#define fxp_typed_type(E)            (*((int *)fxp_typed__type(E)))
+#define fxp_typed_bit(E)             (FxP_Bit *)(array_get(fxp_expression_value(E), 1))
 
 // Literals have value array [token_type, bit]
-#define fxp_literal__type(E)           (array_get(fxp_expression_value(E), 0))
-#define fxp_literal_type(E)            (*((int *)fxp_literal__type(E)))
-#define fxp_literal_bit(E)             (FxP_Bit *)(array_get(fxp_expression_value(E), 1))
+#define fxp_literal__type(E)           fxp_typed__type(E)
+#define fxp_literal_type(E)            fxp_typed_type(E)
+#define fxp_literal_bit(E)             fxp_typed_bit(E)
 
 FxP_Literal *FxP_Literal_create(FxP_Bit *bit, int token_type);
-void         fxp_literal_free(FxP_Literal *literal);
 
 // Lookups are similar to literal, with value array [token_type, bit]
-#define fxp_lookup__type(E)           (array_get(fxp_expression_value(E), 0))
-#define fxp_lookup_type(E)            (*((int *)fxp_lookup__type(E)))
-#define fxp_lookup_bit(E)             (FxP_Bit *)(array_get(fxp_expression_value(E), 1))
-#define fxp_lookup_free(E)            fxp_literal_free(E)
+#define fxp_lookup__type(E)           fxp_typed__type(E)
+#define fxp_lookup_type(E)            fxp_typed_type(E)
+#define fxp_lookup_bit(E)             fxp_typed_bit(E)
 
 FxP_Lookup  *FxP_Lookup_create(FxP_Bit *bit, int token_type);
 
-// Block value array [arguments, expressions]
+// Function value array [arguments, expressions]
 #define fxp_function_arguments(E)           (FxP_Expression *)(array_get(fxp_expression_value(E), 0))
 #define fxp_function_set_arguments(E, V)    (array_set(fxp_expression_value(E), 0, V))
 #define fxp_function_expressions(E)         (FxP_Expressions *)(array_get(fxp_expression_value(E), 1))

@@ -86,7 +86,9 @@ void array_set(Array *array, int index, void *value) {
   }
 
   array_at_index(array, index) = value;
-  array_length(array) = index + 1;
+  if (array_length(array) < index + 1) {
+    array_length(array) = index + 1;
+  }
 error:
   return;
 }

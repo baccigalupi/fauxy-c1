@@ -103,7 +103,7 @@ char *test_array_pop() {
 }
 
 char *test_array_set_at_index() {
-  spec_describe("Push until expansion required");
+  spec_describe("set at index, set at index above capacity");
 
   Array *array = Array_create(32);
 
@@ -116,6 +116,22 @@ char *test_array_set_at_index() {
   assert_ints_equal(array_capacity(array), 128, "capacity after setting above current capacity");
   assert_ints_equal(array_length(array), 33, "length");
   assert_strings_equal((char *)(array_get(array, 32)), "Another Gerbil", "value");
+
+  array_free(array);
+
+  return NULL;
+}
+
+char *test_array_set_at_index_bug() {
+  spec_describe("set at index when capactiy starts at 4");
+
+  Array *array = Array_create(4);
+
+  array_set(array, 1, "expressions");
+
+  assert_ints_equal(array_length(array), 2, "length after setting index at 2");
+  array_set(array, 0, "arguments");
+  assert_ints_equal(array_length(array), 2, "length after setting index at 0");
 
   array_free(array);
 
@@ -158,6 +174,7 @@ char *all_specs() {
   run_spec(test_array_pop);
 
   run_spec(test_array_set_at_index);
+  run_spec(test_array_set_at_index_bug);
 
   spec_teardown();
 

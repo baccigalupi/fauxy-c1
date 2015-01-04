@@ -14,7 +14,7 @@ char *test_create_literal() {
   assert_ints_equal(fxp_literal_type(literal), TOKEN_STRING, "type");
   assert_equal(fxp_literal_bit(literal), bit, "bit value");
 
-  fxp_literal_free(literal);
+  fxp_expression_free(literal);
 
   return NULL;
 }
@@ -28,7 +28,7 @@ char *test_inspect_literal() {
   String *inspection = fxp_inspect(literal);
   assert_strings_equal(string_value(inspection), "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}", "json");
 
-  fxp_literal_free(literal);
+  fxp_expression_free(literal);
   string_free(inspection);
 
   return NULL;
@@ -43,7 +43,7 @@ char *test_inspect_lookup() {
   String *inspection = fxp_inspect(lookup);
   assert_strings_equal(string_value(inspection), "{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}}", "json");
 
-  fxp_literal_free(lookup);
+  fxp_expression_free(lookup);
   string_free(inspection);
 
   return NULL;
@@ -64,7 +64,7 @@ char *test_inspect_list() {
   char *expected = "{\"list\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}";
   assert_strings_equal(string_value(inspection), expected, "json");
 
-  fxp_literal_free(list);
+  fxp_expression_free(list);
   string_free(inspection);
 
   return NULL;
@@ -133,9 +133,10 @@ char *test_inspect_function() {
   FxP_Function *function = FxP_Function_create(expressions, arguments);
 
   String *inspection = fxp_inspect(function);
-  char *expected = "{\"function_definition\": "
-  "{\"function_arguments\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"bar\"}}}\n], "
-  "\"expressions\": [\n\n]}}";
+  char *expected = "{\"function_definition\": {"
+                      "\"function_arguments\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"bar\"}}}\n], "
+                      "\"expressions\": [\n\n]"
+                    "}}";
   assert_strings_equal(string_value(inspection), expected, "json");
 
   fxp_expression_free(function);

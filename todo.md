@@ -5,6 +5,10 @@
 4. Lex tests for identifiers
 5. Expression validation in parser
 
+## Cleanup
+local and colon expressions use left and right, expression accessors
+should change too
+
 ## Optimize later
 Invert argument expression order so unshift not necessary
 

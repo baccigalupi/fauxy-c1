@@ -200,9 +200,14 @@ error:
   return NULL;
 }
 
+// array iterator for freeing all the inspections
+void fxp_free_inspection(void *str) {
+  string_free(str);
+}
+
 String *fxp_collection_body_inspect(FxP_Expression *expression) {
   String *exp_value = NULL;
-  Array *element_inspections = NULL;
+  Array  *element_inspections = NULL;
 
   element_inspections = array_map(fxp_expression_value(expression), fxp_inspect);
   verify(element_inspections);
@@ -213,12 +218,16 @@ String *fxp_collection_body_inspect(FxP_Expression *expression) {
   String *json = fxp_expression_join(expression, exp_value);
 
   string_free(exp_value);
+  array_each(element_inspections, fxp_free_inspection);
   array_free(element_inspections);
 
   return json;
 error:
   if (exp_value) { string_free(exp_value); }
-  if (element_inspections) { string_free(element_inspections); }
+  if (element_inspections) {
+    array_each(element_inspections, fxp_free_inspection);
+    string_free(element_inspections);
+  }
 
   return NULL;
 }

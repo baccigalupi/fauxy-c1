@@ -17,9 +17,31 @@ error:
   return NULL;
 }
 
-void fxp_expression_free(FxP_Expression *expression) {
+void fxp_expression_free(void *void_expression) {
+  if (!void_expression) {
+    return;
+  }
+
+  FxP_Expression *expression = void_expression;
+  int type = fxp_expression_type(expression);
+
+  if (type == FXP_ST_LITERAL || type == FXP_ST_LOOKUP) {
+    fxp_expression_free_typed_guts(expression);
+  } else {
+    array_each(fxp_expression_value(expression), fxp_expression_free);
+  }
+
+  fxp_expression_free_husk(expression);
+}
+
+void fxp_expression_free_husk(FxP_Expression *expression) {
   array_free(fxp_expression_value(expression));
   fx_pfree(expression);
+}
+
+void fxp_expression_free_typed_guts(FxP_Expression *expression) {
+  fx_pfree(fxp_typed__type(expression));
+  fxp_bit_free(fxp_typed_bit(expression));
 }
 
 FxP_Expressions *FxP_Expressions_create() {
@@ -28,10 +50,6 @@ FxP_Expressions *FxP_Expressions_create() {
   return expressions;
 error:
   return NULL;
-}
-
-void fxp_expressions_free(FxP_Expressions *expressions) {
-  // TODO: case for each type of statement
 }
 
 FxP_Expression *FxP_TypedExpression_create(FxP_Bit *bit, int exp_type, int token_type) {
@@ -55,13 +73,6 @@ FxP_Expression *FxP_Literal_create(FxP_Bit *bit, int token_type) {
   return literal;
 error:
   return NULL;
-}
-
-void fxp_literal_free(FxP_Literal *literal) {
-  fxp_bit_free(fxp_literal_bit(literal));
-  fx_pfree(fxp_literal__type(literal));
-  array_free(fxp_expression_value(literal));
-  fx_pfree(literal);
 }
 
 FxP_Lookup *FxP_Lookup_create(FxP_Bit *bit, int token_type) {
@@ -165,7 +176,7 @@ FxP_List *FxP_List_create_deferred() {
 
   return list;
 error:
-  if (value) { fxp_literal_free(value); }
+  if (value) { fxp_expression_free(value); }
   return NULL;
 }
 
