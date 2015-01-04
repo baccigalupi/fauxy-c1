@@ -138,6 +138,35 @@ char *test_inspect_function() {
   "\"expressions\": [\n\n]}}";
   assert_strings_equal(string_value(inspection), expected, "json");
 
+  fxp_expression_free(function);
+  string_free(inspection);
+
+  return NULL;
+}
+
+char *test_inspect_local_assignment() {
+  spec_describe("inspecting local assignment expression");
+
+  // arguments
+  FxP_Bit     *bit_1 = FxP_Bit_create(TOKEN_ID, "greeting");
+  FxP_Literal *local = FxP_Lookup_create(bit_1, TOKEN_ID);
+
+  FxP_Bit     *bit_2 = FxP_Bit_create(TOKEN_STRING, "\"hello world\"");
+  FxP_Literal *value = FxP_Literal_create(bit_2, TOKEN_STRING);
+
+  FxP_Expression *local_assignment = FxP_LocalAssign_create(local, value);
+  String *inspection = fxp_inspect(local_assignment);
+
+  char *expected = "{\"local_assignment\": {"
+                      "\"local\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"greeting\"}}}, "
+                      "\"value\": {\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}"
+                   "}}";
+
+  assert_strings_equal(string_value(inspection), expected, "json");
+
+  fxp_expression_free(local_assignment);
+  string_free(inspection);
+
   return NULL;
 }
 
@@ -151,6 +180,7 @@ char *all_specs() {
   run_spec(test_inspect_implicit_method);
   run_spec(test_inspect_method_no_args);
   run_spec(test_inspect_function);
+  run_spec(test_inspect_local_assignment);
 
   spec_teardown();
 
