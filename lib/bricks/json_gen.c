@@ -1,17 +1,22 @@
 #include "json_gen.h"
 
 String *json_gen_bald_pair(String *key, String *value) {
+  String *pair = NULL;
+  verify(key);
+  verify(value);
+
   if (string_value(key)[0] != '"') {
     string_wrap(key, '"', '"');
   }
 
-  String *pair = String_create(string_value(key));
+  pair = String_create(string_value(key));
   verify(pair);
   verify(string_add_chars(pair, ": "));
   verify(string_add_string(pair, value));
 
   return pair;
 error:
+  if (pair) { string_free(pair); }
   return NULL;
 }
 

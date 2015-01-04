@@ -57,6 +57,12 @@ error:
   return NULL;
 }
 
+String *fxp_expression_wrap(int type, String *value) {
+  return String_create("");
+error:
+  return NULL;
+}
+
 String *fxp_literal_body_inspect(FxP_Literal *expression) {
   String *exp_key = NULL;
   String *exp_value = NULL;
@@ -77,16 +83,12 @@ String *fxp_literal_body_inspect(FxP_Literal *expression) {
   verify(exp_key);
 
   class_key = String_create("class");
-  verify(class_key);
   class_value = fxp_literal_class_description(expression);
-  verify(class_value);
   class_pair = json_gen_bald_pair(class_key, class_value);
   verify(class_pair);
 
   bit_key = String_create("bit");
-  verify(bit_key);
   bit_value = fxp_bit_inspect(fxp_literal_bit(expression));
-  verify(bit_value);
   bit_pair = json_gen_bald_pair(bit_key, bit_value);
   verify(bit_pair);
 
@@ -157,16 +159,12 @@ String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   verify(exp_key);
 
   type_key = String_create("type");
-  verify(type_key);
   type_value = fxp_lookup_type_description(expression);
-  verify(type_value);
   type_pair = json_gen_bald_pair(type_key, type_value);
   verify(type_pair);
 
   bit_key = String_create("bit");
-  verify(bit_key);
   bit_value = fxp_bit_inspect(fxp_literal_bit(expression));
-  verify(bit_value);
   bit_pair = json_gen_bald_pair(bit_key, bit_value);
   verify(bit_pair);
 
@@ -176,7 +174,6 @@ String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   array_push(type_bit_pairs, bit_pair);
 
   exp_value = json_gen_wrap_pairs(type_bit_pairs);
-  verify(exp_value);
   exp_pair = json_gen_bald_pair(exp_key, exp_value);
   verify(exp_pair);
 
@@ -279,18 +276,14 @@ String *fxp_method_body_inspect(FxP_Expression *expression) {
 
   if ( fxp_method_receiver(expression) ) {
     receiver_key = String_create("receiver");
-    verify(receiver_key);
     receiver_value = fxp_inspect(fxp_method_receiver(expression));
-    verify(receiver_value);
     receiver_pair = json_gen_bald_pair(receiver_key, receiver_value);
     verify(receiver_pair);
     array_push(exp_values, receiver_pair);
   }
 
   message_key = String_create("message");
-  verify(message_key);
   message_value = fxp_inspect(fxp_method_message(expression));
-  verify(message_value);
   message_pair = json_gen_bald_pair(message_key, message_value);
   verify(message_pair);
   array_push(exp_values, message_pair);
@@ -302,9 +295,7 @@ String *fxp_method_body_inspect(FxP_Expression *expression) {
   }
 
   exp_key = fxp_expression_type_description(expression);
-  verify(exp_key);
   exp_value = json_gen_wrap_pairs(exp_values);
-  verify(exp_value);
   exp_pair = json_gen_bald_pair(exp_key, exp_value);
 
   json_pair = Array_create(1);
@@ -381,9 +372,7 @@ String *fxp_function_body_inspect(FxP_Expression *expression) {
   array_push(exp_values, expressions_value);
 
   exp_key = fxp_expression_type_description(expression);
-  verify(exp_key);
   exp_value = json_gen_wrap_pairs(exp_values);
-  verify(exp_value);
   exp_pair = json_gen_bald_pair(exp_key, exp_value);
   verify(exp_pair);
 
@@ -442,17 +431,13 @@ String *fxp_left_right_inspect(FxP_Expression *expression) {
   verify(exp_values);
 
   left_key = String_create("left");
-  verify(left_key);
   left_value = fxp_inspect(fxp_local_assignment_variable(expression));
-  verify(left_value);
   left_pair = json_gen_bald_pair(left_key, left_value);
   verify(left_pair);
   array_push(exp_values, left_pair);
 
   right_key = String_create("right");
-  verify(left_key);
   right_value = fxp_inspect(fxp_local_assignment_value(expression));
-  verify(right_value);
   right_pair = json_gen_bald_pair(right_key, right_value);
   verify(right_pair);
   array_push(exp_values, right_pair);
@@ -478,9 +463,9 @@ error:
   if (right_key)    {string_free(right_key); }
   if (right_key)    {string_free(right_value); }
   if (right_key)    {string_free(right_pair); }
-  if (left_key)    {string_free(left_key); }
-  if (left_value)  {string_free(left_value); }
-  if (left_pair)   {string_free(left_pair); }
+  if (left_key)     {string_free(left_key); }
+  if (left_value)   {string_free(left_value); }
+  if (left_pair)    {string_free(left_pair); }
   if (exp_key)      {string_free(exp_key); }
   if (exp_value)    {string_free(exp_value); }
 
