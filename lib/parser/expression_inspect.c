@@ -29,9 +29,9 @@ void *fxp_inspect(void *element) {
   } else if (type == FXP_ST_FUNCTION_ARGUMENTS) {
     unwrapped_pair = fxp_collection_body_inspect(expression);
   } else if (type == FXP_ST_LOCAL_ASSIGN) {
-    unwrapped_pair = fxp_local_assign_body_inspect(expression);
+    unwrapped_pair = fxp_left_right_inspect(expression);
   } else if (type == FXP_ST_COLON_EXPRESSION) {
-    unwrapped_pair = String_create("colon_expression");
+    unwrapped_pair = fxp_left_right_inspect(expression);
   } else if (type == FXP_ST_EXPRESSIONS) {
     unwrapped_pair = fxp_collection_body_inspect(expression);
   } else {
@@ -426,36 +426,36 @@ error:
   return NULL;
 }
 
-String *fxp_local_assign_body_inspect(FxP_Expression *expression) {
+String *fxp_left_right_inspect(FxP_Expression *expression) {
   // Local assignment: [local, value]
-  String *local_key = NULL;
-  String *local_value = NULL;
-  String *local_pair = NULL;
+  String *left_key = NULL;
+  String *left_value = NULL;
+  String *left_pair = NULL;
 
-  String *value_key = NULL;
-  String *value_value = NULL;
-  String *value_pair = NULL;
+  String *right_key = NULL;
+  String *right_value = NULL;
+  String *right_pair = NULL;
 
   String *exp_key = NULL;
   String *exp_value = NULL;
   Array *exp_values = Array_create(2);
   verify(exp_values);
 
-  local_key = String_create("local");
-  verify(local_key);
-  local_value = fxp_inspect(fxp_local_assignment_variable(expression));
-  verify(local_value);
-  local_pair = json_gen_bald_pair(local_key, local_value);
-  verify(local_pair);
-  array_push(exp_values, local_pair);
+  left_key = String_create("left");
+  verify(left_key);
+  left_value = fxp_inspect(fxp_local_assignment_variable(expression));
+  verify(left_value);
+  left_pair = json_gen_bald_pair(left_key, left_value);
+  verify(left_pair);
+  array_push(exp_values, left_pair);
 
-  value_key = String_create("value");
-  verify(local_key);
-  value_value = fxp_inspect(fxp_local_assignment_value(expression));
-  verify(value_value);
-  value_pair = json_gen_bald_pair(value_key, value_value);
-  verify(value_pair);
-  array_push(exp_values, value_pair);
+  right_key = String_create("right");
+  verify(left_key);
+  right_value = fxp_inspect(fxp_local_assignment_value(expression));
+  verify(right_value);
+  right_pair = json_gen_bald_pair(right_key, right_value);
+  verify(right_pair);
+  array_push(exp_values, right_pair);
 
   exp_key = fxp_expression_type_description(expression);
   verify(exp_key);
@@ -463,24 +463,24 @@ String *fxp_local_assign_body_inspect(FxP_Expression *expression) {
   verify(exp_value);
   String *json = json_gen_bald_pair(exp_key, exp_value);
 
-  string_free(value_key);
-  string_free(value_value);
-  string_free(value_pair);
-  string_free(local_key);
-  string_free(local_value);
-  string_free(local_pair);
+  string_free(right_key);
+  string_free(right_value);
+  string_free(right_pair);
+  string_free(left_key);
+  string_free(left_value);
+  string_free(left_pair);
   string_free(exp_key);
   string_free(exp_value);
   array_free(exp_values);
 
   return json;
 error:
-  if (value_key)    {string_free(value_key); }
-  if (value_key)    {string_free(value_value); }
-  if (value_key)    {string_free(value_pair); }
-  if (local_key)    {string_free(local_key); }
-  if (local_value)  {string_free(local_value); }
-  if (local_pair)   {string_free(local_pair); }
+  if (right_key)    {string_free(right_key); }
+  if (right_key)    {string_free(right_value); }
+  if (right_key)    {string_free(right_pair); }
+  if (left_key)    {string_free(left_key); }
+  if (left_value)  {string_free(left_value); }
+  if (left_pair)   {string_free(left_pair); }
   if (exp_key)      {string_free(exp_key); }
   if (exp_value)    {string_free(exp_value); }
 

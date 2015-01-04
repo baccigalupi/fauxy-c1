@@ -11,8 +11,8 @@ String *fxp_lookup_body_inspect(      FxP_Expression *expression);
 String *fxp_collection_body_inspect(  FxP_Expression *expression);
 String *fxp_method_body_inspect(      FxP_Expression *expression);
 String *fxp_function_body_inspect(    FxP_Expression *expression);
-String *fxp_local_assign_body_inspect(FxP_Expression *expression);
-// typedef FxP_Expression FxP_ColonExpression;
+String *fxp_left_right_inspect(       FxP_Expression *expression);
+String *fxp_colon_exp_inspect(        FxP_Expression *expression);
 
 String *fxp_expression_type_description(FxP_Expression *expression);
 String *fxp_literal_class_description(FxP_Literal *literal);
