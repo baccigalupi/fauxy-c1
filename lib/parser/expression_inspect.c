@@ -266,9 +266,7 @@ String *fxp_method_body_inspect(FxP_Expression *expression) {
   String *message_value = NULL;
   String *message_pair = NULL;
 
-  String *arg_key = NULL;
   String *arg_value = NULL;
-  String *arg_pair = NULL;
 
   String *exp_key = NULL;
   String *exp_value = NULL;
@@ -316,6 +314,23 @@ String *fxp_method_body_inspect(FxP_Expression *expression) {
   String *json = json_gen_join_pairs(json_pair, ", ");
   verify(json);
 
+  if (receiver_key) { string_free(receiver_key); }
+  if (receiver_value) { string_free(receiver_value); }
+  if (receiver_pair) { string_free(receiver_pair); }
+
+  if (message_key) { string_free(message_key); }
+  if (message_value) { string_free(message_value); }
+  if (message_pair) { string_free(message_pair); }
+
+  if (arg_value) { string_free(arg_value); }
+
+  if (exp_key) { string_free(exp_key); }
+  if (exp_value) { string_free(exp_value); }
+  if (exp_pair) { string_free(exp_pair); }
+
+  if (exp_values) { array_free(exp_values); }
+  if (json_pair) { array_free(json_pair); }
+
   return json;
 error:
   if (receiver_key) { string_free(receiver_key); }
@@ -326,9 +341,7 @@ error:
   if (message_value) { string_free(message_value); }
   if (message_pair) { string_free(message_pair); }
 
-  if (arg_key) { string_free(arg_key); }
   if (arg_value) { string_free(arg_value); }
-  if (arg_pair) { string_free(arg_pair); }
 
   if (exp_key) { string_free(exp_key); }
   if (exp_value) { string_free(exp_value); }
@@ -342,9 +355,7 @@ error:
 
 String *fxp_function_body_inspect(FxP_Expression *expression) {
   /*[arguments, expressions]*/
-  String *arguments_key = NULL;
   String *arguments_value = NULL;
-  String *arguments_pair = NULL;
 
   String *expressions_key = NULL;
   String *expressions_value = NULL;
@@ -382,24 +393,24 @@ String *fxp_function_body_inspect(FxP_Expression *expression) {
   String *json = json_gen_join_pairs(exp_pairs, ", ");
   verify(json);
 
-  if (arguments_key) { string_free(arguments_key); }
   if (arguments_value) { string_free(arguments_value); }
-  if (arguments_pair) { string_free(arguments_pair); }
 
-  string_free(expressions_value);
+  if (arguments_value) { string_free(arguments_value); }
 
-  string_free(exp_key);
-  string_free(exp_pair);
-  string_free(exp_value);
+  if (expressions_key) { string_free(expressions_key); }
+  if (expressions_value) { string_free(expressions_value); }
+  if (expressions_pair) { string_free(expressions_pair); }
 
-  array_free(exp_pairs);
-  array_free(exp_values);
+  if (exp_key) { string_free(exp_key); }
+  if (exp_pair) { string_free(exp_pair); }
+  if (exp_value) { string_free(exp_value); }
+
+  if (exp_pairs) { array_free(exp_pairs); }
+  if (exp_values) { array_free(exp_values); }
 
   return json;
 error:
-  if (arguments_key) { string_free(arguments_key); }
   if (arguments_value) { string_free(arguments_value); }
-  if (arguments_pair) { string_free(arguments_pair); }
 
   if (expressions_key) { string_free(expressions_key); }
   if (expressions_value) { string_free(expressions_value); }
