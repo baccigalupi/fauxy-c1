@@ -57,16 +57,36 @@ error:
   return NULL;
 }
 
-String *fxp_expression_wrap(int type, String *value) {
-  return String_create("");
+String *fxp_expression_join(FxP_Expression *expression, String *value) {
+  String *key = NULL;
+  String *bald_pair = NULL;
+  Array  *pairs = Array_create(1);
+  verify(pairs);
+
+  key =  fxp_expression_type_description(expression);
+  bald_pair = json_gen_bald_pair(key, value);
+  verify(bald_pair);
+
+  array_push(pairs, bald_pair);
+
+  String *json = json_gen_join_pairs(pairs, ", ");
+  verify(json);
+
+  string_free(key);
+  string_free(bald_pair);
+  array_free(pairs);
+
+  return json;
 error:
+  if (key) { string_free(key); }
+  if (bald_pair) { string_free(bald_pair); }
+  if (pairs) { array_free(pairs); }
+
   return NULL;
 }
 
 String *fxp_literal_body_inspect(FxP_Literal *expression) {
-  String *exp_key = NULL;
   String *exp_value = NULL;
-  String *exp_pair = NULL;
 
   String *class_key = NULL;
   String *class_value = NULL;
@@ -76,11 +96,7 @@ String *fxp_literal_body_inspect(FxP_Literal *expression) {
   String *bit_value = NULL;
   String *bit_pair = NULL;
 
-  Array *exp_pairs = NULL;
   Array *class_bit_pairs = NULL;
-
-  exp_key = fxp_expression_type_description(expression);
-  verify(exp_key);
 
   class_key = String_create("class");
   class_value = fxp_literal_class_description(expression);
@@ -98,21 +114,10 @@ String *fxp_literal_body_inspect(FxP_Literal *expression) {
   array_push(class_bit_pairs, bit_pair);
 
   exp_value = json_gen_wrap_pairs(class_bit_pairs);
-  verify(exp_value);
-
-  exp_pair = json_gen_bald_pair(exp_key, exp_value);
-  verify(exp_pair);
-
-  exp_pairs = Array_create(1);
-  verify(exp_pairs);
-  array_push(exp_pairs, exp_pair);
-
-  String *json = json_gen_join_pairs(exp_pairs, ", ");
+  String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
-  string_free(exp_key);
   string_free(exp_value);
-  string_free(exp_pair);
   string_free(class_key);
   string_free(class_value);
   string_free(class_pair);
@@ -121,13 +126,10 @@ String *fxp_literal_body_inspect(FxP_Literal *expression) {
   string_free(bit_pair);
 
   array_free(class_bit_pairs);
-  array_free(exp_pairs);
 
   return json;
 error:
-  if (exp_key) { string_free(exp_key); }
   if (exp_value) { string_free(exp_value); }
-  if (exp_pair) { string_free(exp_pair); }
   if (class_key) { string_free(class_key); }
   if (class_value) { string_free(class_value); }
   if (class_pair) { string_free(class_pair); }
@@ -135,14 +137,14 @@ error:
   if (bit_value) { string_free(bit_value); }
   if (bit_pair) { string_free(bit_pair); }
 
+  if (class_bit_pairs) { array_free(class_bit_pairs); }
+
   return NULL;
 }
 
 String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   // "{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}}"
-  String *exp_key = NULL;
   String *exp_value = NULL;
-  String *exp_pair = NULL;
 
   String *type_key = NULL;
   String *type_value = NULL;
@@ -153,10 +155,6 @@ String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   String *bit_pair = NULL;
 
   Array *type_bit_pairs = NULL;
-  Array *exp_pairs = NULL;
-
-  exp_key = fxp_expression_type_description(expression);
-  verify(exp_key);
 
   type_key = String_create("type");
   type_value = fxp_lookup_type_description(expression);
@@ -174,19 +172,10 @@ String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   array_push(type_bit_pairs, bit_pair);
 
   exp_value = json_gen_wrap_pairs(type_bit_pairs);
-  exp_pair = json_gen_bald_pair(exp_key, exp_value);
-  verify(exp_pair);
-
-  exp_pairs = Array_create(1);
-  verify(exp_pairs);
-  array_push(exp_pairs, exp_pair);
-
-  String *json = json_gen_join_pairs(exp_pairs, ", ");
+  String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
-  string_free(exp_key);
   string_free(exp_value);
-  string_free(exp_pair);
   string_free(type_key);
   string_free(type_value);
   string_free(type_pair);
@@ -195,13 +184,10 @@ String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   string_free(bit_pair);
 
   array_free(type_bit_pairs);
-  array_free(exp_pairs);
 
   return json;
 error:
-  if (exp_key) { string_free(exp_key); }
   if (exp_value) { string_free(exp_value); }
-  if (exp_pair) { string_free(exp_pair); }
   if (type_key) { string_free(type_key); }
   if (type_value) { string_free(type_value); }
   if (type_pair) { string_free(type_pair); }
@@ -209,18 +195,14 @@ error:
   if (bit_value) { string_free(bit_value); }
   if (bit_pair) { string_free(bit_pair); }
 
+  if (type_bit_pairs) { array_free(type_bit_pairs); }
+
   return NULL;
 }
 
 String *fxp_collection_body_inspect(FxP_Expression *expression) {
-  String *exp_key = NULL;
   String *exp_value = NULL;
-  String *exp_pair = NULL;
-  Array *exp_array = NULL;
   Array *element_inspections = NULL;
-
-  exp_key = fxp_expression_type_description(expression);
-  verify(exp_key);
 
   element_inspections = array_map(fxp_expression_value(expression), fxp_inspect);
   verify(element_inspections);
@@ -228,27 +210,15 @@ String *fxp_collection_body_inspect(FxP_Expression *expression) {
   exp_value = json_gen_wrap_array_pairs(element_inspections);
   verify(exp_value);
 
-  exp_pair = json_gen_bald_pair(exp_key, exp_value);
-  verify(exp_pair);
+  String *json = fxp_expression_join(expression, exp_value);
 
-  exp_array = Array_create(1);
-  verify(exp_array);
-  array_push(exp_array, exp_pair);
-
-  String *json = json_gen_join_pairs(exp_array, ", ");
-
-  string_free(exp_key);
   string_free(exp_value);
   array_free(element_inspections);
-  array_free(exp_array);
 
   return json;
 error:
-  if (exp_key) { string_free(exp_key); }
   if (exp_value) { string_free(exp_value); }
-  if (exp_pair) { string_free(exp_pair); }
   if (element_inspections) { string_free(element_inspections); }
-  if (exp_array) { string_free(exp_array); }
 
   return NULL;
 }
@@ -265,11 +235,7 @@ String *fxp_method_body_inspect(FxP_Expression *expression) {
 
   String *arg_value = NULL;
 
-  String *exp_key = NULL;
   String *exp_value = NULL;
-  String *exp_pair = NULL;
-
-  Array *json_pair = NULL;
 
   Array  *exp_values = Array_create(3);
   verify(exp_values);
@@ -294,15 +260,9 @@ String *fxp_method_body_inspect(FxP_Expression *expression) {
     array_push(exp_values, arg_value);
   }
 
-  exp_key = fxp_expression_type_description(expression);
   exp_value = json_gen_wrap_pairs(exp_values);
-  exp_pair = json_gen_bald_pair(exp_key, exp_value);
 
-  json_pair = Array_create(1);
-  verify(json_pair);
-  array_push(json_pair, exp_pair);
-
-  String *json = json_gen_join_pairs(json_pair, ", ");
+  String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
   if (receiver_key) { string_free(receiver_key); }
@@ -315,12 +275,9 @@ String *fxp_method_body_inspect(FxP_Expression *expression) {
 
   if (arg_value) { string_free(arg_value); }
 
-  if (exp_key) { string_free(exp_key); }
   if (exp_value) { string_free(exp_value); }
-  if (exp_pair) { string_free(exp_pair); }
 
   if (exp_values) { array_free(exp_values); }
-  if (json_pair) { array_free(json_pair); }
 
   return json;
 error:
@@ -334,12 +291,9 @@ error:
 
   if (arg_value) { string_free(arg_value); }
 
-  if (exp_key) { string_free(exp_key); }
   if (exp_value) { string_free(exp_value); }
-  if (exp_pair) { string_free(exp_pair); }
 
   if (exp_values) { array_free(exp_values); }
-  if (json_pair) { array_free(json_pair); }
 
   return NULL;
 }
@@ -352,11 +306,7 @@ String *fxp_function_body_inspect(FxP_Expression *expression) {
   String *expressions_value = NULL;
   String *expressions_pair = NULL;
 
-  String *exp_key = NULL;
-  String *exp_pair = NULL;
   String *exp_value = NULL;
-
-  Array *exp_pairs = NULL;
 
   Array *exp_values = Array_create(2);
   verify(exp_values);
@@ -371,15 +321,8 @@ String *fxp_function_body_inspect(FxP_Expression *expression) {
   verify(expressions_value);
   array_push(exp_values, expressions_value);
 
-  exp_key = fxp_expression_type_description(expression);
   exp_value = json_gen_wrap_pairs(exp_values);
-  exp_pair = json_gen_bald_pair(exp_key, exp_value);
-  verify(exp_pair);
-
-  exp_pairs = Array_create(1);
-  array_push(exp_pairs, exp_pair);
-
-  String *json = json_gen_join_pairs(exp_pairs, ", ");
+  String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
   if (arguments_value) { string_free(arguments_value); }
@@ -390,11 +333,8 @@ String *fxp_function_body_inspect(FxP_Expression *expression) {
   if (expressions_value) { string_free(expressions_value); }
   if (expressions_pair) { string_free(expressions_pair); }
 
-  if (exp_key) { string_free(exp_key); }
-  if (exp_pair) { string_free(exp_pair); }
   if (exp_value) { string_free(exp_value); }
 
-  if (exp_pairs) { array_free(exp_pairs); }
   if (exp_values) { array_free(exp_values); }
 
   return json;
@@ -405,11 +345,8 @@ error:
   if (expressions_value) { string_free(expressions_value); }
   if (expressions_pair) { string_free(expressions_pair); }
 
-  if (exp_key) { string_free(exp_key); }
-  if (exp_pair) { string_free(exp_pair); }
   if (exp_value) { string_free(exp_value); }
 
-  if (exp_pairs) { array_free(exp_pairs); }
   if (exp_values) { array_free(exp_values); }
 
   return NULL;
@@ -425,7 +362,6 @@ String *fxp_left_right_inspect(FxP_Expression *expression) {
   String *right_value = NULL;
   String *right_pair = NULL;
 
-  String *exp_key = NULL;
   String *exp_value = NULL;
   Array *exp_values = Array_create(2);
   verify(exp_values);
@@ -442,11 +378,8 @@ String *fxp_left_right_inspect(FxP_Expression *expression) {
   verify(right_pair);
   array_push(exp_values, right_pair);
 
-  exp_key = fxp_expression_type_description(expression);
-  verify(exp_key);
   exp_value = json_gen_wrap_pairs(exp_values);
-  verify(exp_value);
-  String *json = json_gen_bald_pair(exp_key, exp_value);
+  String *json = fxp_expression_join(expression, exp_value);
 
   string_free(right_key);
   string_free(right_value);
@@ -454,7 +387,6 @@ String *fxp_left_right_inspect(FxP_Expression *expression) {
   string_free(left_key);
   string_free(left_value);
   string_free(left_pair);
-  string_free(exp_key);
   string_free(exp_value);
   array_free(exp_values);
 
@@ -466,7 +398,6 @@ error:
   if (left_key)     {string_free(left_key); }
   if (left_value)   {string_free(left_value); }
   if (left_pair)    {string_free(left_pair); }
-  if (exp_key)      {string_free(exp_key); }
   if (exp_value)    {string_free(exp_value); }
 
   if(exp_values) { array_free(exp_values); }
