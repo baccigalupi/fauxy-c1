@@ -258,8 +258,8 @@ FxP_LocalAssign *FxP_LocalAssign_create(FxP_Lookup *variable, FxP_Expression *va
   FxP_Function *local = FxP_Expression_create(FXP_ST_LOCAL_ASSIGN);
   verify(local);
 
-  fxp_local_assignment_set_variable(local, variable);
-  fxp_local_assignment_set_value(local, value);
+  fxp_expression_set_left(local, variable);
+  fxp_expression_set_right(local, value);
 
   return local;
 error:
@@ -270,8 +270,8 @@ FxP_LocalAssign *FxP_ColonExpression_create(FxP_Lookup *variable, FxP_Expression
   FxP_Function *colon = FxP_Expression_create(FXP_ST_COLON_EXPRESSION);
   verify(colon);
 
-  fxp_colon_expression_set_variable(colon, variable);
-  fxp_colon_expression_set_value(colon, value);
+  fxp_expression_set_left(colon, variable);
+  fxp_expression_set_right(colon, value);
 
   return colon;
 error:

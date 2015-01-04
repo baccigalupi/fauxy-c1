@@ -376,13 +376,13 @@ String *fxp_left_right_inspect(FxP_Expression *expression) {
   verify(exp_values);
 
   left_key = String_create("left");
-  left_value = fxp_inspect(fxp_local_assignment_variable(expression));
+  left_value = fxp_inspect(fxp_expression_left(expression));
   left_pair = json_gen_bald_pair(left_key, left_value);
   verify(left_pair);
   array_push(exp_values, left_pair);
 
   right_key = String_create("right");
-  right_value = fxp_inspect(fxp_local_assignment_value(expression));
+  right_value = fxp_inspect(fxp_expression_right(expression));
   right_pair = json_gen_bald_pair(right_key, right_value);
   verify(right_pair);
   array_push(exp_values, right_pair);

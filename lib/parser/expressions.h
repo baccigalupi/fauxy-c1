@@ -120,17 +120,12 @@ FxP_MethodArguments *fxp_method_arguments_convert(FxP_Expression *expression);
 
 // Local assignment: [variable, value]
 FxP_LocalAssign     *FxP_LocalAssign_create(FxP_Lookup *lookup, FxP_Expression *expression);
-#define fxp_local_assignment_variable(E)             (FxP_Lookup *)(array_get(fxp_expression_value(E), 0))
-#define fxp_local_assignment_set_variable(E, V)      (array_set(fxp_expression_value(E), 0, V))
-#define fxp_local_assignment_value(E)                (FxP_Lookup *)(array_get(fxp_expression_value(E), 1))
-#define fxp_local_assignment_set_value(E, V)         (array_set(fxp_expression_value(E), 1, V))
+#define fxp_expression_left(E)             (FxP_Lookup *)(array_get(fxp_expression_value(E), 0))
+#define fxp_expression_set_left(E, V)      (array_set(fxp_expression_value(E), 0, V))
+#define fxp_expression_right(E)                (FxP_Lookup *)(array_get(fxp_expression_value(E), 1))
+#define fxp_expression_set_right(E, V)         (array_set(fxp_expression_value(E), 1, V))
 
 // Local assignment: [variable, value]
 FxP_ColonExpression *FxP_ColonExpression_create(FxP_Lookup *variable, FxP_Expression *value);
-#define fxp_colon_expression_variable(E)             (FxP_Lookup *)(array_get(fxp_expression_value(E), 0))
-#define fxp_colon_expression_set_variable(E, V)      (array_set(fxp_expression_value(E), 0, V))
-#define fxp_colon_expression_value(E)                (FxP_Lookup *)(array_get(fxp_expression_value(E), 1))
-#define fxp_colon_expression_set_value(E, V)         (array_set(fxp_expression_value(E), 1, V))
-
 
 #endif
