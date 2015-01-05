@@ -130,7 +130,8 @@ char *test_inspect_function() {
   FxP_Expressions *expressions = FxP_Expressions_create();
 
   // function
-  FxP_Function *function = FxP_Function_create(expressions, arguments);
+  FxP_Function *function = FxP_Function_create(arguments);
+  fxp_function_set_expressions(function, expressions);
 
   String *inspection = fxp_inspect(function);
   char *expected = "{\"function_definition\": {"

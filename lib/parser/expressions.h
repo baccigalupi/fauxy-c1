@@ -87,8 +87,8 @@ FxP_Lookup  *FxP_Lookup_create(FxP_Bit *bit, int token_type);
 #define fxp_function_expressions(E)         fxp_expression_value_at(E, 1)
 #define fxp_function_set_expressions(E, V)  fxp_expression_value_set(E, 1, V)
 
-FxP_Function *FxP_Function_create_no_args(FxP_Expressions *expressions);
-FxP_Function *FxP_Function_create(FxP_Expressions *expressions, FxP_List *list);
+FxP_Function *FxP_Function_create_no_args();
+FxP_Function *FxP_Function_create(FxP_List *list);
 
 // Method calls [receiver, method_name, method_arguments]
 #define fxp_method_receiver(E)           fxp_expression_value_at(E, 0)

@@ -11,6 +11,9 @@ FxP_ParserContext *FxP_ParserContext_create() {
   verify(expressions);
 
   list_push(context, expressions);
+
+  return context;
 error:
+  if (context) { fx_pfree(context); }
   return NULL;
 }

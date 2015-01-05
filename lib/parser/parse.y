@@ -4,6 +4,7 @@
   #include "lex_wrapper.h"
   #include "parser_context.h"
   #include "expressions.h"
+  #include "expression_inspect.h"
   #include "bit.h"
 %}
 
@@ -58,7 +59,12 @@ expressions
   ;
 
 expression
-  : unterminated_expression expression_end { fxp_parser_context_push(context, $1); }
+  : unterminated_expression expression_end  {
+                                              String *json = fxp_inspect($1);
+                                              printf("%s\n\n", string_value(json));
+                                              string_free(json);
+                                              fxp_parser_push_expression(context, $1);
+                                            }
   | expression_end
   ;
 
@@ -130,11 +136,11 @@ literal
 
 lookup
   : id_lookup     { $$ = $1; }
-  | CLASS_ID      { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_CLASS_ID); }
+  | CLASS_ID      { $$ = FxP_Lookup_create((FxP_Bit *)$1, TOKEN_CLASS_ID); }
   ;
 
 id_lookup
-  : ID           { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
+  : ID           { $$ = FxP_Lookup_create((FxP_Bit *)$1, TOKEN_ID); }
   ;
 
 operator // for precedence
@@ -142,9 +148,21 @@ operator // for precedence
   | OR            { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
   ;
 
+function_start
+  : FUNCTION_DECLARATION OPEN_BRACE         {
+                                              FxP_Function *function = FxP_Function_create_no_args();
+                                              fxp_parser_context_push(context, fxp_function_expressions(function));
+                                             $$ = function;
+                                            }
+  | FUNCTION_DECLARATION list OPEN_BRACE    {
+                                              FxP_Function *function = FxP_Function_create($2);
+                                              fxp_parser_context_push(context, fxp_function_expressions(function));
+                                              $$ = function;
+                                            }
+  ;
+
 function
-  : FUNCTION_DECLARATION OPEN_BRACE expressions CLOSE_BRACE         { $$ = FxP_Function_create_no_args($3); }
-  | FUNCTION_DECLARATION list OPEN_BRACE expressions CLOSE_BRACE    { $$ = FxP_Function_create($3, $1); }
+  : function_start expressions CLOSE_BRACE  { fxp_parser_context_pop(context); }
   ;
 
 implicit_method_call
