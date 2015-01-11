@@ -13,6 +13,9 @@
 %option bison-bridge
 %option bison-locations
 
+ID_PREFACE 	[\\/\=\-\*\^~@<+&a-z0-9_]
+CLASS_SUFFIX [A-Za-z0-9_\-]*
+
 %%
 
 "true"												{ return TOKEN_TRUE; }
@@ -37,19 +40,20 @@
 "{"                         	{ return TOKEN_OPEN_BRACE; }
 "}"                         	{ return TOKEN_CLOSE_BRACE; }
 "!"                         	{ return TOKEN_NOT; }
-\/\*[^*]*\*\/             		{ /* comment, treat as white space */ }
-\/\/[^\n]*                		{ /* comment, treat as white space */ }
-[\n]                      		{ return TOKEN_LINE_END; }
+\/\*(.|\n)*\*\/             	{ /* comment bracketed, treat as white space */ }
+\/\/[^\n]*                		{ /* terminating comment, treat as white space */ }
+[\n]	                      	{ return TOKEN_LINE_END; }
 [ \t]                     		{ /* white space, move along */ }
 
-[A-Z]+[A-Za-z0-9_\-]* 					{ ParseObject_wrap(TOKEN_CLASS_ID, yytext); }
+[A-Z]+{CLASS_SUFFIX} 					  { ParseObject_wrap(TOKEN_CLASS_ID, yytext); }
 -?[0-9]+\.[0-9]+          			{ ParseObject_wrap(TOKEN_FLOAT, yytext); }
 -?[0-9]\.[0-9]+(e|E)-?[0-9]+  	{ ParseObject_wrap(TOKEN_FLOAT, yytext); }
 -?[0-9]+                  			{ ParseObject_wrap(TOKEN_INTEGER, yytext); }
-[\-<+&a-z0-9_]+[a-z0-9_\-]*[!?]? 	{ ParseObject_wrap(TOKEN_ID, yytext); }
+{ID_PREFACE}+[a-z0-9_\-\=]*[!?]? { ParseObject_wrap(TOKEN_ID, yytext); }
 :[a-z0-9_]+[a-z0-9_\-]* 		  	{ ParseObject_wrap(TOKEN_SYMBOL, yytext); }
 \/.*\/[a-z]? 										{ ParseObject_wrap(TOKEN_REGEX, yytext); }
 \"([^"]|\\.)*\"           			{ ParseObject_wrap(TOKEN_EVAL_STRING, yytext); }
 \'([^']|\\.)*\'           			{ ParseObject_wrap(TOKEN_STRING, yytext); }
 
+{ID_PREFACE}+{CLASS_SUFFIX}				{ printf("illegal id: %s\n", yytext); }
 .                    						{ printf("unknown token: %s\n", yytext); }

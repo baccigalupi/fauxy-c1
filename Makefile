@@ -1,3 +1,4 @@
+# Yosemite comes with a version of bison and flex, Homebrew does not overwrite them
 BISON=/usr/local/Cellar/bison/3.0.2/bin/bison
 FLEX=/usr/local/Cellar/flex/2.5.37/bin/flex
 
@@ -46,7 +47,7 @@ run:
 # ---------
 
 # C unit tests
-c-unit: CFLAGS += $(TARGET)
+c-unit: CFLAGS += $(TARGET) lib/parser/lex.yy.c
 c-unit: $(TESTS)
 	sh ./spec/c-unit/lib/run_specs.sh
 
