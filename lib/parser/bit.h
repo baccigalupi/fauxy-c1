@@ -7,14 +7,14 @@ typedef struct {
   void *value;
 } FxP_Bit;
 
-// Lots of this shit needs to be included because bits need to know about
-// token types. Including parse.tab.h leads to a cascade of entangled shit
-// where everything needs to be included here
+// Lots of this shit needs to be included because bits are part of the lex/parse
+// process. Lex and Bison are pretty hopelessly nested together and therefore
+// everything needs to be included here
 #include "../bricks/helpers.h"
 #include "../bricks/string.h"
 #include "lex_wrapper.h"
 #include "parser_context.h"
-#include "parse.tab.h"
+#include "tokens.h"
 
 enum {
   FX_BIT_STRING = 300,
@@ -45,7 +45,7 @@ enum {
 
 
 
-FxP_Bit       *FxP_Bit_create(int token_type, char *text);
+FxP_Bit        *FxP_Bit_create(int token_type, char *text);
 int             FxP_Bit_bit_type(int token_type, Boolean is_small);
 Boolean         fxp_bit_add_float_value(FxP_Bit *bit, char *text);
 // Boolean fxp_bit_add_long_float_value(FxP_Bit *bit, char *text);

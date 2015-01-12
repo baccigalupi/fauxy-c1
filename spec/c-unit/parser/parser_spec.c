@@ -1,4 +1,5 @@
 #include "../../../lib/parser/bit.h"
+#include "../../../lib/parser/parse.tab.h"
 #include "../../../lib/parser/lex.yy.h"
 #include "../lib/spec.h"
 

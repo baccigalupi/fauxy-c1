@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include "fx_parse.h"
 #include "parser_context.h"
+#include "expression_inspect.h"
 
 
-int main(int argc, char *argv[]) {
+int main() {
   printf("\nFauxy -> Go!\n\n");
   FxP_ParserContext *context = NULL;
 
