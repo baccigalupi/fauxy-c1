@@ -242,8 +242,6 @@ char *all_specs() {
 
   run_spec(test_ids_with_caps_fail);
 
-  // run_spec(valid_class_ids);
-
   spec_teardown();
 
   return NULL;

@@ -18,3 +18,4 @@ spec/c-unit/bricks/json_jen_spec
 spec/c-unit/parser/bit_spec
 spec/c-unit/parser/expression_spec
 spec/c-unit/parser/lex_spec
+spec/c-unit/parser/parser_spec
