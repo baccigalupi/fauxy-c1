@@ -1,16 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "fx_parse.h"
+#include "parser_context.h"
 
 
 int main(int argc, char *argv[]) {
   printf("\nFauxy -> Go!\n\n");
+  FxP_ParserContext *context = NULL;
 
-  int status = 0;
-  while(status == 0) {
-    status = parse_stdin();
+  while(!context || fxp_parser_context_status(context)) {
+    context = parse_stdin();
+    verify(context);
+
+    if ( fxp_parser_context_status(context) ) {
+      printf("%s", string_value(fxp_parser_context_error_message(context)));
+    } else {
+      String *inspection = fxp_parser_inspect(context);
+      verify(inspection);
+      printf("%s", string_value(inspection));
+      string_free(inspection);
+    }
+
+    fxp_parser_context_free(context);
+
     printf("\n\n");
   }
 
-  return status;
+  return 0;
+error:
+  return 1;
 }

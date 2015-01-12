@@ -3,9 +3,9 @@
 
 #include "parser_context.h"
 
-int parse_stdin();
-int parse_string(char *str);
+FxP_ParserContext *parse_stdin();
+FxP_ParserContext *parse_string(char *str);
 
-int parse_with_state(FxP_LexWrapper state);
+FxP_ParserContext *parse_with_state(FxP_LexWrapper state);
 
 #endif

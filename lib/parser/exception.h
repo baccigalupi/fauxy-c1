@@ -12,4 +12,6 @@ typedef struct FxP_Exception {
 #define fxp_exception_message(E) ((E)->message)
 #define fxp_exception_free(E)    (string_free(fxp_exception_message(E)), fx_pfree(E))
 
+FxP_Exception *FxP_Exception_create(int code, String *message);
+
 #endif

@@ -6,7 +6,7 @@
 
 FxP_ParserContext *FxP_ParserContext_create() {
   FxP_ParserContext *context = fx_alloc(FxP_ParserContext);
-  verify(context);
+  verify_memory(context);
 
   List *list = List_create();
   verify(list);
