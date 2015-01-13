@@ -60,9 +60,6 @@ expressions
 
 expression
   : unterminated_expression expression_end  {
-                                              String *json = fxp_inspect($1);
-                                              printf("%s\n\n", string_value(json));
-                                              string_free(json);
                                               fxp_parser_push_expression(context, $1);
                                             }
   | expression_end

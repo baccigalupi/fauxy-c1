@@ -47,7 +47,7 @@ run:
 # ---------
 
 # C unit tests
-c-unit: CFLAGS += $(TARGET) lib/parser/lex.yy.c
+c-unit: CFLAGS += $(TARGET) lib/parser/parse.tab.c lib/parser/lex.yy.c
 c-unit: $(TESTS)
 	sh ./spec/c-unit/lib/run_specs.sh
 
