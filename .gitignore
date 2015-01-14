@@ -15,6 +15,7 @@ spec/c-unit/bricks/array_spec
 spec/c-unit/bricks/list_spec
 spec/c-unit/bricks/json_jen_spec
 
+spec/c-unit/spec.log
 spec/c-unit/parser/bit_spec
 spec/c-unit/parser/expression_spec
 spec/c-unit/parser/lex_spec

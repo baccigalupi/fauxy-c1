@@ -85,16 +85,24 @@ error:
 }
 
 FxP_Method *FxP_Method_create_implicit(FxP_Literal *method_name, FxP_Expression *argument) {
+  FxP_Expression *arguments = NULL;
   FxP_Method *call = FxP_Method_create();
-  verify_memory(call);
+  verify(call);
 
   fxp_method_set_message(call, method_name);
-  FxP_Expression *arguments = FxP_Expression_create(FXP_ST_METHOD_ARGUMENTS);
-  fxp_list_set(arguments, 0, argument);
+  if (fxp_expression_type(argument) == FXP_ST_LIST) {
+    arguments = argument;
+    fxp_expression_type(arguments) = FXP_ST_METHOD_ARGUMENTS;
+  } else {
+    arguments = FxP_Expression_create(FXP_ST_METHOD_ARGUMENTS);
+    verify(arguments);
+    fxp_list_set(arguments, 0, argument);
+  }
   fxp_method_set_arguments(call, arguments);
 
   return call;
 error:
+  if (call) { fxp_expression_free(call); }
   return NULL;
 }
 

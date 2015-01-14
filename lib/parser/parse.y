@@ -163,7 +163,7 @@ function
   ;
 
 implicit_method_call
-  : id_lookup list                                            { $$ = FxP_Method_create_implicit($1, $2); }
+  : id_lookup unterminated_expression                         { $$ = FxP_Method_create_implicit($1, $2); }
   ;
 
 operator_call
