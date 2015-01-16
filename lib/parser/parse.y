@@ -78,7 +78,7 @@ unterminated_expression
   | local_assignment      { $$ = $1; }
   | colonized_expression  { $$ = $1; }
   | list                  { $$ = $1; }
-  | export_expression // { printf("export expression"); }
+  | export_expression     { printf("export expression"); }
   ;
 
 grouped_statement
@@ -137,7 +137,7 @@ lookup
   ;
 
 id_lookup
-  : ID           { $$ = FxP_Lookup_create((FxP_Bit *)$1, TOKEN_ID); }
+  : ID            { $$ = FxP_Lookup_create((FxP_Bit *)$1, TOKEN_ID); }
   ;
 
 operator // for precedence
@@ -149,7 +149,7 @@ function_start
   : FUNCTION_DECLARATION OPEN_BRACE         {
                                               FxP_Function *function = FxP_Function_create_no_args();
                                               fxp_parser_context_push(context, fxp_function_expressions(function));
-                                             $$ = function;
+                                              $$ = function;
                                             }
   | FUNCTION_DECLARATION list OPEN_BRACE    {
                                               FxP_Function *function = FxP_Function_create($2);
@@ -158,8 +158,15 @@ function_start
                                             }
   ;
 
+function_expressions
+  : expressions
+  | unterminated_expression                                   { fxp_parser_push_expression(context, $1);}
+  ;
+
 function
-  : function_start expressions CLOSE_BRACE  { fxp_parser_context_pop(context); }
+  : function_start function_expressions CLOSE_BRACE           {
+                                                                fxp_parser_context_pop(context);
+                                                              }
   ;
 
 implicit_method_call

@@ -61,7 +61,7 @@ char *test_implicit_method_call_no_parens() {
 
 
 char *test_empty_function() {
-  spec_describe("empty block: -> {}");
+  spec_describe("empty function: -> {}");
   FxP_ParserContext *context = parse_string("-> {}\n");
 
   String *inspection = fxp_parser_inspect(context);
@@ -77,7 +77,7 @@ char *test_empty_function() {
 }
 
 char *test_empty_function_with_line_end() {
-  spec_describe("empty block: -> {\\n}");
+  spec_describe("empty function: -> {\\n}");
   FxP_ParserContext *context = parse_string("-> {\n}\n");
 
   String *inspection = fxp_parser_inspect(context);
@@ -93,7 +93,7 @@ char *test_empty_function_with_line_end() {
 }
 
 char *test_function_with_expression() {
-  spec_describe("empty block: -> { 1 + 1 }");
+  spec_describe("function one expression: -> { 1 + 1 }");
   FxP_ParserContext *context = parse_string("-> {\n1 + 1\n}\n");
 
   String *inspection = fxp_parser_inspect(context);
@@ -113,7 +113,7 @@ char *test_function_with_expression() {
 }
 
 char *test_function_with_multiple_expressions() {
-  spec_describe("empty block: -> { 1 + 1; print 'word' }");
+  spec_describe("function two expressions: -> { 1 + 1; print 'word' }");
   FxP_ParserContext *context = parse_string("-> {\n1 + 1\n print 'word'\n}\n");
 
   String *inspection = fxp_parser_inspect(context);
@@ -135,6 +135,93 @@ char *test_function_with_multiple_expressions() {
   return NULL;
 }
 
+char *test_expression_function_with_expression_expression() {
+  spec_describe("expression function sandwich: 1 + 1; -> { print 'word' }; 2 * 2");
+  FxP_ParserContext *context = parse_string("1 + 1\n-> {\n print 'word'\n}\n2 * 2\n");
+
+  String *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\"expressions\": [\n"
+                      "{\"method_call\": {\"receiver\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"+\"}}}, \"method_arguments\": [\n"
+                          "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}\n"
+                      "]}},\n"
+                      "{\"function_definition\": {\"expressions\": [\n"
+                      "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"method_arguments\": [\n"
+                          "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"word\"}}}\n"
+                      "]}}\n"
+                      "]}},\n"
+                      "{\"method_call\": {\"receiver\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"*\"}}}, \"method_arguments\": [\n"
+                          "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}}\n"
+                      "]}}\n"
+                    "]}";
+  assert_strings_equal(string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  string_free(inspection);
+
+  return NULL;
+}
+
+char *test_parened_method_call() {
+  spec_describe("method: Print.line('word') ");
+  FxP_ParserContext *context = parse_string("Print.line('word')\n");
+
+  String *inspection = fxp_parser_inspect(context);
+  char *expected = "{\"expressions\": [\n"
+        "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Class Identifier\", \"bit\": {\"STRING\": \"Print\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"line\"}}}, \"method_arguments\": [\n"
+            "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"word\"}}}\n"
+        "]}}\n"
+      "]}";
+  assert_strings_equal(string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  string_free(inspection);
+
+  return NULL;
+}
+
+char *test_no_parens_method_call() {
+  spec_describe("method: Print.line 'word' ");
+  FxP_ParserContext *context = parse_string("Print.line 'word' \n");
+
+  String *inspection = fxp_parser_inspect(context);
+  char *expected = "{\"expressions\": [\n"
+        "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Class Identifier\", \"bit\": {\"STRING\": \"Print\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"line\"}}}, \"method_arguments\": [\n"
+            "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"word\"}}}\n"
+        "]}}\n"
+      "]}";
+  assert_strings_equal(string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  string_free(inspection);
+
+  return NULL;
+}
+
+char *test_method_call_with_block() {
+  spec_describe("method with block: collection.map -> (e) { Print.line(e) } ");
+  FxP_ParserContext *context = parse_string("collection.map -> (e) { Print.line(e) }\n");
+
+  String *inspection = fxp_parser_inspect(context);
+  char *expected = "{\"expressions\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"collection\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"map\"}}}, \"method_arguments\": [\n"
+                    "{\"function_definition\": {\"function_arguments\": [\n"
+                    "{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"e\"}}}\n"
+                    "], \"expressions\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Class Identifier\", \"bit\": {\"STRING\": \"Print\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"line\"}}}, \"method_arguments\": [\n"
+                    "{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"e\"}}}\n"
+                    "]}}\n"
+                    "]}}\n"
+                    "]}}\n"
+                    "]}";
+
+  assert_strings_equal(string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  string_free(inspection);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Parsing Expressions");
 
@@ -146,6 +233,13 @@ char *all_specs() {
   run_spec(test_empty_function_with_line_end);
   run_spec(test_function_with_expression);
   run_spec(test_function_with_multiple_expressions);
+
+  run_spec(test_expression_function_with_expression_expression);
+  run_spec(test_function_with_multiple_expressions);
+
+  run_spec(test_parened_method_call);
+  run_spec(test_no_parens_method_call);
+  run_spec(test_method_call_with_block);
 
   spec_teardown();
 
