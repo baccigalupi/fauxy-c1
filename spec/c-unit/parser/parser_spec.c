@@ -222,6 +222,31 @@ char *test_method_call_with_block() {
   return NULL;
 }
 
+char *test_multi_operator_method() {
+  spec_describe("multi operator method chain: 1 + (2 * 3) - 5");
+  FxP_ParserContext *context = parse_string("1 + (2 * 3) - 5\n");
+
+  String *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\"expressions\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"+\"}}}, \"method_arguments\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"grouped_expression\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"*\"}}}, \"method_arguments\": [\n"
+                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 3}}}\n"
+                    "]}}\n"
+                    "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"-\"}}}, \"method_arguments\": [\n"
+                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 5}}}\n"
+                    "]}}\n"
+                    "]}}\n"
+                    "]}";
+
+  assert_strings_equal(string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  string_free(inspection);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Parsing Expressions");
 
@@ -240,6 +265,8 @@ char *all_specs() {
   run_spec(test_parened_method_call);
   run_spec(test_no_parens_method_call);
   run_spec(test_method_call_with_block);
+
+  run_spec(test_multi_operator_method);
 
   spec_teardown();
 

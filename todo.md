@@ -1,6 +1,5 @@
 # TODO
 3. Parser tests
-4. Lex tests for identifiers
 5. Expression validation in parser
 
 ## Cleanup

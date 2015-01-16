@@ -87,7 +87,7 @@ grouped_statement
   ;
 
 list
-  : grouped_statement                             { $$ = fxp_list_convert($1); }
+  : grouped_statement                             { $$ = $1; }
   | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      { $$ = FxP_List_create_deferred(); }
   | OPEN_PAREN list_elements CLOSE_PAREN          { $$ = $1; }
   ;

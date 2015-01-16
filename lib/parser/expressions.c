@@ -90,7 +90,7 @@ FxP_Method *FxP_Method_create_implicit(FxP_Literal *method_name, FxP_Expression 
   verify(call);
 
   fxp_method_set_message(call, method_name);
-  if (fxp_expression_type(argument) == FXP_ST_LIST) {
+  if (fxp_expression_type(argument) == FXP_ST_LIST || fxp_expression_type(argument) == FXP_ST_GROUPED) {
     arguments = argument;
     fxp_expression_type(arguments) = FXP_ST_METHOD_ARGUMENTS;
   } else {
