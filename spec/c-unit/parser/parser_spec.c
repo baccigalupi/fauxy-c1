@@ -247,6 +247,27 @@ char *test_multi_operator_method() {
   return NULL;
 }
 
+char *test_function_assignment() {
+  spec_describe("multi operator method chain: convert: -> (n: 11) { 'eleven' }");
+  FxP_ParserContext *context = parse_string("convert: -> (n: 11) { 'eleven' }\n");
+
+  String *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\"expressions\": [\n"
+                    "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"convert\"}}}, \"right\": {\"function_definition\": {\"function_arguments\": [\n"
+                    "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"n\"}}}, \"right\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 11}}}}}\n"
+                    "], \"expressions\": [\n"
+                    "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"eleven\"}}}\n"
+                    "]}}}}\n"
+                    "]}";
+
+  assert_strings_equal(string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  string_free(inspection);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Parsing Expressions");
 
@@ -267,6 +288,7 @@ char *all_specs() {
   run_spec(test_method_call_with_block);
 
   run_spec(test_multi_operator_method);
+  run_spec(test_function_assignment);
 
   spec_teardown();
 

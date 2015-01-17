@@ -485,7 +485,7 @@ static const yytype_uint8 yyrline[] =
       91,    92,    96,    97,   101,   102,   123,   124,   125,   126,
      127,   128,   129,   130,   131,   135,   136,   140,   144,   145,
      149,   154,   162,   163,   167,   173,   177,   178,   182,   183,
-     187,   191,   192,   193,   194,   198,   214,   218
+     187,   191,   192,   193,   194,   198,   214,   220
 };
 #endif
 
@@ -1725,12 +1725,14 @@ yyreduce:
 
   case 56:
 #line 214 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_ColonExpression_create((yyvsp[-2]), (yyvsp[-1])); }
-#line 1730 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    {
+                                                              (yyval) = FxP_ColonExpression_create((yyvsp[-2]), (yyvsp[0]));
+                                                            }
+#line 1732 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
 
-#line 1734 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1736 "lib/parser/parse.tab.c" /* yacc.c:1661  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1965,5 +1967,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 220 "lib/parser/parse.y" /* yacc.c:1906  */
+#line 222 "lib/parser/parse.y" /* yacc.c:1906  */
 

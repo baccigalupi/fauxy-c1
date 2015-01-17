@@ -211,7 +211,9 @@ local_assignment
     foo: -> { Print.line 'foo' }
 */
 colonized_expression
-  : lookup COLON unterminated_expression                    { $$ = FxP_ColonExpression_create($1, $2); }
+  : lookup COLON unterminated_expression                    {
+                                                              $$ = FxP_ColonExpression_create($1, $3);
+                                                            }
   ;
 
 export_expression
