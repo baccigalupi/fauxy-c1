@@ -223,14 +223,14 @@ char *test_method_call_with_block() {
 }
 
 char *test_multi_operator_method() {
-  spec_describe("multi operator method chain: 1 + (2 * 3) - 5");
-  FxP_ParserContext *context = parse_string("1 + (2 * 3) - 5\n");
+  spec_describe("multi operator method chain: 1 + (n * 3) - 5");
+  FxP_ParserContext *context = parse_string("1 + (n * 3) - 5\n");
 
   String *inspection = fxp_parser_inspect(context);
   char *expected =  "{\"expressions\": [\n"
                     "{\"method_call\": {\"receiver\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"+\"}}}, \"method_arguments\": [\n"
                     "{\"method_call\": {\"receiver\": {\"grouped_expression\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"*\"}}}, \"method_arguments\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"n\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"*\"}}}, \"method_arguments\": [\n"
                     "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 3}}}\n"
                     "]}}\n"
                     "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"-\"}}}, \"method_arguments\": [\n"
@@ -248,7 +248,7 @@ char *test_multi_operator_method() {
 }
 
 char *test_function_assignment() {
-  spec_describe("multi operator method chain: convert: -> (n: 11) { 'eleven' }");
+  spec_describe("attr assignment with function def: convert: -> (n: 11) { 'eleven' }");
   FxP_ParserContext *context = parse_string("convert: -> (n: 11) { 'eleven' }\n");
 
   String *inspection = fxp_parser_inspect(context);
@@ -258,6 +258,28 @@ char *test_function_assignment() {
                     "], \"expressions\": [\n"
                     "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"eleven\"}}}\n"
                     "]}}}}\n"
+                    "]}";
+
+  assert_strings_equal(string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  string_free(inspection);
+
+  return NULL;
+}
+
+
+char *test_grouped_expression_method_call() {
+  spec_describe("grouped expression as receiver: (n / 10).truncate");
+  FxP_ParserContext *context = parse_string("(n / 10).truncate\n");
+
+  String *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\"expressions\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"grouped_expression\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"n\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"/\"}}}, \"method_arguments\": [\n"
+                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 10}}}\n"
+                    "]}}\n"
+                    "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"truncate\"}}}}}\n"
                     "]}";
 
   assert_strings_equal(string_value(inspection), expected, "ast");
@@ -289,6 +311,7 @@ char *all_specs() {
 
   run_spec(test_multi_operator_method);
   run_spec(test_function_assignment);
+  run_spec(test_grouped_expression_method_call);
 
   spec_teardown();
 

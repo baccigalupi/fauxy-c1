@@ -140,7 +140,7 @@ error:
   return NULL;
 }
 
-FxP_Method *FxP_Method_create_operator(FxP_Expression *receiver, FxP_Literal *message, FxP_Expression *argument) {
+FxP_Method *FxP_Method_create_args(FxP_Expression *receiver, FxP_Literal *message, FxP_Expression *argument) {
   FxP_MethodArguments *list = fxp_method_arguments_convert(argument);
   verify(list);
 

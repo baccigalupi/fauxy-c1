@@ -1,5 +1,6 @@
 # TODO
 3. Parser tests
+2. Location encoding, better error message
 5. Expression validation in parser
 
 ## Cleanup

@@ -62,6 +62,7 @@ expression
   : unterminated_expression expression_end  {
                                               fxp_parser_push_expression(context, $1);
                                             }
+  | implicit_method_call                    { fxp_parser_push_expression(context, $1); }
   | expression_end
   ;
 
@@ -90,7 +91,7 @@ grouped_expression
   ;
 
 list
-  : grouped_expression                             { $$ = $1; }
+  : grouped_expression                            { $$ = $1; }
   | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      { $$ = FxP_List_create_deferred(); }
   | OPEN_PAREN list_elements CLOSE_PAREN          { $$ = $1; }
   ;
@@ -156,33 +157,28 @@ function
 -- METHOD INVOCATIONS
 */
 
-implicit_method_call
-  : id_lookup unterminated_expression                         { $$ = FxP_Method_create_implicit($1, $2); }
+operator_call /* n + 3; -> {'foo' } >> a(_); (1, 2, 3) << 17 */
+  : unterminated_expression id_lookup unterminated_expression { $$ = FxP_Method_create_args($1, $2, $3); }
+  | unterminated_expression operator unterminated_expression  { $$ = FxP_Method_create_args($1, $2, $3); }
   ;
 
-operator_call
-  : unterminated_expression implicit_method_call              { $$ = fxp_method_convert_implicit($2, $1); }
-  | unterminated_expression operator unterminated_expression  { $$ = FxP_Method_create_operator($1, $2, $3); }
-  ;
-
-dot_method_call
-  : unterminated_expression DOT implicit_method_call          { $$ = fxp_method_convert_implicit($3, $1); }
-  | unterminated_expression DOT id_lookup                     { $$ = FxP_Method_create_no_args($1, $3); }
+dot_method_call /* Print.line "foo"; Print.line("foo"); Print.line */
+  : unterminated_expression DOT id_lookup unterminated_expression   { $$ = FxP_Method_create_args($1, $3, $4); }
+  | unterminated_expression DOT id_lookup                           { $$ = FxP_Method_create_no_args($1, $3); }
   ;
 
 function_method_call
-  : dot_method_call function                                  { $$ = fxp_method_add_function_argument($1, $2); }
-  ;
-
-implicit_method_call /* puts "hello" */
-  : id_lookup unterminated_expression                         { $$ = FxP_Method_create_implicit($1, $2); }
+  : dot_method_call function                                                { $$ = fxp_method_add_function_argument($1, $2); }
   ;
 
 method_call
   : operator_call           { $$ = $1; }
   | dot_method_call         { $$ = $1; }
   | function_method_call    { $$ = $1; }
-  | implicit_method_call    { $$ = $1; }
+  ;
+
+implicit_method_call /* puts "hello"; foo(1,2,3);  */
+  : id_lookup unterminated_expression                         { $$ = FxP_Method_create_implicit($1, $2); }
   ;
 
 /* ----------------

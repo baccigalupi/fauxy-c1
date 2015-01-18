@@ -102,7 +102,7 @@ FxP_Function *FxP_Function_create(FxP_List *list);
 FxP_Method *FxP_Method_create_implicit(FxP_Literal *message, FxP_Expression *argument);
 FxP_Method *fxp_method_convert_implicit(FxP_Method *self, FxP_Expression *receivier);
 FxP_Method *FxP_Method_create_no_args(FxP_Expression *receiver, FxP_Literal *message);
-FxP_Method *FxP_Method_create_operator(FxP_Expression *receiver, FxP_Literal *message, FxP_Expression *argument);
+FxP_Method *FxP_Method_create_args(FxP_Expression *receiver, FxP_Literal *message, FxP_Expression *argument);
 FxP_Method *fxp_method_add_function_argument(FxP_Method *method, FxP_Function *function);
 
 // Grouped expressions are lists with one value,
