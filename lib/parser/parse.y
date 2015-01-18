@@ -81,13 +81,16 @@ unterminated_expression
   | export_expression     { printf("export expression"); }
   ;
 
-grouped_statement
+/* -------------------------
+-- Expressions with parenthesis
+*/
+grouped_expression
   : OPEN_PAREN CLOSE_PAREN                          { $$ = FxP_Grouped_create(NULL); }
   | OPEN_PAREN unterminated_expression CLOSE_PAREN  { $$ = FxP_Grouped_create($2); }
   ;
 
 list
-  : grouped_statement                             { $$ = $1; }
+  : grouped_expression                             { $$ = $1; }
   | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      { $$ = FxP_List_create_deferred(); }
   | OPEN_PAREN list_elements CLOSE_PAREN          { $$ = $1; }
   ;
@@ -119,31 +122,11 @@ list_elements
     (1, 2, foo)
   */
 
-literal
-  : STRING        { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_STRING); }
-  | EVAL_STRING   { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_EVAL_STRING); }
-  | INTEGER       { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_INTEGER); }
-  | FLOAT         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_FLOAT); }
-  | SYMBOL        { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_SYMBOL); }
-  | REGEX         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_REGEX); }
-  | TRUE          { $$ = FxP_Literal_create(NULL, TOKEN_TRUE); }
-  | FALSE         { $$ = FxP_Literal_create(NULL, TOKEN_FALSE); }
-  | NIL           { $$ = FxP_Literal_create(NULL, TOKEN_NIL); }
-  ;
 
-lookup
-  : id_lookup     { $$ = $1; }
-  | CLASS_ID      { $$ = FxP_Lookup_create((FxP_Bit *)$1, TOKEN_CLASS_ID); }
-  ;
 
-id_lookup
-  : ID            { $$ = FxP_Lookup_create((FxP_Bit *)$1, TOKEN_ID); }
-  ;
-
-operator // for precedence
-  : AND           { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
-  | OR            { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
-  ;
+/* ----------------------------
+-- FUNCTION DEFINITION
+*/
 
 function_start
   : FUNCTION_DECLARATION OPEN_BRACE         {
@@ -169,12 +152,16 @@ function
                                                               }
   ;
 
+/* ----------------------------
+-- METHOD INVOCATIONS
+*/
+
 implicit_method_call
   : id_lookup unterminated_expression                         { $$ = FxP_Method_create_implicit($1, $2); }
   ;
 
 operator_call
-  : unterminated_expression id_lookup unterminated_expression { $$ = FxP_Method_create_operator($1, $2, $3); }
+  : unterminated_expression implicit_method_call              { $$ = fxp_method_convert_implicit($2, $1); }
   | unterminated_expression operator unterminated_expression  { $$ = FxP_Method_create_operator($1, $2, $3); }
   ;
 
@@ -187,15 +174,23 @@ function_method_call
   : dot_method_call function                                  { $$ = fxp_method_add_function_argument($1, $2); }
   ;
 
-method_call // pass along already constructed method expression
+implicit_method_call /* puts "hello" */
+  : id_lookup unterminated_expression                         { $$ = FxP_Method_create_implicit($1, $2); }
+  ;
+
+method_call
   : operator_call           { $$ = $1; }
   | dot_method_call         { $$ = $1; }
   | function_method_call    { $$ = $1; }
   | implicit_method_call    { $$ = $1; }
   ;
 
+/* ----------------
+** Assignment related expressions
+*/
+
 local_assignment
-  : lookup EQUAL_SIGN unterminated_expression               { $$ = FxP_LocalAssign_create($1, $2); }
+  : lookup EQUAL_SIGN unterminated_expression                 { $$ = FxP_LocalAssign_create($1, $2); }
   ;
 
 /*
@@ -218,5 +213,35 @@ colonized_expression
 
 export_expression
   : EXPORT unterminated_expression    // waiting until know more about import export process, and requiring
+  ;
+
+/* ------------------
+-- BASE Types
+*/
+
+literal
+  : STRING        { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_STRING); }
+  | EVAL_STRING   { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_EVAL_STRING); }
+  | INTEGER       { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_INTEGER); }
+  | FLOAT         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_FLOAT); }
+  | SYMBOL        { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_SYMBOL); }
+  | REGEX         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_REGEX); }
+  | TRUE          { $$ = FxP_Literal_create(NULL, TOKEN_TRUE); }
+  | FALSE         { $$ = FxP_Literal_create(NULL, TOKEN_FALSE); }
+  | NIL           { $$ = FxP_Literal_create(NULL, TOKEN_NIL); }
+  ;
+
+lookup
+  : id_lookup     { $$ = $1; }
+  | CLASS_ID      { $$ = FxP_Lookup_create((FxP_Bit *)$1, TOKEN_CLASS_ID); }
+  ;
+
+id_lookup
+  : ID            { $$ = FxP_Lookup_create((FxP_Bit *)$1, TOKEN_ID); }
+  ;
+
+operator // for precedence
+  : AND           { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
+  | OR            { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
   ;
 %%
