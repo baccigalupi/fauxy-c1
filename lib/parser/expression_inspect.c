@@ -5,6 +5,8 @@
 // map iterator for return array of inspections
 // also can be used for regular inspection
 void *fxp_inspect(void *element) {
+  if (!element) { return String_create("\"NULL STATEMENT\""); }
+
   FxP_Expression *expression = (FxP_Expression *)element;
   String *unwrapped_pair = NULL;
   Array *pair_array = NULL;
