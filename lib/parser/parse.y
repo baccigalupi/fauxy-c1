@@ -59,11 +59,9 @@ expressions
   ;
 
 expression
-  : unterminated_expression expression_end  {
-                                              fxp_parser_push_expression(context, $1);
-                                            }
-  | implicit_method_call                    { fxp_parser_push_expression(context, $1); }
-  | expression_end
+  : unterminated_expression expression_end  { fxp_parser_push_expression(context, $1); }
+  | implicit_method_call expression_end     { fxp_parser_push_expression(context, $1); }
+  | expression_end                          { }
   ;
 
 expression_end
@@ -92,8 +90,8 @@ grouped_expression
 
 list
   : grouped_expression                            { $$ = $1; }
-  | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      { $$ = FxP_List_create_deferred(); }
-  | OPEN_PAREN list_elements CLOSE_PAREN          { $$ = $1; }
+  | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      { $$ = FxP_List_create_deferred(); } /* Memory leak with deferred creation in $2 */
+  | OPEN_PAREN list_elements CLOSE_PAREN          { $$ = $2; }
   ;
 
 list_element
@@ -102,8 +100,8 @@ list_element
   ;
 
 list_elements
-  : list_element COMMA list_element               { $$ = FxP_List_create_double($1, $3); }
-  | list_element COMMA list_elements              { $$ = fxp_list_unshift($2, $1); }
+  : list_element COMMA list_element               { $$  = FxP_List_create_double($1, $3); }
+  | list_element COMMA list_elements              { fxp_list_unshift($3, $1); $$ = $3; }
   ;
 
   /*
@@ -158,8 +156,8 @@ function
 */
 
 operator_call /* n + 3; -> {'foo' } >> a(_); (1, 2, 3) << 17 */
-  : unterminated_expression id_lookup unterminated_expression { $$ = FxP_Method_create_args($1, $2, $3); }
-  | unterminated_expression operator unterminated_expression  { $$ = FxP_Method_create_args($1, $2, $3); }
+  : unterminated_expression id_lookup unterminated_expression       { $$ = FxP_Method_create_args($1, $2, $3); }
+  | unterminated_expression operator unterminated_expression        { $$ = FxP_Method_create_args($1, $2, $3); }
   ;
 
 dot_method_call /* Print.line "foo"; Print.line("foo"); Print.line */
@@ -168,7 +166,7 @@ dot_method_call /* Print.line "foo"; Print.line("foo"); Print.line */
   ;
 
 function_method_call
-  : dot_method_call function                                                { $$ = fxp_method_add_function_argument($1, $2); }
+  : dot_method_call function                                        { $$ = fxp_method_add_function_argument($1, $2); }
   ;
 
 method_call
@@ -178,7 +176,7 @@ method_call
   ;
 
 implicit_method_call /* puts "hello"; foo(1,2,3);  */
-  : id_lookup unterminated_expression                         { $$ = FxP_Method_create_implicit($1, $2); }
+  : id_lookup unterminated_expression                               { $$ = FxP_Method_create_implicit($1, $2); }
   ;
 
 /* ----------------
@@ -236,7 +234,7 @@ id_lookup
   : ID            { $$ = FxP_Lookup_create((FxP_Bit *)$1, TOKEN_ID); }
   ;
 
-operator // for precedence
+operator /* for precedence */
   : AND           { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
   | OR            { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
   ;

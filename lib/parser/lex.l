@@ -15,6 +15,9 @@
 
 ID_PREFACE 	[\\/\=\-\*\^~@<+&a-z0-9_]
 CLASS_SUFFIX [A-Za-z0-9_\-]*
+BREAK [\n]*
+SPACE ([ \t]*)?
+BREAK_SPACE ([ \t]*)?[\n]*([ \t]*)?
 
 %%
 
@@ -28,11 +31,11 @@ CLASS_SUFFIX [A-Za-z0-9_\-]*
 "||"													{ return TOKEN_OR; }
 "..."													{ return TOKEN_ELIPSES; }
 ".."													{ return TOKEN_ELIPSES; }
-"."														{ return TOKEN_DOT; }
+{BREAK_SPACE}"."{BREAK_SPACE}	{ return TOKEN_DOT; }
 ";"                         	{ return TOKEN_SEMICOLON; }
-"("                         	{ return TOKEN_OPEN_PAREN; }
-")"                         	{ return TOKEN_CLOSE_PAREN; }
-","                         	{ return TOKEN_COMMA; }
+"("{BREAK_SPACE}              { return TOKEN_OPEN_PAREN; }
+{BREAK_SPACE}")"              { return TOKEN_CLOSE_PAREN; }
+{BREAK_SPACE}","{BREAK_SPACE} { return TOKEN_COMMA; }
 "_"                         	{ return TOKEN_DEFERRED_ARGUMENT; }
 "="                         	{ return TOKEN_EQUAL_SIGN; }
 ":"                         	{ return TOKEN_COLON; }
@@ -42,7 +45,7 @@ CLASS_SUFFIX [A-Za-z0-9_\-]*
 "!"                         	{ return TOKEN_NOT; }
 \/\*(.|\n)*\*\/             	{ /* comment bracketed, treat as white space */ }
 \/\/[^\n]*                		{ /* terminating comment, treat as white space */ }
-[\n]	                      	{ return TOKEN_LINE_END; }
+{BREAK}	                      { return TOKEN_LINE_END; }
 [ \t]                     		{ /* white space, move along */ }
 
 [A-Z]+{CLASS_SUFFIX} 					  { ParseObject_wrap(TOKEN_CLASS_ID, yytext); }
@@ -55,5 +58,5 @@ CLASS_SUFFIX [A-Za-z0-9_\-]*
 \"([^"]|\\.)*\"           			{ ParseObject_wrap(TOKEN_EVAL_STRING, yytext); }
 \'([^']|\\.)*\'           			{ ParseObject_wrap(TOKEN_STRING, yytext); }
 
-{ID_PREFACE}+{CLASS_SUFFIX}				{ printf("illegal id: %s\n", yytext); }
+{ID_PREFACE}+{CLASS_SUFFIX}			{ printf("illegal id: %s\n", yytext); }
 .                    						{ printf("unknown token: %s\n", yytext); }

@@ -77,7 +77,7 @@ char *test_empty_function() {
 }
 
 char *test_empty_function_with_line_end() {
-  spec_describe("empty function: -> {\\n}");
+  spec_describe("empty function: -> {\n}");
   FxP_ParserContext *context = parse_string("-> {\n}\n");
 
   String *inspection = fxp_parser_inspect(context);
@@ -93,7 +93,7 @@ char *test_empty_function_with_line_end() {
 }
 
 char *test_function_with_expression() {
-  spec_describe("function one expression: -> { 1 + 1 }");
+  spec_describe("function one expression: -> {\n1 + 1\n}");
   FxP_ParserContext *context = parse_string("-> {\n1 + 1\n}\n");
 
   String *inspection = fxp_parser_inspect(context);
@@ -113,7 +113,7 @@ char *test_function_with_expression() {
 }
 
 char *test_function_with_multiple_expressions() {
-  spec_describe("function two expressions: -> { 1 + 1; print 'word' }");
+  spec_describe("function two expressions: -> {\n1 + 1\n print 'word'\n}");
   FxP_ParserContext *context = parse_string("-> {\n1 + 1\n print 'word'\n}\n");
 
   String *inspection = fxp_parser_inspect(context);
@@ -136,7 +136,7 @@ char *test_function_with_multiple_expressions() {
 }
 
 char *test_expression_function_with_expression_expression() {
-  spec_describe("expression function sandwich: 1 + 1; -> { print 'word' }; 2 * 2");
+  spec_describe("expression function sandwich: 1 + 1\n-> {\n print 'word'\n}\n2 * 2");
   FxP_ParserContext *context = parse_string("1 + 1\n-> {\n print 'word'\n}\n2 * 2\n");
 
   String *inspection = fxp_parser_inspect(context);
@@ -290,6 +290,86 @@ char *test_grouped_expression_method_call() {
   return NULL;
 }
 
+char *test_multi_line_group() {
+  spec_describe("multiline group: (\n\tn / 10\n).truncate");
+  FxP_ParserContext *context = parse_string("(\n\tn / 10\n).truncate\n");
+
+  String *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\"expressions\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"grouped_expression\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"n\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"/\"}}}, \"method_arguments\": [\n"
+                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 10}}}\n"
+                    "]}}\n"
+                    "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"truncate\"}}}}}\n"
+                    "]}";
+
+  assert_strings_equal(string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  string_free(inspection);
+
+  return NULL;
+}
+
+char *test_multi_line_list() {
+  spec_describe("multiline group: (\n\t1,\n\t2, \n\t3\n)");
+  FxP_ParserContext *context = parse_string("(\n\t1,\n\t2, \n\t3\n)\n");
+
+  String *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\"expressions\": [\n"
+                    "{\"list\": [\n"
+                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}},\n"
+                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}},\n"
+                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}}\n"
+                    "]}\n"
+                    "]}";
+
+  assert_strings_equal(string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  string_free(inspection);
+
+  return NULL;
+}
+
+char *test_multi_line_method_call() {
+  spec_describe("multiline method call:  (n / 10)\n\t.truncate");
+  FxP_ParserContext *context = parse_string("(n / 10)\n\t.truncate\n");
+
+  String *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\"expressions\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"grouped_expression\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"n\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"/\"}}}, \"method_arguments\": [\n"
+                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 10}}}\n"
+                    "]}}\n"
+                    "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"truncate\"}}}}}\n"
+                    "]}";
+
+  assert_strings_equal(string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  string_free(inspection);
+
+  spec_describe("multiline method call:  (n / 10).\n\ttruncate");
+  context = parse_string("(n / 10).\n\ntruncate\n");
+
+  inspection = fxp_parser_inspect(context);
+  expected =        "{\"expressions\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"grouped_expression\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"n\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"/\"}}}, \"method_arguments\": [\n"
+                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 10}}}\n"
+                    "]}}\n"
+                    "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"truncate\"}}}}}\n"
+                    "]}";
+
+  assert_strings_equal(string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  string_free(inspection);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Parsing Expressions");
 
@@ -312,6 +392,10 @@ char *all_specs() {
   run_spec(test_multi_operator_method);
   run_spec(test_function_assignment);
   run_spec(test_grouped_expression_method_call);
+
+  run_spec(test_multi_line_group);
+  run_spec(test_multi_line_list);
+  run_spec(test_multi_line_method_call);
 
   spec_teardown();
 
