@@ -96,7 +96,7 @@ FxP_Method *FxP_Method_create_implicit(FxP_Literal *method_name, FxP_Expression 
   } else {
     arguments = FxP_Expression_create(FXP_ST_METHOD_ARGUMENTS);
     verify(arguments);
-    fxp_list_set(arguments, 0, argument);
+    fxp_list_push(arguments, argument);
   }
   fxp_method_set_arguments(call, arguments);
 
@@ -121,7 +121,7 @@ FxP_Method *fxp_method_add_function_argument(FxP_Method *method, FxP_Function *f
   }
 
   list = fxp_method_arguments(method);
-  fxp_list_unshift(list, function);
+  fxp_list_push(list, function);
 
   return method;
 error:
@@ -192,32 +192,12 @@ FxP_List *FxP_List_create_double(FxP_Expression *first, FxP_Expression *second) 
   FxP_List *list = FxP_Expression_create(FXP_ST_LIST);
   verify(list);
 
-  fxp_expression_push(list, first);
   fxp_expression_push(list, second);
+  fxp_expression_push(list, first);
 
   return list;
 error:
   return NULL;
-}
-
-// this is pretty inefficient for longer lists since tail is finished first
-// would be better to just reverse the index on read and write to end
-FxP_List *fxp_list_unshift(FxP_List *list, FxP_Expression *value) {
-  int length = fxp_list_length(list);
-
-  // shove last element in again to trigger auto expansion if necessary
-  fxp_expression_push(list, fxp_list_get(list, length - 1));
-
-  // move each element to the one behind it
-  int i;
-  for (i = 1; i <= length; i++) {
-    fxp_list_set(list, i, fxp_list_get(list, i - 1));
-  }
-
-  // put new value in the front
-  fxp_list_set(list, 0, value);
-
-  return list;
 }
 
 FxP_MethodArguments *fxp_method_arguments_convert(FxP_Expression *expression) {

@@ -26,7 +26,9 @@ Array     *Array_create(int capacity);
 void       array_push(Array *array, void *element);
 Boolean    array_expand(Array *array, int seed);
 void       array_each(Array *array, ArrayIterator f);
+void       array_reverse_each(Array *array, ArrayIterator f);
 Array     *array_map(Array *array, ArrayMapIterator f);
+Array     *array_reverse_map(Array *array, ArrayMapIterator f);
 void      *array_pop(Array *array);
 void       array_set(Array *array, int index, void *value);
 

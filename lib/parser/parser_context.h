@@ -20,10 +20,10 @@ typedef struct FxP_ParserContext {
 #define fxp_parser_context_pop(C)        ((FxP_Expressions *)list_pop(fxp_parser_context_list(C)))
 #define fxp_parser_current_context(C)    list_last(fxp_parser_context_list(C))
 #define fxp_parser_push_expression(C, V) (fxp_expression_push((FxP_Expressions *)fxp_parser_current_context(C), V))
-#define fxp_parser_context_free(C)       list_free(fxp_parser_context_list(C))
 
 #define fxp_parser_inspect(C)            fxp_inspect(fxp_parser_current_context(C))
 
 FxP_ParserContext *FxP_ParserContext_create();
+void fxp_parser_context_free(FxP_ParserContext *context);
 
 #endif

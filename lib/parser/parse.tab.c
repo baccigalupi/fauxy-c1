@@ -1529,7 +1529,7 @@ yyreduce:
 
   case 24:
 #line 99 "lib/parser/parse.y" /* yacc.c:1661  */
-    { fxp_list_unshift((yyvsp[0]), (yyvsp[-2])); (yyval) = (yyvsp[0]); }
+    { fxp_list_push((FxP_List *)(yyvsp[0]), (yyvsp[-2])); (yyval) = (yyvsp[0]); }
 #line 1534 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 

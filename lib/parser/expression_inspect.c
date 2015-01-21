@@ -25,11 +25,11 @@ void *fxp_inspect(void *element) {
   } else if (type == FXP_ST_GROUPED) {
     unwrapped_pair = fxp_collection_body_inspect(expression);
   } else if (type == FXP_ST_LIST) {
-    unwrapped_pair = fxp_collection_body_inspect(expression);
+    unwrapped_pair = fxp_list_body_inspect(expression);
   } else if (type == FXP_ST_METHOD_ARGUMENTS) {
-    unwrapped_pair = fxp_collection_body_inspect(expression);
+    unwrapped_pair = fxp_list_body_inspect(expression);
   } else if (type == FXP_ST_FUNCTION_ARGUMENTS) {
-    unwrapped_pair = fxp_collection_body_inspect(expression);
+    unwrapped_pair = fxp_list_body_inspect(expression);
   } else if (type == FXP_ST_LOCAL_ASSIGN) {
     unwrapped_pair = fxp_left_right_inspect(expression);
   } else if (type == FXP_ST_COLON_EXPRESSION) {
@@ -234,6 +234,33 @@ error:
   return NULL;
 }
 
+String *fxp_list_body_inspect(FxP_Expression *expression) {
+  String *exp_value = NULL;
+  Array  *element_inspections = NULL;
+
+  element_inspections = array_reverse_map(fxp_expression_value(expression), fxp_inspect);
+  verify(element_inspections);
+
+  exp_value = json_gen_wrap_array_pairs(element_inspections);
+  verify(exp_value);
+
+  String *json = fxp_expression_join(expression, exp_value);
+
+  string_free(exp_value);
+  array_each(element_inspections, fxp_free_inspection);
+  array_free(element_inspections);
+
+  return json;
+error:
+  if (exp_value) { string_free(exp_value); }
+  if (element_inspections) {
+    array_each(element_inspections, fxp_free_inspection);
+    string_free(element_inspections);
+  }
+
+  return NULL;
+}
+
 String *fxp_method_body_inspect(FxP_Expression *expression) {
   /*[receiver, method_name, method_arguments]*/
   String *receiver_key = NULL;
@@ -266,7 +293,7 @@ String *fxp_method_body_inspect(FxP_Expression *expression) {
   array_push(exp_values, message_pair);
 
   if ( fxp_method_arguments(expression) ) {
-    arg_value = fxp_collection_body_inspect(fxp_method_arguments(expression));
+    arg_value = fxp_list_body_inspect(fxp_method_arguments(expression));
     verify(arg_value);
     array_push(exp_values, arg_value);
   }
@@ -323,7 +350,7 @@ String *fxp_function_body_inspect(FxP_Expression *expression) {
   verify(exp_values);
 
   if ( fxp_function_arguments(expression) ) {
-    arguments_value = fxp_collection_body_inspect(fxp_function_arguments(expression));
+    arguments_value = fxp_list_body_inspect(fxp_function_arguments(expression));
     verify(arguments_value);
     array_push(exp_values, arguments_value);
   }

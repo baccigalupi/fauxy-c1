@@ -311,27 +311,6 @@ char *test_multi_line_group() {
   return NULL;
 }
 
-char *test_multi_line_list() {
-  spec_describe("multiline group: (\n\t1,\n\t2, \n\t3\n)");
-  FxP_ParserContext *context = parse_string("(\n\t1,\n\t2, \n\t3\n)\n");
-
-  String *inspection = fxp_parser_inspect(context);
-  char *expected =  "{\"expressions\": [\n"
-                    "{\"list\": [\n"
-                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}},\n"
-                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}},\n"
-                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}}\n"
-                    "]}\n"
-                    "]}";
-
-  assert_strings_equal(string_value(inspection), expected, "ast");
-
-  fxp_parser_context_free(context);
-  string_free(inspection);
-
-  return NULL;
-}
-
 char *test_multi_line_method_call() {
   spec_describe("multiline method call:  (n / 10)\n\t.truncate");
   FxP_ParserContext *context = parse_string("(n / 10)\n\t.truncate\n");
@@ -370,6 +349,27 @@ char *test_multi_line_method_call() {
   return NULL;
 }
 
+char *test_multi_line_list() {
+  spec_describe("multiline group: (\n\t1,\n\t2, \n\t3\n)");
+  FxP_ParserContext *context = parse_string("(\n\t1,\n\t2, \n\t3\n)\n");
+
+  String *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\"expressions\": [\n"
+                    "{\"list\": [\n"
+                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}},\n"
+                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}},\n"
+                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 3}}}\n"
+                    "]}\n"
+                    "]}";
+
+  assert_strings_equal(string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  string_free(inspection);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Parsing Expressions");
 
@@ -394,8 +394,8 @@ char *all_specs() {
   run_spec(test_grouped_expression_method_call);
 
   run_spec(test_multi_line_group);
-  run_spec(test_multi_line_list);
   run_spec(test_multi_line_method_call);
+  run_spec(test_multi_line_list);
 
   spec_teardown();
 

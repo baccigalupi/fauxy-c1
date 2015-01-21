@@ -1,13 +1,10 @@
 # TODO
-3. Parser tests
 2. Location encoding, better error message
 5. Expression validation in parser
 
 ## Cleanup
 
 ## Optimize later
-Invert argument expression order so unshift not necessary
-
 Array:
 verification with return boolean on push etc
 

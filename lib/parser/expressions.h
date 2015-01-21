@@ -110,13 +110,14 @@ FxP_Method *fxp_method_add_function_argument(FxP_Method *method, FxP_Function *f
 FxP_Grouped *FxP_Grouped_create(FxP_Expression *value);
 
 #define fxp_list_length(E)             fxp_expression_length(E);
-#define fxp_list_get(E, I)             fxp_expression_value_at(E, I)
-#define fxp_list_set(E, I, V)          fxp_expression_value_set(E, I, V)
+#define fxp_list_index(E, I)           (fxp_expression_length(E) - I - 1)
+#define fxp_list_get(E, I)             fxp_expression_value_at(E, fxp_list_index(E, I))
+#define fxp_list_set(E, I, V)          fxp_expression_value_set(E, fxp_list_index(E, I), V)
+#define fxp_list_push(E, V)            fxp_expression_push(E, V)
 
 FxP_List *fxp_list_convert(FxP_Grouped *group);
 FxP_List *FxP_List_create_deferred();
 FxP_List *FxP_List_create_double(FxP_Expression *first, FxP_Expression *second);
-FxP_List *fxp_list_unshift(FxP_List *list, FxP_Expression *value);
 
 FxP_MethodArguments *fxp_method_arguments_convert(FxP_Expression *expression);
 

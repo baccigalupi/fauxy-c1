@@ -53,6 +53,15 @@ void array_each(Array *array, ArrayIterator f) {
   }
 }
 
+void array_reverse_each(Array *array, ArrayIterator f) {
+  int i;
+  void *element;
+  for (i = array_length(array) - 1; i >= 0; i--) {
+    element = array_at_index(array, i);
+    f(element);
+  }
+}
+
 Array *array_map(Array *array, ArrayMapIterator f) {
   Array *mapped = Array_create(array_length(array));
   int i;
@@ -60,6 +69,18 @@ Array *array_map(Array *array, ArrayMapIterator f) {
   for (i = 0; i < array_length(array); i++) {
     element = array_at_index(array, i);
     array_set(mapped, i, f(element));
+  }
+
+  return mapped;
+}
+
+Array *array_reverse_map(Array *array, ArrayMapIterator f) {
+  Array *mapped = Array_create(array_length(array));
+  int i;
+  void *element;
+  for (i = array_length(array) - 1; i >= 0; i--) {
+    element = array_at_index(array, i);
+    array_push(mapped, f(element));
   }
 
   return mapped;

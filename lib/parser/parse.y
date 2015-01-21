@@ -96,7 +96,7 @@ list
 
 list_elements
   : unterminated_expression COMMA unterminated_expression    { $$  = FxP_List_create_double($1, $3); }
-  | unterminated_expression COMMA list_elements              { fxp_list_unshift($3, $1); $$ = $3; }
+  | unterminated_expression COMMA list_elements              { fxp_list_push((FxP_List *)$3, $1); $$ = $3; }
   ;
 
   /*

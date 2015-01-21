@@ -9,6 +9,7 @@ void   *fxp_inspect(void *element); // void * for use in array iterators
 String *fxp_literal_body_inspect(     FxP_Expression *expression);
 String *fxp_lookup_body_inspect(      FxP_Expression *expression);
 String *fxp_collection_body_inspect(  FxP_Expression *expression);
+String *fxp_list_body_inspect(        FxP_Expression *expression);
 String *fxp_method_body_inspect(      FxP_Expression *expression);
 String *fxp_function_body_inspect(    FxP_Expression *expression);
 String *fxp_left_right_inspect(       FxP_Expression *expression);
