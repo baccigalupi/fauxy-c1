@@ -90,18 +90,13 @@ grouped_expression
 
 list
   : grouped_expression                            { $$ = $1; }
-  | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      { $$ = FxP_List_create_deferred(); } /* Memory leak with deferred creation in $2 */
+  | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      { $$ = FxP_List_create_deferred(); }
   | OPEN_PAREN list_elements CLOSE_PAREN          { $$ = $2; }
   ;
 
-list_element
-  : DEFERRED_ARGUMENT                             { $$ = FxP_Literal_create(NULL, TOKEN_DEFERRED_ARGUMENT); }
-  | unterminated_expression                       { $$ = $1; }
-  ;
-
 list_elements
-  : list_element COMMA list_element               { $$  = FxP_List_create_double($1, $3); }
-  | list_element COMMA list_elements              { fxp_list_unshift($3, $1); $$ = $3; }
+  : unterminated_expression COMMA unterminated_expression    { $$  = FxP_List_create_double($1, $3); }
+  | unterminated_expression COMMA list_elements              { fxp_list_unshift($3, $1); $$ = $3; }
   ;
 
   /*
