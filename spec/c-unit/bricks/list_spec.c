@@ -59,9 +59,9 @@ char *test_list_additional_pushes() {
   assert_ints_equal(list_length(list), 3,     "list length");
 
   // connections between nodes
-  Node *first_node =  list->first;
-  Node *middle_node = list->first->next;
-  Node *last_node =   list->last;
+  FxB_Node *first_node =  list->first;
+  FxB_Node *middle_node = list->first->next;
+  FxB_Node *last_node =   list->last;
 
   assert_strings_equal(middle_node->value, str_2,         "middle value");
 
@@ -181,9 +181,9 @@ char *test_list_unshift_additional_time() {
   assert_strings_equal(list_first(list), str_3, "first value");
 
   // connections between nodes
-  Node *first_node =  list->first;
-  Node *middle_node = list->first->next;
-  Node *last_node =   list->last;
+  FxB_Node *first_node =  list->first;
+  FxB_Node *middle_node = list->first->next;
+  FxB_Node *last_node =   list->last;
 
   assert_strings_equal(middle_node->value, str_2,         "middle value");
 

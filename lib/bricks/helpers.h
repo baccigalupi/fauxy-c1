@@ -1,5 +1,5 @@
 #ifndef __FxB_Helpers_h
-#define __FxB_Helpers_h
+#define __FxB_Helpers_h 1
 
 #include <stdio.h>
 

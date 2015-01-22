@@ -31,7 +31,7 @@ void fxp_parser_context_free(FxP_ParserContext *context) {
     fxp_exception_free(fxp_parser_context_execption(context));
   }
 
-  Node *node = NULL;
+  FxB_Node *node = NULL;
   list_each(fxp_parser_context_list(context), node) {
     fxp_expression_free(node_value(node));
   }

@@ -1,18 +1,18 @@
-#ifndef __bricks_node_h
-#define __bricks_node_h
+#ifndef __FxB_FxB_Node_h
+#define __FxB_FxB_Node_h 1
 
 #include "string.h"
 
-typedef struct Node {
+typedef struct FxB_Node {
   Hash         hash;
   String      *key;
 
   void        *value;
 
-  struct Node *prev;
-  struct Node *next;
-  struct Node *parent;
-} Node;
+  struct FxB_Node *prev;
+  struct FxB_Node *next;
+  struct FxB_Node *parent;
+} FxB_Node;
 
 // NODE flexibility -------------
 // Allows same nodes for trees and lists and hashes
@@ -26,6 +26,6 @@ typedef struct Node {
 #define node_hash(N)            ((N)->hash)
 #define node_key(N)             ((N)->key)
 
-Node *Node_create(void *value);
+FxB_Node *FxB_Node_create(void *value);
 
 #endif

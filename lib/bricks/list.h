@@ -1,12 +1,12 @@
 #ifndef __FxB_FxB_List_h
-#define __FxB_FxB_List_h
+#define __FxB_FxB_List_h 1
 
 #include "node.h"
 
 typedef struct FxB_List {
   int length;
-  struct Node *first;
-  struct Node *last;
+  struct FxB_Node *first;
+  struct FxB_Node *last;
 } FxB_List;
 
 #define list_length(L)        ((L)->length)
@@ -18,10 +18,10 @@ typedef struct FxB_List {
 
 FxB_List *FxB_List_create();
 
-Node *list_pop_node(FxB_List *list);
-void  list_push_node(FxB_List *list, Node *node);
-Node *list_shift_node(FxB_List *list);
-void  list_unshift_node(FxB_List *list, Node *node);
+FxB_Node *list_pop_node(FxB_List *list);
+void  list_push_node(FxB_List *list, FxB_Node *node);
+FxB_Node *list_shift_node(FxB_List *list);
+void  list_unshift_node(FxB_List *list, FxB_Node *node);
 
 void  list_push(   FxB_List *list, void *value);
 void *list_pop(    FxB_List *list);
