@@ -6,7 +6,7 @@
 char *test_create_hash() {
   spec_describe("Create");
 
-  HashMap *hash_map = HashMap_create(100);
+  FxB_HashMap *hash_map = FxB_HashMap_create(100);
 
   assert_ints_equal(hash_map_capacity(hash_map), 100, "capacity");
   assert_ints_equal(hash_map_length(hash_map), 0,  "length");
@@ -20,7 +20,7 @@ char *test_create_hash() {
 char *test_get_value_from_empty() {
   spec_describe("Getting values from empty hash_map");
 
-  HashMap *hash_map = HashMap_create(10);
+  FxB_HashMap *hash_map = FxB_HashMap_create(10);
   String *key = String_create("key");
 
   assert_equal(hash_map_get(hash_map, key), NULL, "return NULL");
@@ -34,7 +34,7 @@ char *test_get_value_from_empty() {
 char *test_set_value() {
   spec_describe("Setting and getting value");
 
-  HashMap *hash_map = HashMap_create(10);
+  FxB_HashMap *hash_map = FxB_HashMap_create(10);
   String *key = String_create("key");
   String *value = String_create("value");
 
@@ -52,7 +52,7 @@ char *test_set_value() {
 char *test_reset_value() {
   spec_describe("Setting and getting value");
 
-  HashMap *hash_map = HashMap_create(10);
+  FxB_HashMap *hash_map = FxB_HashMap_create(10);
   String *key = String_create("key");
   String *value_1 = String_create("value");
   String *value_2 = String_create("another value");

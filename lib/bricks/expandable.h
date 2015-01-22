@@ -1,5 +1,5 @@
-#ifndef __bricks
-#define __bricks
+#ifndef __FxB_Expandable_h
+#define __FxB_Expandable_h
 
 #include <math.h>
 

@@ -3,8 +3,8 @@
 #include "hash_map.h"
 #include "list.h"
 
-HashMap *HashMap_create(int capacity) {
-  HashMap *hash_map = calloc(1, sizeof(Hash));
+FxB_HashMap *FxB_HashMap_create(int capacity) {
+  FxB_HashMap *hash_map = calloc(1, sizeof(Hash));
   verify_memory(hash_map);
 
   hash_map_capacity(hash_map) = capacity;
@@ -17,7 +17,7 @@ error:
   return NULL;
 }
 
-void *hash_map_get(HashMap *hash_map, String *key) {
+void *hash_map_get(FxB_HashMap *hash_map, String *key) {
   void *value = NULL;
   Node *node = hash_map_get_node(hash_map, key);
 
@@ -28,7 +28,7 @@ void *hash_map_get(HashMap *hash_map, String *key) {
   return value;
 }
 
-Node *hash_map_get_node(HashMap *hash_map, String *key) {
+Node *hash_map_get_node(FxB_HashMap *hash_map, String *key) {
   Node *current_node = NULL;
   Node *node = NULL;
   int index = hash_map_index_for_key(hash_map, key);
@@ -46,7 +46,7 @@ Node *hash_map_get_node(HashMap *hash_map, String *key) {
   return node;
 }
 
-void hash_map_set(HashMap *hash_map, String *key, void *value) {
+void hash_map_set(FxB_HashMap *hash_map, String *key, void *value) {
   int index = hash_map_index_for_key(hash_map, key);
 
   // create list if value at index in void
@@ -77,7 +77,7 @@ error:
   return;
 }
 
-void hash_map_free_list_values(HashMap *hash_map) {
+void hash_map_free_list_values(FxB_HashMap *hash_map) {
   int i;
   FxB_Array *values = hash_map_values(hash_map);
 
