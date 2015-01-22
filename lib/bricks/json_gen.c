@@ -20,7 +20,7 @@ error:
   return NULL;
 }
 
-String *json_gen_join_pairs(Array *pairs, char *joiner) {
+String *json_gen_join_pairs(FxB_Array *pairs, char *joiner) {
   String *joined = String_create_blank();
   verify(joined);
 
@@ -38,7 +38,7 @@ error:
   return NULL;
 }
 
-String *json_gen_wrap_pairs(Array *pairs) {
+String *json_gen_wrap_pairs(FxB_Array *pairs) {
   String *json = json_gen_join_pairs(pairs, ", ");
   verify(json);
 
@@ -48,7 +48,7 @@ error:
   return NULL;
 }
 
-String *json_gen_wrap_array_pairs(Array *pairs) {
+String *json_gen_wrap_array_pairs(FxB_Array *pairs) {
   String *json = json_gen_join_pairs(pairs, ",\n");
   verify(json);
   verify(string_wrap(json, '\n', '\n'));

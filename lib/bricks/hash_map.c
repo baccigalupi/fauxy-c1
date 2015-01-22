@@ -8,7 +8,7 @@ HashMap *HashMap_create(int capacity) {
   verify_memory(hash_map);
 
   hash_map_capacity(hash_map) = capacity;
-  hash_map_values(hash_map) = Array_create(capacity);
+  hash_map_values(hash_map) = FxB_Array_create(capacity);
   verify(hash_map_values(hash_map));
 
   return hash_map;
@@ -79,7 +79,7 @@ error:
 
 void hash_map_free_list_values(HashMap *hash_map) {
   int i;
-  Array *values = hash_map_values(hash_map);
+  FxB_Array *values = hash_map_values(hash_map);
 
   int length = array_length(values);
   for(i = 0; i < length; i++) {

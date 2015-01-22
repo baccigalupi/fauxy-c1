@@ -10,7 +10,7 @@
 typedef struct HashMap {
   int length;
   int capacity;
-  Array *values;
+  FxB_Array *values;
 } HashMap;
 
 #define hash_map_values(H)            ((H)->values)

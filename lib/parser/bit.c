@@ -202,7 +202,7 @@ String *fxp_bit_inspect(FxP_Bit *bit) {
   String *bit_value = NULL;
   String *pair = NULL;
   String *json = NULL;
-  Array *pairs = NULL;
+  FxB_Array *pairs = NULL;
 
   bit_key = fxp_bit_type_description(bit);
   verify(bit_key);
@@ -212,7 +212,7 @@ String *fxp_bit_inspect(FxP_Bit *bit) {
   pair = json_gen_bald_pair(bit_key, bit_value);
   verify(pair);
 
-  pairs = Array_create(1);
+  pairs = FxB_Array_create(1);
   verify(pairs);
   array_push(pairs, pair);
 

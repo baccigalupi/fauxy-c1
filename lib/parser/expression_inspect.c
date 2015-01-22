@@ -9,7 +9,7 @@ void *fxp_inspect(void *element) {
 
   FxP_Expression *expression = (FxP_Expression *)element;
   String *unwrapped_pair = NULL;
-  Array *pair_array = NULL;
+  FxB_Array *pair_array = NULL;
 
   String *json;
   int type = fxp_expression_type(expression);
@@ -42,7 +42,7 @@ void *fxp_inspect(void *element) {
   }
 
   verify(unwrapped_pair);
-  pair_array = Array_create(1);
+  pair_array = FxB_Array_create(1);
   verify(pair_array);
   array_push(pair_array, unwrapped_pair);
 
@@ -62,7 +62,7 @@ error:
 String *fxp_expression_join(FxP_Expression *expression, String *value) {
   String *key = NULL;
   String *bald_pair = NULL;
-  Array  *pairs = Array_create(1);
+  FxB_Array  *pairs = FxB_Array_create(1);
   verify(pairs);
 
   key =  fxp_expression_type_description(expression);
@@ -98,7 +98,7 @@ String *fxp_literal_body_inspect(FxP_Literal *expression) {
   String *bit_value = NULL;
   String *bit_pair = NULL;
 
-  Array *class_bit_pairs = NULL;
+  FxB_Array *class_bit_pairs = NULL;
 
   class_key = String_create("class");
   class_value = fxp_literal_class_description(expression);
@@ -110,7 +110,7 @@ String *fxp_literal_body_inspect(FxP_Literal *expression) {
   bit_pair = json_gen_bald_pair(bit_key, bit_value);
   verify(bit_pair);
 
-  class_bit_pairs = Array_create(2);
+  class_bit_pairs = FxB_Array_create(2);
   verify(class_bit_pairs);
   array_push(class_bit_pairs, class_pair);
   array_push(class_bit_pairs, bit_pair);
@@ -156,7 +156,7 @@ String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   String *bit_value = NULL;
   String *bit_pair = NULL;
 
-  Array *type_bit_pairs = NULL;
+  FxB_Array *type_bit_pairs = NULL;
 
   type_key = String_create("type");
   type_value = fxp_lookup_type_description(expression);
@@ -168,7 +168,7 @@ String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   bit_pair = json_gen_bald_pair(bit_key, bit_value);
   verify(bit_pair);
 
-  type_bit_pairs = Array_create(2);
+  type_bit_pairs = FxB_Array_create(2);
   verify(type_bit_pairs);
   array_push(type_bit_pairs, type_pair);
   array_push(type_bit_pairs, bit_pair);
@@ -209,7 +209,7 @@ void fxp_free_inspection(void *str) {
 
 String *fxp_collection_body_inspect(FxP_Expression *expression) {
   String *exp_value = NULL;
-  Array  *element_inspections = NULL;
+  FxB_Array  *element_inspections = NULL;
 
   element_inspections = array_map(fxp_expression_value(expression), fxp_inspect);
   verify(element_inspections);
@@ -236,7 +236,7 @@ error:
 
 String *fxp_list_body_inspect(FxP_Expression *expression) {
   String *exp_value = NULL;
-  Array  *element_inspections = NULL;
+  FxB_Array  *element_inspections = NULL;
 
   element_inspections = array_reverse_map(fxp_expression_value(expression), fxp_inspect);
   verify(element_inspections);
@@ -275,7 +275,7 @@ String *fxp_method_body_inspect(FxP_Expression *expression) {
 
   String *exp_value = NULL;
 
-  Array  *exp_values = Array_create(3);
+  FxB_Array  *exp_values = FxB_Array_create(3);
   verify(exp_values);
 
   if ( fxp_method_receiver(expression) ) {
@@ -346,7 +346,7 @@ String *fxp_function_body_inspect(FxP_Expression *expression) {
 
   String *exp_value = NULL;
 
-  Array *exp_values = Array_create(2);
+  FxB_Array *exp_values = FxB_Array_create(2);
   verify(exp_values);
 
   if ( fxp_function_arguments(expression) ) {
@@ -401,7 +401,7 @@ String *fxp_left_right_inspect(FxP_Expression *expression) {
   String *right_pair = NULL;
 
   String *exp_value = NULL;
-  Array *exp_values = Array_create(2);
+  FxB_Array *exp_values = FxB_Array_create(2);
   verify(exp_values);
 
   left_key = String_create("left");

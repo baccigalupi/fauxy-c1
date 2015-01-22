@@ -10,7 +10,7 @@ String concat, push and add validation for inspect
 
 Literal/Constant pool instead of duplicate bits
 
-Array:
+FxB_Array:
 verification with return boolean on push etc
 
 Better strings:

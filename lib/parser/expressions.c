@@ -5,7 +5,7 @@ FxP_Expression *FxP_Expression_create(int type) {
   FxP_Expression *expression = fx_alloc(FxP_Expression);
   verify_memory(expression);
 
-  Array *value = Array_create(4);
+  FxB_Array *value = FxB_Array_create(4);
   verify_memory(value);
 
   fxp_expression_type(expression) = type;
@@ -56,7 +56,7 @@ FxP_Expression *FxP_TypedExpression_create(FxP_Bit *bit, int exp_type, int token
   FxP_Expression *expression = FxP_Expression_create(exp_type);
   verify_memory(expression);
 
-  Array *values = fxp_expression_value(expression);
+  FxB_Array *values = fxp_expression_value(expression);
   int *type = fx_alloc(int);
   *type = token_type;
   array_push(values, type);

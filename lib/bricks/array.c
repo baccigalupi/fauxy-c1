@@ -4,8 +4,8 @@
 #include "array.h"
 
 
-Array *Array_create(int capacity) {
-  Array *array = calloc(1, sizeof(Array));
+FxB_Array *FxB_Array_create(int capacity) {
+  FxB_Array *array = calloc(1, sizeof(FxB_Array));
   verify_memory(array);
   array_length(array) = 0;
   array_capacity(array)  = capacity;
@@ -20,7 +20,7 @@ error:
   return NULL;
 }
 
-void array_push(Array *array, void *element) {
+void array_push(FxB_Array *array, void *element) {
   if (array_capacity(array) == array_length(array)) {
     int capacity = Expandable_capacity(array_capacity(array));
     Boolean success = array_expand(array, capacity);
@@ -33,7 +33,7 @@ error:
   return;
 }
 
-Boolean array_expand(Array *array, int capacity) {
+Boolean array_expand(FxB_Array *array, int capacity) {
   void **values = realloc(array_values(array), sizeof(void *) * capacity);
   verify_memory(values);
   array_values(array) = values;
@@ -44,7 +44,7 @@ error:
   return false;
 }
 
-void array_each(Array *array, ArrayIterator f) {
+void array_each(FxB_Array *array, FxB_ArrayIterator f) {
   int i;
   void *element;
   for (i = 0; i < array_length(array); i++) {
@@ -53,7 +53,7 @@ void array_each(Array *array, ArrayIterator f) {
   }
 }
 
-void array_reverse_each(Array *array, ArrayIterator f) {
+void array_reverse_each(FxB_Array *array, FxB_ArrayIterator f) {
   int i;
   void *element;
   for (i = array_length(array) - 1; i >= 0; i--) {
@@ -62,8 +62,8 @@ void array_reverse_each(Array *array, ArrayIterator f) {
   }
 }
 
-Array *array_map(Array *array, ArrayMapIterator f) {
-  Array *mapped = Array_create(array_length(array));
+FxB_Array *array_map(FxB_Array *array, FxB_ArrayMapIterator f) {
+  FxB_Array *mapped = FxB_Array_create(array_length(array));
   int i;
   void *element;
   for (i = 0; i < array_length(array); i++) {
@@ -74,8 +74,8 @@ Array *array_map(Array *array, ArrayMapIterator f) {
   return mapped;
 }
 
-Array *array_reverse_map(Array *array, ArrayMapIterator f) {
-  Array *mapped = Array_create(array_length(array));
+FxB_Array *array_reverse_map(FxB_Array *array, FxB_ArrayMapIterator f) {
+  FxB_Array *mapped = FxB_Array_create(array_length(array));
   int i;
   void *element;
   for (i = array_length(array) - 1; i >= 0; i--) {
@@ -86,7 +86,7 @@ Array *array_reverse_map(Array *array, ArrayMapIterator f) {
   return mapped;
 }
 
-void *array_pop(Array *array) {
+void *array_pop(FxB_Array *array) {
   void *value = NULL;
 
   if (array_length(array) > 0) {
@@ -99,7 +99,7 @@ void *array_pop(Array *array) {
   return value;
 }
 
-void array_set(Array *array, int index, void *value) {
+void array_set(FxB_Array *array, int index, void *value) {
   if (array_capacity(array) <= index) {
     int capacity = Expandable_capacity(index);
     Boolean success = array_expand(array, capacity);

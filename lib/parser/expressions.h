@@ -8,7 +8,7 @@
 
 typedef struct FxP_Expression {
   int type;
-  Array *value;
+  FxB_Array *value;
 } FxP_Expression;
 
 typedef FxP_Expression FxP_Literal;

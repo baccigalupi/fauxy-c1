@@ -5,7 +5,7 @@
 char *test_create_array() {
   spec_describe("Create");
 
-  Array *array = Array_create(10);
+  FxB_Array *array = FxB_Array_create(10);
 
   assert_ints_equal(array_length(array), 0, "length");
   assert_ints_equal(array_capacity(array), 10, "capacity");
@@ -18,7 +18,7 @@ char *test_create_array() {
 char *test_array_push() {
   spec_describe("Push");
 
-  Array *array = Array_create(32);
+  FxB_Array *array = FxB_Array_create(32);
   array_push(array, "Gerbil");
 
   assert_ints_equal(array_length(array), 1, "length");
@@ -32,7 +32,7 @@ char *test_array_push() {
 char *test_array_push_multiple_times() {
   spec_describe("Push many times");
 
-  Array *array = Array_create(32);
+  FxB_Array *array = FxB_Array_create(32);
 
   array_push(array, "Gerbil");
   array_push(array, "Fish");
@@ -53,7 +53,7 @@ char *test_array_push_multiple_times() {
 char *test_array_push_until_expansion() {
   spec_describe("Push until expansion required");
 
-  Array *array = Array_create(32);
+  FxB_Array *array = FxB_Array_create(32);
 
   int i;
   char *num;
@@ -78,7 +78,7 @@ char *test_array_push_until_expansion() {
 char *test_array_pop() {
   spec_describe("Push until expansion required");
 
-  Array *array = Array_create(32);
+  FxB_Array *array = FxB_Array_create(32);
 
   array_push(array, "1");
   array_push(array, "2");
@@ -105,7 +105,7 @@ char *test_array_pop() {
 char *test_array_set_at_index() {
   spec_describe("set at index, set at index above capacity");
 
-  Array *array = Array_create(32);
+  FxB_Array *array = FxB_Array_create(32);
 
   array_set(array, 1, "Gerbil");
 
@@ -125,7 +125,7 @@ char *test_array_set_at_index() {
 char *test_array_set_at_index_bug() {
   spec_describe("set at index when capactiy starts at 4");
 
-  Array *array = Array_create(4);
+  FxB_Array *array = FxB_Array_create(4);
 
   array_set(array, 1, "expressions");
 
@@ -147,11 +147,11 @@ void *__count_string(void *str) {
 char *test_array_map() {
   spec_setup("Map");
 
-  Array *array = Array_create(2);
+  FxB_Array *array = FxB_Array_create(2);
   array_set(array, 0, "1");
   array_set(array, 1, "two");
 
-  Array *counts = array_map(array, __count_string);
+  FxB_Array *counts = array_map(array, __count_string);
   assert_ints_equal(array_length(array), 2, "length");
   assert_ints_equal(*((int *)array_get(array, 0)), 1, "value at 0");
   assert_ints_equal(*((int *)array_get(array, 1)), 3, "value at 0");
@@ -163,7 +163,7 @@ char *test_array_map() {
 }
 
 char *all_specs() {
-  spec_setup("Brick Array");
+  spec_setup("Brick FxB_Array");
 
   run_spec(test_create_array);
 

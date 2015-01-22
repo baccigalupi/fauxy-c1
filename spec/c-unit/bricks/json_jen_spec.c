@@ -42,7 +42,7 @@ char *test_wrap_pair() {
   String *value_1 = String_create("1");
   String *pair_1 = json_gen_bald_pair(key_1, value_1);
 
-  Array *pairs = Array_create(1);
+  FxB_Array *pairs = FxB_Array_create(1);
   array_push(pairs, pair_1);
 
   String *json = json_gen_wrap_pairs(pairs);
@@ -73,7 +73,7 @@ char *test_wrap_three_pairs() {
   String *value_3 = String_create("3");
   String *pair_3 = json_gen_bald_pair(key_3, value_3);
 
-  Array *pairs = Array_create(3);
+  FxB_Array *pairs = FxB_Array_create(3);
   array_push(pairs, pair_1);
   array_push(pairs, pair_2);
   array_push(pairs, pair_3);
