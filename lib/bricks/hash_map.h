@@ -21,9 +21,9 @@ typedef struct FxB_HashMap {
 #define hash_map_free(H)              ((hash_map_free_list_values(H)), (array_free(hash_map_values(H))), (fx_pfree(H)))
 
 FxB_HashMap     *FxB_HashMap_create(int length);
-void            *hash_map_get(FxB_HashMap *hash, String *key);
-FxB_Node            *hash_map_get_node(FxB_HashMap *hash, String *key);
-void             hash_map_set(FxB_HashMap *hash, String *key, void *value);
+void            *hash_map_get(FxB_HashMap *hash, FxB_String *key);
+FxB_Node            *hash_map_get_node(FxB_HashMap *hash, FxB_String *key);
+void             hash_map_set(FxB_HashMap *hash, FxB_String *key, void *value);
 void             hash_map_free_list_values(FxB_HashMap *hash_map);
 
 #endif

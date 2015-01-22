@@ -5,13 +5,13 @@
 // map iterator for return array of inspections
 // also can be used for regular inspection
 void *fxp_inspect(void *element) {
-  if (!element) { return String_create("\"NULL STATEMENT\""); }
+  if (!element) { return FxB_String_create("\"NULL STATEMENT\""); }
 
   FxP_Expression *expression = (FxP_Expression *)element;
-  String *unwrapped_pair = NULL;
+  FxB_String *unwrapped_pair = NULL;
   FxB_Array *pair_array = NULL;
 
-  String *json;
+  FxB_String *json;
   int type = fxp_expression_type(expression);
 
   if (type == FXP_ST_LITERAL) {
@@ -37,7 +37,7 @@ void *fxp_inspect(void *element) {
   } else if (type == FXP_ST_EXPRESSIONS) {
     unwrapped_pair = fxp_collection_body_inspect(expression);
   } else {
-    unwrapped_pair = String_create("\"UNKNOWN STATEMENT\"");
+    unwrapped_pair = FxB_String_create("\"UNKNOWN STATEMENT\"");
     printf("printing unknown statement: %d\n", type);
   }
 
@@ -59,9 +59,9 @@ error:
   return NULL;
 }
 
-String *fxp_expression_join(FxP_Expression *expression, String *value) {
-  String *key = NULL;
-  String *bald_pair = NULL;
+FxB_String *fxp_expression_join(FxP_Expression *expression, FxB_String *value) {
+  FxB_String *key = NULL;
+  FxB_String *bald_pair = NULL;
   FxB_Array  *pairs = FxB_Array_create(1);
   verify(pairs);
 
@@ -71,7 +71,7 @@ String *fxp_expression_join(FxP_Expression *expression, String *value) {
 
   array_push(pairs, bald_pair);
 
-  String *json = json_gen_join_pairs(pairs, ", ");
+  FxB_String *json = json_gen_join_pairs(pairs, ", ");
   verify(json);
 
   string_free(key);
@@ -87,25 +87,25 @@ error:
   return NULL;
 }
 
-String *fxp_literal_body_inspect(FxP_Literal *expression) {
-  String *exp_value = NULL;
+FxB_String *fxp_literal_body_inspect(FxP_Literal *expression) {
+  FxB_String *exp_value = NULL;
 
-  String *class_key = NULL;
-  String *class_value = NULL;
-  String *class_pair = NULL;
+  FxB_String *class_key = NULL;
+  FxB_String *class_value = NULL;
+  FxB_String *class_pair = NULL;
 
-  String *bit_key = NULL;
-  String *bit_value = NULL;
-  String *bit_pair = NULL;
+  FxB_String *bit_key = NULL;
+  FxB_String *bit_value = NULL;
+  FxB_String *bit_pair = NULL;
 
   FxB_Array *class_bit_pairs = NULL;
 
-  class_key = String_create("class");
+  class_key = FxB_String_create("class");
   class_value = fxp_literal_class_description(expression);
   class_pair = json_gen_bald_pair(class_key, class_value);
   verify(class_pair);
 
-  bit_key = String_create("bit");
+  bit_key = FxB_String_create("bit");
   bit_value = fxp_bit_inspect(fxp_literal_bit(expression));
   bit_pair = json_gen_bald_pair(bit_key, bit_value);
   verify(bit_pair);
@@ -116,7 +116,7 @@ String *fxp_literal_body_inspect(FxP_Literal *expression) {
   array_push(class_bit_pairs, bit_pair);
 
   exp_value = json_gen_wrap_pairs(class_bit_pairs);
-  String *json = fxp_expression_join(expression, exp_value);
+  FxB_String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
   string_free(exp_value);
@@ -144,26 +144,26 @@ error:
   return NULL;
 }
 
-String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
+FxB_String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   // "{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}}"
-  String *exp_value = NULL;
+  FxB_String *exp_value = NULL;
 
-  String *type_key = NULL;
-  String *type_value = NULL;
-  String *type_pair = NULL;
+  FxB_String *type_key = NULL;
+  FxB_String *type_value = NULL;
+  FxB_String *type_pair = NULL;
 
-  String *bit_key = NULL;
-  String *bit_value = NULL;
-  String *bit_pair = NULL;
+  FxB_String *bit_key = NULL;
+  FxB_String *bit_value = NULL;
+  FxB_String *bit_pair = NULL;
 
   FxB_Array *type_bit_pairs = NULL;
 
-  type_key = String_create("type");
+  type_key = FxB_String_create("type");
   type_value = fxp_lookup_type_description(expression);
   type_pair = json_gen_bald_pair(type_key, type_value);
   verify(type_pair);
 
-  bit_key = String_create("bit");
+  bit_key = FxB_String_create("bit");
   bit_value = fxp_bit_inspect(fxp_literal_bit(expression));
   bit_pair = json_gen_bald_pair(bit_key, bit_value);
   verify(bit_pair);
@@ -174,7 +174,7 @@ String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   array_push(type_bit_pairs, bit_pair);
 
   exp_value = json_gen_wrap_pairs(type_bit_pairs);
-  String *json = fxp_expression_join(expression, exp_value);
+  FxB_String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
   string_free(exp_value);
@@ -207,8 +207,8 @@ void fxp_free_inspection(void *str) {
   string_free(str);
 }
 
-String *fxp_collection_body_inspect(FxP_Expression *expression) {
-  String *exp_value = NULL;
+FxB_String *fxp_collection_body_inspect(FxP_Expression *expression) {
+  FxB_String *exp_value = NULL;
   FxB_Array  *element_inspections = NULL;
 
   element_inspections = array_map(fxp_expression_value(expression), fxp_inspect);
@@ -217,7 +217,7 @@ String *fxp_collection_body_inspect(FxP_Expression *expression) {
   exp_value = json_gen_wrap_array_pairs(element_inspections);
   verify(exp_value);
 
-  String *json = fxp_expression_join(expression, exp_value);
+  FxB_String *json = fxp_expression_join(expression, exp_value);
 
   string_free(exp_value);
   array_each(element_inspections, fxp_free_inspection);
@@ -234,8 +234,8 @@ error:
   return NULL;
 }
 
-String *fxp_list_body_inspect(FxP_Expression *expression) {
-  String *exp_value = NULL;
+FxB_String *fxp_list_body_inspect(FxP_Expression *expression) {
+  FxB_String *exp_value = NULL;
   FxB_Array  *element_inspections = NULL;
 
   element_inspections = array_reverse_map(fxp_expression_value(expression), fxp_inspect);
@@ -244,7 +244,7 @@ String *fxp_list_body_inspect(FxP_Expression *expression) {
   exp_value = json_gen_wrap_array_pairs(element_inspections);
   verify(exp_value);
 
-  String *json = fxp_expression_join(expression, exp_value);
+  FxB_String *json = fxp_expression_join(expression, exp_value);
 
   string_free(exp_value);
   array_each(element_inspections, fxp_free_inspection);
@@ -261,32 +261,32 @@ error:
   return NULL;
 }
 
-String *fxp_method_body_inspect(FxP_Expression *expression) {
+FxB_String *fxp_method_body_inspect(FxP_Expression *expression) {
   /*[receiver, method_name, method_arguments]*/
-  String *receiver_key = NULL;
-  String *receiver_value = NULL;
-  String *receiver_pair = NULL;
+  FxB_String *receiver_key = NULL;
+  FxB_String *receiver_value = NULL;
+  FxB_String *receiver_pair = NULL;
 
-  String *message_key = NULL;
-  String *message_value = NULL;
-  String *message_pair = NULL;
+  FxB_String *message_key = NULL;
+  FxB_String *message_value = NULL;
+  FxB_String *message_pair = NULL;
 
-  String *arg_value = NULL;
+  FxB_String *arg_value = NULL;
 
-  String *exp_value = NULL;
+  FxB_String *exp_value = NULL;
 
   FxB_Array  *exp_values = FxB_Array_create(3);
   verify(exp_values);
 
   if ( fxp_method_receiver(expression) ) {
-    receiver_key = String_create("receiver");
+    receiver_key = FxB_String_create("receiver");
     receiver_value = fxp_inspect(fxp_method_receiver(expression));
     receiver_pair = json_gen_bald_pair(receiver_key, receiver_value);
     verify(receiver_pair);
     array_push(exp_values, receiver_pair);
   }
 
-  message_key = String_create("message");
+  message_key = FxB_String_create("message");
   message_value = fxp_inspect(fxp_method_message(expression));
   message_pair = json_gen_bald_pair(message_key, message_value);
   verify(message_pair);
@@ -300,7 +300,7 @@ String *fxp_method_body_inspect(FxP_Expression *expression) {
 
   exp_value = json_gen_wrap_pairs(exp_values);
 
-  String *json = fxp_expression_join(expression, exp_value);
+  FxB_String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
   if (receiver_key) { string_free(receiver_key); }
@@ -336,15 +336,15 @@ error:
   return NULL;
 }
 
-String *fxp_function_body_inspect(FxP_Expression *expression) {
+FxB_String *fxp_function_body_inspect(FxP_Expression *expression) {
   /*[arguments, expressions]*/
-  String *arguments_value = NULL;
+  FxB_String *arguments_value = NULL;
 
-  String *expressions_key = NULL;
-  String *expressions_value = NULL;
-  String *expressions_pair = NULL;
+  FxB_String *expressions_key = NULL;
+  FxB_String *expressions_value = NULL;
+  FxB_String *expressions_pair = NULL;
 
-  String *exp_value = NULL;
+  FxB_String *exp_value = NULL;
 
   FxB_Array *exp_values = FxB_Array_create(2);
   verify(exp_values);
@@ -360,7 +360,7 @@ String *fxp_function_body_inspect(FxP_Expression *expression) {
   array_push(exp_values, expressions_value);
 
   exp_value = json_gen_wrap_pairs(exp_values);
-  String *json = fxp_expression_join(expression, exp_value);
+  FxB_String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
   if (arguments_value) { string_free(arguments_value); }
@@ -390,34 +390,34 @@ error:
   return NULL;
 }
 
-String *fxp_left_right_inspect(FxP_Expression *expression) {
+FxB_String *fxp_left_right_inspect(FxP_Expression *expression) {
   // Local assignment: [local, value]
-  String *left_key = NULL;
-  String *left_value = NULL;
-  String *left_pair = NULL;
+  FxB_String *left_key = NULL;
+  FxB_String *left_value = NULL;
+  FxB_String *left_pair = NULL;
 
-  String *right_key = NULL;
-  String *right_value = NULL;
-  String *right_pair = NULL;
+  FxB_String *right_key = NULL;
+  FxB_String *right_value = NULL;
+  FxB_String *right_pair = NULL;
 
-  String *exp_value = NULL;
+  FxB_String *exp_value = NULL;
   FxB_Array *exp_values = FxB_Array_create(2);
   verify(exp_values);
 
-  left_key = String_create("left");
+  left_key = FxB_String_create("left");
   left_value = fxp_inspect(fxp_expression_left(expression));
   left_pair = json_gen_bald_pair(left_key, left_value);
   verify(left_pair);
   array_push(exp_values, left_pair);
 
-  right_key = String_create("right");
+  right_key = FxB_String_create("right");
   right_value = fxp_inspect(fxp_expression_right(expression));
   right_pair = json_gen_bald_pair(right_key, right_value);
   verify(right_pair);
   array_push(exp_values, right_pair);
 
   exp_value = json_gen_wrap_pairs(exp_values);
-  String *json = fxp_expression_join(expression, exp_value);
+  FxB_String *json = fxp_expression_join(expression, exp_value);
 
   string_free(right_key);
   string_free(right_value);
@@ -443,34 +443,34 @@ error:
   return NULL;
 }
 
-String *fxp_expression_type_description(FxP_Expression *expression) {
-  String *description;
+FxB_String *fxp_expression_type_description(FxP_Expression *expression) {
+  FxB_String *description;
   int type = fxp_expression_type(expression);
 
   if (type == FXP_ST_LITERAL) {
-    description = String_create("literal");
+    description = FxB_String_create("literal");
   } else if (type == FXP_ST_LOOKUP) {
-    description = String_create("lookup");
+    description = FxB_String_create("lookup");
   } else if (type == FXP_ST_METHOD) {
-    description = String_create("method_call");
+    description = FxB_String_create("method_call");
   } else if (type == FXP_ST_FUNCTION) {
-    description = String_create("function_definition");
+    description = FxB_String_create("function_definition");
   } else if (type == FXP_ST_GROUPED) {
-    description = String_create("grouped_expression");
+    description = FxB_String_create("grouped_expression");
   } else if (type == FXP_ST_LIST) {
-    description = String_create("list");
+    description = FxB_String_create("list");
   } else if (type == FXP_ST_METHOD_ARGUMENTS) {
-    description = String_create("method_arguments");
+    description = FxB_String_create("method_arguments");
   } else if (type == FXP_ST_FUNCTION_ARGUMENTS) {
-    description = String_create("function_arguments");
+    description = FxB_String_create("function_arguments");
   } else if (type == FXP_ST_LOCAL_ASSIGN) {
-    description = String_create("local_assignment");
+    description = FxB_String_create("local_assignment");
   } else if (type == FXP_ST_COLON_EXPRESSION) {
-    description = String_create("colon_expression");
+    description = FxB_String_create("colon_expression");
   } else if (type == FXP_ST_EXPRESSIONS) {
-    description = String_create("expressions");
+    description = FxB_String_create("expressions");
   } else {
-    description = String_create("\"UNKNOWN STATEMENT\"");
+    description = FxB_String_create("\"UNKNOWN STATEMENT\"");
     printf("unknown statement type: %d\n", type);
   }
 
@@ -480,29 +480,29 @@ error:
   return NULL;
 }
 
-String *fxp_literal_class_description(FxP_Literal *literal) {
-  String *description;
+FxB_String *fxp_literal_class_description(FxP_Literal *literal) {
+  FxB_String *description;
 
   if (fxp_literal_type(literal) == TOKEN_STRING) {
-    description = String_create("\"String\"");
+    description = FxB_String_create("\"FxB_String\"");
   } else if (fxp_literal_type(literal) == TOKEN_EVAL_STRING) {
-    description = String_create("\"String.Evaluable\"");
+    description = FxB_String_create("\"FxB_String.Evaluable\"");
   } else if (fxp_literal_type(literal) == TOKEN_REGEX) {
-    description = String_create("\"Regex\"");
+    description = FxB_String_create("\"Regex\"");
   } else if (fxp_literal_type(literal) == TOKEN_SYMBOL) {
-    description = String_create("\"Symbol\"");
+    description = FxB_String_create("\"Symbol\"");
   } else if (fxp_literal_type(literal) == TOKEN_INTEGER) {
-    description = String_create("\"Integer\"");
+    description = FxB_String_create("\"Integer\"");
   } else if (fxp_literal_type(literal) == TOKEN_FLOAT) {
-    description = String_create("\"Float\"");
+    description = FxB_String_create("\"Float\"");
   } else if (fxp_literal_type(literal) == TOKEN_NIL) {
-    description = String_create("\"Nil\"");
+    description = FxB_String_create("\"Nil\"");
   } else if (fxp_literal_type(literal) == TOKEN_TRUE) {
-    description = String_create("\"True\"");
+    description = FxB_String_create("\"True\"");
   } else if (fxp_literal_type(literal) == TOKEN_FALSE) {
-    description = String_create("\"False\"");
+    description = FxB_String_create("\"False\"");
   } else {
-    description = String_create_blank();
+    description = FxB_String_create_blank();
   }
 
   verify(description);
@@ -512,13 +512,13 @@ error:
   return NULL;
 }
 
-String *fxp_lookup_type_description(FxP_Lookup *lookup) {
-  String *description;
+FxB_String *fxp_lookup_type_description(FxP_Lookup *lookup) {
+  FxB_String *description;
 
   if (fxp_lookup_type(lookup) == TOKEN_ID) {
-    description = String_create("\"Identifier\"");
+    description = FxB_String_create("\"Identifier\"");
   } else {
-    description = String_create("\"Class Identifier\"");
+    description = FxB_String_create("\"Class Identifier\"");
   }
 
   verify(description);

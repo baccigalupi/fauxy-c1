@@ -136,23 +136,23 @@ void fxp_bit_free(FxP_Bit *bit) {
   fx_pfree(bit);
 }
 
-String *fxp_bit_value_description(FxP_Bit *bit) {
+FxB_String *fxp_bit_value_description(FxP_Bit *bit) {
   int type = fxp_bit_type(bit);
   char str[16] = "";
-  String *string;
+  FxB_String *string;
 
   if (type == FX_BIT_FLOAT) {
     sprintf(str, "%.2f", fxp_bit_float_value(bit));
-    string = String_create(str);
+    string = FxB_String_create(str);
   } else if (type == FX_BIT_LONG_FLOAT) {
     sprintf(str, "%.1e", fxp_bit_float_value(bit));
-    string = String_create(str);
+    string = FxB_String_create(str);
   } else if (type == FX_BIT_SHORT) {
     sprintf(str, "%d", fxp_bit_short_value(bit));
-    string = String_create(str);
+    string = FxB_String_create(str);
   } else if (type == FX_BIT_LONG) {
     sprintf(str, "%.1e", (float)fxp_bit_long_value(bit));
-    string = String_create(str);
+    string = FxB_String_create(str);
   } else {
     char *bit_string = fxp_bit_string_value(bit);
     int  bit_length = strlen(bit_string);
@@ -169,7 +169,7 @@ String *fxp_bit_value_description(FxP_Bit *bit) {
     }
     str[ending_i] = '"';
 
-    string = String_create(str);
+    string = FxB_String_create(str);
   }
   verify_memory(string);
 
@@ -178,16 +178,16 @@ error:
   return NULL;
 }
 
-String *fxp_bit_type_description(FxP_Bit *bit) {
+FxB_String *fxp_bit_type_description(FxP_Bit *bit) {
   int type = fxp_bit_type(bit);
-  String *string;
+  FxB_String *string;
 
   if (type == FX_BIT_FLOAT || type == FX_BIT_LONG_FLOAT) {
-    string = String_create("FLOAT");
+    string = FxB_String_create("FLOAT");
   } else if (type == FX_BIT_SHORT || type == FX_BIT_LONG) {
-    string = String_create("INTEGER");
+    string = FxB_String_create("INTEGER");
   } else {
-    string = String_create("STRING");
+    string = FxB_String_create("STRING");
   }
 
   verify(string);
@@ -197,11 +197,11 @@ error:
   return NULL;
 }
 
-String *fxp_bit_inspect(FxP_Bit *bit) {
-  String *bit_key = NULL;
-  String *bit_value = NULL;
-  String *pair = NULL;
-  String *json = NULL;
+FxB_String *fxp_bit_inspect(FxP_Bit *bit) {
+  FxB_String *bit_key = NULL;
+  FxB_String *bit_value = NULL;
+  FxB_String *pair = NULL;
+  FxB_String *json = NULL;
   FxB_Array *pairs = NULL;
 
   bit_key = fxp_bit_type_description(bit);

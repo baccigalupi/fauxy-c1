@@ -5,7 +5,7 @@
 
 typedef struct FxB_Node {
   Hash         hash;
-  String      *key;
+  FxB_String      *key;
 
   void        *value;
 

@@ -137,7 +137,7 @@ char *test_integer_inspection() {
   FxP_Bit *bit = FxP_Bit_create(token_type, text);
   free(text);
 
-  String *inspection = fxp_bit_inspect(bit);
+  FxB_String *inspection = fxp_bit_inspect(bit);
 
   assert_strings_equal(string_value(inspection), "{\"INTEGER\": 23}", "representation");
 
@@ -155,7 +155,7 @@ char *test_long_integer_inspection() {
   FxP_Bit *bit = FxP_Bit_create(token_type, text);
   free(text);
 
-  String *inspection = fxp_bit_inspect(bit);
+  FxB_String *inspection = fxp_bit_inspect(bit);
 
   assert_strings_equal(string_value(inspection), "{\"INTEGER\": 2.3e+07}", "representation");
 
@@ -173,7 +173,7 @@ char *test_float_inspection() {
   FxP_Bit *bit = FxP_Bit_create(token_type, text);
   free(text);
 
-  String *inspection = fxp_bit_inspect(bit);
+  FxB_String *inspection = fxp_bit_inspect(bit);
 
   assert_strings_equal(string_value(inspection), "{\"FLOAT\": 230.05}", "representation");
 

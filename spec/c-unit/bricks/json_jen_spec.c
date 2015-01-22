@@ -6,10 +6,10 @@
 
 char *test_bald_wrapping_pair() {
   spec_describe("bald pairs");
-  String *key = String_create("key");
-  String *value = String_create("\"value\"");
+  FxB_String *key = FxB_String_create("key");
+  FxB_String *value = FxB_String_create("\"value\"");
 
-  String *pair = json_gen_bald_pair(key, value);
+  FxB_String *pair = json_gen_bald_pair(key, value);
 
   assert_strings_equal(string_value(pair), "\"key\": \"value\"", "wrapped key and value");
 
@@ -21,10 +21,10 @@ char *test_bald_wrapping_pair() {
 }
 
 char *test_bald_non_wrapping_pair() {
-  String *key = String_create("\"key\"");
-  String *value = String_create("\"value\"");
+  FxB_String *key = FxB_String_create("\"key\"");
+  FxB_String *value = FxB_String_create("\"value\"");
 
-  String *pair = json_gen_bald_pair(key, value);
+  FxB_String *pair = json_gen_bald_pair(key, value);
 
   assert_strings_equal(string_value(pair), "\"key\": \"value\"", "direct key and value");
 
@@ -38,14 +38,14 @@ char *test_bald_non_wrapping_pair() {
 char *test_wrap_pair() {
   spec_describe("joining and wrapping pairs");
 
-  String *key_1 = String_create("\"one\"");
-  String *value_1 = String_create("1");
-  String *pair_1 = json_gen_bald_pair(key_1, value_1);
+  FxB_String *key_1 = FxB_String_create("\"one\"");
+  FxB_String *value_1 = FxB_String_create("1");
+  FxB_String *pair_1 = json_gen_bald_pair(key_1, value_1);
 
   FxB_Array *pairs = FxB_Array_create(1);
   array_push(pairs, pair_1);
 
-  String *json = json_gen_wrap_pairs(pairs);
+  FxB_String *json = json_gen_wrap_pairs(pairs);
   assert_strings_equal(string_value(json), "{\"one\": 1}", "one pair");
 
   string_free(key_1);
@@ -61,24 +61,24 @@ char *test_wrap_pair() {
 
 
 char *test_wrap_three_pairs() {
-  String *key_1 = String_create("\"one\"");
-  String *value_1 = String_create("1");
-  String *pair_1 = json_gen_bald_pair(key_1, value_1);
+  FxB_String *key_1 = FxB_String_create("\"one\"");
+  FxB_String *value_1 = FxB_String_create("1");
+  FxB_String *pair_1 = json_gen_bald_pair(key_1, value_1);
 
-  String *key_2 = String_create("\"two\"");
-  String *value_2 = String_create("2");
-  String *pair_2 = json_gen_bald_pair(key_2, value_2);
+  FxB_String *key_2 = FxB_String_create("\"two\"");
+  FxB_String *value_2 = FxB_String_create("2");
+  FxB_String *pair_2 = json_gen_bald_pair(key_2, value_2);
 
-  String *key_3 = String_create("\"three\"");
-  String *value_3 = String_create("3");
-  String *pair_3 = json_gen_bald_pair(key_3, value_3);
+  FxB_String *key_3 = FxB_String_create("\"three\"");
+  FxB_String *value_3 = FxB_String_create("3");
+  FxB_String *pair_3 = json_gen_bald_pair(key_3, value_3);
 
   FxB_Array *pairs = FxB_Array_create(3);
   array_push(pairs, pair_1);
   array_push(pairs, pair_2);
   array_push(pairs, pair_3);
 
-  String *json = json_gen_wrap_pairs(pairs);
+  FxB_String *json = json_gen_wrap_pairs(pairs);
   assert_strings_equal(string_value(json), "{\"one\": 1, \"two\": 2, \"three\": 3}", "three pairs");
 
   string_free(key_1);

@@ -4,7 +4,7 @@
 
 char *test_create_from_literal() {
   spec_describe("Create from string literal");
-  String *string = String_create("0123456789");
+  FxB_String *string = FxB_String_create("0123456789");
 
   assert_ints_equal(string_length(string), 10, "length");
   assert_ints_equal(string_capacity(string), 32, "capacity");
@@ -20,7 +20,7 @@ char *test_create_from_allocated() {
   CHAR *str = calloc(4, sizeof(CHAR));
   STRCPY(str, "foo");
 
-  String *string = String_create(str);
+  FxB_String *string = FxB_String_create(str);
 
   fx_pfree(str);
 
@@ -36,7 +36,7 @@ char *test_create_from_allocated() {
 char *test_accessing_by_index() {
   spec_describe("Accessing string characters by index");
 
-  String *string = String_create("0123456789");
+  FxB_String *string = FxB_String_create("0123456789");
 
   assert_equal(string_char_at(string, 0), '0', "0 index");
   assert_equal(string_char_at(string, 1), '1', "1 index");
@@ -52,7 +52,7 @@ char *test_accessing_by_index() {
 char *test_push_character() {
   spec_describe("Pushing individual characters to a string");
 
-  String *string = String_create("foo");
+  FxB_String *string = FxB_String_create("foo");
 
   assert_ints_equal(string_capacity(string), 8, "capacity");
   assert_ints_equal(string_offset(string), 6, "offset"); // 16 real capacity - 3 length = 13, divide by 2, floor = 6
@@ -92,7 +92,7 @@ char *test_push_character() {
 char *test_concat() {
   spec_describe("Pushing char arrays into to a string");
 
-  String *string = String_create("foo");
+  FxB_String *string = FxB_String_create("foo");
 
   assert_ints_equal(string_capacity(string), 8, "capacity");
 
@@ -110,7 +110,7 @@ char *test_concat() {
 char *test_create_blank() {
   spec_describe("Creating an empty string, for use as a null pattern string");
 
-  String *string = String_create_blank();
+  FxB_String *string = FxB_String_create_blank();
 
   assert_ints_equal(string_length(string), 0, "length");
   assert_ints_equal(string_capacity(string), 0, "capacity");
@@ -123,8 +123,8 @@ char *test_create_blank() {
 char *test_duplication() {
   spec_describe("Duplicating string");
 
-  String *string = String_create("Hello");
-  String *duplicate = string_duplicate(string);
+  FxB_String *string = FxB_String_create("Hello");
+  FxB_String *duplicate = string_duplicate(string);
 
   assert_strings_equal(string_value(string), string_value(duplicate), "same value");
   assert_not_equal(string, duplicate, "different addresses");
@@ -138,7 +138,7 @@ char *test_duplication() {
 char *test_unshift_character() {
   spec_describe("Unshifting individual characters to a string");
 
-  String *string = String_create("foo");
+  FxB_String *string = FxB_String_create("foo");
 
   assert_ints_equal(string_capacity(string), 8, "capacity");
   assert_ints_equal(string_offset(string), 6, "offset"); // 16 real capacity - 3 length = 13, divide by 2, floor = 6
@@ -179,7 +179,7 @@ char *test_unshift_character() {
 }
 
 char *test_wrap() {
-  String *string = String_create("\"foo\": \"bar\"");
+  FxB_String *string = FxB_String_create("\"foo\": \"bar\"");
 
   string_wrap(string, '{', '}');
 
@@ -190,7 +190,7 @@ char *test_wrap() {
 }
 
 char *all_specs() {
-  spec_setup("Brick String");
+  spec_setup("Brick FxB_String");
 
   run_spec(test_create_from_literal);
   run_spec(test_create_from_allocated);

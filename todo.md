@@ -6,7 +6,7 @@
 
 ## Optimize later
 Long decimals
-String concat, push and add validation for inspect
+FxB_String concat, push and add validation for inspect
 
 Literal/Constant pool instead of duplicate bits
 
@@ -14,7 +14,7 @@ FxB_Array:
 verification with return boolean on push etc
 
 Better strings:
-String shorten ...
+FxB_String shorten ...
 
 ## Interpreter
 Function objects

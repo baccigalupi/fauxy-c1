@@ -17,7 +17,7 @@ error:
   return NULL;
 }
 
-void *hash_map_get(FxB_HashMap *hash_map, String *key) {
+void *hash_map_get(FxB_HashMap *hash_map, FxB_String *key) {
   void *value = NULL;
   FxB_Node *node = hash_map_get_node(hash_map, key);
 
@@ -28,7 +28,7 @@ void *hash_map_get(FxB_HashMap *hash_map, String *key) {
   return value;
 }
 
-FxB_Node *hash_map_get_node(FxB_HashMap *hash_map, String *key) {
+FxB_Node *hash_map_get_node(FxB_HashMap *hash_map, FxB_String *key) {
   FxB_Node *current_node = NULL;
   FxB_Node *node = NULL;
   int index = hash_map_index_for_key(hash_map, key);
@@ -46,7 +46,7 @@ FxB_Node *hash_map_get_node(FxB_HashMap *hash_map, String *key) {
   return node;
 }
 
-void hash_map_set(FxB_HashMap *hash_map, String *key, void *value) {
+void hash_map_set(FxB_HashMap *hash_map, FxB_String *key, void *value) {
   int index = hash_map_index_for_key(hash_map, key);
 
   // create list if value at index in void

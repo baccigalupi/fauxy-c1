@@ -1,7 +1,7 @@
 #include "json_gen.h"
 
-String *json_gen_bald_pair(String *key, String *value) {
-  String *pair = NULL;
+FxB_String *json_gen_bald_pair(FxB_String *key, FxB_String *value) {
+  FxB_String *pair = NULL;
   verify(key);
   verify(value);
 
@@ -9,7 +9,7 @@ String *json_gen_bald_pair(String *key, String *value) {
     string_wrap(key, '"', '"');
   }
 
-  pair = String_create(string_value(key));
+  pair = FxB_String_create(string_value(key));
   verify(pair);
   verify(string_add_chars(pair, ": "));
   verify(string_add_string(pair, value));
@@ -20,8 +20,8 @@ error:
   return NULL;
 }
 
-String *json_gen_join_pairs(FxB_Array *pairs, char *joiner) {
-  String *joined = String_create_blank();
+FxB_String *json_gen_join_pairs(FxB_Array *pairs, char *joiner) {
+  FxB_String *joined = FxB_String_create_blank();
   verify(joined);
 
   int length = array_length(pairs);
@@ -38,8 +38,8 @@ error:
   return NULL;
 }
 
-String *json_gen_wrap_pairs(FxB_Array *pairs) {
-  String *json = json_gen_join_pairs(pairs, ", ");
+FxB_String *json_gen_wrap_pairs(FxB_Array *pairs) {
+  FxB_String *json = json_gen_join_pairs(pairs, ", ");
   verify(json);
 
   verify(string_wrap(json, '{', '}'));
@@ -48,8 +48,8 @@ error:
   return NULL;
 }
 
-String *json_gen_wrap_array_pairs(FxB_Array *pairs) {
-  String *json = json_gen_join_pairs(pairs, ",\n");
+FxB_String *json_gen_wrap_array_pairs(FxB_Array *pairs) {
+  FxB_String *json = json_gen_join_pairs(pairs, ",\n");
   verify(json);
   verify(string_wrap(json, '\n', '\n'));
   verify(string_wrap(json, '[', ']'));

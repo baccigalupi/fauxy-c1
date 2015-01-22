@@ -11,7 +11,7 @@
 
 FxP_ParserContext *parse_with_state(FxP_LexWrapper state) {
   FxP_Exception *exception = NULL;
-  String *error_message    = NULL;
+  FxB_String *error_message    = NULL;
   int status;
 
   FxP_ParserContext *context = FxP_ParserContext_create();
@@ -20,7 +20,7 @@ FxP_ParserContext *parse_with_state(FxP_LexWrapper state) {
   status = yyparse(&state, context);
 
   if (status) {
-    error_message = String_create("Parse Error");
+    error_message = FxB_String_create("Parse Error");
     verify(error_message);
     exception = FxP_Exception_create(status, error_message);
     verify(exception);
