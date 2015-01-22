@@ -169,16 +169,16 @@ error:
   return NULL;
 }
 
-FxP_List *fxp_list_convert(FxP_Grouped *group) {
+FxP_FxB_List *fxp_list_convert(FxP_Grouped *group) {
   fxp_expression_type(group) = FXP_ST_LIST;
   return group;
 }
 
-FxP_List *FxP_List_create_deferred() {
+FxP_FxB_List *FxP_FxB_List_create_deferred() {
   FxP_Literal *value = FxP_Literal_create(NULL, TOKEN_DEFERRED_ARGUMENT);
   verify(value);
 
-  FxP_List *list = FxP_Expression_create(FXP_ST_LIST);
+  FxP_FxB_List *list = FxP_Expression_create(FXP_ST_LIST);
   verify(list);
   fxp_expression_push(list, value);
 
@@ -188,8 +188,8 @@ error:
   return NULL;
 }
 
-FxP_List *FxP_List_create_double(FxP_Expression *first, FxP_Expression *second) {
-  FxP_List *list = FxP_Expression_create(FXP_ST_LIST);
+FxP_FxB_List *FxP_FxB_List_create_double(FxP_Expression *first, FxP_Expression *second) {
+  FxP_FxB_List *list = FxP_Expression_create(FXP_ST_LIST);
   verify(list);
 
   fxp_expression_push(list, second);
@@ -233,7 +233,7 @@ error:
   return NULL;
 }
 
-FxP_Function *FxP_Function_create(FxP_List *list) {
+FxP_Function *FxP_Function_create(FxP_FxB_List *list) {
   FxP_Function *function = FxP_Function_create_no_args();
   verify(function);
 

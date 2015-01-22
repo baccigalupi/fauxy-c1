@@ -5,7 +5,7 @@
 #include "exception.h"
 
 typedef struct FxP_ParserContext {
-  List *list;
+  FxB_List *list;
   FxP_Exception *exception;
 } FxP_ParserContext;
 

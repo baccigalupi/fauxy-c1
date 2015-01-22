@@ -90,13 +90,13 @@ grouped_expression
 
 list
   : grouped_expression                            { $$ = $1; }
-  | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      { $$ = FxP_List_create_deferred(); }
+  | OPEN_PAREN DEFERRED_ARGUMENT CLOSE_PAREN      { $$ = FxP_FxB_List_create_deferred(); }
   | OPEN_PAREN list_elements CLOSE_PAREN          { $$ = $2; }
   ;
 
 list_elements
-  : unterminated_expression COMMA unterminated_expression    { $$  = FxP_List_create_double($1, $3); }
-  | unterminated_expression COMMA list_elements              { fxp_list_push((FxP_List *)$3, $1); $$ = $3; }
+  : unterminated_expression COMMA unterminated_expression    { $$  = FxP_FxB_List_create_double($1, $3); }
+  | unterminated_expression COMMA list_elements              { fxp_list_push((FxP_FxB_List *)$3, $1); $$ = $3; }
   ;
 
   /*
@@ -111,7 +111,7 @@ list_elements
     bar(2 == bar)
     zardoz(1 + 1, 2 == bar)
 
-    Lists:
+    FxB_Lists:
     (1 + 1)
     (1, 2, foo)
   */

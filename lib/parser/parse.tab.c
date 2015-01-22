@@ -1511,7 +1511,7 @@ yyreduce:
 
   case 21:
 #line 93 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_List_create_deferred(); }
+    { (yyval) = FxP_FxB_List_create_deferred(); }
 #line 1516 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
@@ -1523,13 +1523,13 @@ yyreduce:
 
   case 23:
 #line 98 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval)  = FxP_List_create_double((yyvsp[-2]), (yyvsp[0])); }
+    { (yyval)  = FxP_FxB_List_create_double((yyvsp[-2]), (yyvsp[0])); }
 #line 1528 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 24:
 #line 99 "lib/parser/parse.y" /* yacc.c:1661  */
-    { fxp_list_push((FxP_List *)(yyvsp[0]), (yyvsp[-2])); (yyval) = (yyvsp[0]); }
+    { fxp_list_push((FxP_FxB_List *)(yyvsp[0]), (yyvsp[-2])); (yyval) = (yyvsp[0]); }
 #line 1534 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 

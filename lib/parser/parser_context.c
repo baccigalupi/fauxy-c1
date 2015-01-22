@@ -5,12 +5,12 @@
 #include "expressions.h"
 
 FxP_ParserContext *FxP_ParserContext_create() {
-  List *list = NULL;
+  FxB_List *list = NULL;
 
   FxP_ParserContext *context = fx_alloc(FxP_ParserContext);
   verify_memory(context);
 
-  list = List_create();
+  list = FxB_List_create();
   verify(list);
   fxp_parser_context_list(context) = list;
 

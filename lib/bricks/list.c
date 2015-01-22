@@ -5,15 +5,15 @@
 #include "list.h"
 #include "node.h"
 
-List *List_create() {
-  List *list = fx_alloc(List);
+FxB_List *FxB_List_create() {
+  FxB_List *list = fx_alloc(FxB_List);
   verify_memory(list);
   return list;
 error:
   return NULL;
 }
 
-void  list_push_node(List *list, Node *new_node) {
+void  list_push_node(FxB_List *list, Node *new_node) {
   verify(list);
   verify(new_node);
 
@@ -31,7 +31,7 @@ error:
   return;
 }
 
-void list_push(List *list, void *value) {
+void list_push(FxB_List *list, void *value) {
   verify(list);
 
   Node *new_node = Node_create(value);
@@ -42,7 +42,7 @@ error:
   return;
 }
 
-void list_unshift_node(List *list, Node *new_node) {
+void list_unshift_node(FxB_List *list, Node *new_node) {
   verify(list);
   verify(new_node);
 
@@ -60,7 +60,7 @@ error:
   return;
 }
 
-void list_unshift(List *list, void *value) {
+void list_unshift(FxB_List *list, void *value) {
   verify(list);
 
   Node *new_node = Node_create(value);
@@ -71,7 +71,7 @@ error:
   return;
 }
 
-Node *list_pop_node(List *list) {
+Node *list_pop_node(FxB_List *list) {
   verify(list);
 
   Node *old_tail = list_node_last(list);
@@ -94,7 +94,7 @@ error:
   return NULL;
 }
 
-void *list_pop(List *list) {
+void *list_pop(FxB_List *list) {
   verify(list);
   if (!list_node_last(list)) { return NULL; }
 
@@ -110,7 +110,7 @@ error:
   return NULL;
 }
 
-Node *list_shift_node(List *list) {
+Node *list_shift_node(FxB_List *list) {
   verify(list);
 
   Node *old_head = list_node_first(list);
@@ -129,7 +129,7 @@ error:
   return NULL;
 }
 
-void *list_shift(List *list) {
+void *list_shift(FxB_List *list) {
   verify(list);
 
   Node *old_head = list_shift_node(list);
@@ -146,7 +146,7 @@ error:
   return NULL;
 }
 
-void list_free(List *list) {
+void list_free(FxB_List *list) {
   verify(list);
 
   Node *node = list_node_first(list);
@@ -166,7 +166,7 @@ error:
   return;
 }
 
-void  list_r_free(List *list) {
+void  list_r_free(FxB_List *list) {
   verify(list);
 
   Node *node = list_node_first(list);

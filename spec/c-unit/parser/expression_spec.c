@@ -58,7 +58,7 @@ char *test_inspect_list() {
   FxP_Bit     *bit_2 = FxP_Bit_create(TOKEN_STRING, "\"hello world\"");
   FxP_Literal *arg_2 = FxP_Literal_create(bit_2, TOKEN_STRING);
 
-  FxP_List    *list = FxP_List_create_double(arg_1, arg_2);
+  FxP_FxB_List    *list = FxP_FxB_List_create_double(arg_1, arg_2);
 
   String *inspection = fxp_inspect(list);
   char *expected = "{\"list\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}";
@@ -123,7 +123,7 @@ char *test_inspect_function() {
   FxP_Bit     *bit_2 = FxP_Bit_create(TOKEN_ID, "bar");
   FxP_Literal *arg_2 = FxP_Lookup_create(bit_2, TOKEN_ID);
 
-  FxP_List    *arguments = FxP_List_create_double(arg_1, arg_2);
+  FxP_FxB_List    *arguments = FxP_FxB_List_create_double(arg_1, arg_2);
   fxp_expression_type(arguments) = FXP_ST_FUNCTION_ARGUMENTS;
 
   // expressions

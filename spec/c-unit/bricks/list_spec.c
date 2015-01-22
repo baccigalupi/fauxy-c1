@@ -5,7 +5,7 @@
 
 char *test_list_first_push() {
   spec_describe("Pushing first element");
-  List *list = List_create();
+  FxB_List *list = FxB_List_create();
   char *str = "first";
 
   list_push(list, str);
@@ -25,7 +25,7 @@ char *test_list_first_push() {
 char *test_list_second_push() {
   spec_describe("Pushing a second element");
 
-  List *list = List_create();
+  FxB_List *list = FxB_List_create();
   char *str =  "first";
   char *str_2 = "second";
 
@@ -44,7 +44,7 @@ char *test_list_second_push() {
 
 char *test_list_additional_pushes() {
   spec_describe("Pushing additional times");
-  List *list = List_create();
+  FxB_List *list = FxB_List_create();
   char *str_1 = "first";
   char *str_2 = "second";
   char *str_3 = "third";
@@ -76,7 +76,7 @@ char *test_list_additional_pushes() {
 
 char *test_list_pop() {
   spec_describe("Popping once");
-  List *list = List_create();
+  FxB_List *list = FxB_List_create();
   char *str_1 = "first";
   char *str_2 = "second";
   char *str_3 = "third";
@@ -98,7 +98,7 @@ char *test_list_pop() {
 
 char *test_multiple_pops() {
   spec_describe("Multiple pops");
-  List *list = List_create();
+  FxB_List *list = FxB_List_create();
   char *str_1 = "first";
   char *str_2 = "second";
   char *str_3 = "third";
@@ -127,7 +127,7 @@ char *test_multiple_pops() {
 
 char *test_list_unshift() {
   spec_describe("Unshift");
-  List *list = List_create();
+  FxB_List *list = FxB_List_create();
   char *str_1 = "first";
 
   list_unshift(list, str_1);
@@ -146,7 +146,7 @@ char *test_list_unshift() {
 
 char *test_list_unshift_second_time() {
   spec_describe("Second unshift");
-  List *list = List_create();
+  FxB_List *list = FxB_List_create();
   char *str_1 = "first";
   char *str_2 = "second";
 
@@ -167,7 +167,7 @@ char *test_list_unshift_second_time() {
 
 char *test_list_unshift_additional_time() {
   spec_describe("Unshift additional times");
-  List *list = List_create();
+  FxB_List *list = FxB_List_create();
   char *str_1 = "first";
   char *str_2 = "second";
   char *str_3 = "third";
@@ -198,7 +198,7 @@ char *test_list_unshift_additional_time() {
 
 char *test_list_shift() {
   spec_describe("Shift");
-  List *list = List_create();
+  FxB_List *list = FxB_List_create();
   char *str_1 = "first";
   char *str_2 = "second";
   char *str_3 = "third";
@@ -219,7 +219,7 @@ char *test_list_shift() {
 
 char *test_multiple_shifts() {
   spec_describe("Multiple shifts");
-  List *list = List_create();
+  FxB_List *list = FxB_List_create();
   char *str_1 = "first";
   char *str_2 = "second";
   char *str_3 = "third";
@@ -248,7 +248,7 @@ char *test_multiple_shifts() {
 
 char *test_clear_and_destroy() {
   spec_describe("Clear and destroy");
-  List *list = List_create();
+  FxB_List *list = FxB_List_create();
 
   // can't deallocate what you haven't allocated!
   char *str_1 = calloc(10, sizeof(char));
@@ -268,7 +268,7 @@ char *test_clear_and_destroy() {
 }
 
 char *all_specs() {
-  spec_setup("Brick Double Linked List");
+  spec_setup("Brick Double Linked FxB_List");
 
   run_spec(test_list_first_push);
   run_spec(test_list_second_push);

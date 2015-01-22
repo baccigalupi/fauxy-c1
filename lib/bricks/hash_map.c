@@ -32,7 +32,7 @@ Node *hash_map_get_node(FxB_HashMap *hash_map, String *key) {
   Node *current_node = NULL;
   Node *node = NULL;
   int index = hash_map_index_for_key(hash_map, key);
-  List *list = hash_map_list_at_index(hash_map, index);
+  FxB_List *list = hash_map_list_at_index(hash_map, index);
 
   if (!list) { return node; }
 
@@ -50,9 +50,9 @@ void hash_map_set(FxB_HashMap *hash_map, String *key, void *value) {
   int index = hash_map_index_for_key(hash_map, key);
 
   // create list if value at index in void
-  List *list = hash_map_list_at_index(hash_map, index);
+  FxB_List *list = hash_map_list_at_index(hash_map, index);
   if ( !list ) {
-    list = List_create();
+    list = FxB_List_create();
     array_set(hash_map_values(hash_map), index, list);
     verify(hash_map_list_at_index(hash_map, index));
   }
@@ -63,7 +63,7 @@ void hash_map_set(FxB_HashMap *hash_map, String *key, void *value) {
     node_value(node) = value;
   } else {
     // create node
-    List *list = hash_map_list_at_index(hash_map, index);
+    FxB_List *list = hash_map_list_at_index(hash_map, index);
     list_push(list, value);
 
     // set extra node attributes
@@ -83,7 +83,7 @@ void hash_map_free_list_values(FxB_HashMap *hash_map) {
 
   int length = array_length(values);
   for(i = 0; i < length; i++) {
-    List *list = array_at_index(values, i);
+    FxB_List *list = array_at_index(values, i);
     if (list) {
       list_free(list);
     }
