@@ -1,5 +1,5 @@
-#ifndef __json_gen_h
-#define __json_gen_h
+#ifndef __FxB_JsonGen_h
+#define __FxB_JsonGen_h
 
 #include "string.h"
 #include "array.h"
