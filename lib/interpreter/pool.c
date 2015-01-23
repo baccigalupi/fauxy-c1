@@ -1,6 +1,6 @@
 #include "pool.h"
 
-FxI_Pool *FxN_Pool_create(int literal_capacity, int class_capacity, int lookup_capacity) {
+FxI_Pool *FxI_Pool_create(int literal_capacity, int class_capacity, int lookup_capacity) {
   FxB_HashMap *literals = NULL;
   FxB_HashMap *classes = NULL;
   FxB_HashMap *lookups = NULL;

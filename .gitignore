@@ -23,3 +23,4 @@ spec/c-unit/parser/lex_spec
 spec/c-unit/parser/parser_spec
 
 spec/c-unit/interpreter/object_spec
+spec/c-unit/interpreter/interpreter_spec

@@ -26,8 +26,8 @@ typedef struct FxI_Pool {
 #define fxi_lookup_get(P, K)        (hash_map_get(fxi_pool_lookups(P), K))
 #define fxi_lookup_set(P, K, V)     (hash_map_set(fxi_pool_lookups(P), K, V))
 
-#define fxn_pool_free(P)            (fx_pfree(P)) // TODO: more better
+#define fxi_pool_free(P)            (fx_pfree(P)) // TODO: more better
 
-FxI_Pool   *FxN_Pool_create(int literal_capacity, int class_capacity, int lookup_capacity);
+FxI_Pool *FxI_Pool_create(int literal_capacity, int class_capacity, int lookup_capacity);
 
 #endif

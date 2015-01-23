@@ -6,7 +6,7 @@
 char *test_set_and_get_attribute() {
   spec_describe("setting and getting attributes of objects");
 
-  FxI_Pool   *pool =    FxN_Pool_create(1, 1, 1);
+  FxI_Pool   *pool =    FxI_Pool_create(1, 1, 1);
   FxN_Object *object =  FxN_Object_create(pool, NULL);
   FxN_Object *value =   FxN_Object_create(pool, NULL);
   FxB_String *key =     FxB_String_create("thing");
@@ -19,7 +19,7 @@ char *test_set_and_get_attribute() {
   string_free(key);
   fxn_object_free(object);
   fxn_object_free(value);
-  fxn_pool_free(pool);
+  fxi_pool_free(pool);
 
   return NULL;
 }
