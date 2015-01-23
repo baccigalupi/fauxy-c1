@@ -21,3 +21,5 @@ spec/c-unit/parser/bit_spec
 spec/c-unit/parser/expression_spec
 spec/c-unit/parser/lex_spec
 spec/c-unit/parser/parser_spec
+
+spec/c-unit/native/object_spec

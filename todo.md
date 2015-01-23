@@ -1,4 +1,5 @@
 # TODO
+1. Class/Object system implementation
 2. Location encoding, better error message
 5. Expression validation in parser
 
