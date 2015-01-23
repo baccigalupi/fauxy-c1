@@ -6,6 +6,8 @@
 ## Cleanup
 
 ## Optimize later
+JSON Library integration
+
 Long decimals
 FxB_String concat, push and add validation for inspect
 
