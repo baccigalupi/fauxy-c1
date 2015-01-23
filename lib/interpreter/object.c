@@ -2,9 +2,11 @@
 
 #include "../bricks/helpers.h"
 
-FxN_Object *FxN_Object_create(FxN_Class *scope) {
+FxN_Object *FxN_Object_create(FxI_Pool *pool, FxN_Class *scope) {
   FxN_Object *object = fx_alloc(FxN_Object);
   verify_memory(object);
+
+  fxn_object_pool(object) = pool;
 
   FxB_HashMap *attributes = FxB_HashMap_create(FXN_OBJECT_ATTRIBUTE_HASHMAP_SIZE);
   verify(attributes);

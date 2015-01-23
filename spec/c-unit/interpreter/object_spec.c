@@ -1,4 +1,4 @@
-#include "../../../lib/native/object.h"
+#include "../../../lib/interpreter/object.h"
 #include "../../../lib/bricks/string.h"
 #include "../lib/spec.h"
 
@@ -6,8 +6,9 @@
 char *test_set_and_get_attribute() {
   spec_describe("setting and getting attributes of objects");
 
-  FxN_Object *object =  FxN_Object_create(NULL);
-  FxN_Object *value =   FxN_Object_create(NULL);
+  FxI_Pool   *pool =    FxN_Pool_create(1, 1, 1);
+  FxN_Object *object =  FxN_Object_create(pool, NULL);
+  FxN_Object *value =   FxN_Object_create(pool, NULL);
   FxB_String *key =     FxB_String_create("thing");
 
   fxn_object_set_attribute(object, key, value);
@@ -18,6 +19,7 @@ char *test_set_and_get_attribute() {
   string_free(key);
   fxn_object_free(object);
   fxn_object_free(value);
+  fxn_pool_free(pool);
 
   return NULL;
 }
