@@ -15,16 +15,16 @@ typedef struct FxI_Pool {
 } FxI_Pool;
 
 #define fxi_pool_literals(P)        ((P)->literals)
-#define fxi_literal_get(P, K)       (hash_map_get(fxi_pool_contants(P), K))
-#define fxi_literal_set(P, K, V)    (hash_map_set(fxi_pool_contants(P), K, V))
+#define fxi_literal_get(P, K)       (fxb_hash_map_get(fxi_pool_contants(P), K))
+#define fxi_literal_set(P, K, V)    (fxb_hash_map_set(fxi_pool_contants(P), K, V))
 
 #define fxi_pool_classes(P)         ((P)->classes)
-#define fxi_class_get(P, K)         (hash_map_get(fxi_pool_classes(P), K))
-#define fxi_class_set(P, K, V)      (hash_map_set(fxi_pool_classes(P), K, V))
+#define fxi_class_get(P, K)         (fxb_hash_map_get(fxi_pool_classes(P), K))
+#define fxi_class_set(P, K, V)      (fxb_hash_map_set(fxi_pool_classes(P), K, V))
 
 #define fxi_pool_lookups(P)         ((P)->lookups)
-#define fxi_lookup_get(P, K)        (hash_map_get(fxi_pool_lookups(P), K))
-#define fxi_lookup_set(P, K, V)     (hash_map_set(fxi_pool_lookups(P), K, V))
+#define fxi_lookup_get(P, K)        (fxb_hash_map_get(fxi_pool_lookups(P), K))
+#define fxi_lookup_set(P, K, V)     (fxb_hash_map_set(fxi_pool_lookups(P), K, V))
 
 #define fxi_pool_free(P)            (fx_pfree(P)) // TODO: more better
 

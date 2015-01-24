@@ -18,10 +18,10 @@ typedef struct FxN_Object {
 #define fxn_object_pool(O)                  ((O)->pool)
 
 #define fxn_object_attributes(O)            ((O)->attributes)
-#define fxn_object_get_attribute(O, K)      (hash_map_get(fxn_object_attributes(O), K))
-#define fxn_object_set_attribute(O, K, V)   (hash_map_set(fxn_object_attributes(O), K, V))
+#define fxn_object_get_attribute(O, K)      (fxb_hash_map_get(fxn_object_attributes(O), K))
+#define fxn_object_set_attribute(O, K, V)   (fxb_hash_map_set(fxn_object_attributes(O), K, V))
 
-#define fxn_object_free(O)                  (fxn_class_free(fxn_object_scope(O)), hash_map_free(fxn_object_attributes(O)), fx_pfree(O))
+#define fxn_object_free(O)                  (fxn_class_free(fxn_object_scope(O)), fxb_hash_map_free(fxn_object_attributes(O)), fx_pfree(O))
 
 FxN_Object *FxN_Object_create(FxI_Pool *pool, FxN_Class *scope);
 

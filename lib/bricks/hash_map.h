@@ -13,17 +13,17 @@ typedef struct FxB_HashMap {
   FxB_Array *values;
 } FxB_HashMap;
 
-#define hash_map_values(H)            ((H)->values)
-#define hash_map_list_at_index(H, I)  (fxb_array_at_index(hash_map_values(H), I))
-#define hash_map_length(H)            ((H)->length)
-#define hash_map_capacity(H)          ((H)->capacity)
-#define hash_map_index_for_key(H, K)  (string_hash(K) % hash_map_capacity(H))
-#define hash_map_free(H)              ((hash_map_free_list_values(H)), (fxb_array_free(hash_map_values(H))), (fx_pfree(H)))
+#define fxb_hash_map_values(H)            ((H)->values)
+#define fxb_hash_map_list_at_index(H, I)  (fxb_array_at_index(fxb_hash_map_values(H), I))
+#define fxb_hash_map_length(H)            ((H)->length)
+#define fxb_hash_map_capacity(H)          ((H)->capacity)
+#define fxb_hash_map_index_for_key(H, K)  (string_hash(K) % fxb_hash_map_capacity(H))
+#define fxb_hash_map_free(H)              ((fxb_hash_map_free_list_values(H)), (fxb_array_free(fxb_hash_map_values(H))), (fx_pfree(H)))
 
 FxB_HashMap     *FxB_HashMap_create(int length);
-void            *hash_map_get(FxB_HashMap *hash, FxB_String *key);
-FxB_Node        *hash_map_get_node(FxB_HashMap *hash, FxB_String *key);
-void             hash_map_set(FxB_HashMap *hash, FxB_String *key, void *value);
-void             hash_map_free_list_values(FxB_HashMap *hash_map);
+void            *fxb_hash_map_get(FxB_HashMap *hash, FxB_String *key);
+FxB_Node        *fxb_hash_map_get_node(FxB_HashMap *hash, FxB_String *key);
+void             fxb_hash_map_set(FxB_HashMap *hash, FxB_String *key, void *value);
+void             fxb_hash_map_free_list_values(FxB_HashMap *hash_map);
 
 #endif
