@@ -5,10 +5,10 @@
 #include "hash_key.h"
 
 typedef struct FxB_Node {
-  FxB_Hash      hash;
-  FxB_String   *key;
+  FxB_Hash        hash;
+  char           *key;
 
-  void         *value;
+  void           *value;
 
   struct FxB_Node *prev;
   struct FxB_Node *next;

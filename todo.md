@@ -17,11 +17,16 @@ FxB_String concat, push and add validation for inspect
 
 Literal/Constant pool instead of duplicate bits
 
+FxB_HashMap:
+better efficiency:
+ * key and hash not being stored on the node or used for match
+ * list iteration not cut short when node found
+verification or return of 1|0 for success|failure 
+
 FxB_Array:
 verification with return boolean on push etc
 
-Better strings:
-FxB_String shorten ...
+
 
 ## Interpreter
 Function objects

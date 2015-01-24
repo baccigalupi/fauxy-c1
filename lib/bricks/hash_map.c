@@ -4,11 +4,11 @@
 #include "list.h"
 
 FxB_HashMap *FxB_HashMap_create(int capacity) {
-  FxB_HashMap *hash_map = calloc(1, sizeof(FxB_Hash));
+  FxB_HashMap *hash_map = fx_alloc(FxB_Hash);
   verify_memory(hash_map);
 
   fxb_hash_map_capacity(hash_map) = capacity;
-  fxb_hash_map_values(hash_map) = FxB_Array_create(capacity);
+  fxb_hash_map_values(hash_map) =   FxB_Array_create(capacity);
   verify(fxb_hash_map_values(hash_map));
 
   return hash_map;
@@ -17,7 +17,7 @@ error:
   return NULL;
 }
 
-void *fxb_hash_map_get(FxB_HashMap *hash_map, FxB_String *key) {
+void *fxb_hash_map_get(FxB_HashMap *hash_map, char *key) {
   void *value = NULL;
   FxB_Node *node = fxb_hash_map_get_node(hash_map, key);
 
@@ -28,7 +28,7 @@ void *fxb_hash_map_get(FxB_HashMap *hash_map, FxB_String *key) {
   return value;
 }
 
-FxB_Node *fxb_hash_map_get_node(FxB_HashMap *hash_map, FxB_String *key) {
+FxB_Node *fxb_hash_map_get_node(FxB_HashMap *hash_map, char *key) {
   FxB_Node *current_node = NULL;
   FxB_Node *node = NULL;
   int index = fxb_hash_map_index_for_key(hash_map, key);
@@ -37,7 +37,7 @@ FxB_Node *fxb_hash_map_get_node(FxB_HashMap *hash_map, FxB_String *key) {
   if (!list) { return node; }
 
   fxb_list_each(list, current_node) {
-    if ( (node_hash(current_node) == fxb_string_hash(key)) && fxb_strings_equal(node_key(current_node), key) ) {
+    if ( (node_hash(current_node) == fxb_string_hash(key)) && !strcmp(node_key(current_node), key) ) {
       node = current_node;
       break;
     }
@@ -46,11 +46,12 @@ FxB_Node *fxb_hash_map_get_node(FxB_HashMap *hash_map, FxB_String *key) {
   return node;
 }
 
-void fxb_hash_map_set(FxB_HashMap *hash_map, FxB_String *key, void *value) {
+void fxb_hash_map_set(FxB_HashMap *hash_map, char *key, void *value) {
   int index = fxb_hash_map_index_for_key(hash_map, key);
+  FxB_List *list = NULL;
 
   // create list if value at index in void
-  FxB_List *list = fxb_hash_map_list_at_index(hash_map, index);
+  list = fxb_hash_map_list_at_index(hash_map, index);
   if ( !list ) {
     list = FxB_List_create();
     fxb_array_set(fxb_hash_map_values(hash_map), index, list);
@@ -63,7 +64,6 @@ void fxb_hash_map_set(FxB_HashMap *hash_map, FxB_String *key, void *value) {
     node_value(node) = value;
   } else {
     // create node
-    FxB_List *list = fxb_hash_map_list_at_index(hash_map, index);
     fxb_list_push(list, value);
 
     // set extra node attributes

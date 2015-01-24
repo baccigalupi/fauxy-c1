@@ -6,6 +6,6 @@
 
 typedef uint32_t FxB_Hash;
 
-FxB_Hash fxb_string_hash(FxB_String *string);
+FxB_Hash fxb_string_hash(char *string);
 
 #endif

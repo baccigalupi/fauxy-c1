@@ -4,9 +4,8 @@
 * Simple Bob Jenkins's hash algorithm taken from the
 * wikipedia description.
 */
-FxB_Hash fxb_string_hash(FxB_String *string) {
-  size_t length = fxb_string_length(string);
-  char *key =     fxb_string_value(string);
+FxB_Hash fxb_string_hash(char *key) {
+  size_t length = strlen(key);
   FxB_Hash hash = 0;
   FxB_Hash i = 0;
 

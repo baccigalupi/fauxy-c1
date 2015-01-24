@@ -1,7 +1,7 @@
 #ifndef __FxB_HashMap_h
 #define __FxB_HashMap_h
 
-#include "string.h"
+#include <string.h>
 #include "node.h"
 #include "array.h"
 
@@ -21,9 +21,9 @@ typedef struct FxB_HashMap {
 #define fxb_hash_map_free(H)              ((fxb_hash_map_free_list_values(H)), (fxb_array_free(fxb_hash_map_values(H))), (fx_pfree(H)))
 
 FxB_HashMap     *FxB_HashMap_create(int length);
-void            *fxb_hash_map_get(FxB_HashMap *hash, FxB_String *key);
-FxB_Node        *fxb_hash_map_get_node(FxB_HashMap *hash, FxB_String *key);
-void             fxb_hash_map_set(FxB_HashMap *hash, FxB_String *key, void *value);
+void            *fxb_hash_map_get(             FxB_HashMap *hash, char *key);
+FxB_Node        *fxb_hash_map_get_node(        FxB_HashMap *hash, char *key);
+void             fxb_hash_map_set(             FxB_HashMap *hash, char *key, void *value);
 void             fxb_hash_map_free_list_values(FxB_HashMap *hash_map);
 
 #endif

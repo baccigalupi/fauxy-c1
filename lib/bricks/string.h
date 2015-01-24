@@ -2,6 +2,7 @@
 #define __FxB_String_h 1
 
 #include <string.h>
+#include <stdlib.h>
 #include "helpers.h"
 
 #define CHAR      char

@@ -21,28 +21,45 @@ char *test_get_value_from_empty() {
   spec_describe("Getting values from empty hash_map");
 
   FxB_HashMap *hash_map = FxB_HashMap_create(10);
-  FxB_String *key = FxB_String_create("key");
+  char *key = "key";
 
   assert_equal(fxb_hash_map_get(hash_map, key), NULL, "return NULL");
 
-  fxb_string_free(key);
   fxb_hash_map_free(hash_map);
 
   return NULL;
 }
 
-char *test_set_value() {
-  spec_describe("Setting and getting value");
+char *test_set_value_with_literal_key() {
+  spec_describe("Setting and getting value with a literal key");
 
   FxB_HashMap *hash_map = FxB_HashMap_create(10);
-  FxB_String *key = FxB_String_create("key");
+  char *key = "key";
   FxB_String *value = FxB_String_create("value");
 
   fxb_hash_map_set(hash_map, key, value);
 
   assert_equal(fxb_hash_map_get(hash_map, key), value, "value same");
 
-  fxb_string_free(key);
+  fxb_string_free(value);
+  fxb_hash_map_free(hash_map);
+
+  return NULL;
+}
+
+char *test_set_value_with_freed_key() {
+  spec_describe("Setting and getting value with a alloced and freed");
+
+  FxB_HashMap *hash_map = FxB_HashMap_create(10);
+  char *key = calloc(4, sizeof(char));
+  strcpy(key, "key");
+  FxB_String *value = FxB_String_create("value");
+
+  fxb_hash_map_set(hash_map, key, value);
+  free(key);
+
+  assert_equal(fxb_hash_map_get(hash_map, "key"), value, "value same");
+
   fxb_string_free(value);
   fxb_hash_map_free(hash_map);
 
@@ -53,7 +70,7 @@ char *test_reset_value() {
   spec_describe("Setting and getting value");
 
   FxB_HashMap *hash_map = FxB_HashMap_create(10);
-  FxB_String *key = FxB_String_create("key");
+  char *key = "key";
   FxB_String *value_1 = FxB_String_create("value");
   FxB_String *value_2 = FxB_String_create("another value");
 
@@ -64,7 +81,6 @@ char *test_reset_value() {
   int index = fxb_hash_map_index_for_key(hash_map, key);
   assert_ints_equal(fxb_list_length((FxB_List *)fxb_hash_map_list_at_index(hash_map, index)), 1, "no duplicates for key in list");
 
-  fxb_string_free(key);
   fxb_string_free(value_1);
   fxb_string_free(value_2);
   fxb_hash_map_free(hash_map);
@@ -77,7 +93,8 @@ char *all_specs() {
 
   run_spec(test_create_hash);
   run_spec(test_get_value_from_empty);
-  run_spec(test_set_value);
+  run_spec(test_set_value_with_literal_key);
+  run_spec(test_set_value_with_freed_key);
   run_spec(test_reset_value);
 
   spec_teardown();
