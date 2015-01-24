@@ -19,7 +19,6 @@ Literal/Constant pool instead of duplicate bits
 
 FxB_HashMap:
 better efficiency:
- * key and hash not being stored on the node or used for match
  * list iteration not cut short when node found
 verification or return of 1|0 for success|failure 
 
