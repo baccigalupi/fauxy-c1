@@ -29,7 +29,7 @@ int FxB_String_offset(int capacity, int length) {
 
 FxB_String *FxB_String_create(CHAR *str) {
   int length = STRLEN(str);
-  int capacity = Expandable_capacity(length);
+  int capacity = FxB_Expandable_capacity(length);
   FxB_String *string = FxB_String_create_with_capacity(capacity);
   verify(string);
 
@@ -62,7 +62,7 @@ error:
 
 Boolean string_push_char(FxB_String *string, CHAR c) {
   if ( !(string_length(string) < string_capacity(string)) ) {
-    int capacity = Expandable_capacity(string_length(string));
+    int capacity = FxB_Expandable_capacity(string_length(string));
     Boolean success = string_expand(string, capacity);
     verify(success);
   }
@@ -102,7 +102,7 @@ error:
 
 Boolean string_unshift_char(FxB_String *string, CHAR c) {
   if ( string_offset(string) < 1 ) {
-    int capacity = Expandable_capacity(string_length(string));
+    int capacity = FxB_Expandable_capacity(string_length(string));
     Boolean success = string_expand(string, capacity);
     verify(success);
   }

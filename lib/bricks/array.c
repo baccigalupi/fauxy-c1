@@ -22,7 +22,7 @@ error:
 
 void fxb_array_push(FxB_Array *array, void *element) {
   if (fxb_array_capacity(array) == fxb_array_length(array)) {
-    int capacity = Expandable_capacity(fxb_array_capacity(array));
+    int capacity = FxB_Expandable_capacity(fxb_array_capacity(array));
     Boolean success = fxb_array_expand(array, capacity);
     verify(success);
   }
@@ -101,7 +101,7 @@ void *fxb_array_pop(FxB_Array *array) {
 
 void fxb_array_set(FxB_Array *array, int index, void *value) {
   if (fxb_array_capacity(array) <= index) {
-    int capacity = Expandable_capacity(index);
+    int capacity = FxB_Expandable_capacity(index);
     Boolean success = fxb_array_expand(array, capacity);
     verify(success);
   }

@@ -4,7 +4,7 @@
 #include <math.h>
 
 // Used by both FxB_Array and FxB_String to get next capacity
-static inline int Expandable_capacity(int capacity) {
+static inline int FxB_Expandable_capacity(int capacity) {
   int exponent = 1;
   while ( capacity > 1 ) {
     exponent ++;
