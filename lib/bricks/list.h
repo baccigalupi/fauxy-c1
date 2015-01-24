@@ -1,5 +1,5 @@
-#ifndef __FxB_FxB_List_h
-#define __FxB_FxB_List_h 1
+#ifndef __FxB_List_h
+#define __FxB_List_h 1
 
 #include "node.h"
 

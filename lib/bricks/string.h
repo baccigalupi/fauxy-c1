@@ -1,8 +1,7 @@
-#ifndef __FxB_FxB_String_h
-#define __FxB_FxB_String_h 1
+#ifndef __FxB_String_h
+#define __FxB_String_h 1
 
 #include <string.h>
-#include <stdlib.h>
 #include "helpers.h"
 
 #define CHAR      char
@@ -49,7 +48,6 @@ FxB_String    *string_duplicate(FxB_String *original);
 Boolean        string_wrap(FxB_String *original, CHAR start_char, CHAR end_char);
 
 // TODO: move somewhere else??
-typedef uint32_t Hash;
-Hash           string_hash(FxB_String *string);
+
 
 #endif

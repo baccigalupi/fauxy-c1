@@ -73,7 +73,7 @@ char *test_reset_value() {
 }
 
 char *all_specs() {
-  spec_setup("Brick Hash");
+  spec_setup("Brick FxB_Hash");
 
   run_spec(test_create_hash);
   run_spec(test_get_value_from_empty);

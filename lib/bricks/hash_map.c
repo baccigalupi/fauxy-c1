@@ -4,7 +4,7 @@
 #include "list.h"
 
 FxB_HashMap *FxB_HashMap_create(int capacity) {
-  FxB_HashMap *hash_map = calloc(1, sizeof(Hash));
+  FxB_HashMap *hash_map = calloc(1, sizeof(FxB_Hash));
   verify_memory(hash_map);
 
   fxb_hash_map_capacity(hash_map) = capacity;
@@ -37,7 +37,7 @@ FxB_Node *fxb_hash_map_get_node(FxB_HashMap *hash_map, FxB_String *key) {
   if (!list) { return node; }
 
   fxb_list_each(list, current_node) {
-    if ( (node_hash(current_node) == string_hash(key)) && strings_equal(node_key(current_node), key) ) {
+    if ( (node_hash(current_node) == fxb_string_hash(key)) && strings_equal(node_key(current_node), key) ) {
       node = current_node;
       break;
     }
@@ -68,7 +68,7 @@ void fxb_hash_map_set(FxB_HashMap *hash_map, FxB_String *key, void *value) {
 
     // set extra node attributes
     node = fxb_list_node_last(list);
-    node_hash(node) = string_hash(key);
+    node_hash(node) = fxb_string_hash(key);
     node_key(node) = key;
   }
 

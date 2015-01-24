@@ -1,13 +1,14 @@
-#ifndef __FxB_FxB_Node_h
-#define __FxB_FxB_Node_h 1
+#ifndef __FxB_Node_h
+#define __FxB_Node_h 1
 
 #include "string.h"
+#include "hash_key.h"
 
 typedef struct FxB_Node {
-  Hash         hash;
+  FxB_Hash      hash;
   FxB_String   *key;
 
-  void        *value;
+  void         *value;
 
   struct FxB_Node *prev;
   struct FxB_Node *next;
