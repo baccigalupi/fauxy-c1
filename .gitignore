@@ -13,7 +13,7 @@ lib/parser/parse.output
 spec/c-unit/bricks/string_spec
 spec/c-unit/bricks/array_spec
 spec/c-unit/bricks/list_spec
-spec/c-unit/bricks/json_jen_spec
+spec/c-unit/bricks/json_gen_spec
 spec/c-unit/bricks/hash_map_spec
 
 spec/c-unit/spec.log

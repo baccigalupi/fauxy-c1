@@ -209,14 +209,14 @@ FxB_String *fxp_bit_inspect(FxP_Bit *bit) {
   bit_value = fxp_bit_value_description(bit);
   verify(bit_value);
 
-  pair = json_gen_bald_pair(bit_key, bit_value);
+  pair = fxb_json_gen_bald_pair(bit_key, bit_value);
   verify(pair);
 
   pairs = FxB_Array_create(1);
   verify(pairs);
   fxb_array_push(pairs, pair);
 
-  json = json_gen_wrap_pairs(pairs);
+  json = fxb_json_gen_wrap_pairs(pairs);
   verify(json);
 
   string_free(bit_key);

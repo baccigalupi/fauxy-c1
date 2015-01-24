@@ -1,6 +1,6 @@
 #include "json_gen.h"
 
-FxB_String *json_gen_bald_pair(FxB_String *key, FxB_String *value) {
+FxB_String *fxb_json_gen_bald_pair(FxB_String *key, FxB_String *value) {
   FxB_String *pair = NULL;
   verify(key);
   verify(value);
@@ -20,7 +20,7 @@ error:
   return NULL;
 }
 
-FxB_String *json_gen_join_pairs(FxB_Array *pairs, char *joiner) {
+FxB_String *fxb_json_gen_join_pairs(FxB_Array *pairs, char *joiner) {
   FxB_String *joined = FxB_String_create_blank();
   verify(joined);
 
@@ -38,8 +38,8 @@ error:
   return NULL;
 }
 
-FxB_String *json_gen_wrap_pairs(FxB_Array *pairs) {
-  FxB_String *json = json_gen_join_pairs(pairs, ", ");
+FxB_String *fxb_json_gen_wrap_pairs(FxB_Array *pairs) {
+  FxB_String *json = fxb_json_gen_join_pairs(pairs, ", ");
   verify(json);
 
   verify(string_wrap(json, '{', '}'));
@@ -48,8 +48,8 @@ error:
   return NULL;
 }
 
-FxB_String *json_gen_wrap_array_pairs(FxB_Array *pairs) {
-  FxB_String *json = json_gen_join_pairs(pairs, ",\n");
+FxB_String *fxb_json_gen_wrap_array_pairs(FxB_Array *pairs) {
+  FxB_String *json = fxb_json_gen_join_pairs(pairs, ",\n");
   verify(json);
   verify(string_wrap(json, '\n', '\n'));
   verify(string_wrap(json, '[', ']'));

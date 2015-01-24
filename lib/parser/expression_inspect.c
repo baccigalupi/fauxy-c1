@@ -46,7 +46,7 @@ void *fxp_inspect(void *element) {
   verify(pair_array);
   fxb_array_push(pair_array, unwrapped_pair);
 
-  json = json_gen_wrap_pairs(pair_array);
+  json = fxb_json_gen_wrap_pairs(pair_array);
   verify(json);
 
   string_free(unwrapped_pair);
@@ -66,12 +66,12 @@ FxB_String *fxp_expression_join(FxP_Expression *expression, FxB_String *value) {
   verify(pairs);
 
   key =  fxp_expression_type_description(expression);
-  bald_pair = json_gen_bald_pair(key, value);
+  bald_pair = fxb_json_gen_bald_pair(key, value);
   verify(bald_pair);
 
   fxb_array_push(pairs, bald_pair);
 
-  FxB_String *json = json_gen_join_pairs(pairs, ", ");
+  FxB_String *json = fxb_json_gen_join_pairs(pairs, ", ");
   verify(json);
 
   string_free(key);
@@ -102,12 +102,12 @@ FxB_String *fxp_literal_body_inspect(FxP_Literal *expression) {
 
   class_key = FxB_String_create("class");
   class_value = fxp_literal_class_description(expression);
-  class_pair = json_gen_bald_pair(class_key, class_value);
+  class_pair = fxb_json_gen_bald_pair(class_key, class_value);
   verify(class_pair);
 
   bit_key = FxB_String_create("bit");
   bit_value = fxp_bit_inspect(fxp_literal_bit(expression));
-  bit_pair = json_gen_bald_pair(bit_key, bit_value);
+  bit_pair = fxb_json_gen_bald_pair(bit_key, bit_value);
   verify(bit_pair);
 
   class_bit_pairs = FxB_Array_create(2);
@@ -115,7 +115,7 @@ FxB_String *fxp_literal_body_inspect(FxP_Literal *expression) {
   fxb_array_push(class_bit_pairs, class_pair);
   fxb_array_push(class_bit_pairs, bit_pair);
 
-  exp_value = json_gen_wrap_pairs(class_bit_pairs);
+  exp_value = fxb_json_gen_wrap_pairs(class_bit_pairs);
   FxB_String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
@@ -160,12 +160,12 @@ FxB_String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
 
   type_key = FxB_String_create("type");
   type_value = fxp_lookup_type_description(expression);
-  type_pair = json_gen_bald_pair(type_key, type_value);
+  type_pair = fxb_json_gen_bald_pair(type_key, type_value);
   verify(type_pair);
 
   bit_key = FxB_String_create("bit");
   bit_value = fxp_bit_inspect(fxp_literal_bit(expression));
-  bit_pair = json_gen_bald_pair(bit_key, bit_value);
+  bit_pair = fxb_json_gen_bald_pair(bit_key, bit_value);
   verify(bit_pair);
 
   type_bit_pairs = FxB_Array_create(2);
@@ -173,7 +173,7 @@ FxB_String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   fxb_array_push(type_bit_pairs, type_pair);
   fxb_array_push(type_bit_pairs, bit_pair);
 
-  exp_value = json_gen_wrap_pairs(type_bit_pairs);
+  exp_value = fxb_json_gen_wrap_pairs(type_bit_pairs);
   FxB_String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
@@ -214,7 +214,7 @@ FxB_String *fxp_collection_body_inspect(FxP_Expression *expression) {
   element_inspections = fxb_array_map(fxp_expression_value(expression), fxp_inspect);
   verify(element_inspections);
 
-  exp_value = json_gen_wrap_array_pairs(element_inspections);
+  exp_value = fxb_json_gen_wrap_array_pairs(element_inspections);
   verify(exp_value);
 
   FxB_String *json = fxp_expression_join(expression, exp_value);
@@ -241,7 +241,7 @@ FxB_String *fxp_list_body_inspect(FxP_Expression *expression) {
   element_inspections = fxb_array_reverse_map(fxp_expression_value(expression), fxp_inspect);
   verify(element_inspections);
 
-  exp_value = json_gen_wrap_array_pairs(element_inspections);
+  exp_value = fxb_json_gen_wrap_array_pairs(element_inspections);
   verify(exp_value);
 
   FxB_String *json = fxp_expression_join(expression, exp_value);
@@ -281,14 +281,14 @@ FxB_String *fxp_method_body_inspect(FxP_Expression *expression) {
   if ( fxp_method_receiver(expression) ) {
     receiver_key = FxB_String_create("receiver");
     receiver_value = fxp_inspect(fxp_method_receiver(expression));
-    receiver_pair = json_gen_bald_pair(receiver_key, receiver_value);
+    receiver_pair = fxb_json_gen_bald_pair(receiver_key, receiver_value);
     verify(receiver_pair);
     fxb_array_push(exp_values, receiver_pair);
   }
 
   message_key = FxB_String_create("message");
   message_value = fxp_inspect(fxp_method_message(expression));
-  message_pair = json_gen_bald_pair(message_key, message_value);
+  message_pair = fxb_json_gen_bald_pair(message_key, message_value);
   verify(message_pair);
   fxb_array_push(exp_values, message_pair);
 
@@ -298,7 +298,7 @@ FxB_String *fxp_method_body_inspect(FxP_Expression *expression) {
     fxb_array_push(exp_values, arg_value);
   }
 
-  exp_value = json_gen_wrap_pairs(exp_values);
+  exp_value = fxb_json_gen_wrap_pairs(exp_values);
 
   FxB_String *json = fxp_expression_join(expression, exp_value);
   verify(json);
@@ -359,7 +359,7 @@ FxB_String *fxp_function_body_inspect(FxP_Expression *expression) {
   verify(expressions_value);
   fxb_array_push(exp_values, expressions_value);
 
-  exp_value = json_gen_wrap_pairs(exp_values);
+  exp_value = fxb_json_gen_wrap_pairs(exp_values);
   FxB_String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
@@ -406,17 +406,17 @@ FxB_String *fxp_left_right_inspect(FxP_Expression *expression) {
 
   left_key = FxB_String_create("left");
   left_value = fxp_inspect(fxp_expression_left(expression));
-  left_pair = json_gen_bald_pair(left_key, left_value);
+  left_pair = fxb_json_gen_bald_pair(left_key, left_value);
   verify(left_pair);
   fxb_array_push(exp_values, left_pair);
 
   right_key = FxB_String_create("right");
   right_value = fxp_inspect(fxp_expression_right(expression));
-  right_pair = json_gen_bald_pair(right_key, right_value);
+  right_pair = fxb_json_gen_bald_pair(right_key, right_value);
   verify(right_pair);
   fxb_array_push(exp_values, right_pair);
 
-  exp_value = json_gen_wrap_pairs(exp_values);
+  exp_value = fxb_json_gen_wrap_pairs(exp_values);
   FxB_String *json = fxp_expression_join(expression, exp_value);
 
   string_free(right_key);
