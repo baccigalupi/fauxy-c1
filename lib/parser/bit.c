@@ -219,16 +219,16 @@ FxB_String *fxp_bit_inspect(FxP_Bit *bit) {
   json = fxb_json_gen_wrap_pairs(pairs);
   verify(json);
 
-  string_free(bit_key);
-  string_free(bit_value);
-  string_free(pair);
+  fxb_string_free(bit_key);
+  fxb_string_free(bit_value);
+  fxb_string_free(pair);
   fxb_array_free(pairs);
 
   return json;
 error:
-  if (bit_key) { string_free(bit_key); }
-  if (bit_value) { string_free(bit_value); }
-  if (pair) { string_free(pair); }
+  if (bit_key) { fxb_string_free(bit_key); }
+  if (bit_value) { fxb_string_free(bit_value); }
+  if (pair) { fxb_string_free(pair); }
   if (pairs) { fxb_array_free(pairs); }
   return NULL;
 }

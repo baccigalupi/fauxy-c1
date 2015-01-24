@@ -37,7 +37,7 @@ FxB_Node *fxb_hash_map_get_node(FxB_HashMap *hash_map, FxB_String *key) {
   if (!list) { return node; }
 
   fxb_list_each(list, current_node) {
-    if ( (node_hash(current_node) == fxb_string_hash(key)) && strings_equal(node_key(current_node), key) ) {
+    if ( (node_hash(current_node) == fxb_string_hash(key)) && fxb_strings_equal(node_key(current_node), key) ) {
       node = current_node;
       break;
     }

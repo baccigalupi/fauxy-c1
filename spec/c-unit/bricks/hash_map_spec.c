@@ -25,7 +25,7 @@ char *test_get_value_from_empty() {
 
   assert_equal(fxb_hash_map_get(hash_map, key), NULL, "return NULL");
 
-  string_free(key);
+  fxb_string_free(key);
   fxb_hash_map_free(hash_map);
 
   return NULL;
@@ -42,8 +42,8 @@ char *test_set_value() {
 
   assert_equal(fxb_hash_map_get(hash_map, key), value, "value same");
 
-  string_free(key);
-  string_free(value);
+  fxb_string_free(key);
+  fxb_string_free(value);
   fxb_hash_map_free(hash_map);
 
   return NULL;
@@ -64,9 +64,9 @@ char *test_reset_value() {
   int index = fxb_hash_map_index_for_key(hash_map, key);
   assert_ints_equal(fxb_list_length((FxB_List *)fxb_hash_map_list_at_index(hash_map, index)), 1, "no duplicates for key in list");
 
-  string_free(key);
-  string_free(value_1);
-  string_free(value_2);
+  fxb_string_free(key);
+  fxb_string_free(value_1);
+  fxb_string_free(value_2);
   fxb_hash_map_free(hash_map);
 
   return NULL;

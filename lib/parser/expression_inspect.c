@@ -49,12 +49,12 @@ void *fxp_inspect(void *element) {
   json = fxb_json_gen_wrap_pairs(pair_array);
   verify(json);
 
-  string_free(unwrapped_pair);
+  fxb_string_free(unwrapped_pair);
   fxb_array_free(pair_array);
 
   return json;
 error:
-  if (unwrapped_pair) { string_free(unwrapped_pair); }
+  if (unwrapped_pair) { fxb_string_free(unwrapped_pair); }
   if (pair_array) { fxb_array_free(pair_array); }
   return NULL;
 }
@@ -74,14 +74,14 @@ FxB_String *fxp_expression_join(FxP_Expression *expression, FxB_String *value) {
   FxB_String *json = fxb_json_gen_join_pairs(pairs, ", ");
   verify(json);
 
-  string_free(key);
-  string_free(bald_pair);
+  fxb_string_free(key);
+  fxb_string_free(bald_pair);
   fxb_array_free(pairs);
 
   return json;
 error:
-  if (key) { string_free(key); }
-  if (bald_pair) { string_free(bald_pair); }
+  if (key) { fxb_string_free(key); }
+  if (bald_pair) { fxb_string_free(bald_pair); }
   if (pairs) { fxb_array_free(pairs); }
 
   return NULL;
@@ -119,25 +119,25 @@ FxB_String *fxp_literal_body_inspect(FxP_Literal *expression) {
   FxB_String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
-  string_free(exp_value);
-  string_free(class_key);
-  string_free(class_value);
-  string_free(class_pair);
-  string_free(bit_key);
-  string_free(bit_value);
-  string_free(bit_pair);
+  fxb_string_free(exp_value);
+  fxb_string_free(class_key);
+  fxb_string_free(class_value);
+  fxb_string_free(class_pair);
+  fxb_string_free(bit_key);
+  fxb_string_free(bit_value);
+  fxb_string_free(bit_pair);
 
   fxb_array_free(class_bit_pairs);
 
   return json;
 error:
-  if (exp_value) { string_free(exp_value); }
-  if (class_key) { string_free(class_key); }
-  if (class_value) { string_free(class_value); }
-  if (class_pair) { string_free(class_pair); }
-  if (bit_key) { string_free(bit_key); }
-  if (bit_value) { string_free(bit_value); }
-  if (bit_pair) { string_free(bit_pair); }
+  if (exp_value) { fxb_string_free(exp_value); }
+  if (class_key) { fxb_string_free(class_key); }
+  if (class_value) { fxb_string_free(class_value); }
+  if (class_pair) { fxb_string_free(class_pair); }
+  if (bit_key) { fxb_string_free(bit_key); }
+  if (bit_value) { fxb_string_free(bit_value); }
+  if (bit_pair) { fxb_string_free(bit_pair); }
 
   if (class_bit_pairs) { fxb_array_free(class_bit_pairs); }
 
@@ -177,25 +177,25 @@ FxB_String *fxp_lookup_body_inspect(FxP_Lookup *expression) {
   FxB_String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
-  string_free(exp_value);
-  string_free(type_key);
-  string_free(type_value);
-  string_free(type_pair);
-  string_free(bit_key);
-  string_free(bit_value);
-  string_free(bit_pair);
+  fxb_string_free(exp_value);
+  fxb_string_free(type_key);
+  fxb_string_free(type_value);
+  fxb_string_free(type_pair);
+  fxb_string_free(bit_key);
+  fxb_string_free(bit_value);
+  fxb_string_free(bit_pair);
 
   fxb_array_free(type_bit_pairs);
 
   return json;
 error:
-  if (exp_value) { string_free(exp_value); }
-  if (type_key) { string_free(type_key); }
-  if (type_value) { string_free(type_value); }
-  if (type_pair) { string_free(type_pair); }
-  if (bit_key) { string_free(bit_key); }
-  if (bit_value) { string_free(bit_value); }
-  if (bit_pair) { string_free(bit_pair); }
+  if (exp_value) { fxb_string_free(exp_value); }
+  if (type_key) { fxb_string_free(type_key); }
+  if (type_value) { fxb_string_free(type_value); }
+  if (type_pair) { fxb_string_free(type_pair); }
+  if (bit_key) { fxb_string_free(bit_key); }
+  if (bit_value) { fxb_string_free(bit_value); }
+  if (bit_pair) { fxb_string_free(bit_pair); }
 
   if (type_bit_pairs) { fxb_array_free(type_bit_pairs); }
 
@@ -204,7 +204,7 @@ error:
 
 // array iterator for freeing all the inspections
 void fxp_free_inspection(void *str) {
-  string_free(str);
+  fxb_string_free(str);
 }
 
 FxB_String *fxp_collection_body_inspect(FxP_Expression *expression) {
@@ -219,16 +219,16 @@ FxB_String *fxp_collection_body_inspect(FxP_Expression *expression) {
 
   FxB_String *json = fxp_expression_join(expression, exp_value);
 
-  string_free(exp_value);
+  fxb_string_free(exp_value);
   fxb_array_each(element_inspections, fxp_free_inspection);
   fxb_array_free(element_inspections);
 
   return json;
 error:
-  if (exp_value) { string_free(exp_value); }
+  if (exp_value) { fxb_string_free(exp_value); }
   if (element_inspections) {
     fxb_array_each(element_inspections, fxp_free_inspection);
-    string_free(element_inspections);
+    fxb_string_free(element_inspections);
   }
 
   return NULL;
@@ -246,16 +246,16 @@ FxB_String *fxp_list_body_inspect(FxP_Expression *expression) {
 
   FxB_String *json = fxp_expression_join(expression, exp_value);
 
-  string_free(exp_value);
+  fxb_string_free(exp_value);
   fxb_array_each(element_inspections, fxp_free_inspection);
   fxb_array_free(element_inspections);
 
   return json;
 error:
-  if (exp_value) { string_free(exp_value); }
+  if (exp_value) { fxb_string_free(exp_value); }
   if (element_inspections) {
     fxb_array_each(element_inspections, fxp_free_inspection);
-    string_free(element_inspections);
+    fxb_string_free(element_inspections);
   }
 
   return NULL;
@@ -303,33 +303,33 @@ FxB_String *fxp_method_body_inspect(FxP_Expression *expression) {
   FxB_String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
-  if (receiver_key) { string_free(receiver_key); }
-  if (receiver_value) { string_free(receiver_value); }
-  if (receiver_pair) { string_free(receiver_pair); }
+  if (receiver_key) { fxb_string_free(receiver_key); }
+  if (receiver_value) { fxb_string_free(receiver_value); }
+  if (receiver_pair) { fxb_string_free(receiver_pair); }
 
-  if (message_key) { string_free(message_key); }
-  if (message_value) { string_free(message_value); }
-  if (message_pair) { string_free(message_pair); }
+  if (message_key) { fxb_string_free(message_key); }
+  if (message_value) { fxb_string_free(message_value); }
+  if (message_pair) { fxb_string_free(message_pair); }
 
-  if (arg_value) { string_free(arg_value); }
+  if (arg_value) { fxb_string_free(arg_value); }
 
-  if (exp_value) { string_free(exp_value); }
+  if (exp_value) { fxb_string_free(exp_value); }
 
   if (exp_values) { fxb_array_free(exp_values); }
 
   return json;
 error:
-  if (receiver_key) { string_free(receiver_key); }
-  if (receiver_value) { string_free(receiver_value); }
-  if (receiver_pair) { string_free(receiver_pair); }
+  if (receiver_key) { fxb_string_free(receiver_key); }
+  if (receiver_value) { fxb_string_free(receiver_value); }
+  if (receiver_pair) { fxb_string_free(receiver_pair); }
 
-  if (message_key) { string_free(message_key); }
-  if (message_value) { string_free(message_value); }
-  if (message_pair) { string_free(message_pair); }
+  if (message_key) { fxb_string_free(message_key); }
+  if (message_value) { fxb_string_free(message_value); }
+  if (message_pair) { fxb_string_free(message_pair); }
 
-  if (arg_value) { string_free(arg_value); }
+  if (arg_value) { fxb_string_free(arg_value); }
 
-  if (exp_value) { string_free(exp_value); }
+  if (exp_value) { fxb_string_free(exp_value); }
 
   if (exp_values) { fxb_array_free(exp_values); }
 
@@ -363,27 +363,27 @@ FxB_String *fxp_function_body_inspect(FxP_Expression *expression) {
   FxB_String *json = fxp_expression_join(expression, exp_value);
   verify(json);
 
-  if (arguments_value) { string_free(arguments_value); }
+  if (arguments_value) { fxb_string_free(arguments_value); }
 
-  if (arguments_value) { string_free(arguments_value); }
+  if (arguments_value) { fxb_string_free(arguments_value); }
 
-  if (expressions_key) { string_free(expressions_key); }
-  if (expressions_value) { string_free(expressions_value); }
-  if (expressions_pair) { string_free(expressions_pair); }
+  if (expressions_key) { fxb_string_free(expressions_key); }
+  if (expressions_value) { fxb_string_free(expressions_value); }
+  if (expressions_pair) { fxb_string_free(expressions_pair); }
 
-  if (exp_value) { string_free(exp_value); }
+  if (exp_value) { fxb_string_free(exp_value); }
 
   if (exp_values) { fxb_array_free(exp_values); }
 
   return json;
 error:
-  if (arguments_value) { string_free(arguments_value); }
+  if (arguments_value) { fxb_string_free(arguments_value); }
 
-  if (expressions_key) { string_free(expressions_key); }
-  if (expressions_value) { string_free(expressions_value); }
-  if (expressions_pair) { string_free(expressions_pair); }
+  if (expressions_key) { fxb_string_free(expressions_key); }
+  if (expressions_value) { fxb_string_free(expressions_value); }
+  if (expressions_pair) { fxb_string_free(expressions_pair); }
 
-  if (exp_value) { string_free(exp_value); }
+  if (exp_value) { fxb_string_free(exp_value); }
 
   if (exp_values) { fxb_array_free(exp_values); }
 
@@ -419,24 +419,24 @@ FxB_String *fxp_left_right_inspect(FxP_Expression *expression) {
   exp_value = fxb_json_gen_wrap_pairs(exp_values);
   FxB_String *json = fxp_expression_join(expression, exp_value);
 
-  string_free(right_key);
-  string_free(right_value);
-  string_free(right_pair);
-  string_free(left_key);
-  string_free(left_value);
-  string_free(left_pair);
-  string_free(exp_value);
+  fxb_string_free(right_key);
+  fxb_string_free(right_value);
+  fxb_string_free(right_pair);
+  fxb_string_free(left_key);
+  fxb_string_free(left_value);
+  fxb_string_free(left_pair);
+  fxb_string_free(exp_value);
   fxb_array_free(exp_values);
 
   return json;
 error:
-  if (right_key)    {string_free(right_key); }
-  if (right_key)    {string_free(right_value); }
-  if (right_key)    {string_free(right_pair); }
-  if (left_key)     {string_free(left_key); }
-  if (left_value)   {string_free(left_value); }
-  if (left_pair)    {string_free(left_pair); }
-  if (exp_value)    {string_free(exp_value); }
+  if (right_key)    {fxb_string_free(right_key); }
+  if (right_key)    {fxb_string_free(right_value); }
+  if (right_key)    {fxb_string_free(right_pair); }
+  if (left_key)     {fxb_string_free(left_key); }
+  if (left_value)   {fxb_string_free(left_value); }
+  if (left_pair)    {fxb_string_free(left_pair); }
+  if (exp_value)    {fxb_string_free(exp_value); }
 
   if(exp_values) { fxb_array_free(exp_values); }
 

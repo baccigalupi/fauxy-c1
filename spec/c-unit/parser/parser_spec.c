@@ -15,10 +15,10 @@ char *test_operator_method_call() {
             "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}\n"
         "]}}\n"
       "]}";
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -33,10 +33,10 @@ char *test_implicit_method_call_with_parens() {
             "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}\n"
         "]}}\n"
       "]}";
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -51,10 +51,10 @@ char *test_implicit_method_call_no_parens() {
             "{\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"word\"}}}\n"
         "]}}\n"
       "]}";
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -68,10 +68,10 @@ char *test_empty_function() {
   char *expected =  "{\"expressions\": [\n"
                       "{\"function_definition\": {\"expressions\": [\n\n]}}\n"
                     "]}";
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -84,10 +84,10 @@ char *test_empty_function_with_line_end() {
   char *expected =  "{\"expressions\": [\n"
                       "{\"function_definition\": {\"expressions\": [\n\n]}}\n"
                     "]}";
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -104,10 +104,10 @@ char *test_function_with_expression() {
                       "]}}\n"
                       "]}}\n"
                     "]}";
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -127,10 +127,10 @@ char *test_function_with_multiple_expressions() {
                       "]}}\n"
                       "]}}\n"
                     "]}";
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -153,10 +153,10 @@ char *test_expression_function_with_expression_expression() {
                           "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}}\n"
                       "]}}\n"
                     "]}";
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -171,10 +171,10 @@ char *test_parened_method_call() {
             "{\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"word\"}}}\n"
         "]}}\n"
       "]}";
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -189,10 +189,10 @@ char *test_no_parens_method_call() {
             "{\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"word\"}}}\n"
         "]}}\n"
       "]}";
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -214,10 +214,10 @@ char *test_method_call_with_block() {
                     "]}}\n"
                     "]}";
 
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -239,10 +239,10 @@ char *test_multi_operator_method() {
                     "]}}\n"
                     "]}";
 
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -260,10 +260,10 @@ char *test_function_assignment() {
                     "]}}}}\n"
                     "]}";
 
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -282,10 +282,10 @@ char *test_grouped_expression_method_call() {
                     "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"truncate\"}}}}}\n"
                     "]}";
 
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -303,10 +303,10 @@ char *test_multi_line_group() {
                     "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"truncate\"}}}}}\n"
                     "]}";
 
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -324,10 +324,10 @@ char *test_multi_line_method_call() {
                     "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"truncate\"}}}}}\n"
                     "]}";
 
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   spec_describe("multiline method call:  (n / 10).\n\ttruncate");
   context = parse_string("(n / 10).\n\ntruncate\n");
@@ -341,10 +341,10 @@ char *test_multi_line_method_call() {
                     "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"truncate\"}}}}}\n"
                     "]}";
 
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }
@@ -362,10 +362,10 @@ char *test_multi_line_list() {
                     "]}\n"
                     "]}";
 
-  assert_strings_equal(string_value(inspection), expected, "ast");
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
 
   fxp_parser_context_free(context);
-  string_free(inspection);
+  fxb_string_free(inspection);
 
   return NULL;
 }

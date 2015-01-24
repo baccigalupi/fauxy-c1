@@ -32,7 +32,7 @@ FxP_ParserContext *parse_with_state(FxP_LexWrapper state) {
   return context;
 error:
   if (context) { fxp_parser_context_free(context); }
-  if (error_message) { string_free(error_message); }
+  if (error_message) { fxb_string_free(error_message); }
   return NULL;
 }
 

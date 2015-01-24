@@ -11,11 +11,11 @@ char *test_bald_wrapping_pair() {
 
   FxB_String *pair = fxb_json_gen_bald_pair(key, value);
 
-  assert_strings_equal(string_value(pair), "\"key\": \"value\"", "wrapped key and value");
+  assert_strings_equal(fxb_string_value(pair), "\"key\": \"value\"", "wrapped key and value");
 
-  string_free(pair);
-  string_free(key);
-  string_free(value);
+  fxb_string_free(pair);
+  fxb_string_free(key);
+  fxb_string_free(value);
 
   return NULL;
 }
@@ -26,11 +26,11 @@ char *test_bald_non_wrapping_pair() {
 
   FxB_String *pair = fxb_json_gen_bald_pair(key, value);
 
-  assert_strings_equal(string_value(pair), "\"key\": \"value\"", "direct key and value");
+  assert_strings_equal(fxb_string_value(pair), "\"key\": \"value\"", "direct key and value");
 
-  string_free(pair);
-  string_free(key);
-  string_free(value);
+  fxb_string_free(pair);
+  fxb_string_free(key);
+  fxb_string_free(value);
 
   return NULL;
 }
@@ -46,15 +46,15 @@ char *test_wrap_pair() {
   fxb_array_push(pairs, pair_1);
 
   FxB_String *json = fxb_json_gen_wrap_pairs(pairs);
-  assert_strings_equal(string_value(json), "{\"one\": 1}", "one pair");
+  assert_strings_equal(fxb_string_value(json), "{\"one\": 1}", "one pair");
 
-  string_free(key_1);
-  string_free(value_1);
-  string_free(pair_1);
+  fxb_string_free(key_1);
+  fxb_string_free(value_1);
+  fxb_string_free(pair_1);
 
   fxb_array_free(pairs);
 
-  string_free(json);
+  fxb_string_free(json);
 
   return NULL;
 }
@@ -79,21 +79,21 @@ char *test_wrap_three_pairs() {
   fxb_array_push(pairs, pair_3);
 
   FxB_String *json = fxb_json_gen_wrap_pairs(pairs);
-  assert_strings_equal(string_value(json), "{\"one\": 1, \"two\": 2, \"three\": 3}", "three pairs");
+  assert_strings_equal(fxb_string_value(json), "{\"one\": 1, \"two\": 2, \"three\": 3}", "three pairs");
 
-  string_free(key_1);
-  string_free(key_2);
-  string_free(key_3);
-  string_free(value_1);
-  string_free(value_2);
-  string_free(value_3);
-  string_free(pair_1);
-  string_free(pair_2);
-  string_free(pair_3);
+  fxb_string_free(key_1);
+  fxb_string_free(key_2);
+  fxb_string_free(key_3);
+  fxb_string_free(value_1);
+  fxb_string_free(value_2);
+  fxb_string_free(value_3);
+  fxb_string_free(pair_1);
+  fxb_string_free(pair_2);
+  fxb_string_free(pair_3);
 
   fxb_array_free(pairs);
 
-  string_free(json);
+  fxb_string_free(json);
 
   return NULL;
 }

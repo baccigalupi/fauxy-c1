@@ -16,7 +16,7 @@ char *test_set_and_get_attribute() {
 
   assert_equal(gotten, value, "stored attribute is save as attribute gotten by same key");
 
-  string_free(key);
+  fxb_string_free(key);
   fxn_object_free(object);
   fxn_object_free(value);
   fxi_pool_free(pool);
