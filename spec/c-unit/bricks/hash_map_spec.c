@@ -47,6 +47,33 @@ char *test_set_value_with_literal_key() {
   return NULL;
 }
 
+char *test_getting_value_from_long_list() {
+  spec_describe("Getting right value from bucket with many values");
+
+  FxB_HashMap *hash_map = FxB_HashMap_create(10);
+  FxB_String *wrong_value = FxB_String_create("uh oh!");
+
+  char *key = "key";
+
+  // jury-rigging the indexed list to have another value
+  int index = fxb_hash_map_index_for_key(hash_map, key);
+  FxB_List *list = FxB_List_create();
+  fxb_array_set(fxb_hash_map_values(hash_map), index, list);
+  fxb_list_push(list, wrong_value);
+
+  // building and setting the test value
+  FxB_String *value = FxB_String_create("value");
+  fxb_hash_map_set(hash_map, key, value);
+
+  assert_equal(fxb_hash_map_get(hash_map, key), value, "value same");
+
+  fxb_string_free(value);
+  fxb_string_free(wrong_value);
+  fxb_hash_map_free(hash_map);
+
+  return NULL;
+}
+
 char *test_set_value_with_freed_key() {
   spec_describe("Setting and getting value with a alloced and freed");
 
