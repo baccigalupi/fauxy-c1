@@ -62,7 +62,7 @@ char *test_reset_value() {
 
   assert_equal(fxb_hash_map_get(hash_map, key), value_2, "value same");
   int index = fxb_hash_map_index_for_key(hash_map, key);
-  assert_ints_equal(list_length((FxB_List *)fxb_hash_map_list_at_index(hash_map, index)), 1, "no duplicates for key in list");
+  assert_ints_equal(fxb_list_length((FxB_List *)fxb_hash_map_list_at_index(hash_map, index)), 1, "no duplicates for key in list");
 
   string_free(key);
   string_free(value_1);

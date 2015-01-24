@@ -13,92 +13,92 @@ error:
   return NULL;
 }
 
-void  list_push_node(FxB_List *list, FxB_Node *new_node) {
+void  fxb_list_push_node(FxB_List *list, FxB_Node *new_node) {
   verify(list);
   verify(new_node);
 
-  FxB_Node *current_tail = list_node_last(list);
+  FxB_Node *current_tail = fxb_list_node_last(list);
   if (current_tail) {
     node_next(current_tail) = new_node;
     node_prev(new_node)     = current_tail;
   } else {
-    list_node_first(list)   = new_node;
+    fxb_list_node_first(list)   = new_node;
   }
 
-  list_node_last(list) = new_node;
-  list_length(list) ++;
+  fxb_list_node_last(list) = new_node;
+  fxb_list_length(list) ++;
 error:
   return;
 }
 
-void list_push(FxB_List *list, void *value) {
+void fxb_list_push(FxB_List *list, void *value) {
   verify(list);
 
   FxB_Node *new_node = FxB_Node_create(value);
-  list_push_node(list, new_node);
+  fxb_list_push_node(list, new_node);
 
   return;
 error:
   return;
 }
 
-void list_unshift_node(FxB_List *list, FxB_Node *new_node) {
+void fxb_list_unshift_node(FxB_List *list, FxB_Node *new_node) {
   verify(list);
   verify(new_node);
 
-  FxB_Node *current_head = list_node_first(list);
+  FxB_Node *current_head = fxb_list_node_first(list);
   if (current_head) {
     node_prev(current_head) = new_node;
     node_next(new_node) = current_head;
   } else {
-    list_node_last(list) = new_node;
+    fxb_list_node_last(list) = new_node;
   }
 
-  list_node_first(list) = new_node;
-  list_length(list) ++;
+  fxb_list_node_first(list) = new_node;
+  fxb_list_length(list) ++;
 error:
   return;
 }
 
-void list_unshift(FxB_List *list, void *value) {
+void fxb_list_unshift(FxB_List *list, void *value) {
   verify(list);
 
   FxB_Node *new_node = FxB_Node_create(value);
-  list_unshift_node(list, new_node);
+  fxb_list_unshift_node(list, new_node);
 
   return;
 error:
   return;
 }
 
-FxB_Node *list_pop_node(FxB_List *list) {
+FxB_Node *fxb_list_pop_node(FxB_List *list) {
   verify(list);
 
-  FxB_Node *old_tail = list_node_last(list);
+  FxB_Node *old_tail = fxb_list_node_last(list);
   if (!old_tail) { return NULL; }
 
   FxB_Node *new_tail = node_prev(old_tail);
   if (new_tail) {
     node_next(new_tail) = NULL;   // set penultimate next to null
-    list_node_last(list) = new_tail;   // set last on list to penultimate
+    fxb_list_node_last(list) = new_tail;   // set last on list to penultimate
   } else {
     // if there is no new tail, it is empty yo!
-    list_node_last(list) = NULL;
-    list_node_first(list) = NULL;
+    fxb_list_node_last(list) = NULL;
+    fxb_list_node_first(list) = NULL;
   }
 
-  list_length(list) --;          // decrement list count
+  fxb_list_length(list) --;          // decrement list count
 
   return old_tail;
 error:
   return NULL;
 }
 
-void *list_pop(FxB_List *list) {
+void *fxb_list_pop(FxB_List *list) {
   verify(list);
-  if (!list_node_last(list)) { return NULL; }
+  if (!fxb_list_node_last(list)) { return NULL; }
 
-  FxB_Node *old_tail = list_pop_node(list);
+  FxB_Node *old_tail = fxb_list_pop_node(list);
   void *value = NULL;
   if (old_tail) {
     value = node_value(old_tail);
@@ -110,29 +110,29 @@ error:
   return NULL;
 }
 
-FxB_Node *list_shift_node(FxB_List *list) {
+FxB_Node *fxb_list_shift_node(FxB_List *list) {
   verify(list);
 
-  FxB_Node *old_head = list_node_first(list);
+  FxB_Node *old_head = fxb_list_node_first(list);
   if (!old_head) { return NULL; }
 
   FxB_Node *new_head = node_next(old_head);
-  list_node_first(list) = new_head;
+  fxb_list_node_first(list) = new_head;
   if (!new_head) {
-    list_node_last(list) = NULL;
+    fxb_list_node_last(list) = NULL;
   }
 
-  list_length(list) --;
+  fxb_list_length(list) --;
 
   return old_head;
 error:
   return NULL;
 }
 
-void *list_shift(FxB_List *list) {
+void *fxb_list_shift(FxB_List *list) {
   verify(list);
 
-  FxB_Node *old_head = list_shift_node(list);
+  FxB_Node *old_head = fxb_list_shift_node(list);
 
   void *value = NULL;
   if (old_head) {
@@ -146,10 +146,10 @@ error:
   return NULL;
 }
 
-void list_free(FxB_List *list) {
+void fxb_list_free(FxB_List *list) {
   verify(list);
 
-  FxB_Node *node = list_node_first(list);
+  FxB_Node *node = fxb_list_node_first(list);
 
   if (node != NULL) {
     FxB_Node *next;
@@ -166,10 +166,10 @@ error:
   return;
 }
 
-void  list_r_free(FxB_List *list) {
+void  fxb_list_r_free(FxB_List *list) {
   verify(list);
 
-  FxB_Node *node = list_node_first(list);
+  FxB_Node *node = fxb_list_node_first(list);
   if (node != NULL) {
     FxB_Node *next;
 

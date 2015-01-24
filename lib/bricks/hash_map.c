@@ -36,7 +36,7 @@ FxB_Node *fxb_hash_map_get_node(FxB_HashMap *hash_map, FxB_String *key) {
 
   if (!list) { return node; }
 
-  list_each(list, current_node) {
+  fxb_list_each(list, current_node) {
     if ( (node_hash(current_node) == string_hash(key)) && strings_equal(node_key(current_node), key) ) {
       node = current_node;
       break;
@@ -64,10 +64,10 @@ void fxb_hash_map_set(FxB_HashMap *hash_map, FxB_String *key, void *value) {
   } else {
     // create node
     FxB_List *list = fxb_hash_map_list_at_index(hash_map, index);
-    list_push(list, value);
+    fxb_list_push(list, value);
 
     // set extra node attributes
-    node = list_node_last(list);
+    node = fxb_list_node_last(list);
     node_hash(node) = string_hash(key);
     node_key(node) = key;
   }
@@ -85,7 +85,7 @@ void fxb_hash_map_free_list_values(FxB_HashMap *hash_map) {
   for(i = 0; i < length; i++) {
     FxB_List *list = fxb_array_at_index(values, i);
     if (list) {
-      list_free(list);
+      fxb_list_free(list);
     }
   }
 }

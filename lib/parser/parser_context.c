@@ -17,12 +17,12 @@ FxP_ParserContext *FxP_ParserContext_create() {
   FxP_Expressions *expressions = FxP_Expressions_create();
   verify(expressions);
 
-  list_push(list, expressions);
+  fxb_list_push(list, expressions);
 
   return context;
 error:
   if (context)  { fx_pfree(context); }
-  if (list)     { list_free(list); }
+  if (list)     { fxb_list_free(list); }
   return NULL;
 }
 
@@ -32,10 +32,10 @@ void fxp_parser_context_free(FxP_ParserContext *context) {
   }
 
   FxB_Node *node = NULL;
-  list_each(fxp_parser_context_list(context), node) {
+  fxb_list_each(fxp_parser_context_list(context), node) {
     fxp_expression_free(node_value(node));
   }
-  list_free(fxp_parser_context_list(context));
+  fxb_list_free(fxp_parser_context_list(context));
 
   fx_pfree(context);
 }
