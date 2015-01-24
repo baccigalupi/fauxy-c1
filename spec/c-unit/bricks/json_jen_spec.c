@@ -43,7 +43,7 @@ char *test_wrap_pair() {
   FxB_String *pair_1 = json_gen_bald_pair(key_1, value_1);
 
   FxB_Array *pairs = FxB_Array_create(1);
-  array_push(pairs, pair_1);
+  fxb_array_push(pairs, pair_1);
 
   FxB_String *json = json_gen_wrap_pairs(pairs);
   assert_strings_equal(string_value(json), "{\"one\": 1}", "one pair");
@@ -52,7 +52,7 @@ char *test_wrap_pair() {
   string_free(value_1);
   string_free(pair_1);
 
-  array_free(pairs);
+  fxb_array_free(pairs);
 
   string_free(json);
 
@@ -74,9 +74,9 @@ char *test_wrap_three_pairs() {
   FxB_String *pair_3 = json_gen_bald_pair(key_3, value_3);
 
   FxB_Array *pairs = FxB_Array_create(3);
-  array_push(pairs, pair_1);
-  array_push(pairs, pair_2);
-  array_push(pairs, pair_3);
+  fxb_array_push(pairs, pair_1);
+  fxb_array_push(pairs, pair_2);
+  fxb_array_push(pairs, pair_3);
 
   FxB_String *json = json_gen_wrap_pairs(pairs);
   assert_strings_equal(string_value(json), "{\"one\": 1, \"two\": 2, \"three\": 3}", "three pairs");
@@ -91,7 +91,7 @@ char *test_wrap_three_pairs() {
   string_free(pair_2);
   string_free(pair_3);
 
-  array_free(pairs);
+  fxb_array_free(pairs);
 
   string_free(json);
 

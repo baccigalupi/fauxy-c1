@@ -214,7 +214,7 @@ FxB_String *fxp_bit_inspect(FxP_Bit *bit) {
 
   pairs = FxB_Array_create(1);
   verify(pairs);
-  array_push(pairs, pair);
+  fxb_array_push(pairs, pair);
 
   json = json_gen_wrap_pairs(pairs);
   verify(json);
@@ -222,13 +222,13 @@ FxB_String *fxp_bit_inspect(FxP_Bit *bit) {
   string_free(bit_key);
   string_free(bit_value);
   string_free(pair);
-  array_free(pairs);
+  fxb_array_free(pairs);
 
   return json;
 error:
   if (bit_key) { string_free(bit_key); }
   if (bit_value) { string_free(bit_value); }
   if (pair) { string_free(pair); }
-  if (pairs) { array_free(pairs); }
+  if (pairs) { fxb_array_free(pairs); }
   return NULL;
 }

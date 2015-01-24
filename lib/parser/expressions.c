@@ -28,14 +28,14 @@ void fxp_expression_free(void *void_expression) {
   if (type == FXP_ST_LITERAL || type == FXP_ST_LOOKUP) {
     fxp_expression_free_typed_guts(expression);
   } else {
-    array_each(fxp_expression_value(expression), fxp_expression_free);
+    fxb_array_each(fxp_expression_value(expression), fxp_expression_free);
   }
 
   fxp_expression_free_husk(expression);
 }
 
 void fxp_expression_free_husk(FxP_Expression *expression) {
-  array_free(fxp_expression_value(expression));
+  fxb_array_free(fxp_expression_value(expression));
   fx_pfree(expression);
 }
 
@@ -59,8 +59,8 @@ FxP_Expression *FxP_TypedExpression_create(FxP_Bit *bit, int exp_type, int token
   FxB_Array *values = fxp_expression_value(expression);
   int *type = fx_alloc(int);
   *type = token_type;
-  array_push(values, type);
-  array_push(values, bit);
+  fxb_array_push(values, type);
+  fxb_array_push(values, bit);
 
   return expression;
 error:

@@ -53,7 +53,7 @@ void hash_map_set(FxB_HashMap *hash_map, FxB_String *key, void *value) {
   FxB_List *list = hash_map_list_at_index(hash_map, index);
   if ( !list ) {
     list = FxB_List_create();
-    array_set(hash_map_values(hash_map), index, list);
+    fxb_array_set(hash_map_values(hash_map), index, list);
     verify(hash_map_list_at_index(hash_map, index));
   }
 
@@ -81,9 +81,9 @@ void hash_map_free_list_values(FxB_HashMap *hash_map) {
   int i;
   FxB_Array *values = hash_map_values(hash_map);
 
-  int length = array_length(values);
+  int length = fxb_array_length(values);
   for(i = 0; i < length; i++) {
-    FxB_List *list = array_at_index(values, i);
+    FxB_List *list = fxb_array_at_index(values, i);
     if (list) {
       list_free(list);
     }

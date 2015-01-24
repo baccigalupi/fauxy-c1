@@ -32,8 +32,8 @@ typedef struct FxB_String {
 
 #define FxB_String_create_blank() FxB_String_create_with_capacity(0);
 
-FxB_String        *FxB_String_create(CHAR *value);
-FxB_String        *FxB_String_create_with_capacity(int capacity);
+FxB_String    *FxB_String_create(CHAR *value);
+FxB_String    *FxB_String_create_with_capacity(int capacity);
 int            FxB_String_offset(int capacity, int length);
 Boolean        string_expand(FxB_String *string, int length);
 
@@ -45,7 +45,7 @@ Boolean        string_unshift_char(FxB_String *string, CHAR c);
 Boolean        string_unshift_chars(FxB_String *string, CHAR *str);
 Boolean        string_unshift_string(FxB_String *string, FxB_String *addition);
 
-FxB_String        *string_duplicate(FxB_String *original);
+FxB_String    *string_duplicate(FxB_String *original);
 Boolean        string_wrap(FxB_String *original, CHAR start_char, CHAR end_char);
 
 // TODO: move somewhere else??

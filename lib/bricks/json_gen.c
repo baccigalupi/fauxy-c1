@@ -24,10 +24,10 @@ FxB_String *json_gen_join_pairs(FxB_Array *pairs, char *joiner) {
   FxB_String *joined = FxB_String_create_blank();
   verify(joined);
 
-  int length = array_length(pairs);
+  int length = fxb_array_length(pairs);
   int i;
   for(i = 0; i < length; i++) {
-    verify(string_add_string(joined, array_get(pairs, i)));
+    verify(string_add_string(joined, fxb_array_get(pairs, i)));
     if (i < length - 1) {
       verify(string_add_chars(joined, joiner));
     }

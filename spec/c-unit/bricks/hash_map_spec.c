@@ -10,8 +10,8 @@ char *test_create_hash() {
 
   assert_ints_equal(hash_map_capacity(hash_map), 100, "capacity");
   assert_ints_equal(hash_map_length(hash_map), 0,  "length");
-  assert_ints_equal(array_capacity(hash_map_values(hash_map)), 100, "values capacity");
-  assert_ints_equal(array_length(hash_map_values(hash_map)), 0, "values length");
+  assert_ints_equal(fxb_array_capacity(hash_map_values(hash_map)), 100, "values capacity");
+  assert_ints_equal(fxb_array_length(hash_map_values(hash_map)), 0, "values length");
 
   hash_map_free(hash_map);
   return NULL;

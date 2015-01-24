@@ -7,8 +7,8 @@
 FxB_Array *FxB_Array_create(int capacity) {
   FxB_Array *array = calloc(1, sizeof(FxB_Array));
   verify_memory(array);
-  array_length(array) = 0;
-  array_capacity(array)  = capacity;
+  fxb_array_length(array) = 0;
+  fxb_array_capacity(array)  = capacity;
 
   void **values = calloc(capacity, sizeof(void *));
   verify_memory(values);
@@ -20,95 +20,95 @@ error:
   return NULL;
 }
 
-void array_push(FxB_Array *array, void *element) {
-  if (array_capacity(array) == array_length(array)) {
-    int capacity = Expandable_capacity(array_capacity(array));
-    Boolean success = array_expand(array, capacity);
+void fxb_array_push(FxB_Array *array, void *element) {
+  if (fxb_array_capacity(array) == fxb_array_length(array)) {
+    int capacity = Expandable_capacity(fxb_array_capacity(array));
+    Boolean success = fxb_array_expand(array, capacity);
     verify(success);
   }
 
-  array_values(array)[array_length(array)] = element;
-  array_length(array) ++;
+  fxb_array_values(array)[fxb_array_length(array)] = element;
+  fxb_array_length(array) ++;
 error:
   return;
 }
 
-Boolean array_expand(FxB_Array *array, int capacity) {
-  void **values = realloc(array_values(array), sizeof(void *) * capacity);
+Boolean fxb_array_expand(FxB_Array *array, int capacity) {
+  void **values = realloc(fxb_array_values(array), sizeof(void *) * capacity);
   verify_memory(values);
-  array_values(array) = values;
-  array_capacity(array)  = capacity;
+  fxb_array_values(array) = values;
+  fxb_array_capacity(array)  = capacity;
 
   return true;
 error:
   return false;
 }
 
-void array_each(FxB_Array *array, FxB_ArrayIterator f) {
+void fxb_array_each(FxB_Array *array, FxB_ArrayIterator f) {
   int i;
   void *element;
-  for (i = 0; i < array_length(array); i++) {
-    element = array_at_index(array, i);
+  for (i = 0; i < fxb_array_length(array); i++) {
+    element = fxb_array_at_index(array, i);
     f(element);
   }
 }
 
-void array_reverse_each(FxB_Array *array, FxB_ArrayIterator f) {
+void fxb_array_reverse_each(FxB_Array *array, FxB_ArrayIterator f) {
   int i;
   void *element;
-  for (i = array_length(array) - 1; i >= 0; i--) {
-    element = array_at_index(array, i);
+  for (i = fxb_array_length(array) - 1; i >= 0; i--) {
+    element = fxb_array_at_index(array, i);
     f(element);
   }
 }
 
-FxB_Array *array_map(FxB_Array *array, FxB_ArrayMapIterator f) {
-  FxB_Array *mapped = FxB_Array_create(array_length(array));
+FxB_Array *fxb_array_map(FxB_Array *array, FxB_ArrayMapIterator f) {
+  FxB_Array *mapped = FxB_Array_create(fxb_array_length(array));
   int i;
   void *element;
-  for (i = 0; i < array_length(array); i++) {
-    element = array_at_index(array, i);
-    array_set(mapped, i, f(element));
+  for (i = 0; i < fxb_array_length(array); i++) {
+    element = fxb_array_at_index(array, i);
+    fxb_array_set(mapped, i, f(element));
   }
 
   return mapped;
 }
 
-FxB_Array *array_reverse_map(FxB_Array *array, FxB_ArrayMapIterator f) {
-  FxB_Array *mapped = FxB_Array_create(array_length(array));
+FxB_Array *fxb_array_reverse_map(FxB_Array *array, FxB_ArrayMapIterator f) {
+  FxB_Array *mapped = FxB_Array_create(fxb_array_length(array));
   int i;
   void *element;
-  for (i = array_length(array) - 1; i >= 0; i--) {
-    element = array_at_index(array, i);
-    array_push(mapped, f(element));
+  for (i = fxb_array_length(array) - 1; i >= 0; i--) {
+    element = fxb_array_at_index(array, i);
+    fxb_array_push(mapped, f(element));
   }
 
   return mapped;
 }
 
-void *array_pop(FxB_Array *array) {
+void *fxb_array_pop(FxB_Array *array) {
   void *value = NULL;
 
-  if (array_length(array) > 0) {
-    int index = array_length(array) - 1;
-    value = array_at_index(array, index);
-    array_at_index(array, index) = NULL;
-    array_length(array)--;
+  if (fxb_array_length(array) > 0) {
+    int index = fxb_array_length(array) - 1;
+    value = fxb_array_at_index(array, index);
+    fxb_array_at_index(array, index) = NULL;
+    fxb_array_length(array)--;
   }
 
   return value;
 }
 
-void array_set(FxB_Array *array, int index, void *value) {
-  if (array_capacity(array) <= index) {
+void fxb_array_set(FxB_Array *array, int index, void *value) {
+  if (fxb_array_capacity(array) <= index) {
     int capacity = Expandable_capacity(index);
-    Boolean success = array_expand(array, capacity);
+    Boolean success = fxb_array_expand(array, capacity);
     verify(success);
   }
 
-  array_at_index(array, index) = value;
-  if (array_length(array) < index + 1) {
-    array_length(array) = index + 1;
+  fxb_array_at_index(array, index) = value;
+  if (fxb_array_length(array) < index + 1) {
+    fxb_array_length(array) = index + 1;
   }
 error:
   return;

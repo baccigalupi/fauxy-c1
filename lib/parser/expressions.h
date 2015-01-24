@@ -47,10 +47,10 @@ enum {
 
 #define fxp_expression_type(E)            ((E)->type)
 #define fxp_expression_value(E)           ((E)->value)
-#define fxp_expression_value_at(E, I)     (FxP_Expression *)(array_get(fxp_expression_value(E), I))
-#define fxp_expression_value_set(E, I, V) (array_set(fxp_expression_value(E), I, V))
-#define fxp_expression_length(E)          (array_length(fxp_expression_value(E)))
-#define fxp_expression_push(E, V)         (array_push(fxp_expression_value(E), V))
+#define fxp_expression_value_at(E, I)     (FxP_Expression *)(fxb_array_get(fxp_expression_value(E), I))
+#define fxp_expression_value_set(E, I, V) (fxb_array_set(fxp_expression_value(E), I, V))
+#define fxp_expression_length(E)          (fxb_array_length(fxp_expression_value(E)))
+#define fxp_expression_push(E, V)         (fxb_array_push(fxp_expression_value(E), V))
 
 FxP_Expression *FxP_Expression_create(int type);
 void            fxp_expression_free(void *expression);
@@ -63,9 +63,9 @@ FxP_Expressions *FxP_Expressions_create();
 FxP_Expression *FxP_TypedExpression_create(FxP_Bit *bit, int type, int token_type);
 void            fxp_expression_free_typed_guts(FxP_Expression *expression);
 
-#define fxp_typed__type(E)           (array_get(fxp_expression_value(E), 0))
+#define fxp_typed__type(E)           (fxb_array_get(fxp_expression_value(E), 0))
 #define fxp_typed_type(E)            (*((int *)fxp_typed__type(E)))
-#define fxp_typed_bit(E)             (FxP_Bit *)(array_get(fxp_expression_value(E), 1))
+#define fxp_typed_bit(E)             (FxP_Bit *)(fxb_array_get(fxp_expression_value(E), 1))
 
 // Literals have value array [token_type, bit]
 #define fxp_literal__type(E)           fxp_typed__type(E)
