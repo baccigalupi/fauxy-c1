@@ -6,10 +6,10 @@ FLEX=/usr/local/Cellar/flex/2.5.37/bin/flex
 CFLAGS=-g -O3 -std=gnu11 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
 LIBS=-ldl $(OPTLIBS)
 
-SOURCES=$(wildcard lib/**/*.c lib/*.c)
+SOURCES=$(wildcard lib/**/*.c lib/*.c lib/*/**/*.c)
 OBJECTS=$(patsubst %.c,%.o,$(SOURCES))
 
-TEST_SRC=$(wildcard spec/c-unit/**/*_spec.c spec/c-unit/*_spec.c)
+TEST_SRC=$(wildcard spec/c-unit/**/*_spec.c spec/c-unit/*_spec.c spec/c-unit/*/**/*_spec.c)
 TESTS=$(patsubst %.c,%,$(TEST_SRC))
 
 TARGET=build/fauxy.a
@@ -45,6 +45,9 @@ lib/parser/lex.yy.c: lib/parser/lex.l
 run:
 	bin/fauxy
 # ---------
+
+list-tests:
+	echo $(TEST_SRC)
 
 # C unit tests
 c-unit: CFLAGS += $(TARGET) lib/parser/parse.tab.c lib/parser/lex.yy.c
