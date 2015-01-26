@@ -9,11 +9,10 @@
 #define fxn_boolean_value(O)                (fxp_literal_type(fxn_boolean__value(O)) == TOKEN_TRUE ? 1 : 0)
 
 FxN_Object *FxN_Boolean_create(FxI_Pool *pool, FxP_Literal *value);
-//FxN_Object *fxn_boolean_is_true(FxN_Object *self);
-//FxN_Object *fxn_boolean_is_false(FxN_Object *self);
-/*FxN_Object *FxN_Boolean_not(FxN_Object *boolean);*/
-/*FxN_Object *FxN_Boolean_to_string(FxN_Object *boolean);*/
-/*FxN_Object *FxN_Boolean_to_json();*/
+FxN_Object *fxn_boolean_is_truthy(FxN_Object *self);
+FxN_Object *fxn_boolean_not(FxN_Object *boolean);
+/*FxN_Object *fxn_boolean_to_json();*/
+/*FxN_Object *fxn_boolean_to_string(FxN_Object *boolean);*/
 
 
 #endif
