@@ -23,6 +23,7 @@ void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
   FxI_Pool *pool = fxi_interpreter_pool(self);
 
   // do stuff to setup classes
+  // Object
   // Boolean
   // Nil
   // Integer
@@ -37,16 +38,17 @@ void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
 void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
   FxI_Pool *pool = fxi_interpreter_pool(self);
 
-  // Booleans ---------
+  // Booleans & Nil ---------
   FxP_Expression *false_literal = FxP_Literal_create(NULL, TOKEN_FALSE);
   FxN_Object *false_object = FxN_Boolean_create(pool, false_literal);
 
   FxP_Expression *true_literal = FxP_Literal_create(NULL, TOKEN_TRUE);
   FxN_Object *true_object = FxN_Boolean_create(pool, true_literal);
 
+  FxP_Expression *nil_literal = FxP_Literal_create(NULL, TOKEN_NIL);
+  FxN_Object *nil_object = FxN_Boolean_create(pool, nil_literal);
+
   fxi_literal_set(pool, "false", false_object);
-  fxi_literal_set(pool, "true", true_object);
-
-  // Nil ---------
-
+  fxi_literal_set(pool, "true",  true_object);
+  fxi_literal_set(pool, "nil",   nil_object);
 }
