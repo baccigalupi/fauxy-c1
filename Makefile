@@ -1,10 +1,11 @@
-# Yosemite comes with a version of bison and flex, Homebrew does not overwrite them
+# Yosemite comes with a version of bison and flex,
+# Homebrew does not overwrite them
 BISON=/usr/local/Cellar/bison/3.0.2/bin/bison
 FLEX=/usr/local/Cellar/flex/2.5.37/bin/flex
 
 # currently any optimization -O1 to -O3 causes the parser/bit.c code to segfault
 CFLAGS=-g -O3 -std=gnu11 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
-LIBS=-ldl $(OPTLIBS)
+LIBS=-ldl $(OPTLIBS) -ljansson
 
 SOURCES=$(wildcard lib/**/*.c lib/*.c lib/*/**/*.c)
 OBJECTS=$(patsubst %.c,%.o,$(SOURCES))
