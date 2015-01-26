@@ -29,6 +29,11 @@
 #define print_float_expectation(A, B)   (printf("    Expected %f to be %f\n", (float)A, (float)B))
 #define print_string_expectation(A, B)  (printf("    Expected '%s' to be    '%s'\n", A, B))
 
+#define assert_truthy(A, S)       (                                                                 \
+                                    (!!(A)) ?                                                       \
+                                    ((++assertions_passed) && (print_success(S))) :                 \
+                                    ((++assertions_failed), (print_failure(S)), (print_location())) \
+                                  )
 
 #define assert_equal(A, B, S)     (                                                                 \
                                     ((A) == (B)) ?                                                  \

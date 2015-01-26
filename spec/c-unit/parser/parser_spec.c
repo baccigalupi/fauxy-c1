@@ -48,7 +48,7 @@ char *test_implicit_method_call_no_parens() {
   FxB_String *inspection = fxp_parser_inspect(context);
   char *expected = "{\"expressions\": [\n"
         "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"method_arguments\": [\n"
-            "{\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"word\"}}}\n"
+            "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"word\"}}}\n"
         "]}}\n"
       "]}";
   assert_strings_equal(fxb_string_value(inspection), expected, "ast");
@@ -123,7 +123,7 @@ char *test_function_with_multiple_expressions() {
                           "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}\n"
                       "]}},\n"
                       "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"method_arguments\": [\n"
-                          "{\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"word\"}}}\n"
+                          "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"word\"}}}\n"
                       "]}}\n"
                       "]}}\n"
                     "]}";
@@ -146,7 +146,7 @@ char *test_expression_function_with_expression_expression() {
                       "]}},\n"
                       "{\"function_definition\": {\"expressions\": [\n"
                       "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"method_arguments\": [\n"
-                          "{\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"word\"}}}\n"
+                          "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"word\"}}}\n"
                       "]}}\n"
                       "]}},\n"
                       "{\"method_call\": {\"receiver\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"*\"}}}, \"method_arguments\": [\n"
@@ -168,7 +168,7 @@ char *test_parened_method_call() {
   FxB_String *inspection = fxp_parser_inspect(context);
   char *expected = "{\"expressions\": [\n"
         "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Class Identifier\", \"bit\": {\"STRING\": \"Print\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"line\"}}}, \"method_arguments\": [\n"
-            "{\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"word\"}}}\n"
+            "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"word\"}}}\n"
         "]}}\n"
       "]}";
   assert_strings_equal(fxb_string_value(inspection), expected, "ast");
@@ -186,7 +186,7 @@ char *test_no_parens_method_call() {
   FxB_String *inspection = fxp_parser_inspect(context);
   char *expected = "{\"expressions\": [\n"
         "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Class Identifier\", \"bit\": {\"STRING\": \"Print\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"line\"}}}, \"method_arguments\": [\n"
-            "{\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"word\"}}}\n"
+            "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"word\"}}}\n"
         "]}}\n"
       "]}";
   assert_strings_equal(fxb_string_value(inspection), expected, "ast");
@@ -256,7 +256,7 @@ char *test_function_assignment() {
                     "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"convert\"}}}, \"right\": {\"function_definition\": {\"function_arguments\": [\n"
                     "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"n\"}}}, \"right\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 11}}}}}\n"
                     "], \"expressions\": [\n"
-                    "{\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"eleven\"}}}\n"
+                    "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"eleven\"}}}\n"
                     "]}}}}\n"
                     "]}";
 

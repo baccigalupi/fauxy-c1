@@ -5,7 +5,7 @@
 
 echo "\n\nRunning C Specs:"
 
-for i in $(find ./spec/c-unit -name "*_spec" -type f -maxdepth 4) $specs/*_spec
+for i in $(find ./spec/c-unit -name "*_spec" -type f -not -iwholename "**/*.dSYM/**") $specs/*_spec
 do
   if test -f $i
   then

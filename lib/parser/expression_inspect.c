@@ -100,20 +100,32 @@ FxB_String *fxp_literal_body_inspect(FxP_Literal *expression) {
 
   FxB_Array *class_bit_pairs = NULL;
 
+  class_bit_pairs = FxB_Array_create(2);
+  verify(class_bit_pairs);
+
   class_key = FxB_String_create("class");
   class_value = fxp_literal_class_description(expression);
   class_pair = fxb_json_gen_bald_pair(class_key, class_value);
   verify(class_pair);
-
-  bit_key = FxB_String_create("bit");
-  bit_value = fxp_bit_inspect(fxp_literal_bit(expression));
-  bit_pair = fxb_json_gen_bald_pair(bit_key, bit_value);
-  verify(bit_pair);
-
-  class_bit_pairs = FxB_Array_create(2);
-  verify(class_bit_pairs);
   fxb_array_push(class_bit_pairs, class_pair);
-  fxb_array_push(class_bit_pairs, bit_pair);
+
+  if (fxp_literal_bit(expression)) {
+    bit_key = FxB_String_create("bit");
+    bit_value = fxp_bit_inspect(fxp_literal_bit(expression));
+    bit_pair = fxb_json_gen_bald_pair(bit_key, bit_value);
+    verify(bit_pair);
+    fxb_array_push(class_bit_pairs, bit_pair);
+  } else if ( fxp_literal_type(expression) == TOKEN_TRUE || fxp_literal_type(expression) == TOKEN_FALSE ) {
+    bit_key = FxB_String_create("value");
+    if ( fxp_literal_type(expression) == TOKEN_TRUE ) {
+      bit_value = FxB_String_create("true");
+    } else {
+      bit_value = FxB_String_create("false");
+    }
+    bit_pair = fxb_json_gen_bald_pair(bit_key, bit_value);
+    verify(bit_pair);
+    fxb_array_push(class_bit_pairs, bit_pair);
+  }
 
   exp_value = fxb_json_gen_wrap_pairs(class_bit_pairs);
   FxB_String *json = fxp_expression_join(expression, exp_value);
@@ -123,9 +135,9 @@ FxB_String *fxp_literal_body_inspect(FxP_Literal *expression) {
   fxb_string_free(class_key);
   fxb_string_free(class_value);
   fxb_string_free(class_pair);
-  fxb_string_free(bit_key);
-  fxb_string_free(bit_value);
-  fxb_string_free(bit_pair);
+  if (bit_key)    { fxb_string_free(bit_key); }
+  if (bit_value)  { fxb_string_free(bit_value); }
+  if (bit_pair)   { fxb_string_free(bit_pair); }
 
   fxb_array_free(class_bit_pairs);
 
@@ -484,9 +496,9 @@ FxB_String *fxp_literal_class_description(FxP_Literal *literal) {
   FxB_String *description;
 
   if (fxp_literal_type(literal) == TOKEN_STRING) {
-    description = FxB_String_create("\"FxB_String\"");
+    description = FxB_String_create("\"String\"");
   } else if (fxp_literal_type(literal) == TOKEN_EVAL_STRING) {
-    description = FxB_String_create("\"FxB_String.Evaluable\"");
+    description = FxB_String_create("\"EvalString\"");
   } else if (fxp_literal_type(literal) == TOKEN_REGEX) {
     description = FxB_String_create("\"Regex\"");
   } else if (fxp_literal_type(literal) == TOKEN_SYMBOL) {
@@ -498,9 +510,9 @@ FxB_String *fxp_literal_class_description(FxP_Literal *literal) {
   } else if (fxp_literal_type(literal) == TOKEN_NIL) {
     description = FxB_String_create("\"Nil\"");
   } else if (fxp_literal_type(literal) == TOKEN_TRUE) {
-    description = FxB_String_create("\"True\"");
+    description = FxB_String_create("\"Boolean\"");
   } else if (fxp_literal_type(literal) == TOKEN_FALSE) {
-    description = FxB_String_create("\"False\"");
+    description = FxB_String_create("\"Boolean\"");
   } else {
     description = FxB_String_create_blank();
   }

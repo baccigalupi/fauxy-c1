@@ -41,7 +41,9 @@ void fxp_expression_free_husk(FxP_Expression *expression) {
 
 void fxp_expression_free_typed_guts(FxP_Expression *expression) {
   fx_pfree(fxp_typed__type(expression));
-  fxp_bit_free(fxp_typed_bit(expression));
+  if (fxp_typed_bit(expression)) {
+    fxp_bit_free(fxp_typed_bit(expression));
+  }
 }
 
 FxP_Expressions *FxP_Expressions_create() {

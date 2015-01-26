@@ -19,20 +19,35 @@ char *test_create_literal() {
   return NULL;
 }
 
-char *test_inspect_literal() {
-  spec_describe("inspecting a literal expression");
+char *test_inspect_literal_with_bit() {
+  spec_describe("inspecting a literal expression with bit");
 
   FxP_Bit *bit = FxP_Bit_create(TOKEN_STRING, "\"hello world\"");
   FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_STRING);
 
   FxB_String *inspection = fxp_inspect(literal);
-  assert_strings_equal(fxb_string_value(inspection), "{\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"hello worl...\"}}}", "json");
+  assert_strings_equal(fxb_string_value(inspection), "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}", "json");
 
   fxp_expression_free(literal);
   fxb_string_free(inspection);
 
   return NULL;
 }
+
+char *test_inspect_literal_without_bit() {
+  spec_describe("inspecting a literal expression without bit");
+
+  FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_TRUE);
+
+  FxB_String *inspection = fxp_inspect(literal);
+  assert_strings_equal(fxb_string_value(inspection), "{\"literal\": {\"class\": \"Boolean\", \"value\": true}}", "json");
+
+  fxp_expression_free(literal);
+  fxb_string_free(inspection);
+
+  return NULL;
+}
+
 
 char *test_inspect_lookup() {
   spec_describe("inspecting a lookup expression");
@@ -61,7 +76,7 @@ char *test_inspect_list() {
   FxP_FxB_List    *list = FxP_FxB_List_create_double(arg_1, arg_2);
 
   FxB_String *inspection = fxp_inspect(list);
-  char *expected = "{\"list\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}";
+  char *expected = "{\"list\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}";
   assert_strings_equal(fxb_string_value(inspection), expected, "json");
 
   fxp_expression_free(list);
@@ -82,7 +97,7 @@ char *test_inspect_implicit_method() {
   // print "hello world"
   FxP_Method *method = FxP_Method_create_implicit(message, arg);
   FxB_String *inspection = fxp_inspect(method);
-  char *expected = "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"method_arguments\": [\n{\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}}";
+  char *expected = "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"method_arguments\": [\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}}";
   assert_strings_equal(fxb_string_value(inspection), expected, "json");
 
   fxp_expression_free(method);
@@ -161,7 +176,7 @@ char *test_inspect_local_assignment() {
 
   char *expected = "{\"local_assignment\": {"
                       "\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"greeting\"}}}, "
-                      "\"right\": {\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"hello worl...\"}}}"
+                      "\"right\": {\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}"
                    "}}";
 
   assert_strings_equal(fxb_string_value(inspection), expected, "json");
@@ -187,7 +202,7 @@ char *test_inspect_colon_expression() {
 
   char *expected = "{\"colon_expression\": {"
                       "\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"greeting\"}}}, "
-                      "\"right\": {\"literal\": {\"class\": \"FxB_String\", \"bit\": {\"STRING\": \"hello worl...\"}}}"
+                      "\"right\": {\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}"
                    "}}";
 
   assert_strings_equal(fxb_string_value(inspection), expected, "json");
@@ -202,7 +217,8 @@ char *all_specs() {
   spec_setup("Parser Literal Expression");
 
   run_spec(test_create_literal);
-  run_spec(test_inspect_literal);
+  run_spec(test_inspect_literal_with_bit);
+  run_spec(test_inspect_literal_without_bit);
   run_spec(test_inspect_lookup);
   run_spec(test_inspect_list);
   run_spec(test_inspect_implicit_method);
