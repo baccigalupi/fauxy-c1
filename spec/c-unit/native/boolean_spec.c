@@ -1,7 +1,7 @@
 #include "../../../lib/parser/tokens.h"
 #include "../../../lib/interpreter/pool.h"
 #include "../../../lib/interpreter/object.h"
-#include "../../../lib/native/boolean.h"
+#include "../../../lib/native/boolean_methods.h"
 #include "../lib/spec.h"
 
 FxI_Pool *setup_test_boolean_pool() {

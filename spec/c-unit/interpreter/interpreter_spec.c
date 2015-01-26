@@ -1,6 +1,6 @@
 #include "../../../lib/interpreter/interpreter.h"
 #include "../../../lib/interpreter/object.h"
-#include "../../../lib/native/boolean.h"
+#include "../../../lib/native/boolean_methods.h"
 #include "../../../lib/parser/expressions.h"
 #include "../lib/spec.h"
 

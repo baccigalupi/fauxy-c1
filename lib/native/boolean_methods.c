@@ -1,4 +1,4 @@
-#include "boolean.h"
+#include "boolean_methods.h"
 #include "../interpreter/pool.h"
 
 FxN_Object *FxN_Boolean_create(FxI_Pool *pool, FxP_Literal *value) {

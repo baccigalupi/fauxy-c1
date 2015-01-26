@@ -2,7 +2,7 @@
 #include "pool.h"
 #include "object.h"
 #include "../parser/expressions.h"
-#include "../native/boolean.h"
+#include "../native/boolean_methods.h"
 
 
 FxI_Interpreter *FxI_Interpreter_create(int literal_capacity, int class_capacity, int lookup_capacity) {
