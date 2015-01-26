@@ -67,14 +67,65 @@ void fxb_hash_map_set(FxB_HashMap *hash_map, char *key, void *value) {
     fxb_list_push(list, value);
 
     // set extra node attributes
+    char *dup_key = calloc(strlen(key) + 1, sizeof(char));
+    strcpy(dup_key, key);
     node = fxb_list_node_last(list);
-    node_hash(node) = fxb_string_hash(key);
-    node_key(node) = key;
+    node_hash(node) = fxb_string_hash(dup_key);
+    node_key(node) = dup_key;
   }
 
+  fxb_hash_map_length(hash_map) ++;
 error:
   // TODO: start raising errors on set fails??
   return;
+}
+
+FxB_Array *fxb_hash_map_keys(FxB_HashMap *hash_map) {
+  int key_length = fxb_hash_map_length(hash_map);
+  char *temp_keys[key_length];
+
+  int i;
+  int keys_found = 0;
+  int length = fxb_hash_map_capacity(hash_map);
+  unsigned long max_length = 0;
+  FxB_Node *node = NULL;
+  FxB_List *node_list = NULL;
+  for (i = 0; i < length; i++) {
+    // get list at array index
+    node_list = fxb_hash_map_list_at_index(hash_map, i);
+    if (!node_list) { continue; }
+    // iterate through list gathering keys
+
+    fxb_list_each(node_list, node) {
+      char *key = node_key(node);
+      max_length = max_length < strlen(key) ? strlen(key) : max_length;
+      temp_keys[keys_found] = key;
+      keys_found ++;
+    }
+  }
+
+  int j;
+  char temp[max_length + 1];
+  for (i = 0; i < key_length; i++) {
+    for (j = 0; j < key_length - 1; j++) {
+      if (strcmp(temp_keys[j], temp_keys[j + 1]) > 0) {
+        strcpy(temp, temp_keys[j]);
+        strcpy(temp_keys[j], temp_keys[j + 1]);
+        strcpy(temp_keys[j + 1], temp);
+      }
+    }
+  }
+
+  FxB_Array *keys = FxB_Array_create(key_length);
+  verify(keys);
+
+  for (i = 0; i < key_length; i++) {
+    fxb_array_push(keys, temp_keys[i]);
+  }
+
+  return keys;
+error:
+  return NULL;
 }
 
 void fxb_hash_map_free_list_values(FxB_HashMap *hash_map) {

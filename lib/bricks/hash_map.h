@@ -25,5 +25,6 @@ void            *fxb_hash_map_get(             FxB_HashMap *hash, char *key);
 FxB_Node        *fxb_hash_map_get_node(        FxB_HashMap *hash, char *key);
 void             fxb_hash_map_set(             FxB_HashMap *hash, char *key, void *value);
 void             fxb_hash_map_free_list_values(FxB_HashMap *hash_map);
+FxB_Array       *fxb_hash_map_keys(FxB_HashMap *hash_map);
 
 #endif

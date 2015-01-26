@@ -115,6 +115,36 @@ char *test_reset_value() {
   return NULL;
 }
 
+char *test_getting_keys() {
+  spec_describe("retrieving keys");
+
+  FxB_HashMap *hash_map = FxB_HashMap_create(10);
+  FxB_String *value_1 = FxB_String_create("value");
+  FxB_String *value_2 = FxB_String_create("another value");
+
+  char *key1 = calloc(5, sizeof(char));
+  char *key2 = calloc(5, sizeof(char));
+  strcpy(key1, "key1");
+  strcpy(key2, "key2");
+
+  fxb_hash_map_set(hash_map, key1, value_1);
+  fxb_hash_map_set(hash_map, key2, value_2);
+
+  free(key1);
+  free(key2);
+
+  FxB_Array *keys = fxb_hash_map_keys(hash_map);
+
+  assert_strings_equal(fxb_array_at_index(keys, 0), "key1", "first key correct");
+  assert_strings_equal(fxb_array_at_index(keys, 1), "key2", "second key correct");
+
+  fxb_string_free(value_1);
+  fxb_string_free(value_2);
+  fxb_hash_map_free(hash_map);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Brick FxB_Hash");
 
@@ -123,6 +153,7 @@ char *all_specs() {
   run_spec(test_set_value_with_literal_key);
   run_spec(test_set_value_with_freed_key);
   run_spec(test_reset_value);
+  run_spec(test_getting_keys);
 
   spec_teardown();
 
