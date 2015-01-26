@@ -2,7 +2,7 @@
 #include "pool.h"
 #include "object.h"
 #include "../parser/expressions.h"
-#include "base_types/boolean.h"
+#include "../native/boolean.h"
 
 
 FxI_Interpreter *FxI_Interpreter_create(int literal_capacity, int class_capacity, int lookup_capacity) {
@@ -48,5 +48,5 @@ void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
   fxi_literal_set(pool, "true", true_object);
 
   // Nil ---------
-  
+
 }

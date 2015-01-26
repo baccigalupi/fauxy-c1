@@ -1,5 +1,5 @@
 #include "boolean.h"
-#include "../pool.h"
+#include "../interpreter/pool.h"
 
 FxN_Object *FxN_Boolean_create(FxI_Pool *pool, FxP_Literal *value) {
   FxN_Object *self = FxN_Object_create(pool, NULL); // TODO: switch to boolean class when there is one
@@ -28,5 +28,3 @@ FxN_Object *fxn_boolean_not(FxN_Object *self) {
 
   return not_value;
 }
-
-

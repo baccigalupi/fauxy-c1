@@ -1,8 +1,8 @@
-#include "../../../../lib/parser/tokens.h"
-#include "../../../../lib/interpreter/pool.h"
-#include "../../../../lib/interpreter/object.h"
-#include "../../../../lib/interpreter/base_types/boolean.h"
-#include "../../lib/spec.h"
+#include "../../../lib/parser/tokens.h"
+#include "../../../lib/interpreter/pool.h"
+#include "../../../lib/interpreter/object.h"
+#include "../../../lib/native/boolean.h"
+#include "../lib/spec.h"
 
 FxI_Pool *setup_test_boolean_pool() {
   FxI_Pool *pool = FxI_Pool_create(2, 1, 1);
@@ -59,6 +59,3 @@ char *all_specs() {
 }
 
 run_all_specs(all_specs);
-
-
-

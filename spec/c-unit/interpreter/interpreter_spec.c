@@ -1,6 +1,6 @@
 #include "../../../lib/interpreter/interpreter.h"
 #include "../../../lib/interpreter/object.h"
-#include "../../../lib/interpreter/base_types/boolean.h"
+#include "../../../lib/native/boolean.h"
 #include "../../../lib/parser/expressions.h"
 #include "../lib/spec.h"
 
@@ -33,5 +33,3 @@ char *all_specs() {
 }
 
 run_all_specs(all_specs);
-
-
