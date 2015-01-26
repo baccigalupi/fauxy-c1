@@ -1,6 +1,6 @@
 #include "object_methods.h"
 
-FxN_Object *fxn_object_is_truthy(FxN_Object *self) {
+FxN_Object *fxn_object_is_empty(FxN_Object *self) {
   FxI_Pool *pool = fxn_object_pool(self);
 
   FxN_Object *boolean;

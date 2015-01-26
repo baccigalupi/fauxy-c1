@@ -20,20 +20,20 @@ FxI_Pool *setup_test_boolean_pool() {
   return pool;
 }
 
-char *test_empty_object_truthiness() {
-  spec_describe("empty object truthiness");
+char *test_object_without_attributes_emptines() {
+  spec_describe("empty on objects without attributes");
 
   FxI_Pool *pool = setup_test_boolean_pool();
   FxN_Object *false_object = fxi_literal_get(pool, "false");
 
   FxN_Object *object = FxN_Object_create(pool, NULL);
 
-  assert_equal(false_object, fxn_object_is_truthy(object), "is false");
+  assert_equal(false_object, fxn_object_is_empty(object), "is false");
 
   return NULL;
 }
 
-char *test_non_empty_object_truthiness() {
+char *test_object_with_attributes_emptines() {
   spec_describe("non-empty object truthiness");
 
   FxI_Pool *pool = setup_test_boolean_pool();
@@ -42,7 +42,7 @@ char *test_non_empty_object_truthiness() {
   FxN_Object *object = FxN_Object_create(pool, NULL);
   fxn_object_set_attribute(object, "flag", true_object);
 
-  assert_equal(true_object, fxn_object_is_truthy(object), "is true");
+  assert_equal(true_object, fxn_object_is_empty(object), "is true");
 
   return NULL;
 }
@@ -50,8 +50,8 @@ char *test_non_empty_object_truthiness() {
 char *all_specs() {
   spec_setup("Base Type: Boolean methods");
 
-  run_spec(test_empty_object_truthiness);
-  run_spec(test_non_empty_object_truthiness);
+  run_spec(test_object_without_attributes_emptines);
+  run_spec(test_object_with_attributes_emptines);
 
   spec_teardown();
 
