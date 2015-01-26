@@ -12,10 +12,6 @@ error:
   return NULL;
 }
 
-FxN_Object *fxn_boolean_is_truthy(FxN_Object *self) {
-  return self;
-}
-
 FxN_Object *fxn_boolean_not(FxN_Object *self) {
   FxI_Pool *pool = fxn_object_pool(self);
   FxN_Object *not_value;

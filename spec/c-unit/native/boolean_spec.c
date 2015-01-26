@@ -19,20 +19,6 @@ FxI_Pool *setup_test_boolean_pool() {
   return pool;
 }
 
-char *test_boolean_truthiness() {
-  spec_describe("truthines of booleans");
-
-  FxI_Pool *pool = setup_test_boolean_pool();
-
-  FxN_Object *boolean = fxi_literal_get(pool, "true");
-  assert_equal(boolean, fxn_boolean_is_truthy(boolean), "true object returns self");
-
-  boolean = fxi_literal_get(pool, "false");
-  assert_equal(boolean, fxn_boolean_is_truthy(boolean), "false object returns self");
-
-  return NULL;
-}
-
 char *test_boolean_not_value() {
   spec_describe("not booleans");
 
@@ -50,7 +36,6 @@ char *test_boolean_not_value() {
 char *all_specs() {
   spec_setup("Base Type: Boolean methods");
 
-  run_spec(test_boolean_truthiness);
   run_spec(test_boolean_not_value);
 
   spec_teardown();
