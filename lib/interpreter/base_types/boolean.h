@@ -5,9 +5,8 @@
 #include "../object.h"
 #include "../pool.h"
 
-#define fxn_boolean__value(O)               (fxn_object_get_attribute(O, "value"))
-#define fxn_boolean_expression_value(O)     (fxp_literal_bit(fxn_boolean__value(O)))
-#define fxn_boolean_value(O)                (((fxn_boolean_expression_value(O))->type) == TOKEN_TRUE ? 1 : 0)
+#define fxn_boolean__value(O)               ((FxP_Literal *)fxn_object_get_attribute(O, FXN_VALUE_KEY))
+#define fxn_boolean_value(O)                (fxp_literal_type(fxn_boolean__value(O)) == TOKEN_TRUE ? 1 : 0)
 
 FxN_Object *FxN_Boolean_create(FxI_Pool *pool, FxP_Literal *value);
 //FxN_Object *fxn_boolean_is_true(FxN_Object *self);

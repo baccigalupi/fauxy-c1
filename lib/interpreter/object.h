@@ -12,7 +12,7 @@ typedef struct FxN_Object {
 } FxN_Object;
 
 #define FXN_OBJECT_ATTRIBUTE_HASHMAP_SIZE   50
-#define FXN_BIT_VALUE_KEY                   "__value__"
+#define FXN_VALUE_KEY                       "__value__"
 
 #define fxn_object_scope(O)                 ((O)->scope)
 
