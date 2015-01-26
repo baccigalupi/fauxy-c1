@@ -57,13 +57,23 @@ c-unit: $(TESTS)
 # The Cleaner
 clean:
 	rm -rf build $(OBJECTS) $(TESTS)
-	rm -f c_scpe/spec.log
+	rm -f spec/c-unit/spec.log
 	rm -f lib/parser/parse.tab.*
 	rm -f lib/parser/lex.yy.*
 	rm -rf bin/*
 	find . -name "*.gc*" -exec rm {} \;
 	rm -rf `find . -name "*.dSYM" -print`
 
+dependencies: dependencies/jansson
+
+.PHONY: dependencies/jansson
+dependencies/jansson:
+	cd dependencies/jansson; \
+	autoreconf -i; \
+	./configure; \
+	make; \
+	make check; \
+	make install
 
 # # System Install
 # PREFIX?=/usr/local
