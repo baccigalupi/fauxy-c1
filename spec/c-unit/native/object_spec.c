@@ -2,6 +2,7 @@
 #include "../../../lib/interpreter/pool.h"
 #include "../../../lib/interpreter/object.h"
 #include "../../../lib/native/boolean_methods.h"
+#include "../../../lib/native/object_methods.h"
 #include "../lib/spec.h"
 
 FxI_Pool *setup_test_boolean_pool() {
@@ -19,30 +20,29 @@ FxI_Pool *setup_test_boolean_pool() {
   return pool;
 }
 
-char *test_boolean_truthiness() {
-  spec_describe("truthines of booleans");
+char *test_empty_object_truthiness() {
+  spec_describe("empty object truthiness");
 
   FxI_Pool *pool = setup_test_boolean_pool();
+  FxN_Object *false_object = fxi_literal_get(pool, "false");
 
-  FxN_Object *boolean = fxi_literal_get(pool, "true");
-  assert_equal(boolean, fxn_boolean_is_truthy(boolean), "true object returns self");
+  FxN_Object *object = FxN_Object_create(pool, NULL);
 
-  boolean = fxi_literal_get(pool, "false");
-  assert_equal(boolean, fxn_boolean_is_truthy(boolean), "false object returns self");
+  assert_equal(false_object, fxn_object_is_truthy(object), "is false");
 
   return NULL;
 }
 
-char *test_boolean_not_value() {
-  spec_describe("not booleans");
+char *test_non_empty_object_truthiness() {
+  spec_describe("non-empty object truthiness");
 
   FxI_Pool *pool = setup_test_boolean_pool();
+  FxN_Object *true_object = fxi_literal_get(pool, "true");
 
-  FxN_Object *true_value = fxi_literal_get(pool, "true");
-  FxN_Object *false_value = fxi_literal_get(pool, "false");
+  FxN_Object *object = FxN_Object_create(pool, NULL);
+  fxn_object_set_attribute(object, "flag", true_object);
 
-  assert_equal(false_value, fxn_boolean_not(true_value), "!true is false");
-  assert_equal(true_value, fxn_boolean_not(false_value), "!false is true");
+  assert_equal(true_object, fxn_object_is_truthy(object), "is true");
 
   return NULL;
 }
@@ -50,8 +50,8 @@ char *test_boolean_not_value() {
 char *all_specs() {
   spec_setup("Base Type: Boolean methods");
 
-  run_spec(test_boolean_truthiness);
-  run_spec(test_boolean_not_value);
+  run_spec(test_empty_object_truthiness);
+  run_spec(test_non_empty_object_truthiness);
 
   spec_teardown();
 
@@ -59,3 +59,4 @@ char *all_specs() {
 }
 
 run_all_specs(all_specs);
+

@@ -26,3 +26,4 @@ spec/c-unit/interpreter/object_spec
 spec/c-unit/interpreter/interpreter_spec
 
 spec/c-unit/native/boolean_spec
+spec/c-unit/native/object_spec
