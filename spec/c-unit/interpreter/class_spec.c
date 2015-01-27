@@ -7,10 +7,10 @@ char *find_or_create_in_pool() {
   spec_describe("find or create in pool");
   FxI_Pool *pool = FxI_Pool_create(1, 1, 1);
 
-  FxN_Class *klass = fxi_class_find_or_create(pool, "MyClass", NULL);
+  FxN_Class *klass = fxi_class_assign(pool, "MyClass", NULL);
   assert_strings_equal(fxn_class_name(klass), "MyClass", "returns class with right name when new");
 
-  assert_equal(klass, fxi_class_find_or_create(pool, "MyClass", NULL), "returns same class when already exists");
+  assert_equal(klass, fxi_class_assign(pool, "MyClass", NULL), "returns same class when already exists");
 
   return NULL;
 }

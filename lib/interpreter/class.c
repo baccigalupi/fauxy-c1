@@ -19,7 +19,7 @@ error:
   return NULL;
 }
 
-FxN_Class *fxi_class_find_or_create(FxI_Pool *pool, char *name, FxN_Class *super_class) {
+FxN_Class *fxi_class_assign(FxI_Pool *pool, char *name, FxN_Class *super_class) {
   FxN_Class *klass = NULL;
   klass = fxi_class_get(pool, name);
 
