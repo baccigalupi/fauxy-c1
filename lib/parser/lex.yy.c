@@ -1095,76 +1095,78 @@ YY_RULE_SETUP
 #line 48 "lib/parser/lex.l"
 { return TOKEN_LINE_END; }
 	YY_BREAK
+case YY_STATE_EOF(INITIAL):
+#line 49 "lib/parser/lex.l"
+{ return TOKEN_EOF; }
+	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 49 "lib/parser/lex.l"
+#line 50 "lib/parser/lex.l"
 { /* white space, move along */ }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 51 "lib/parser/lex.l"
+#line 52 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_CLASS_ID, yytext); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 52 "lib/parser/lex.l"
+#line 53 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_FLOAT, yytext); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 53 "lib/parser/lex.l"
+#line 54 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_FLOAT, yytext); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 54 "lib/parser/lex.l"
+#line 55 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_INTEGER, yytext); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 55 "lib/parser/lex.l"
+#line 56 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_ID, yytext); }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 56 "lib/parser/lex.l"
+#line 57 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_SYMBOL, yytext); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 57 "lib/parser/lex.l"
+#line 58 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_REGEX, yytext); }
 	YY_BREAK
 case 34:
 /* rule 34 can match eol */
 YY_RULE_SETUP
-#line 58 "lib/parser/lex.l"
+#line 59 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_EVAL_STRING, yytext); }
 	YY_BREAK
 case 35:
 /* rule 35 can match eol */
 YY_RULE_SETUP
-#line 59 "lib/parser/lex.l"
+#line 60 "lib/parser/lex.l"
 { ParseObject_wrap(TOKEN_STRING, yytext); }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 61 "lib/parser/lex.l"
+#line 62 "lib/parser/lex.l"
 { printf("illegal id: %s\n", yytext); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 62 "lib/parser/lex.l"
+#line 63 "lib/parser/lex.l"
 { printf("unknown token: %s\n", yytext); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 63 "lib/parser/lex.l"
+#line 64 "lib/parser/lex.l"
 ECHO;
 	YY_BREAK
-#line 1166 "lib/parser/lex.yy.c"
-case YY_STATE_EOF(INITIAL):
-	yyterminate();
+#line 1170 "lib/parser/lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2338,4 +2340,4 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 63 "lib/parser/lex.l"
+#line 64 "lib/parser/lex.l"

@@ -46,6 +46,7 @@
 %token OPEN_PAREN CLOSE_PAREN
 %left  AND OR
 %token NOT
+%token EOF
 
 %start program
 
@@ -62,6 +63,9 @@ expression
   : unterminated_expression expression_end  { fxp_parser_push_expression(context, $1); }
   | implicit_method_call expression_end     { fxp_parser_push_expression(context, $1); }
   | expression_end                          { }
+  | unterminated_expression EOF             { fxp_parser_push_expression(context, $1); YYACCEPT; }
+  | implicit_method_call EOF                { fxp_parser_push_expression(context, $1); YYACCEPT;}
+  | EOF                                     { YYACCEPT; }
   ;
 
 expression_end

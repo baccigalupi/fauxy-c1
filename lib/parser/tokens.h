@@ -29,7 +29,8 @@ enum yytokentype {
   TOKEN_CLOSE_PAREN = 282,
   TOKEN_AND = 283,
   TOKEN_OR = 284,
-  TOKEN_NOT = 285
+  TOKEN_NOT = 285,
+  TOKEN_EOF = 286
 };
 
 #endif

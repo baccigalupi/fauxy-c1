@@ -16,9 +16,7 @@ char *multiline_comment() {
   int token_type;
 
   token_type = yylex(bit, location, state.scanner);
-  assert_ints_equal(token_type, false, "triple star /*** works");
-  assert_ints_equal(token_type, false, "line break ignored");
-  assert_ints_equal(token_type, false, "triple star ***/ works");
+  assert_ints_equal(token_type, TOKEN_EOF, "no tokens found");
 
   yylex_destroy(state.scanner);
   fx_pfree(location);
@@ -42,7 +40,7 @@ char *trailing_comment() {
   token_type = yylex(bit, location, state.scanner);
   assert_ints_equal(token_type, TOKEN_INTEGER, "returns integer next line");
   token_type = yylex(bit, location, state.scanner);
-  assert_ints_equal(token_type, false, "total number of tokens");
+  assert_ints_equal(token_type, TOKEN_EOF, "total number of tokens");
 
   yylex_destroy(state.scanner);
   fx_pfree(location);
@@ -170,7 +168,7 @@ char *test_ids_with_equals_signs() {
   assert_ints_equal(token_type, TOKEN_ID, "foo=bar");
 
   token_type = yylex(bit, location, state.scanner);
-  assert_ints_equal(token_type, false, "right number of total tokens");
+  assert_ints_equal(token_type, TOKEN_EOF, "right number of total tokens");
 
   yylex_destroy(state.scanner);
   fx_pfree(location);
@@ -196,7 +194,7 @@ char *test_ruby_special_ending_ids() {
   assert_ints_equal(token_type, TOKEN_ID, "do-it!");
 
   token_type = yylex(bit, location, state.scanner);
-  assert_ints_equal(token_type, false, "right number of total tokens");
+  assert_ints_equal(token_type, TOKEN_EOF, "right number of total tokens");
 
   yylex_destroy(state.scanner);
   fx_pfree(location);
@@ -216,13 +214,7 @@ char *test_ids_with_caps_fail() {
   int token_type;
 
   token_type = yylex(bit, location, state.scanner);
-  assert_ints_equal(token_type, false, "helloWorld");
-
-  token_type = yylex(bit, location, state.scanner);
-  assert_ints_equal(token_type, false, "123W");
-
-  token_type = yylex(bit, location, state.scanner);
-  assert_ints_equal(token_type, false, "right number of total tokens");
+  assert_ints_equal(token_type, TOKEN_EOF, "no valid tokens found");
 
   yylex_destroy(state.scanner);
   fx_pfree(location);

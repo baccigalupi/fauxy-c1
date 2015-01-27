@@ -46,6 +46,7 @@ BREAK_SPACE ([ \t]*)?[\n]*([ \t]*)?
 \/\*(.|\n)*\*\/             	{ /* comment bracketed, treat as white space */ }
 \/\/[^\n]*                		{ /* terminating comment, treat as white space */ }
 {BREAK}	                      { return TOKEN_LINE_END; }
+<<EOF>>												{ return TOKEN_EOF; }
 [ \t]                     		{ /* white space, move along */ }
 
 [A-Z]+{CLASS_SUFFIX} 					  { ParseObject_wrap(TOKEN_CLASS_ID, yytext); }
