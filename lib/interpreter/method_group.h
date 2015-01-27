@@ -13,4 +13,8 @@ typedef struct FxN_MethodGroup {
 #define fxn_method_group_functions(C)   ((C)->functions)
 #define fxn_method_group_free(C)        (fx_pfree(C)) // TODO: more better
 
+#define fxn_method_group_push(C, V)     (fxb_list_push(fxn_method_group_functions(C), V))
+
+FxN_MethodGroup *FxN_MethodGroup_create(char *method_name);
+
 #endif

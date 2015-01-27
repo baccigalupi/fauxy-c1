@@ -28,6 +28,6 @@ typedef struct FxI_Pool {
 
 #define fxi_pool_free(P)            (fx_pfree(P)) // TODO: more better
 
-FxI_Pool *FxI_Pool_create(int literal_capacity, int class_capacity, int lookup_capacity);
+FxI_Pool  *FxI_Pool_create(int literal_capacity, int class_capacity, int lookup_capacity);
 
 #endif

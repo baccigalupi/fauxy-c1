@@ -28,6 +28,7 @@
 #define print_int_expectation(A, B)     (printf("    Expected %d to be %d\n", (int)A, (int)B))
 #define print_float_expectation(A, B)   (printf("    Expected %f to be %f\n", (float)A, (float)B))
 #define print_string_expectation(A, B)  (printf("    Expected '%s' to be    '%s'\n", A, B))
+#define print_pointer_expectation(A, B) (printf("    Expected %p to be %p\n", A, B))
 
 #define assert_truthy(A, S)       (                                                                 \
                                     (!!(A)) ?                                                       \
