@@ -389,6 +389,25 @@ char *test_native_assignment() {
   return NULL;
 }
 
+char *test_block_assignment() {
+  spec_describe("native assignments: true?: -> { !empty? }");
+  FxP_ParserContext *context = parse_string("true?: -> { !empty? }\n");
+
+  FxB_String *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\"expressions\": [\n"
+                    "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"true?\"}}}, \"right\": {\"function_definition\": {\"expressions\": [\n"
+                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"empty?\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"not\"}}}}}\n"
+                    "]}}}}\n"
+                    "]}";
+
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  fxb_string_free(inspection);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Parsing Expressions");
 
@@ -417,6 +436,7 @@ char *all_specs() {
   run_spec(test_multi_line_list);
 
   run_spec(test_native_assignment);
+  run_spec(test_block_assignment);
 
   spec_teardown();
 

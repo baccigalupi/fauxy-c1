@@ -168,10 +168,16 @@ function_method_call
   : dot_method_call function                                        { $$ = fxp_method_add_function_argument($1, $2); }
   ;
 
+negation
+  : NOT unterminated_expression   { $$ = FxP_Method_create_negation($2); }
+  | NOT implicit_method_call      { $$ = FxP_Method_create_negation($2); }
+  ;
+
 method_call
   : operator_call           { $$ = $1; }
   | dot_method_call         { $$ = $1; }
   | function_method_call    { $$ = $1; }
+  | negation                { $$ = $1; }
   ;
 
 implicit_method_call /* puts "hello"; foo(1,2,3);  */

@@ -132,7 +132,7 @@ error:
 
 FxP_Method *FxP_Method_create_no_args(FxP_Expression *receiver, FxP_Literal *message) {
   FxP_Method *method = FxP_Method_create();
-  verify_memory(method);
+  verify(method);
 
   fxp_method_set_receiver(method, receiver);
   fxp_method_set_message(method, message);
@@ -141,6 +141,26 @@ FxP_Method *FxP_Method_create_no_args(FxP_Expression *receiver, FxP_Literal *mes
 error:
   return NULL;
 }
+
+FxP_Method *FxP_Method_create_negation(FxP_Expression *receiver) {
+  FxP_Bit *bit = NULL;
+  FxP_Literal *message = NULL;
+
+  char *str = calloc(4, sizeof(char));
+  verify_memory(str);
+  strcpy(str, "not");
+  bit = FxP_Bit_create(TOKEN_NOT, str);
+  verify(bit);
+  message = FxP_Lookup_create(bit, TOKEN_ID);
+  verify(message);
+
+  return FxP_Method_create_no_args(receiver, message);
+error:
+  if (str) { fx_pfree(str); }
+  if (bit) { fxp_bit_free(bit); }
+  return NULL;
+}
+
 
 FxP_Method *FxP_Method_create_args(FxP_Expression *receiver, FxP_Literal *message, FxP_Expression *argument) {
   FxP_MethodArguments *list = fxp_method_arguments_convert(argument);
