@@ -370,6 +370,25 @@ char *test_multi_line_list() {
   return NULL;
 }
 
+char *test_native_assignment() {
+  spec_describe("native assignments: to_s: native(:fxn_native_to_s)");
+  FxP_ParserContext *context = parse_string("to_s: native(:fxn_native_to_s)\n");
+
+  FxB_String *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\"expressions\": [\n"
+                    "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"to_s\"}}}, \"right\": {\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"native\"}}}, \"method_arguments\": [\n"
+                    "{\"literal\": {\"class\": \"Symbol\", \"bit\": {\"STRING\": \":fxn_nativ...\"}}}\n"
+                    "]}}}}\n"
+                    "]}";
+
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  fxb_string_free(inspection);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Parsing Expressions");
 
@@ -396,6 +415,8 @@ char *all_specs() {
   run_spec(test_multi_line_group);
   run_spec(test_multi_line_method_call);
   run_spec(test_multi_line_list);
+
+  run_spec(test_native_assignment);
 
   spec_teardown();
 

@@ -430,9 +430,9 @@ union yyalloc
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  24
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  58
+#define YYNRULES  59
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  77
+#define YYNSTATES  78
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -485,8 +485,8 @@ static const yytype_uint8 yyrline[] =
       68,    72,    73,    77,    78,    79,    80,    81,    82,    83,
       84,    91,    92,    96,    97,    98,   102,   103,   130,   135,
      143,   144,   148,   158,   159,   163,   164,   168,   172,   173,
-     174,   178,   186,   202,   208,   216,   217,   218,   219,   220,
-     221,   222,   223,   224,   228,   229,   233,   237,   238
+     174,   178,   186,   202,   203,   207,   215,   216,   217,   218,
+     219,   220,   221,   222,   223,   227,   228,   232,   236,   237
 };
 #endif
 
@@ -543,7 +543,7 @@ static const yytype_int8 yypact[] =
      -20,   -20,     3,     5,   -20,    15,     8,    20,   -20,   -20,
      -20,   -20,   113,   113,    64,   -10,    21,   -20,   -20,   -20,
      113,   113,   -10,   -20,   -20,   113,   -20,   -20,   113,   -10,
-     -10,   -20,   -10,   -10,   122,   -20,    11
+     -10,   -20,   -10,   -10,   -20,   122,   -20,    11
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -551,21 +551,21 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       3,     0,     2,     1,    51,    52,    53,     0,    12,    11,
-      45,    46,    47,    48,    49,    50,    56,    55,     0,     0,
+       3,     0,     2,     1,    52,    53,    54,     0,    12,    11,
+      46,    47,    48,    49,    50,    51,    57,    56,     0,     0,
       10,     4,     7,     0,    23,    19,     3,    15,    38,    39,
-      40,    16,     0,    17,    18,    20,    13,    14,    54,    44,
-      54,    28,     0,     0,    21,     0,     0,     0,    57,    58,
+      40,    16,     0,    17,    18,    20,    13,    14,    55,    45,
+      55,    28,     0,     0,    21,     0,     0,     0,    58,    59,
        8,     5,     0,     0,    30,    31,     0,    37,     9,     6,
        0,     0,    41,    29,    24,     0,    22,    25,    36,    33,
-      34,    32,    42,    43,    26,    27,    35
+      34,    32,    42,    43,    44,    26,    27,    35
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
      -20,   -20,    27,   -20,   -19,    -4,   -20,    23,   -18,   -20,
-     -20,    25,   -20,   -20,   -20,   -20,   -20,   -20,   -20,   -20,
+     -20,    25,   -20,   -20,   -20,   -20,    -6,   -20,   -20,   -20,
      -20,   -20,    -2,   -20
 };
 
@@ -586,9 +586,9 @@ static const yytype_uint8 yytable[] =
       16,    19,    47,    59,    47,    45,     3,    40,    48,    49,
       48,    49,    55,    50,    40,    18,    65,    63,    58,    16,
       60,    61,    64,    16,    62,    67,    40,    47,    16,    48,
-      49,    42,    66,    48,    49,    68,    71,    75,    69,    70,
-      40,    40,    38,    54,    57,     0,    72,    73,    40,    40,
-       0,    74,     0,    40,    76,     0,    40,     4,     5,     6,
+      49,    42,    66,    48,    49,    68,    71,    76,    69,    70,
+      40,    40,    38,    54,    57,    74,    72,    73,    40,    38,
+       0,    75,     0,    40,    77,     0,    40,     4,     5,     6,
        0,     0,     7,     8,     9,     0,    10,    11,    12,    13,
       14,    15,    16,    17,     0,     0,     0,    18,     0,     0,
       19,     4,     5,     6,     0,    20,     7,     0,     0,     0,
@@ -607,7 +607,7 @@ static const yytype_int8 yycheck[] =
       28,    29,    26,    31,    26,    23,    11,    24,    31,    18,
        6,     7,    27,    18,    38,    27,    38,    22,    18,    28,
       29,    18,    27,    28,    29,    47,    25,    65,    52,    53,
-      52,    53,    54,    26,    29,    -1,    60,    61,    60,    61,
+      52,    53,    54,    26,    29,    61,    60,    61,    60,    61,
       -1,    65,    -1,    65,    68,    -1,    68,     3,     4,     5,
       -1,    -1,     8,     9,    10,    -1,    12,    13,    14,    15,
       16,    17,    18,    19,    -1,    -1,    -1,    23,    -1,    -1,
@@ -631,7 +631,7 @@ static const yytype_uint8 yystos[] =
       54,    24,    39,    20,    27,    37,    40,    22,    28,    29,
       31,    36,    54,    55,    34,    37,    42,    43,    31,    36,
        6,     7,    37,    24,    27,    11,    27,    27,    54,    37,
-      37,    25,    37,    37,    37,    40,    37
+      37,    25,    37,    37,    48,    37,    40,    37
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -641,8 +641,8 @@ static const yytype_uint8 yyr1[] =
       35,    36,    36,    37,    37,    37,    37,    37,    37,    37,
       37,    38,    38,    39,    39,    39,    40,    40,    41,    41,
       42,    42,    43,    44,    44,    45,    45,    46,    47,    47,
-      47,    48,    49,    50,    51,    52,    52,    52,    52,    52,
-      52,    52,    52,    52,    53,    53,    54,    55,    55
+      47,    48,    49,    50,    50,    51,    52,    52,    52,    52,
+      52,    52,    52,    52,    52,    53,    53,    54,    55,    55
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -652,8 +652,8 @@ static const yytype_uint8 yyr2[] =
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
        1,     2,     3,     1,     3,     3,     3,     3,     2,     3,
        1,     1,     3,     3,     3,     4,     3,     2,     1,     1,
-       1,     2,     3,     3,     2,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1
+       1,     2,     3,     3,     3,     2,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     1
 };
 
 
@@ -1654,98 +1654,102 @@ yyreduce:
 
   case 43:
 #line 202 "lib/parser/parse.y" /* yacc.c:1661  */
-    {
-                                                              (yyval) = FxP_ColonExpression_create((yyvsp[-2]), (yyvsp[0]));
-                                                            }
-#line 1661 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    { (yyval) = FxP_ColonExpression_create((yyvsp[-2]), (yyvsp[0])); }
+#line 1659 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
-  case 45:
-#line 216 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_STRING); }
-#line 1667 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+  case 44:
+#line 203 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_ColonExpression_create((yyvsp[-2]), (yyvsp[0])); }
+#line 1665 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 46:
-#line 217 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_EVAL_STRING); }
-#line 1673 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 215 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_STRING); }
+#line 1671 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 47:
-#line 218 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_INTEGER); }
-#line 1679 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 216 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_EVAL_STRING); }
+#line 1677 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 48:
-#line 219 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_FLOAT); }
-#line 1685 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 217 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_INTEGER); }
+#line 1683 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 49:
-#line 220 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_SYMBOL); }
-#line 1691 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 218 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_FLOAT); }
+#line 1689 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 50:
-#line 221 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_REGEX); }
-#line 1697 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 219 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_SYMBOL); }
+#line 1695 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 51:
-#line 222 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create(NULL, TOKEN_TRUE); }
-#line 1703 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 220 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_REGEX); }
+#line 1701 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 52:
-#line 223 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create(NULL, TOKEN_FALSE); }
-#line 1709 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 221 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create(NULL, TOKEN_TRUE); }
+#line 1707 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 53:
-#line 224 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create(NULL, TOKEN_NIL); }
-#line 1715 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 222 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create(NULL, TOKEN_FALSE); }
+#line 1713 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 54:
-#line 228 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = (yyvsp[0]); }
-#line 1721 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 223 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create(NULL, TOKEN_NIL); }
+#line 1719 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 55:
-#line 229 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Lookup_create((FxP_Bit *)(yyvsp[0]), TOKEN_CLASS_ID); }
-#line 1727 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 227 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = (yyvsp[0]); }
+#line 1725 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 56:
-#line 233 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Lookup_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
-#line 1733 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 228 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Lookup_create((FxP_Bit *)(yyvsp[0]), TOKEN_CLASS_ID); }
+#line 1731 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 57:
-#line 237 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
-#line 1739 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 232 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Lookup_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
+#line 1737 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 58:
-#line 238 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 236 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
-#line 1745 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1743 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 59:
+#line 237 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
+#line 1749 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
 
-#line 1749 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1753 "lib/parser/parse.tab.c" /* yacc.c:1661  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1980,5 +1984,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 240 "lib/parser/parse.y" /* yacc.c:1906  */
+#line 239 "lib/parser/parse.y" /* yacc.c:1906  */
 
