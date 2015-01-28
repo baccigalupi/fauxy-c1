@@ -1,4 +1,7 @@
 #include "../bricks/helpers.h"
+#include "../bricks/string.h"
+
+#include <stdio.h>
 
 #include "fx_parse.h"
 #include "bit.h"
@@ -49,4 +52,31 @@ FxP_ParserContext *parse_string(char *str) {
   yy_scan_string(str, state.scanner);
 
   return parse_with_state(state);
+}
+
+char *read_file(char *file_name) {
+  FILE *file = fopen(file_name, "r");
+  if (file) {
+    char *line = NULL;
+    size_t length = 0;
+    int i = 0;
+    getline(&line, &length, file);
+    FxB_String *contents = FxB_String_create("");
+    verify(contents);
+
+    while (line && strlen(line) && i < 11) {
+      fxb_string_add_chars(contents, line);
+      getline(&line, &length, file);
+      i++;
+    }
+
+    char *file_contents = fxb_string_value(contents);
+    fxb_string_free(contents);
+
+    return file_contents;
+  } else {
+    return NULL;
+  }
+error:
+  return NULL;
 }
