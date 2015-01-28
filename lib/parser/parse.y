@@ -37,7 +37,7 @@
 %}
 
 %token TRUE FALSE NIL
-%right EQUAL_SIGN COLON EXPORT // import
+%right LOCAL_ASSIGN COLON EXPORT // import
 %token SEMICOLON LINE_END COMMA
 %token STRING EVAL_STRING INTEGER FLOAT SYMBOL REGEX
 %token ID CLASS_ID DEFERRED_ARGUMENT
@@ -189,7 +189,7 @@ implicit_method_call /* puts "hello"; foo(1,2,3);  */
 */
 
 local_assignment
-  : lookup EQUAL_SIGN unterminated_expression                 { $$ = FxP_LocalAssign_create($1, $2); }
+  : lookup LOCAL_ASSIGN unterminated_expression                 { $$ = FxP_LocalAssign_create($1, $2); }
   ;
 
 /*

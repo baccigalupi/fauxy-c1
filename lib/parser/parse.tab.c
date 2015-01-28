@@ -121,7 +121,7 @@ extern int yydebug;
      TOKEN_TRUE = 258,
      TOKEN_FALSE = 259,
      TOKEN_NIL = 260,
-     TOKEN_EQUAL_SIGN = 261,
+     TOKEN_LOCAL_ASSIGN = 261,
      TOKEN_COLON = 262,
      TOKEN_EXPORT = 263,
      TOKEN_SEMICOLON = 264,
@@ -496,7 +496,7 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "TRUE", "FALSE", "NIL", "EQUAL_SIGN",
+  "$end", "error", "$undefined", "TRUE", "FALSE", "NIL", "LOCAL_ASSIGN",
   "COLON", "EXPORT", "SEMICOLON", "LINE_END", "COMMA", "STRING",
   "EVAL_STRING", "INTEGER", "FLOAT", "SYMBOL", "REGEX", "ID", "CLASS_ID",
   "DEFERRED_ARGUMENT", "ELIPSES", "DOT", "FUNCTION_DECLARATION",

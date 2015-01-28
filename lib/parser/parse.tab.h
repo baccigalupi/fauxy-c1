@@ -48,7 +48,7 @@ extern int yydebug;
      TOKEN_TRUE = 258,
      TOKEN_FALSE = 259,
      TOKEN_NIL = 260,
-     TOKEN_EQUAL_SIGN = 261,
+     TOKEN_LOCAL_ASSIGN = 261,
      TOKEN_COLON = 262,
      TOKEN_EXPORT = 263,
      TOKEN_SEMICOLON = 264,

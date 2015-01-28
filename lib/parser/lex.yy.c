@@ -1051,7 +1051,7 @@ YY_RULE_SETUP
 case 17:
 YY_RULE_SETUP
 #line 40 "lib/parser/lex.l"
-{ return TOKEN_EQUAL_SIGN; }
+{ return TOKEN_LOCAL_ASSIGN; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
