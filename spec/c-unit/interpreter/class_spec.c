@@ -66,5 +66,3 @@ char *all_specs() {
 }
 
 run_all_specs(all_specs);
-
-

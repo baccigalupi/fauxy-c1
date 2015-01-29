@@ -1,34 +1,34 @@
 #include "pool.h"
 
-FxI_Pool *FxI_Pool_create(int literal_capacity, int class_capacity, int lookup_capacity) {
+FxI_Pool *FxI_Pool_create(int literal_capacity, int global_capacity, int lookup_capacity) {
   FxB_HashMap *literals = NULL;
-  FxB_HashMap *classes = NULL;
-  FxB_HashMap *lookups = NULL;
+  FxB_List    *contexts = NULL;
+  FxB_HashMap *globals  = NULL;
 
   FxI_Pool *pool = fx_alloc(FxI_Pool);
   verify_memory(pool);
 
+  // defaults for size
   literal_capacity =  literal_capacity ? literal_capacity : FXI_POOL_LITERAL_CAPACITY_DEFAULT;
-  class_capacity =    class_capacity ? class_capacity :  FXI_POOL_CLASS_CAPACITY_DEFAULT;
-  lookup_capacity =   lookup_capacity ? lookup_capacity :  FXI_POOL_LOOKUP_CAPACITY_DEFAULT;
+  global_capacity =   global_capacity ? global_capacity :  FXI_POOL_CLASS_CAPACITY_DEFAULT;
 
   literals = FxB_HashMap_create(literal_capacity);
   verify(literals);
   fxi_pool_literals(pool) = literals;
 
-  classes = FxB_HashMap_create(class_capacity);
-  verify(classes);
-  fxi_pool_classes(pool) = classes;
+  contexts = FxB_List_create();
+  verify(contexts)
+  fxi_pool_contexts(pool) = contexts;
 
-  lookups = FxB_HashMap_create(lookup_capacity);
-  verify(lookups);
-  fxi_pool_literals(pool) = lookups;
+  globals = FxB_HashMap_create(global_capacity);
+  verify(globals);
+  fxi_pool_contexts_push(pool, globals);
 
   return pool;
 error:
   if (pool) { fx_pfree(pool); }
-  if (literals) { fx_pfree(literals); }
-  if (classes) { fx_pfree(classes); }
+  if (contexts) { fxb_list_free(literals); }
+  if (globals) { fxb_hash_map_free(globals); }
 
   return NULL;
 }

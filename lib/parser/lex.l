@@ -37,7 +37,7 @@ BREAK_SPACE ([ \t]*)?[\n]*([ \t]*)?
 {BREAK_SPACE}")"              { return TOKEN_CLOSE_PAREN; }
 {BREAK_SPACE}","{BREAK_SPACE} { return TOKEN_COMMA; }
 "_"                         	{ return TOKEN_DEFERRED_ARGUMENT; }
-"="                         	{ return TOKEN_LOCAL_ASSIGN; }
+"::"                         	{ return TOKEN_LOCAL_ASSIGN; }
 ":"                         	{ return TOKEN_COLON; }
 "->"                         	{ return TOKEN_FUNCTION_DECLARATION; }
 "{"                         	{ return TOKEN_OPEN_BRACE; }
