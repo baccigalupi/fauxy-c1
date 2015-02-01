@@ -2,8 +2,8 @@
 #include <string.h>
 #include <errno.h>
 
-FxB_Integer *FxB_Integer_create() {
-  FxB_Integer *integer = fx_alloc(FxB_Integer);
+FxB_Number *FxB_Number_create() {
+  FxB_Number *integer = fx_alloc(FxB_Number);
   verify_memory(integer);
 
   return integer;
@@ -11,9 +11,9 @@ error:
   return NULL;
 }
 
-FxB_Integer *FxB_Integer_from_string(char *str) {
+FxB_Number *FxB_Integer_from_string(char *str) {
   int length = strlen(str);
-  FxB_Integer *integer = FxB_Integer_create();
+  FxB_Number *integer = FxB_Number_create();
   verify(integer);
 
   errno = 0;
@@ -28,21 +28,21 @@ FxB_Integer *FxB_Integer_from_string(char *str) {
     goto error;
   } else {
     if ( int_value <= SHRT_MAX ) {
-      fxb_integer_create_value(integer, short);
+      fxb_number_create_value(integer, short);
       type = FXB_INT_SHORT;
     } else if ( int_value <= INT_MAX ) {
-      fxb_integer_create_value(integer, int);
+      fxb_number_create_value(integer, int);
       type = FXB_INT_STANDARD;
     } else if ( int_value <= LONG_MAX ) {
-      fxb_integer_create_value(integer, long);
+      fxb_number_create_value(integer, long);
       type = FXB_INT_LONG;
     } else {
-      fxb_integer_create_value(integer, long long);
+      fxb_number_create_value(integer, long long);
       type = FXB_INT_LLONG;
     }
   }
 
-  fxb_integer_type(integer) = type;
+  fxb_number_type(integer) = type;
 
   return integer;
 error:

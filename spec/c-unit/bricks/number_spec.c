@@ -5,10 +5,10 @@
 char *test_read_short_int() {
   spec_describe("reading a short integer from a string");
 
-  FxB_Integer *integer = FxB_Integer_from_string("1");
+  FxB_Number *integer = FxB_Integer_from_string("1");
 
-  assert_ints_equal(fxb_integer_type(integer), FXB_INT_SHORT, "type");
-  assert_equal(fxb_integer_value_short(integer), (short)1, "value");
+  assert_ints_equal(fxb_number_type(integer), FXB_INT_SHORT, "type");
+  assert_equal(fxb_number_value_short(integer), (short)1, "value");
 
   return NULL;
 }
@@ -20,10 +20,10 @@ char *test_read_standard_int() {
   char str_number[100];
   sprintf(str_number, "%d", number);
 
-  FxB_Integer *integer = FxB_Integer_from_string(str_number);
+  FxB_Number *integer = FxB_Integer_from_string(str_number);
 
-  assert_ints_equal(fxb_integer_type(integer), FXB_INT_STANDARD, "type");
-  assert_equal(fxb_integer_value_standard(integer), number, "value");
+  assert_ints_equal(fxb_number_type(integer), FXB_INT_STANDARD, "type");
+  assert_equal(fxb_number_value_standard(integer), number, "value");
 
   return NULL;
 }
@@ -35,16 +35,16 @@ char *test_read_long_int() {
   char str_number[100];
   sprintf(str_number, "%ld", number);
 
-  FxB_Integer *integer = FxB_Integer_from_string(str_number);
+  FxB_Number *integer = FxB_Integer_from_string(str_number);
 
-  assert_ints_equal(fxb_integer_type(integer), FXB_INT_LONG, "type");
-  assert_equal(fxb_integer_value_long(integer), number, "value");
+  assert_ints_equal(fxb_number_type(integer), FXB_INT_LONG, "type");
+  assert_equal(fxb_number_value_long(integer), number, "value");
 
   return NULL;
 }
 
 char *all_specs() {
-  spec_setup("Brick FxB_Integer");
+  spec_setup("Brick FxB_Number");
 
   run_spec(test_read_short_int);
   run_spec(test_read_standard_int);
