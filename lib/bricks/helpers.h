@@ -2,6 +2,7 @@
 #define __FxB_Helpers_h 1
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define CONSOLE_RED      "\e[31m"
 #define CONSOLE_GREEN    "\e[38;5;40m"
