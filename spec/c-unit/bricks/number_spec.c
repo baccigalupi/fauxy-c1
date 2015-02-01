@@ -1,4 +1,5 @@
 #include "../../../lib/bricks/number.h"
+#include <limits.h>
 
 #include "../lib/spec.h"
 
@@ -43,12 +44,38 @@ char *test_read_long_int() {
   return NULL;
 }
 
+char *test_small_decimals() {
+  spec_describe("reading smaller decimals from a string");
+
+  FxB_Number *decimal = FxB_Decimal_from_string("1.2");
+
+  assert_ints_equal(fxb_number_type(decimal), FXB_DECIMAL_DOUBLE, "type");
+  assert_equal(fxb_number_value_double(decimal), (double)1.2, "value");
+
+  return NULL;
+}
+
+char *test_big_decimals() {
+  spec_describe("reading larger decimals from a string");
+
+  FxB_Number *decimal = FxB_Decimal_from_string("1.234567890123456700");
+
+  assert_ints_equal(fxb_number_type(decimal), FXB_DECIMAL_LDOUBLE, "type");
+  double diff = fxb_number_value_ldouble(decimal) - (long double)1.2345678901234567;
+  assert_truthy(diff < 1e-17, "value");
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Brick FxB_Number");
 
   run_spec(test_read_short_int);
   run_spec(test_read_standard_int);
   run_spec(test_read_long_int);
+
+  run_spec(test_small_decimals);
+  run_spec(test_big_decimals);
 
   spec_teardown();
 
