@@ -1,4 +1,4 @@
-#include "../../../lib/bricks/integer.h"
+#include "../../../lib/bricks/number.h"
 
 #include "../lib/spec.h"
 
@@ -56,4 +56,3 @@ char *all_specs() {
 }
 
 run_all_specs(all_specs);
-

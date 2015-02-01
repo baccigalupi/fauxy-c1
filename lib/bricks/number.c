@@ -1,4 +1,4 @@
-#include "integer.h"
+#include "number.h"
 #include <string.h>
 #include <errno.h>
 

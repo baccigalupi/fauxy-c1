@@ -15,7 +15,7 @@ spec/c-unit/bricks/array_spec
 spec/c-unit/bricks/list_spec
 spec/c-unit/bricks/json_gen_spec
 spec/c-unit/bricks/hash_map_spec
-spec/c-unit/bricks/integer_spec
+spec/c-unit/bricks/number_spec
 
 spec/c-unit/spec.log
 spec/c-unit/parser/bit_spec
