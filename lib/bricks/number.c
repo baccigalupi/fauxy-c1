@@ -23,7 +23,6 @@ FxB_Number *FxB_Integer_from_string(char *str) {
   errno = 0; // reset
 
   int type;
-  void *value;
   if (ERANGE == errno) {
     print_error("Integer out of range");
     goto error;
@@ -73,5 +72,92 @@ FxB_Number *FxB_Decimal_from_string(char *str) {
   return decimal;
 error:
   if (decimal) { fx_pfree(decimal); }
+  return NULL;
+}
+
+FxB_Number *FxB_Exponent_from_string(char *str) {
+  FxB_Number *decimal = FxB_Number_create();
+  verify(decimal);
+  int type;
+
+  char *format;
+  int length = strlen(str);
+  Boolean is_big_e = false;
+  Boolean is_big = strlen(str) > DBL_DIG;
+  int i;
+  for (i = 0; i < length; i++) {
+    if (str[i] == 'E') {
+      is_big_e = true;
+      break;
+    }
+  }
+  if (is_big) {
+    if (is_big_e) {
+      format = "%LE";
+    } else {
+      format = "%Le";
+    }
+  } else {
+    if (is_big_e) {
+      format = "%lE";
+    } else {
+      format = "%le";
+    }
+  }
+
+  if (is_big) {
+    long double number_value;
+    sscanf(str, format, &number_value);
+    fxb_number_create_value(decimal, long double);
+    type = FXB_DECIMAL_LDOUBLE;
+  } else {
+    double number_value;
+    sscanf(str, format, &number_value);
+    fxb_number_create_value(decimal, double);
+    type = FXB_DECIMAL_DOUBLE;
+  }
+
+  fxb_number_exponent(decimal) = true;
+  fxb_number_type(decimal) = type;
+
+  return decimal;
+error:
+  if (decimal) { fx_pfree(decimal); }
+  return NULL;
+}
+
+FxB_String *fxb_number_inspect(FxB_Number *number) {
+  char str[200];
+
+  char *format;
+  if (fxb_number_is_decimal(number)) {
+    if (fxb_number_exponent(number)) {
+      if (fxb_number_type(number) == FXB_DECIMAL_DOUBLE) {
+        sprintf(str, "%.1le", fxb_number_value_double(number));
+      } else {
+        sprintf(str, "%.1Le", fxb_number_value_ldouble(number));
+      }
+    } else {
+      if (fxb_number_type(number) == FXB_DECIMAL_DOUBLE) {
+        sprintf(str, "%.3le", fxb_number_value_double(number));
+      } else {
+        sprintf(str, "%.3Le", fxb_number_value_ldouble(number));
+      }
+    }
+  } else {
+    if (fxb_number_type(number) == FXB_INT_SHORT) {
+      sprintf(str, "%d", fxb_number_value_short(number));
+    } else if (fxb_number_type(number) == FXB_INT_STANDARD) {
+      sprintf(str, "%d", fxb_number_value_standard(number));
+    } else if (fxb_number_type(number) == FXB_INT_LONG) {
+      sprintf(str, "%ld", fxb_number_value_long(number));
+    } else {
+      sprintf(str, "%lld", fxb_number_value_llong(number));
+    }
+  }
+
+  FxB_String *string = FxB_String_create(str);
+  verify(string);
+error:
   return NULL;
 }

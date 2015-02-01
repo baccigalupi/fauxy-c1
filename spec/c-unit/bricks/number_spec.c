@@ -67,6 +67,17 @@ char *test_big_decimals() {
   return NULL;
 }
 
+char *test_exponential_decimals() {
+  spec_describe("reading exponential decimals from a string");
+
+  FxB_Number *exponent = FxB_Exponent_from_string("1.2e34");
+
+  assert_ints_equal(fxb_number_type(exponent), FXB_DECIMAL_DOUBLE, "type");
+  assert_equal(fxb_number_value_double(exponent), (double)1.2e34, "value");
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Brick FxB_Number");
 
@@ -76,6 +87,7 @@ char *all_specs() {
 
   run_spec(test_small_decimals);
   run_spec(test_big_decimals);
+  run_spec(test_exponential_decimals);
 
   spec_teardown();
 
