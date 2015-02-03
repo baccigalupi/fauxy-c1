@@ -7,7 +7,7 @@ FxN_Object *FxN_Nil_create(FxI_Pool *pool, FxP_Literal *value) {
   FxN_Object *self = FxN_Object_create(pool, NULL); // TODO: switch to Nil class
   verify(self);
 
-  fxn_object_set_attribute(self, FXN_VALUE_KEY, value);
+  fxn_object_value(self) = value;
 
   return self;
 error:
