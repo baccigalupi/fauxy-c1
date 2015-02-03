@@ -8,7 +8,7 @@
 char *test_create_literal() {
   spec_describe("creating literal expression from bit");
 
-  FxP_Bit *bit = FxP_Bit_create(TOKEN_STRING, "\"hello world\"");
+  FxP_Bit *bit = FxP_Bit_string_create("\"hello world\"");
   FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_STRING);
 
   assert_ints_equal(fxp_literal_type(literal), TOKEN_STRING, "type");
@@ -22,7 +22,7 @@ char *test_create_literal() {
 char *test_inspect_literal_with_bit() {
   spec_describe("inspecting a literal expression with bit");
 
-  FxP_Bit *bit = FxP_Bit_create(TOKEN_STRING, "\"hello world\"");
+  FxP_Bit *bit = FxP_Bit_string_create("\"hello world\"");
   FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_STRING);
 
   FxB_String *inspection = fxp_inspect(literal);
@@ -52,7 +52,7 @@ char *test_inspect_literal_without_bit() {
 char *test_inspect_lookup() {
   spec_describe("inspecting a lookup expression");
 
-  FxP_Bit *bit = FxP_Bit_create(TOKEN_ID, "foo");
+  FxP_Bit *bit = FxP_Bit_string_create("foo");
   FxP_Literal *lookup = FxP_Lookup_create(bit, TOKEN_ID);
 
   FxB_String *inspection = fxp_inspect(lookup);
@@ -67,10 +67,10 @@ char *test_inspect_lookup() {
 char *test_inspect_list() {
   spec_describe("inspecting a list expression");
 
-  FxP_Bit     *bit_1 = FxP_Bit_create(TOKEN_ID, "foo");
+  FxP_Bit     *bit_1 = FxP_Bit_string_create("foo");
   FxP_Literal *arg_1 = FxP_Lookup_create(bit_1, TOKEN_ID);
 
-  FxP_Bit     *bit_2 = FxP_Bit_create(TOKEN_STRING, "\"hello world\"");
+  FxP_Bit     *bit_2 = FxP_Bit_string_create("\"hello world\"");
   FxP_Literal *arg_2 = FxP_Literal_create(bit_2, TOKEN_STRING);
 
   FxP_FxB_List    *list = FxP_FxB_List_create_double(arg_1, arg_2);
@@ -88,10 +88,10 @@ char *test_inspect_list() {
 char *test_inspect_implicit_method() {
   spec_describe("inspecting an implicit method call");
 
-  FxP_Bit *bit_1 = FxP_Bit_create(TOKEN_ID, "print");
+  FxP_Bit *bit_1 = FxP_Bit_string_create("print");
   FxP_Literal *message = FxP_Lookup_create(bit_1, TOKEN_ID);
 
-  FxP_Bit *bit_2 = FxP_Bit_create(TOKEN_STRING, "\"hello world\"");
+  FxP_Bit *bit_2 = FxP_Bit_string_create("\"hello world\"");
   FxP_Literal *arg = FxP_Literal_create(bit_2, TOKEN_STRING);
 
   // print "hello world"
@@ -109,10 +109,10 @@ char *test_inspect_implicit_method() {
 char *test_inspect_method_no_args() {
   spec_describe("inspecting a method call with no args");
 
-  FxP_Bit *bit_1 = FxP_Bit_create(TOKEN_ID, "printer");
+  FxP_Bit *bit_1 = FxP_Bit_string_create("printer");
   FxP_Literal *receiver = FxP_Lookup_create(bit_1, TOKEN_ID);
 
-  FxP_Bit *bit_2 = FxP_Bit_create(TOKEN_ID, "print");
+  FxP_Bit *bit_2 = FxP_Bit_string_create("print");
   FxP_Literal *message = FxP_Lookup_create(bit_2, TOKEN_ID);
 
   // printer.print
@@ -132,10 +132,10 @@ char *test_inspect_function() {
   spec_describe("inspecting a function with arguments");
 
   // arguments
-  FxP_Bit     *bit_1 = FxP_Bit_create(TOKEN_ID, "foo");
+  FxP_Bit     *bit_1 = FxP_Bit_string_create("foo");
   FxP_Literal *arg_1 = FxP_Lookup_create(bit_1, TOKEN_ID);
 
-  FxP_Bit     *bit_2 = FxP_Bit_create(TOKEN_ID, "bar");
+  FxP_Bit     *bit_2 = FxP_Bit_string_create("bar");
   FxP_Literal *arg_2 = FxP_Lookup_create(bit_2, TOKEN_ID);
 
   FxP_FxB_List    *arguments = FxP_FxB_List_create_double(arg_1, arg_2);
@@ -165,10 +165,10 @@ char *test_inspect_local_assignment() {
   spec_describe("inspecting local assignment expression");
 
   // arguments
-  FxP_Bit     *bit_1 = FxP_Bit_create(TOKEN_ID, "greeting");
+  FxP_Bit     *bit_1 = FxP_Bit_string_create("greeting");
   FxP_Literal *local = FxP_Lookup_create(bit_1, TOKEN_ID);
 
-  FxP_Bit     *bit_2 = FxP_Bit_create(TOKEN_STRING, "\"hello world\"");
+  FxP_Bit     *bit_2 = FxP_Bit_string_create("\"hello world\"");
   FxP_Literal *value = FxP_Literal_create(bit_2, TOKEN_STRING);
 
   FxP_Expression *local_assignment = FxP_LocalAssign_create(local, value);
@@ -191,10 +191,10 @@ char *test_inspect_colon_expression() {
   spec_describe("inspecting colon expression");
 
   // arguments
-  FxP_Bit     *bit_1 = FxP_Bit_create(TOKEN_ID, "greeting");
+  FxP_Bit     *bit_1 = FxP_Bit_string_create("greeting");
   FxP_Literal *attr = FxP_Lookup_create(bit_1, TOKEN_ID);
 
-  FxP_Bit     *bit_2 = FxP_Bit_create(TOKEN_STRING, "\"hello world\"");
+  FxP_Bit     *bit_2 = FxP_Bit_string_create("\"hello world\"");
   FxP_Literal *value = FxP_Literal_create(bit_2, TOKEN_STRING);
 
   FxP_Expression *attr_assignment = FxP_ColonExpression_create(attr, value);

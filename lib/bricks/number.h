@@ -47,6 +47,6 @@ FxB_Number *FxB_Integer_from_string(char *str);
 FxB_Number *FxB_Decimal_from_string(char *str);
 FxB_Number *FxB_Exponent_from_string(char *str);
 FxB_String *fxb_number_inspect(FxB_Number *number);
-
+FxB_String *fxb_number_type_description(FxB_Number *number);
 
 #endif

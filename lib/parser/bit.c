@@ -6,34 +6,38 @@
 #include "../bricks/string.h"
 #include "../bricks/json_gen.h"
 
-FxP_Bit *FxP_Bit_create(int token_type, char *text) {
+FxP_Bit *FxP_Bit_string_create(char *text) {
   FxP_Bit *bit = fx_alloc(FxP_Bit);
   verify_memory(bit);
 
-  int size = strlen(text);
-  int type = FxP_Bit_bit_type(token_type, fxp_bit_size_is_small(size));
-  fxp_bit_type(bit) = type;
-  fxp_bit_size(bit) = size;
+  fxp_bit_type(bit) = FX_BIT_STRING;
 
-  Boolean success;
-  if (type == FX_BIT_FLOAT) {
-    success = fxp_bit_add_float_value(bit, text);
-  } /* else if (type == FX_BIT_LONG_FLOAT) {
-    success = fxp_bit_add_long_float_value(bit, text);
-  } */ else if (type == FX_BIT_SHORT) {
-    success = fxp_bit_add_short_value(bit, text);
-  } else if (type == FX_BIT_LONG) {
-    success = fxp_bit_add_long_value(bit, text);
-  } else {
-    // little wonky to have this here, maybe should switch up and
-    // do this work when a literal statement is defined, not here
-    if (text[0] == '\'' || text[0] == '"') {
-      success = fx_trim_string_value(bit, text);
-    } else {
-      success = fxp_bit_add_string_value(bit, text);
-    }
+  char *unwrapped = NULL;
+  char c = text[0];
+  if (c == '\'' || c == '"') {
+    unwrapped = fx_trim_quote_char_text(text);
+    verify(unwrapped);
   }
-  verify(success);
+  FxB_String *value = FxB_String_create(unwrapped ? unwrapped : text);
+  fxp_bit_value(bit) = value;
+
+  if (unwrapped) { fx_pfree(unwrapped); }
+  return bit;
+error:
+  if (bit) { fx_pfree(bit); }
+  return NULL;
+}
+
+FxP_Bit *FxP_Bit_integer_create(char *text) {
+  FxP_Bit *bit = fx_alloc(FxP_Bit);
+  verify_memory(bit);
+
+  fxp_bit_type(bit) = FX_BIT_NUMBER;
+
+  FxB_Number *value = FxB_Integer_from_string(text);
+  verify(value);
+
+  fxp_bit_value(bit) = value;
 
   return bit;
 error:
@@ -41,68 +45,41 @@ error:
   return NULL;
 }
 
-int FxP_Bit_bit_type(int token_type, Boolean is_small) {
-  int bit_type;
-  if (token_type == TOKEN_FLOAT) {
-    bit_type = FX_BIT_FLOAT;
-  } else if (token_type == TOKEN_INTEGER) {
-    bit_type = is_small ? FX_BIT_SHORT : FX_BIT_LONG;
-  } else {
-    bit_type = FX_BIT_STRING;
-  }
+FxP_Bit *FxP_Bit_decimal_create(char *text) {
+  FxP_Bit *bit = fx_alloc(FxP_Bit);
+  verify_memory(bit);
 
-  return bit_type;
-}
+  fxp_bit_type(bit) = FX_BIT_NUMBER;
 
-inline Boolean fxp_bit_add_short_value(FxP_Bit *bit, char *text) {
-  short *value = calloc(1, sizeof(short));
-  verify_memory(value);
-  *value = atoi(text);
+  FxB_Number *value = FxB_Decimal_from_string(text);
+  verify(value);
+
   fxp_bit_value(bit) = value;
 
-  return true;
+  return bit;
 error:
-  return false;
+  if (bit) { fx_pfree(bit); }
+  return NULL;
 }
 
-Boolean fxp_bit_add_long_value(FxP_Bit *bit, char *text) {
-  long long *value = calloc(1, sizeof(long long));
-  verify_memory(value);
-  char *endpoint;
-  *value = strtoll(text, &endpoint, 10);
+FxP_Bit *FxP_Bit_exponent_create(char *text) {
+  FxP_Bit *bit = fx_alloc(FxP_Bit);
+  verify_memory(bit);
+
+  fxp_bit_type(bit) = FX_BIT_NUMBER;
+
+  FxB_Number *value = FxB_Exponent_from_string(text);
+  verify(value);
+
   fxp_bit_value(bit) = value;
 
-
-  return true;
+  return bit;
 error:
-  return false;
+  if (bit) { fx_pfree(bit); }
+  return NULL;
 }
 
-Boolean fxp_bit_add_float_value(FxP_Bit *bit, char *text) {
-  double *value = calloc(1, sizeof(float));
-  verify_memory(value);
-  *value = atof(text);
-  fxp_bit_value(bit) = value;
-
-  return true;
-error:
-  return false;
-}
-
-// Boolean fxp_bit_add_long_float_value(FxP_Bit *bit, char *text) {
-//   long double *value = calloc(1, sizeof(float));
-//   char *endpoint;
-//   verify_memory(value);
-//   *value = strtold(text, &endpoint);
-//   fxp_bit_value(bit).as_long_float = value;
-//
-//   printf("%Lf %Lf\n", *value, *fxp_bit_value(bit).as_long);
-//   return true;
-// error:
-//   return false;
-// }
-
-Boolean fx_trim_string_value(FxP_Bit *bit, char *text) {
+char *fx_trim_quote_char_text(char *text) {
   int length = strlen(text) - 2;
   char *value = calloc(length + 1, sizeof(char));
   verify_memory(value);
@@ -111,24 +88,10 @@ Boolean fx_trim_string_value(FxP_Bit *bit, char *text) {
   for(i = 0; i < length; i++) {
     value[i] = text[i+1];
   }
-  fxp_bit_value(bit) = value;
 
-  return true;
+  return value;
 error:
-  return false;
-}
-
-Boolean fxp_bit_add_string_value(FxP_Bit *bit, char *text) {
-  int length = strlen(text);
-  char *value = calloc(length + 1, sizeof(char));
-  verify_memory(value);
-
-  strcpy(value, text);
-  fxp_bit_value(bit) = value;
-
-  return true;
-error:
-  return false;
+  return NULL;
 }
 
 void fxp_bit_free(FxP_Bit *bit) {
@@ -141,18 +104,8 @@ FxB_String *fxp_bit_value_description(FxP_Bit *bit) {
   char str[16] = "";
   FxB_String *string;
 
-  if (type == FX_BIT_FLOAT) {
-    sprintf(str, "%.2f", fxp_bit_float_value(bit));
-    string = FxB_String_create(str);
-  } else if (type == FX_BIT_LONG_FLOAT) {
-    sprintf(str, "%.1e", fxp_bit_float_value(bit));
-    string = FxB_String_create(str);
-  } else if (type == FX_BIT_SHORT) {
-    sprintf(str, "%d", fxp_bit_short_value(bit));
-    string = FxB_String_create(str);
-  } else if (type == FX_BIT_LONG) {
-    sprintf(str, "%.1e", (float)fxp_bit_long_value(bit));
-    string = FxB_String_create(str);
+  if (type == FX_BIT_NUMBER) {
+    string = fxb_number_inspect(fxp_bit_number__value(bit));
   } else {
     char *bit_string = fxp_bit_string_value(bit);
     int  bit_length = strlen(bit_string);
@@ -182,19 +135,13 @@ FxB_String *fxp_bit_type_description(FxP_Bit *bit) {
   int type = fxp_bit_type(bit);
   FxB_String *string;
 
-  if (type == FX_BIT_FLOAT || type == FX_BIT_LONG_FLOAT) {
-    string = FxB_String_create("FLOAT");
-  } else if (type == FX_BIT_SHORT || type == FX_BIT_LONG) {
-    string = FxB_String_create("INTEGER");
+  if (type == FX_BIT_NUMBER) {
+    string = fxb_number_type_description(fxp_bit_number__value(bit));
   } else {
     string = FxB_String_create("STRING");
   }
 
-  verify(string);
-
   return string;
-error:
-  return NULL;
 }
 
 FxB_String *fxp_bit_inspect(FxP_Bit *bit) {

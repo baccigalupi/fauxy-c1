@@ -13,9 +13,6 @@ Event Loop
 JSON Library integration: Jansson
 Example usage: https://groups.google.com/forum/#!topic/jansson-users/URnU-X-c2Xs
 
-Long decimals
-FxB_String concat, push and add validation for inspect
-
 Literal/Constant pool instead of duplicate bits
 
 FxB_HashMap:

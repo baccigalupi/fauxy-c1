@@ -142,6 +142,8 @@ error:
   return NULL;
 }
 
+// TODO: eliminate now that lexer creates message bit
+// also test &&, and, ||, or operators
 FxP_Method *FxP_Method_create_negation(FxP_Expression *receiver) {
   FxP_Bit *bit = NULL;
   FxP_Literal *message = NULL;
@@ -149,7 +151,7 @@ FxP_Method *FxP_Method_create_negation(FxP_Expression *receiver) {
   char *str = calloc(4, sizeof(char));
   verify_memory(str);
   strcpy(str, "not");
-  bit = FxP_Bit_create(TOKEN_NOT, str);
+  bit = FxP_Bit_string_create(str);
   verify(bit);
   message = FxP_Lookup_create(bit, TOKEN_ID);
   verify(message);
