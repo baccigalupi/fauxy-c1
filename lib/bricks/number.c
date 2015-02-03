@@ -126,41 +126,82 @@ error:
   return NULL;
 }
 
-FxB_String *fxb_number_inspect(FxB_Number *number) {
+FxB_String *fxb_integer_inspect(FxB_Number *number) {
   char str[200];
 
-  if (fxb_number_is_decimal(number)) {
-    if (fxb_number_exponent(number)) {
-      if (fxb_number_type(number) == FXB_DECIMAL_DOUBLE) {
-        sprintf(str, "%.1le", fxb_number_value_double(number));
-      } else {
-        sprintf(str, "%.1Le", fxb_number_value_ldouble(number));
-      }
+  if (fxb_number_type(number) == FXB_INT_SHORT) {
+    sprintf(str, "%d", fxb_number_value_short(number));
+  } else if (fxb_number_type(number) == FXB_INT_STANDARD) {
+    sprintf(str, "%d", fxb_number_value_standard(number));
+  } else if (fxb_number_type(number) == FXB_INT_LONG) {
+    sprintf(str, "%ld", fxb_number_value_long(number));
+  } else {
+    sprintf(str, "%lld", fxb_number_value_llong(number));
+  }
+
+  return FxB_String_create(str);
+}
+
+FxB_String *fxb_decimal_inspect(FxB_Number *number) {
+  char str[200];
+
+  if (fxb_number_exponent(number)) {
+    if (fxb_number_type(number) == FXB_DECIMAL_DOUBLE) {
+      sprintf(str, "%.1le", fxb_number_value_double(number));
     } else {
-      if (fxb_number_type(number) == FXB_DECIMAL_DOUBLE) {
-        sprintf(str, "%.3lf", fxb_number_value_double(number));
-      } else {
-        sprintf(str, "%.3Lf", fxb_number_value_ldouble(number));
-      }
+      sprintf(str, "%.1Le", fxb_number_value_ldouble(number));
     }
   } else {
-    if (fxb_number_type(number) == FXB_INT_SHORT) {
-      sprintf(str, "%d", fxb_number_value_short(number));
-    } else if (fxb_number_type(number) == FXB_INT_STANDARD) {
-      sprintf(str, "%d", fxb_number_value_standard(number));
-    } else if (fxb_number_type(number) == FXB_INT_LONG) {
-      sprintf(str, "%ld", fxb_number_value_long(number));
+    if (fxb_number_type(number) == FXB_DECIMAL_DOUBLE) {
+      sprintf(str, "%.3lf", fxb_number_value_double(number));
     } else {
-      sprintf(str, "%lld", fxb_number_value_llong(number));
+      sprintf(str, "%.3Lf", fxb_number_value_ldouble(number));
     }
   }
 
-  FxB_String *string = FxB_String_create(str);
-  verify(string);
+  return FxB_String_create(str);
+}
+
+FxB_String *fxb_decimal_full_inspect(FxB_Number *number) {
+  char str[200];
+
+  if (fxb_number_exponent(number)) {
+    if (fxb_number_type(number) == FXB_DECIMAL_DOUBLE) {
+      sprintf(str, "%le", fxb_number_value_double(number));
+    } else {
+      sprintf(str, "%Le", fxb_number_value_ldouble(number));
+    }
+  } else {
+    if (fxb_number_type(number) == FXB_DECIMAL_DOUBLE) {
+      sprintf(str, "%lf", fxb_number_value_double(number));
+    } else {
+      sprintf(str, "%Lf", fxb_number_value_ldouble(number));
+    }
+  }
+
+  return FxB_String_create(str);
+}
+
+FxB_String *fxb_number_inspect(FxB_Number *number) {
+  FxB_String *string;
+  if (fxb_number_is_decimal(number)) {
+    string = fxb_decimal_inspect(number);
+  } else {
+    string = fxb_integer_inspect(number);
+  }
 
   return string;
-error:
-  return NULL;
+}
+
+FxB_String *fxb_number_full_inspect(FxB_Number *number) {
+  FxB_String *string;
+  if (fxb_number_is_decimal(number)) {
+    string = fxb_decimal_full_inspect(number);
+  } else {
+    string = fxb_integer_inspect(number);
+  }
+
+  return string;
 }
 
 FxB_String *fxb_number_type_description(FxB_Number *number) {
