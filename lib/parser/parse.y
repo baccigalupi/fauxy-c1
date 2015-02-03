@@ -169,8 +169,8 @@ function_method_call
   ;
 
 negation
-  : NOT unterminated_expression   { $$ = FxP_Method_create_negation($2); }
-  | NOT implicit_method_call      { $$ = FxP_Method_create_negation($2); }
+  : NOT unterminated_expression   { $$ = FxP_Method_create_negation($2, $1); }
+  | NOT implicit_method_call      { $$ = FxP_Method_create_negation($2, $1); }
   ;
 
 method_call

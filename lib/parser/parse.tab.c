@@ -1630,13 +1630,13 @@ yyreduce:
 
   case 38:
 #line 172 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Method_create_negation((yyvsp[0])); }
+    { (yyval) = FxP_Method_create_negation((yyvsp[0]), (yyvsp[-1])); }
 #line 1635 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 39:
 #line 173 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Method_create_negation((yyvsp[0])); }
+    { (yyval) = FxP_Method_create_negation((yyvsp[0]), (yyvsp[-1])); }
 #line 1641 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 

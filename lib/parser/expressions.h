@@ -36,7 +36,7 @@ enum {
   FXP_ST_FUNCTION,
   FXP_ST_GROUPED,
   FXP_ST_LIST,
-  FXP_ST_METHOD_ARGUMENTS, // may not need these distinctions, being a list in a method or block is enough
+  FXP_ST_METHOD_ARGUMENTS,
   FXP_ST_FUNCTION_ARGUMENTS,
   FXP_ST_LOCAL_ASSIGN,
   FXP_ST_COLON_EXPRESSION,
@@ -102,7 +102,7 @@ FxP_Function *FxP_Function_create(FxP_FxB_List *list);
 FxP_Method *FxP_Method_create_implicit(FxP_Literal *message, FxP_Expression *argument);
 FxP_Method *fxp_method_convert_implicit(FxP_Method *self, FxP_Expression *receivier);
 FxP_Method *FxP_Method_create_no_args(FxP_Expression *receiver, FxP_Literal *message);
-FxP_Method *FxP_Method_create_negation(FxP_Expression *receiver);
+FxP_Method *FxP_Method_create_negation(FxP_Expression *receiver, FxP_Bit *not_id);
 FxP_Method *FxP_Method_create_args(FxP_Expression *receiver, FxP_Literal *message, FxP_Expression *argument);
 FxP_Method *fxp_method_add_function_argument(FxP_Method *method, FxP_Function *function);
 

@@ -142,24 +142,14 @@ error:
   return NULL;
 }
 
-// TODO: eliminate now that lexer creates message bit
-// also test &&, and, ||, or operators
-FxP_Method *FxP_Method_create_negation(FxP_Expression *receiver) {
-  FxP_Bit *bit = NULL;
+FxP_Method *FxP_Method_create_negation(FxP_Expression *receiver, FxP_Bit *not_id) {
   FxP_Literal *message = NULL;
 
-  char *str = calloc(4, sizeof(char));
-  verify_memory(str);
-  strcpy(str, "not");
-  bit = FxP_Bit_string_create(str);
-  verify(bit);
-  message = FxP_Lookup_create(bit, TOKEN_ID);
+  message = FxP_Lookup_create(not_id, TOKEN_ID);
   verify(message);
 
   return FxP_Method_create_no_args(receiver, message);
 error:
-  if (str) { fx_pfree(str); }
-  if (bit) { fxp_bit_free(bit); }
   return NULL;
 }
 
