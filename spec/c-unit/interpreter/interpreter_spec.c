@@ -1,34 +1,68 @@
 #include "../../../lib/interpreter/interpreter.h"
 #include "../../../lib/interpreter/object.h"
+#include "../../../lib/interpreter/expression_eval.h"
 #include "../../../lib/native/boolean_methods.h"
 #include "../../../lib/native/nil_methods.h"
 #include "../../../lib/parser/expressions.h"
+#include "../../../lib/parser/expression_inspect.h"
+#include "../../../lib/bricks/string.h"
 #include "../lib/spec.h"
 
+#define setup_interpreter()   FxI_Interpreter *interpreter = FxI_Interpreter_create(6, 1, 1); \
+                              fxi_interpreter_setup(interpreter);
 
-char *test_interpeter_setup_objects() {
-  spec_describe("setup of interpreter with basic object literals");
 
-  FxI_Interpreter *interpreter = FxI_Interpreter_create(6, 1, 1);
-  fxi_interpreter_setup(interpreter);
+char *test_interpet_literal_true() {
+  spec_describe("get true object from interpreter");
+  setup_interpreter();
 
-  FxN_Object *true_object =  fxi_interpreter_get_literal(interpreter, "true");
-  FxN_Object *false_object = fxi_interpreter_get_literal(interpreter, "false");
-  FxN_Object *nil_object =   fxi_interpreter_get_literal(interpreter, "nil");
+  FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_TRUE);
+  FxN_Object *object = fxi_evaluate(interpreter, literal);
 
-  assert_truthy(fxn_boolean_value(true_object) == true, "true object has value of true");
-  assert_truthy(fxn_boolean_value(false_object) == false, "false object has value of false");
-  assert_truthy(fxn_object_is_nil(nil_object) == true_object, "nil object is the nil object from pool");
+  assert_truthy(fxn_boolean_value(object) == true,  "returned object is true");
+  // assert that object has the right class
+
+  FxI_Pool *pool = fxi_interpreter_pool(interpreter);
+  FxN_Object *stored_object = fxi_literal_get(pool, "258");
+  assert_truthy(fxn_boolean_value(object) == true, "literal is set in the pool");
+
+  assert_equal(object, stored_object, "literal returned is same as one stored in the pool");
 
   fxi_interpreter_free(interpreter);
 
   return NULL;
 }
 
+/*char *test_global_assignment() {*/
+  /*spec_describe("global assign");*/
+  /*setup_interpreter();*/
+
+  /*char *text = calloc(4, sizeof(char));*/
+  /*strcpy(text, "foo");*/
+  /*FxP_Bit *left_bit = FxP_Bit_string_create(text);*/
+  /*FxP_Lookup *left = FxP_Lookup_create(left_bit, TOKEN_ID);*/
+
+  /*FxP_Literal *right = FxP_Literal_create(NULL, TOKEN_TRUE);*/
+
+  /*FxP_Expression *assignment_expression = FxP_ColonExpression_create(left, right);*/
+
+  /*FxN_Object *expression_result = fxi_evaluate(interpreter, assignment_expression);*/
+  /*FxN_Object *foo_result = fxi_interpreter_get(interpreter, "foo");*/
+  /*FxN_Object *true_object = fxi_interpreter_get_literal(interpreter, "true");*/
+
+  /*assert_equal(expression_result, true_object, "eval returns right object");*/
+  /*assert_equal(foo_result, true_object, "assignment assigns result");*/
+
+  /*return NULL;*/
+/*}*/
+
+
 char *all_specs() {
   spec_setup("Interpreter");
 
-  run_spec(test_interpeter_setup_objects);
+  run_spec(test_interpet_literal_true);
+  /*run_spec(test_literal_creation_interpretation);*/
+  /*run_spec(test_global_assignment);*/
 
   spec_teardown();
 

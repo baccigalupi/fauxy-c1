@@ -7,6 +7,7 @@ char *test_set_and_get_attribute() {
   spec_describe("setting and getting attributes of objects");
 
   FxI_Pool   *pool =    FxI_Pool_create(1, 1, 1);
+
   FxN_Object *object =  FxN_Object_create(pool, NULL);
   FxN_Object *value =   FxN_Object_create(pool, NULL);
   char *key = "thing";
