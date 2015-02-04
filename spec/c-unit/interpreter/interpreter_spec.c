@@ -97,7 +97,7 @@ char *test_interpet_literal_integer() {
 }
 
 char *test_interpet_literal_decimal() {
-  spec_describe("interpret decimal expression");
+  spec_describe("interpret decimal literal expression");
   setup_interpreter();
 
   FxP_Bit *bit = FxP_Bit_decimal_create("1.2");
@@ -109,6 +109,26 @@ char *test_interpet_literal_decimal() {
 
   FxI_Pool *pool = fxi_interpreter_pool(interpreter);
   assert_ints_equal(fxb_hash_map_length(fxi_pool_literals(pool)), 3, "decimal was not added to the pool");
+
+  fxi_interpreter_free(interpreter);
+
+  return NULL;
+}
+
+char *test_interpet_literal_string() {
+  spec_describe("interpret string literal expression");
+  setup_interpreter();
+
+  FxP_Bit *bit = FxP_Bit_string_create("hello world");
+  FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_FLOAT);
+  FxN_Object *object = fxi_evaluate(interpreter, literal);
+
+  assert_strings_equal(fxb_string_value(fxi_object_value_string(object)), "hello world", "returned the right string");
+  // assert that object has the right class
+
+  FxI_Pool *pool = fxi_interpreter_pool(interpreter);
+  FxN_Object *stored_object = fxi_literal_get(pool, fxi_literal_key(literal));
+  assert_equal(object, stored_object, "literal returned is same as one stored in the pool");
 
   fxi_interpreter_free(interpreter);
 
@@ -147,6 +167,7 @@ char *all_specs() {
   run_spec(test_interpet_literal_nil);
   run_spec(test_interpet_literal_integer);
   run_spec(test_interpet_literal_decimal);
+  run_spec(test_interpet_literal_string);
 
   spec_teardown();
 
