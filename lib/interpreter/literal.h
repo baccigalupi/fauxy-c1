@@ -1,5 +1,5 @@
-#ifndef __literal_key_h
-#define __literal_key_h
+#ifndef __int_literal_h
+#define __int_literal_h
 
 #include "../parser/expressions.h"
 

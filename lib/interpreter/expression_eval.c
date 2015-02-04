@@ -1,5 +1,5 @@
 #include "expression_eval.h"
-#include "literal_key.h"
+#include "literal.h"
 #include "pool.h"
 #include "../parser/expression_inspect.h"
 #include "../parser/bit.h"

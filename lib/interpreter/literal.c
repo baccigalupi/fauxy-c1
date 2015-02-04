@@ -1,4 +1,4 @@
-#include "literal_key.h"
+#include "literal.h"
 #include "../parser/expression_inspect.h"
 
 char *fxi_literal_key(FxP_Literal *literal) {

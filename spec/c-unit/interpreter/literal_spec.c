@@ -1,4 +1,4 @@
-#include "../../../lib/interpreter/literal_key.h"
+#include "../../../lib/interpreter/literal.h"
 #include "../../../lib/parser/expressions.h"
 #include "../../../lib/parser/tokens.h"
 #include "../lib/spec.h"
