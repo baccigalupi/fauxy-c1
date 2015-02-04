@@ -23,7 +23,7 @@ char *test_interpet_literal_true() {
   // assert that object has the right class
 
   FxI_Pool *pool = fxi_interpreter_pool(interpreter);
-  FxN_Object *stored_object = fxi_literal_get(pool, "258");
+  FxN_Object *stored_object = fxi_literal_get(pool, TRUE_KEY);
   assert_truthy(fxn_boolean_value(object) == true, "literal is set in the pool");
 
   assert_equal(object, stored_object, "literal returned is same as one stored in the pool");
@@ -44,8 +44,29 @@ char *test_interpet_literal_false() {
   // assert that object has the right class
 
   FxI_Pool *pool = fxi_interpreter_pool(interpreter);
-  FxN_Object *stored_object = fxi_literal_get(pool, "259");
+  FxN_Object *stored_object = fxi_literal_get(pool, FALSE_KEY);
   assert_truthy(fxn_boolean_value(object) == false, "literal is set in the pool");
+
+  assert_equal(object, stored_object, "literal returned is same as one stored in the pool");
+
+  fxi_interpreter_free(interpreter);
+
+  return NULL;
+}
+
+char *test_interpet_literal_nil() {
+  spec_describe("get nil object from interpreter");
+  setup_interpreter();
+
+  FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_NIL);
+  FxN_Object *object = fxi_evaluate(interpreter, literal);
+
+  assert_truthy(fxn_object_is_nil(object),  "returned object is nil");
+  // assert that object has the right class
+
+  FxI_Pool *pool = fxi_interpreter_pool(interpreter);
+  FxN_Object *stored_object = fxi_literal_get(pool, NIL_KEY);
+  assert_truthy(fxn_object_is_nil(object), "literal is set in the pool");
 
   assert_equal(object, stored_object, "literal returned is same as one stored in the pool");
 
@@ -83,6 +104,7 @@ char *all_specs() {
 
   run_spec(test_interpet_literal_true);
   run_spec(test_interpet_literal_false);
+  run_spec(test_interpet_literal_nil);
   /*run_spec(test_literal_creation_interpretation);*/
   /*run_spec(test_global_assignment);*/
 

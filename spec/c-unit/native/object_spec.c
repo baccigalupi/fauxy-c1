@@ -18,9 +18,9 @@ FxI_Pool *setup_test_literal_pool() {
   FxP_Expression *nil_literal = FxP_Literal_create(NULL, TOKEN_NIL);
   FxN_Object *nil_object = FxN_Nil_create(pool, nil_literal);
 
-  fxi_literal_set(pool, "false", false_object);
-  fxi_literal_set(pool, "true", true_object);
-  fxi_literal_set(pool, "nil", nil_object);
+  fxi_literal_set(pool, FALSE_KEY, false_object);
+  fxi_literal_set(pool, TRUE_KEY, true_object);
+  fxi_literal_set(pool, NIL_KEY, nil_object);
 
   return pool;
 }
@@ -29,7 +29,7 @@ char *test_object_without_attributes_emptines() {
   spec_describe("empty on objects without attributes");
 
   FxI_Pool *pool = setup_test_literal_pool();
-  FxN_Object *false_object = fxi_literal_get(pool, "false");
+  FxN_Object *false_object = fxi_literal_get(pool, FALSE_KEY);
 
   FxN_Object *object = FxN_Object_create(pool, NULL);
 
@@ -42,7 +42,7 @@ char *test_object_with_attributes_emptines() {
   spec_describe("non-empty object truthiness");
 
   FxI_Pool *pool = setup_test_literal_pool();
-  FxN_Object *true_object = fxi_literal_get(pool, "true");
+  FxN_Object *true_object = fxi_literal_get(pool, TRUE_KEY);
 
   FxN_Object *object = FxN_Object_create(pool, NULL);
   fxn_object_set_attribute(object, "flag", true_object);
@@ -56,8 +56,8 @@ char *test_object_nilness() {
   spec_describe("nilness of objects");
 
   FxI_Pool *pool = setup_test_literal_pool();
-  FxN_Object *nil_object = fxi_literal_get(pool, "nil");
-  FxN_Object *true_object = fxi_literal_get(pool, "true");
+  FxN_Object *nil_object =  fxi_literal_get(pool, NIL_KEY);
+  FxN_Object *true_object = fxi_literal_get(pool, TRUE_KEY);
 
   assert_equal(fxn_object_is_nil(nil_object), true_object, "nil object is in the pool");
 

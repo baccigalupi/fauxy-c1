@@ -17,9 +17,9 @@ FxN_Object *fxn_boolean_not(FxN_Object *self) {
   FxN_Object *not_value;
 
   if (fxn_boolean_value(self)) {
-    not_value = fxi_literal_get(pool, "false");
+    not_value = fxi_literal_get(pool, FALSE_KEY);
   } else {
-    not_value = fxi_literal_get(pool, "true");
+    not_value = fxi_literal_get(pool, TRUE_KEY);
   }
 
   return not_value;

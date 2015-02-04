@@ -3,6 +3,7 @@
 #include "object.h"
 #include "../parser/expressions.h"
 #include "../native/boolean_methods.h"
+#include "../native/nil_methods.h"
 
 
 FxI_Interpreter *FxI_Interpreter_create(int literal_capacity, int class_capacity, int lookup_capacity) {
@@ -38,7 +39,6 @@ void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
 void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
   FxI_Pool *pool = fxi_interpreter_pool(self);
 
-  // Booleans & Nil ---------
   FxP_Expression *false_literal = FxP_Literal_create(NULL, TOKEN_FALSE);
   FxN_Object *false_object = FxN_Boolean_create(pool, false_literal);
 
@@ -48,7 +48,7 @@ void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
   FxP_Expression *nil_literal = FxP_Literal_create(NULL, TOKEN_NIL);
   FxN_Object *nil_object = FxN_Boolean_create(pool, nil_literal);
 
-  fxi_literal_set(pool, "false", false_object);
-  fxi_literal_set(pool, "true",  true_object);
-  fxi_literal_set(pool, "nil",   nil_object);
+  fxi_literal_set(pool, FALSE_KEY, false_object);
+  fxi_literal_set(pool, TRUE_KEY,  true_object);
+  fxi_literal_set(pool, NIL_KEY,   nil_object);
 }

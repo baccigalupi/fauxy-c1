@@ -13,8 +13,8 @@ FxI_Pool *setup_test_boolean_pool() {
   FxP_Expression *true_literal = FxP_Literal_create(NULL, TOKEN_TRUE);
   FxN_Object *true_object = FxN_Boolean_create(pool, true_literal);
 
-  fxi_literal_set(pool, "false", false_object);
-  fxi_literal_set(pool, "true", true_object);
+  fxi_literal_set(pool, FALSE_KEY, false_object);
+  fxi_literal_set(pool, TRUE_KEY, true_object);
 
   return pool;
 }
@@ -24,8 +24,8 @@ char *test_boolean_not_value() {
 
   FxI_Pool *pool = setup_test_boolean_pool();
 
-  FxN_Object *true_value = fxi_literal_get(pool, "true");
-  FxN_Object *false_value = fxi_literal_get(pool, "false");
+  FxN_Object *true_value = fxi_literal_get(pool, TRUE_KEY);
+  FxN_Object *false_value = fxi_literal_get(pool, FALSE_KEY);
 
   assert_equal(false_value, fxn_boolean_not(true_value), "!true is false");
   assert_equal(true_value, fxn_boolean_not(false_value), "!false is true");

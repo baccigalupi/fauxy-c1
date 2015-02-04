@@ -1,4 +1,5 @@
 #include "nil_methods.h"
+#include "boolean_methods.h"
 
 // TODO: this is identical to the boolean, except that eventuall the class context
 // will be passed in. Should be a literal create object function that each can call
@@ -18,13 +19,13 @@ error:
 FxN_Object *fxn_object_is_nil(FxN_Object *self) {
   FxI_Pool *pool = fxn_object_pool(self);
 
-  FxN_Object *nil_object = fxi_literal_get(pool, "nil");
+  FxN_Object *nil_object = fxi_literal_get(pool, NIL_KEY);
 
   FxN_Object *boolean;
   if ( nil_object == self ) {
-    boolean = fxi_literal_get(pool, "true");
+    boolean = fxi_literal_get(pool, TRUE_KEY);
   } else {
-    boolean = fxi_literal_get(pool, "false");
+    boolean = fxi_literal_get(pool, FALSE_KEY);
   }
 
   return boolean;

@@ -1,6 +1,8 @@
 #ifndef FxN_Nil_h
 #define FxN_Nil_h 1
 
+#define NIL_KEY "260"
+
 #include "../parser/expressions.h"
 #include "../interpreter/object.h"
 #include "../interpreter/pool.h"

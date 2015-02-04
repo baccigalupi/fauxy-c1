@@ -1,6 +1,9 @@
 #ifndef FxN_Boolean_h
 #define FxN_Boolean_h 1
 
+#define TRUE_KEY  "258"
+#define FALSE_KEY  "259"
+
 #include "../parser/expressions.h"
 #include "../interpreter/object.h"
 #include "../interpreter/pool.h"
