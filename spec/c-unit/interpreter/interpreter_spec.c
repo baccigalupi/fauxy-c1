@@ -1,5 +1,6 @@
 #include "../../../lib/interpreter/interpreter.h"
 #include "../../../lib/interpreter/object.h"
+#include "../../../lib/interpreter/literal.h"
 #include "../../../lib/interpreter/expression_eval.h"
 #include "../../../lib/native/boolean_methods.h"
 #include "../../../lib/native/nil_methods.h"
@@ -75,6 +76,45 @@ char *test_interpet_literal_nil() {
   return NULL;
 }
 
+char *test_interpet_literal_integer() {
+  spec_describe("get integer object from interpreter");
+  setup_interpreter();
+
+  FxP_Bit *bit = FxP_Bit_integer_create("12");
+  FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_INTEGER);
+  FxN_Object *object = fxi_evaluate(interpreter, literal);
+
+  assert_equal(fxi_object_value_short(object), (short)12, "returned the right number");
+  // assert that object has the right class
+
+  FxI_Pool *pool = fxi_interpreter_pool(interpreter);
+  FxN_Object *stored_object = fxi_literal_get(pool, fxi_literal_key(literal));
+  assert_equal(object, stored_object, "literal returned is same as one stored in the pool");
+
+  fxi_interpreter_free(interpreter);
+
+  return NULL;
+}
+
+char *test_interpet_literal_decimal() {
+  spec_describe("interpret decimal expression");
+  setup_interpreter();
+
+  FxP_Bit *bit = FxP_Bit_decimal_create("1.2");
+  FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_FLOAT);
+  FxN_Object *object = fxi_evaluate(interpreter, literal);
+
+  assert_equal(fxi_object_value_double(object), (double)1.2, "returned the right number");
+  // assert that object has the right class
+
+  FxI_Pool *pool = fxi_interpreter_pool(interpreter);
+  assert_ints_equal(fxb_hash_map_length(fxi_pool_literals(pool)), 3, "decimal was not added to the pool");
+
+  fxi_interpreter_free(interpreter);
+
+  return NULL;
+}
+
 /*char *test_global_assignment() {*/
   /*spec_describe("global assign");*/
   /*setup_interpreter();*/
@@ -105,8 +145,8 @@ char *all_specs() {
   run_spec(test_interpet_literal_true);
   run_spec(test_interpet_literal_false);
   run_spec(test_interpet_literal_nil);
-  /*run_spec(test_literal_creation_interpretation);*/
-  /*run_spec(test_global_assignment);*/
+  run_spec(test_interpet_literal_integer);
+  run_spec(test_interpet_literal_decimal);
 
   spec_teardown();
 
