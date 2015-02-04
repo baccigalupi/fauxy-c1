@@ -33,6 +33,27 @@ char *test_interpet_literal_true() {
   return NULL;
 }
 
+char *test_interpet_literal_false() {
+  spec_describe("get false object from interpreter");
+  setup_interpreter();
+
+  FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_FALSE);
+  FxN_Object *object = fxi_evaluate(interpreter, literal);
+
+  assert_truthy(fxn_boolean_value(object) == false,  "returned object is false");
+  // assert that object has the right class
+
+  FxI_Pool *pool = fxi_interpreter_pool(interpreter);
+  FxN_Object *stored_object = fxi_literal_get(pool, "259");
+  assert_truthy(fxn_boolean_value(object) == false, "literal is set in the pool");
+
+  assert_equal(object, stored_object, "literal returned is same as one stored in the pool");
+
+  fxi_interpreter_free(interpreter);
+
+  return NULL;
+}
+
 /*char *test_global_assignment() {*/
   /*spec_describe("global assign");*/
   /*setup_interpreter();*/
@@ -61,6 +82,7 @@ char *all_specs() {
   spec_setup("Interpreter");
 
   run_spec(test_interpet_literal_true);
+  run_spec(test_interpet_literal_false);
   /*run_spec(test_literal_creation_interpretation);*/
   /*run_spec(test_global_assignment);*/
 
