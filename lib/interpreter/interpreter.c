@@ -1,4 +1,5 @@
 #include "interpreter.h"
+#include "expression_eval.h"
 #include "pool.h"
 #include "object.h"
 #include "../parser/expressions.h"
@@ -40,15 +41,11 @@ void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
   FxI_Pool *pool = fxi_interpreter_pool(self);
 
   FxP_Expression *false_literal = FxP_Literal_create(NULL, TOKEN_FALSE);
-  FxN_Object *false_object = FxN_Boolean_create(pool, false_literal);
+  fxi_evaluate(self, false_literal);
 
   FxP_Expression *true_literal = FxP_Literal_create(NULL, TOKEN_TRUE);
-  FxN_Object *true_object = FxN_Boolean_create(pool, true_literal);
+  fxi_evaluate(self, true_literal);
 
   FxP_Expression *nil_literal = FxP_Literal_create(NULL, TOKEN_NIL);
-  FxN_Object *nil_object = FxN_Boolean_create(pool, nil_literal);
-
-  fxi_literal_set(pool, FALSE_KEY, false_object);
-  fxi_literal_set(pool, TRUE_KEY,  true_object);
-  fxi_literal_set(pool, NIL_KEY,   nil_object);
+  fxi_evaluate(self, nil_literal);
 }
