@@ -65,15 +65,19 @@ error:
   return NULL;
 }
 
+FxN_Object *fxi_evaluate_function_arguments(FxI_Interpreter *interpreter, FxP_Expression *expression) {
+  return NULL;
+}
+
+FxN_Object *fxi_evaluate_function(FxI_Interpreter *interpreter, FxP_Expression *expression) {
+  return NULL;
+}
+
 FxN_Object *fxi_evaluate_lookup(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   return NULL;
 }
 
 FxN_Object *fxi_evaluate_method(FxI_Interpreter *interpreter, FxP_Expression *expression) {
-  return NULL;
-}
-
-FxN_Object *fxi_evaluate_function(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   return NULL;
 }
 
@@ -86,10 +90,6 @@ FxN_Object *fxi_evaluate_list(FxI_Interpreter *interpreter, FxP_Expression *expr
 }
 
 FxN_Object *fxi_evaluate_method_arguments(FxI_Interpreter *interpreter, FxP_Expression *expression) {
-  return NULL;
-}
-
-FxN_Object *fxi_evaluate_function_arguments(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   return NULL;
 }
 

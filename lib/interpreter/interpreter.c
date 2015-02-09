@@ -24,7 +24,12 @@ error:
 void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
   FxI_Pool *pool = fxi_interpreter_pool(self);
 
-  // do stuff to setup classes
+  /*FxN_Class *object_class = FxN_Class_create("Object", NULL);*/
+  // add native methods
+  // add to global context
+
+  // Setup classes
+  // -------------
   // Object
   // Boolean
   // Nil
@@ -34,7 +39,7 @@ void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
   // EvalString
   // Function
   // Regex
-  // Symbol ??
+  // Symbol
 }
 
 void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {

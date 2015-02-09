@@ -23,8 +23,9 @@ typedef struct FxI_Pool {
 #define fxi_pool_contexts_push(P, V)      (fxb_list_push(fxi_pool_contexts(P), V))
 #define fxi_context_current_get(P, K)     (fxb_hash_map_get(fxi_pool_context_current(P), K))
 #define fxi_context_current_set(P, K, V)  (fxb_hash_map_set(fxi_pool_context_current(P), K, V))
+#define fxi_context_global(P)             (fxb_list_first(fxi_pool_contexts(P)))
 
-#define fxi_pool_free(P)            (fx_pfree(P)) // TODO: more better
+#define fxi_pool_free(P)                  (fx_pfree(P)) // TODO: more better
 
 FxI_Pool *FxI_Pool_create(int literal_capacity, int class_capacity, int lookup_capacity);
 
