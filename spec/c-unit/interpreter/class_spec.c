@@ -3,9 +3,12 @@
 #include "../../../lib/bricks/hash_map.h"
 #include "../lib/spec.h"
 
+#define create_config() FxB_HashMap_create(1)
+
 char *find_or_create_in_pool() {
   spec_describe("find or create in pool");
-  FxI_Pool *pool = FxI_Pool_create(1, 1, 1);
+  FxB_HashMap *config = create_config();
+  FxI_Pool *pool = FxI_Pool_create(config);
 
   FxN_Class *klass = fxi_class_assign(pool, "MyClass", NULL);
   assert_strings_equal(fxn_class_name(klass), "MyClass", "returns class with right name when new");

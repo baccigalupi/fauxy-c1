@@ -9,7 +9,8 @@
 #include "../../../lib/bricks/string.h"
 #include "../lib/spec.h"
 
-#define setup_interpreter()   FxI_Interpreter *interpreter = FxI_Interpreter_create(6, 1, 1); \
+#define setup_interpreter()   FxB_HashMap *config = FxB_HashMap_create(1);                    \
+                              FxI_Interpreter *interpreter = FxI_Interpreter_create(config);  \
                               fxi_interpreter_setup(interpreter);
 
 

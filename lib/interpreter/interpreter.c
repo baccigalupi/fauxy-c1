@@ -7,11 +7,11 @@
 #include "../native/nil_methods.h"
 
 
-FxI_Interpreter *FxI_Interpreter_create(int literal_capacity, int class_capacity, int lookup_capacity) {
+FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config) {
   FxI_Interpreter *self = fx_alloc(FxI_Interpreter);
   verify_memory(self);
 
-  FxI_Pool *pool = FxI_Pool_create(literal_capacity, class_capacity, lookup_capacity);
+  FxI_Pool *pool = FxI_Pool_create(config);
   verify(pool);
   fxi_interpreter_pool(self) = pool;
 

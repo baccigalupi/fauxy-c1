@@ -4,8 +4,11 @@
 #include "../../../lib/native/boolean_methods.h"
 #include "../lib/spec.h"
 
+#define create_config() FxB_HashMap_create(1)
+
 FxI_Pool *setup_test_boolean_pool() {
-  FxI_Pool *pool = FxI_Pool_create(2, 1, 1);
+  FxB_HashMap *config = create_config();
+  FxI_Pool *pool = FxI_Pool_create(config);
 
   FxP_Expression *false_literal = FxP_Literal_create(NULL, TOKEN_FALSE);
   FxN_Object *false_object = FxN_Boolean_create(pool, false_literal);
@@ -22,6 +25,7 @@ FxI_Pool *setup_test_boolean_pool() {
 char *test_boolean_not_value() {
   spec_describe("not booleans");
 
+  FxB_HashMap *config = create_config();
   FxI_Pool *pool = setup_test_boolean_pool();
 
   FxN_Object *true_value = fxi_literal_get(pool, TRUE_KEY);

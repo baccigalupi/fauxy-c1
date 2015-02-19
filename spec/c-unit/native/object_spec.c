@@ -6,8 +6,11 @@
 #include "../../../lib/native/nil_methods.h"
 #include "../lib/spec.h"
 
+#define create_config() FxB_HashMap_create(1)
+
 FxI_Pool *setup_test_literal_pool() {
-  FxI_Pool *pool = FxI_Pool_create(6, 1, 1);
+  FxB_HashMap *config = create_config();
+  FxI_Pool *pool = FxI_Pool_create(config);
 
   FxP_Expression *false_literal = FxP_Literal_create(NULL, TOKEN_FALSE);
   FxN_Object *false_object = FxN_Boolean_create(pool, false_literal);
@@ -77,4 +80,3 @@ char *all_specs() {
 }
 
 run_all_specs(all_specs);
-

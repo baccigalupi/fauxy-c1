@@ -20,7 +20,7 @@ typedef struct FxI_Interpreter {
 
 #define fxi_interpreter_setup(I)          (fxi_interpreter_add_base_classes(I), fxi_interpreter_add_base_literals(I))
 
-FxI_Interpreter *FxI_Interpreter_create(int literal_capacity, int class_capacity, int lookup_capacity);
+FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config);
 void             fxi_interpreter_add_base_classes(FxI_Interpreter *self);
 void             fxi_interpreter_add_base_literals(FxI_Interpreter *self);
 

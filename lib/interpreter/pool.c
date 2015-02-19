@@ -1,6 +1,6 @@
 #include "pool.h"
 
-FxI_Pool *FxI_Pool_create(int literal_capacity, int global_capacity, int lookup_capacity) {
+FxI_Pool *FxI_Pool_create(FxB_HashMap *config) {
   FxB_HashMap *literals = NULL;
   FxB_List    *contexts = NULL;
   FxB_HashMap *globals  = NULL;
@@ -9,8 +9,8 @@ FxI_Pool *FxI_Pool_create(int literal_capacity, int global_capacity, int lookup_
   verify_memory(pool);
 
   // defaults for size
-  literal_capacity =  literal_capacity ? literal_capacity : FXI_POOL_LITERAL_CAPACITY_DEFAULT;
-  global_capacity =   global_capacity ? global_capacity :  FXI_POOL_CLASS_CAPACITY_DEFAULT;
+  int literal_capacity =  FXI_POOL_LITERAL_CAPACITY_DEFAULT;
+  int global_capacity =   FXI_POOL_GLOBAL_CAPACITY_DEFAULT;
 
   literals = FxB_HashMap_create(literal_capacity);
   verify(literals);
