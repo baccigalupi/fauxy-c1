@@ -1,13 +1,8 @@
-#include "../../../lib/interpreter/class.h"
-#include "../../../lib/interpreter/method_group.h"
-#include "../../../lib/bricks/hash_map.h"
-#include "../lib/spec.h"
-
-#define create_config() FxB_HashMap_create(1)
+#include "helpers.h"
 
 char *find_or_create_in_pool() {
   spec_describe("find or create in pool");
-  FxB_HashMap *config = create_config();
+  FxB_HashMap *config = create_pool_config();
   FxI_Pool *pool = FxI_Pool_create(config);
 
   FxN_Class *klass = fxi_class_assign(pool, "MyClass", NULL);

@@ -1,13 +1,7 @@
-#include "../../../lib/parser/tokens.h"
-#include "../../../lib/interpreter/pool.h"
-#include "../../../lib/interpreter/object.h"
-#include "../../../lib/native/boolean_methods.h"
-#include "../lib/spec.h"
-
-#define create_config() FxB_HashMap_create(1)
+#include "../interpreter/helpers.h"
 
 FxI_Pool *setup_test_boolean_pool() {
-  FxB_HashMap *config = create_config();
+  FxB_HashMap *config = create_pool_config();
   FxI_Pool *pool = FxI_Pool_create(config);
 
   FxP_Expression *false_literal = FxP_Literal_create(NULL, TOKEN_FALSE);
@@ -25,7 +19,7 @@ FxI_Pool *setup_test_boolean_pool() {
 char *test_boolean_not_value() {
   spec_describe("not booleans");
 
-  FxB_HashMap *config = create_config();
+  FxB_HashMap *config = create_pool_config();
   FxI_Pool *pool = setup_test_boolean_pool();
 
   FxN_Object *true_value = fxi_literal_get(pool, TRUE_KEY);

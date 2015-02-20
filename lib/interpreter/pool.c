@@ -8,9 +8,10 @@ FxI_Pool *FxI_Pool_create(FxB_HashMap *config) {
   FxI_Pool *pool = fx_alloc(FxI_Pool);
   verify_memory(pool);
 
-  // defaults for size
-  int literal_capacity =  FXI_POOL_LITERAL_CAPACITY_DEFAULT;
-  int global_capacity =   FXI_POOL_GLOBAL_CAPACITY_DEFAULT;
+  void *capacity_ref = fxb_hash_map_get(config, "literal_capacity");
+  int literal_capacity = capacity_ref ? *(int *)capacity_ref : FXI_POOL_LITERAL_CAPACITY_DEFAULT;
+  capacity_ref =       fxb_hash_map_get(config, "global_capacity");
+  int global_capacity = capacity_ref ? *(int *)capacity_ref : FXI_POOL_GLOBAL_CAPACITY_DEFAULT;
 
   literals = FxB_HashMap_create(literal_capacity);
   verify(literals);

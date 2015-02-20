@@ -6,6 +6,7 @@
 #include "../../../lib/native/nil_methods.h"
 #include "../lib/spec.h"
 
+// TODO: swap this out for interpreter helpers
 #define create_config() FxB_HashMap_create(1)
 
 FxI_Pool *setup_test_literal_pool() {

@@ -1,13 +1,9 @@
-#include "../../../lib/interpreter/object.h"
-#include "../../../lib/bricks/string.h"
-#include "../lib/spec.h"
-
-#define create_config() FxB_HashMap_create(1)
+#include "helpers.h"
 
 char *test_set_and_get_attribute() {
   spec_describe("setting and getting attributes of objects");
 
-  FxB_HashMap *config = create_config();
+  FxB_HashMap *config = create_pool_config();
   FxI_Pool   *pool =    FxI_Pool_create(config);
 
   FxN_Object *object =  FxN_Object_create(pool, NULL);

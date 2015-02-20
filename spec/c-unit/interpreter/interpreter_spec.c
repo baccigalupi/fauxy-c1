@@ -1,18 +1,4 @@
-#include "../../../lib/interpreter/interpreter.h"
-#include "../../../lib/interpreter/object.h"
-#include "../../../lib/interpreter/literal.h"
-#include "../../../lib/interpreter/expression_eval.h"
-#include "../../../lib/native/boolean_methods.h"
-#include "../../../lib/native/nil_methods.h"
-#include "../../../lib/parser/expressions.h"
-#include "../../../lib/parser/expression_inspect.h"
-#include "../../../lib/bricks/string.h"
-#include "../lib/spec.h"
-
-#define setup_interpreter()   FxB_HashMap *config = FxB_HashMap_create(1);                    \
-                              FxI_Interpreter *interpreter = FxI_Interpreter_create(config);  \
-                              fxi_interpreter_setup(interpreter);
-
+#include "helpers.h"
 
 char *test_interpet_literal_true() {
   spec_describe("get true object from interpreter");
