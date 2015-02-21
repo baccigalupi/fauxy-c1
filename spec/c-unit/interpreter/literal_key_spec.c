@@ -73,7 +73,7 @@ char *test_large_integer_key() {
 }
 
 char *test_large_decimal_key() {
-  spec_describe("large integer");
+  spec_describe("large decimal");
 
   FxP_Bit *bit = FxP_Bit_decimal_create("123456789.0123456789");
   FxP_Literal *exp = FxP_Literal_create(bit, TOKEN_FLOAT);
@@ -101,4 +101,3 @@ char *all_specs() {
 }
 
 run_all_specs(all_specs);
-
