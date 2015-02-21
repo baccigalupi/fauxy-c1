@@ -43,8 +43,6 @@ void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
 }
 
 void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
-  FxI_Pool *pool = fxi_interpreter_pool(self);
-
   FxP_Expression *false_literal = FxP_Literal_create(NULL, TOKEN_FALSE);
   fxi_evaluate(self, false_literal);
 
