@@ -19,17 +19,6 @@ error:
   return NULL;
 }
 
-FxN_Class *fxi_class_assign(FxI_Pool *pool, char *name, FxN_Class *super_class) {
-  FxN_Class *klass = fxi_context_current_get(pool, name);
-
-  if (!klass) {
-    klass = FxN_Class_create(name, super_class);
-    fxi_context_current_set(pool, name, klass);
-  }
-
-  return klass;
-}
-
 void fxn_class_set_method(FxN_Class *self, char *method_name, FxN_Function *function) {
   FxN_MethodGroup *method_group = NULL;
 

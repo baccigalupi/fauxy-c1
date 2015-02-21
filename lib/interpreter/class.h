@@ -24,7 +24,6 @@ typedef struct FxN_Class {
 #define fxn_class_free(C)          (fx_pfree(C)) // TODO: more better
 
 FxN_Class    *FxN_Class_create(char *name, FxN_Class *super_class);
-FxN_Class    *fxi_class_assign(FxI_Pool *pool, char *name, FxN_Class *super_class);
 
 void          fxn_class_set_method(FxN_Class *self, char *method_name, FxN_Function *function);
 FxN_Function *fxn_class_get_method(FxN_Class *self, char *method_name);

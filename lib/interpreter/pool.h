@@ -11,7 +11,7 @@
 // Garbage managment:
 //   * New allocations end up in the literals
 //     for stuff that is part of the source code
-//   * Otherwise it ends up in 'rest', which is a list
+//   * Otherwise it ends up in 'all', which is a list
 //   * Global assignments go into the 'globals' hash
 //
 // Generational-ish-ness:
@@ -24,10 +24,8 @@
 
 typedef struct FxI_Pool {
   FxB_HashMap *literals;
-  FxB_List    *rest;
+  FxB_List    *all;
   FxB_HashMap *globals;
-
-  FxB_List *contexts;
 } FxI_Pool;
 
 
@@ -35,14 +33,10 @@ typedef struct FxI_Pool {
 #define fxi_literal_get(P, K)       (fxb_hash_map_get(fxi_pool_literals(P), K))
 #define fxi_literal_set(P, K, V)    (fxb_hash_map_set(fxi_pool_literals(P), K, V))
 
-#define fxi_pool_contexts(P)              ((P)->contexts)
-#define fxi_pool_context_current(P)       ((FxB_HashMap *)fxb_list_last(fxi_pool_contexts(P)))
-#define fxi_pool_contexts_push(P, V)      (fxb_list_push(fxi_pool_contexts(P), V))
-#define fxi_context_current_get(P, K)     (fxb_hash_map_get(fxi_pool_context_current(P), K))
-#define fxi_context_current_set(P, K, V)  (fxb_hash_map_set(fxi_pool_context_current(P), K, V))
-#define fxi_context_global(P)             (fxb_list_first(fxi_pool_contexts(P)))
+#define fxi_pool_all(P)             ((P)->all)
+#define fxi_pool_globals(P)         ((P)->globals)
 
-#define fxi_pool_free(P)                  (fx_pfree(P)) // TODO: more better
+#define fxi_pool_free(P)            (fx_pfree(P)) // TODO: more better
 
 FxI_Pool *FxI_Pool_create(FxB_HashMap *config);
 

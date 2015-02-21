@@ -31,7 +31,4 @@ char *fxi_literal_key(FxP_Literal *literal) {
   }
 
   return key;
-error:
-  return NULL;
 }
-
