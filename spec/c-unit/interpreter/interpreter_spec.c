@@ -1,7 +1,7 @@
 #include "helpers.h"
 
 char *test_interpet_literal_true() {
-  spec_describe("get true object from interpreter");
+  spec_describe("'true' returns true object");
   setup_interpreter();
 
   FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_TRUE);
@@ -22,7 +22,7 @@ char *test_interpet_literal_true() {
 }
 
 char *test_interpet_literal_false() {
-  spec_describe("get false object from interpreter");
+  spec_describe("'false' returns false object");
   setup_interpreter();
 
   FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_FALSE);
@@ -43,7 +43,7 @@ char *test_interpet_literal_false() {
 }
 
 char *test_interpet_literal_nil() {
-  spec_describe("get nil object from interpreter");
+  spec_describe("'nil' returns nil object");
   setup_interpreter();
 
   FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_NIL);
@@ -64,7 +64,7 @@ char *test_interpet_literal_nil() {
 }
 
 char *test_interpet_literal_integer() {
-  spec_describe("get integer object from interpreter");
+  spec_describe("integer expressions return an object");
   setup_interpreter();
 
   FxP_Bit *bit = FxP_Bit_integer_create("12");
@@ -84,7 +84,7 @@ char *test_interpet_literal_integer() {
 }
 
 char *test_interpet_literal_decimal() {
-  spec_describe("interpret decimal literal expression");
+  spec_describe("decimal literal expression returns an object");
   setup_interpreter();
 
   FxP_Bit *bit = FxP_Bit_decimal_create("1.2");
@@ -103,7 +103,7 @@ char *test_interpet_literal_decimal() {
 }
 
 char *test_interpet_literal_string() {
-  spec_describe("interpret string literal expression");
+  spec_describe("string literal expression returns an object");
   setup_interpreter();
 
   FxP_Bit *bit = FxP_Bit_string_create("hello world");
@@ -121,29 +121,6 @@ char *test_interpet_literal_string() {
 
   return NULL;
 }
-
-/*char *test_global_assignment() {*/
-  /*spec_describe("global assign");*/
-  /*setup_interpreter();*/
-
-  /*char *text = calloc(4, sizeof(char));*/
-  /*strcpy(text, "foo");*/
-  /*FxP_Bit *left_bit = FxP_Bit_string_create(text);*/
-  /*FxP_Lookup *left = FxP_Lookup_create(left_bit, TOKEN_ID);*/
-
-  /*FxP_Literal *right = FxP_Literal_create(NULL, TOKEN_TRUE);*/
-
-  /*FxP_Expression *assignment_expression = FxP_ColonExpression_create(left, right);*/
-
-  /*FxN_Object *expression_result = fxi_evaluate(interpreter, assignment_expression);*/
-  /*FxN_Object *foo_result = fxi_interpreter_get(interpreter, "foo");*/
-  /*FxN_Object *true_object = fxi_interpreter_get_literal(interpreter, "true");*/
-
-  /*assert_equal(expression_result, true_object, "eval returns right object");*/
-  /*assert_equal(foo_result, true_object, "assignment assigns result");*/
-
-  /*return NULL;*/
-/*}*/
 
 
 char *all_specs() {

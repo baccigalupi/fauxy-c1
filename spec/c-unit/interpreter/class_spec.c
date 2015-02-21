@@ -1,18 +1,5 @@
 #include "helpers.h"
 
-char *find_or_create_in_pool() {
-  spec_describe("find or create in pool");
-  FxB_HashMap *config = create_pool_config();
-  FxI_Pool *pool = FxI_Pool_create(config);
-
-  FxN_Class *klass = fxi_class_assign(pool, "MyClass", NULL);
-  assert_strings_equal(fxn_class_name(klass), "MyClass", "returns class with right name when new");
-
-  assert_equal(klass, fxi_class_assign(pool, "MyClass", NULL), "returns same class when already exists");
-
-  return NULL;
-}
-
 char *set_method_with_no_name_match() {
   spec_describe("set method with no group yet created");
 
@@ -54,7 +41,6 @@ char *set_method_with_name_match() {
 char *all_specs() {
   spec_setup("Class");
 
-  run_spec(find_or_create_in_pool);
   run_spec(set_method_with_no_name_match);
   run_spec(set_method_with_name_match);
 
