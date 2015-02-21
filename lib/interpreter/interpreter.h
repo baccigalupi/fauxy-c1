@@ -13,7 +13,8 @@ typedef struct FxI_Interpreter {
 
 #define fxi_interpreter_pool(I)           ((I)->pool)
 #define fxi_interpreter_free(I)           (fxi_pool_free(fxi_interpreter_pool(I)), fx_alloc(I))
-#define fxi_interpreter_get_literal(I, K) (fxi_literal_get(fxi_interpreter_pool(I), K))
+#define fxi_literal_get(I, K)             (fxi_pool_literal_get(fxi_interpreter_pool(I), K))
+#define fxi_literal_set(I, K, V)          (fxi_pool_literal_set(fxi_interpreter_pool(I), K, V))
 #define fxi_interpreter_get(I, K)         (fxi_context_current_get(fxi_interpreter_pool(I), K))
 
 #define fxi_interpreter_literal_length(I)  (fxb_hash_map_length(fxi_pool_literals(fxi_interpreter_pool(I))))

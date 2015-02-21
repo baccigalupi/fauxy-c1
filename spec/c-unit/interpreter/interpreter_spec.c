@@ -10,11 +10,10 @@ char *test_interpet_literal_true() {
   assert_truthy(fxn_boolean_value(object) == true,  "returned object is true");
   // assert that object has the right class
 
-  FxI_Pool *pool = fxi_interpreter_pool(interpreter);
-  FxN_Object *stored_object = fxi_literal_get(pool, TRUE_KEY);
-  assert_truthy(fxn_boolean_value(object) == true, "literal is set in the pool");
+  FxN_Object *stored_object = fxi_literal_get(interpreter, TRUE_KEY);
+  assert_truthy(fxn_boolean_value(object) == true, "literal is set in the interpreter");
 
-  assert_equal(object, stored_object, "literal returned is same as one stored in the pool");
+  assert_equal(object, stored_object, "literal returned is same as one stored in the interpreter");
 
   fxi_interpreter_free(interpreter);
 
@@ -31,11 +30,10 @@ char *test_interpet_literal_false() {
   assert_truthy(fxn_boolean_value(object) == false,  "returned object is false");
   // assert that object has the right class
 
-  FxI_Pool *pool = fxi_interpreter_pool(interpreter);
-  FxN_Object *stored_object = fxi_literal_get(pool, FALSE_KEY);
-  assert_truthy(fxn_boolean_value(object) == false, "literal is set in the pool");
+  FxN_Object *stored_object = fxi_literal_get(interpreter, FALSE_KEY);
+  assert_truthy(fxn_boolean_value(object) == false, "literal is set in the interpreter");
 
-  assert_equal(object, stored_object, "literal returned is same as one stored in the pool");
+  assert_equal(object, stored_object, "literal returned is same as one stored in the interpreter");
 
   fxi_interpreter_free(interpreter);
 
@@ -52,11 +50,10 @@ char *test_interpet_literal_nil() {
   assert_truthy(fxn_object_is_nil(object),  "returned object is nil");
   // assert that object has the right class
 
-  FxI_Pool *pool = fxi_interpreter_pool(interpreter);
-  FxN_Object *stored_object = fxi_literal_get(pool, NIL_KEY);
-  assert_truthy(fxn_object_is_nil(object), "literal is set in the pool");
+  FxN_Object *stored_object = fxi_literal_get(interpreter, NIL_KEY);
+  assert_truthy(fxn_object_is_nil(object), "literal is set in the interpreter");
 
-  assert_equal(object, stored_object, "literal returned is same as one stored in the pool");
+  assert_equal(object, stored_object, "literal returned is same as one stored in the interpreter");
 
   fxi_interpreter_free(interpreter);
 
@@ -74,9 +71,8 @@ char *test_interpet_literal_integer() {
   assert_equal(fxi_object_value_short(object), (short)12, "returned the right number");
   // assert that object has the right class
 
-  FxI_Pool *pool = fxi_interpreter_pool(interpreter);
-  FxN_Object *stored_object = fxi_literal_get(pool, fxi_literal_key(literal));
-  assert_equal(object, stored_object, "literal returned is same as one stored in the pool");
+  FxN_Object *stored_object = fxi_literal_get(interpreter, fxi_literal_key(literal));
+  assert_equal(object, stored_object, "literal returned is same as one stored in the interpreter");
 
   fxi_interpreter_free(interpreter);
 
@@ -94,8 +90,7 @@ char *test_interpet_literal_decimal() {
   assert_equal(fxi_object_value_double(object), (double)1.2, "returned the right number");
   // assert that object has the right class
 
-  FxI_Pool *pool = fxi_interpreter_pool(interpreter);
-  assert_ints_equal(fxb_hash_map_length(fxi_pool_literals(pool)), 3, "decimal was not added to the pool");
+  assert_ints_equal(fxi_interpreter_literal_length(interpreter), 3, "decimal was not added to the interpreter");
 
   fxi_interpreter_free(interpreter);
 
@@ -113,9 +108,8 @@ char *test_interpet_literal_string() {
   assert_strings_equal(fxb_string_value(fxi_object_value_string(object)), "hello world", "returned the right string");
   // assert that object has the right class
 
-  FxI_Pool *pool = fxi_interpreter_pool(interpreter);
-  FxN_Object *stored_object = fxi_literal_get(pool, fxi_literal_key(literal));
-  assert_equal(object, stored_object, "literal returned is same as one stored in the pool");
+  FxN_Object *stored_object = fxi_literal_get(interpreter, fxi_literal_key(literal));
+  assert_equal(object, stored_object, "literal returned is same as one stored in the interpreter");
 
   fxi_interpreter_free(interpreter);
 

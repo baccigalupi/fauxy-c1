@@ -42,20 +42,19 @@ error:
 }
 
 FxN_Object *fxi_evaluate_literal(FxI_Interpreter *interpreter, FxP_Expression *expression) {
-  FxI_Pool *pool = fxi_interpreter_pool(interpreter);
   char *key = fxi_literal_key(expression);
   FxN_Object *object;
 
   if (key) {
-    object = fxi_literal_get(pool, key);
+    object = fxi_literal_get(interpreter, key);
     if (!object) {
-      object = FxN_Object_create(pool, NULL); // todo: add class lookup
+      object = FxN_Object_create(interpreter, NULL); // todo: add class lookup
       verify(object);
       fxn_object_value(object) = expression;
-      fxi_literal_set(pool, key, object);
+      fxi_literal_set(interpreter, key, object);
     }
   } else { // floats don't get stored in the literal pool, so just make one
-    object = FxN_Object_create(pool, NULL); // todo: add class lookup
+    object = FxN_Object_create(interpreter, NULL); // todo: add class lookup
     verify(object);
     fxn_object_value(object) = expression;
   }

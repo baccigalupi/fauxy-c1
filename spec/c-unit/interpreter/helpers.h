@@ -30,22 +30,21 @@ FxB_HashMap *create_pool_config() {
   return config;
 }
 
-FxI_Pool *setup_test_literal_pool() {
-  FxB_HashMap *config = create_pool_config();
-  FxI_Pool *pool = FxI_Pool_create(config);
+FxI_Interpreter *setup_test_literal_pool() {
+  setup_interpreter();
 
   FxP_Expression *false_literal = FxP_Literal_create(NULL, TOKEN_FALSE);
-  FxN_Object *false_object = FxN_Boolean_create(pool, false_literal);
+  FxN_Object *false_object = FxN_Boolean_create(interpreter, false_literal);
 
   FxP_Expression *true_literal = FxP_Literal_create(NULL, TOKEN_TRUE);
-  FxN_Object *true_object = FxN_Boolean_create(pool, true_literal);
+  FxN_Object *true_object = FxN_Boolean_create(interpreter, true_literal);
 
   FxP_Expression *nil_literal = FxP_Literal_create(NULL, TOKEN_NIL);
-  FxN_Object *nil_object = FxN_Nil_create(pool, nil_literal);
+  FxN_Object *nil_object = FxN_Nil_create(interpreter, nil_literal);
 
-  fxi_literal_set(pool, FALSE_KEY, false_object);
-  fxi_literal_set(pool, TRUE_KEY, true_object);
-  fxi_literal_set(pool, NIL_KEY, nil_object);
+  fxi_literal_set(interpreter, FALSE_KEY, false_object);
+  fxi_literal_set(interpreter, TRUE_KEY, true_object);
+  fxi_literal_set(interpreter, NIL_KEY, nil_object);
 
-  return pool;
+  return interpreter;
 }

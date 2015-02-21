@@ -3,11 +3,10 @@
 char *test_set_and_get_attribute() {
   spec_describe("setting and getting attributes of objects");
 
-  FxB_HashMap *config = create_pool_config();
-  FxI_Pool   *pool =    FxI_Pool_create(config);
+  setup_interpreter();
 
-  FxN_Object *object =  FxN_Object_create(pool, NULL);
-  FxN_Object *value =   FxN_Object_create(pool, NULL);
+  FxN_Object *object =  FxN_Object_create(interpreter, NULL);
+  FxN_Object *value =   FxN_Object_create(interpreter, NULL);
   char *key = "thing";
 
   fxn_object_set_attribute(object, key, value);
@@ -17,7 +16,7 @@ char *test_set_and_get_attribute() {
 
   fxn_object_free(object);
   fxn_object_free(value);
-  fxi_pool_free(pool);
+  fxi_interpreter_free(interpreter);
 
   return NULL;
 }
