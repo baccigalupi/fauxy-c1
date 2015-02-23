@@ -54,12 +54,16 @@ error:
 
 char *fxi_lookup_key(FxP_Lookup *lookup) {
   FxB_String *key = NULL;
+  char *key_type = NULL;
+  FxB_String *bit_description = NULL;
+
   FxP_Bit *bit = fxp_lookup_bit(lookup);
   verify(bit);
-  FxB_String *bit_description = fxp_bit_string__value(bit);
+
+  bit_description = fxp_bit_string__value(bit);
   verify(bit_description);
 
-  char *key_type = fxi_type_key(lookup);
+  key_type = fxi_type_key(lookup);
 
   key = FxB_String_create(key_type);
   verify(key);
