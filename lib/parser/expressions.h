@@ -129,7 +129,7 @@ FxP_LocalAssign     *FxP_LocalAssign_create(FxP_Lookup *lookup, FxP_Expression *
 #define fxp_expression_right(E)            fxp_expression_value_at(E, 1)
 #define fxp_expression_set_right(E, V)     fxp_expression_value_set(E, 1, V)
 
-// Local assignment: [variable, value]
+// Attribute assignment: [variable, value]
 FxP_ColonExpression *FxP_ColonExpression_create(FxP_Lookup *variable, FxP_Expression *value);
 
 #endif

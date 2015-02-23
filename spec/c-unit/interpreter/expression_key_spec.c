@@ -93,6 +93,18 @@ char *test_class_key() {
   return NULL;
 }
 
+char *test_identifier_key() {
+  spec_describe("identifier");
+
+  FxP_Bit *bit = FxP_Bit_string_create("x");
+  FxP_Lookup  *exp = FxP_Lookup_create(bit, TOKEN_ID);
+  char *key = fxi_lookup_key(exp);
+
+  assert_strings_equal(key, "273-x", "key is correct");
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Interpreter Literal keys");
 

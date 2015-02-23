@@ -36,8 +36,8 @@ typedef struct FxI_Pool {
 #define fxi_pool_literal_get(P, K)       (fxb_hash_map_get(fxi_pool_literals(P), K))
 #define fxi_pool_literal_set(P, K, V)    (fxb_hash_map_set(fxi_pool_literals(P), K, V))
 
-#define fxi_pool_global_get(P, K)       (fxb_hash_map_get(fxi_pool_global(P), K))
-#define fxi_pool_global_set(P, K, V)    (fxb_hash_map_set(fxi_pool_global(P), K, V))
+#define fxi_pool_global_get(P, K)       (fxb_hash_map_get(fxi_pool_globals(P), K))
+#define fxi_pool_global_set(P, K, V)    (fxb_hash_map_set(fxi_pool_globals(P), K, V))
 
 #define fxi_pool_free(P)            (fx_pfree(P)) // TODO: more better
 

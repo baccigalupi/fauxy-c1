@@ -1,11 +1,8 @@
 # TODO
 1. Class/Object system implementation
-2. Interpreter sets up base classes and objectss
+2. Interpreter sets up base classes
 2. Location encoding, better error message
 5. Expression validation in parser
-
-## Cleanup
-Interpreter takes capacity options and directly passes on to Pool. Should be an array of ints
 
 ## Optimize later
 Event Loop
@@ -13,20 +10,28 @@ Event Loop
 JSON Library integration: Jansson
 Example usage: https://groups.google.com/forum/#!topic/jansson-users/URnU-X-c2Xs
 
-Literal/Constant pool instead of duplicate bits
+Bit pool for parser pool instead of duplicate bits
 
-FxB_HashMap:
+FxB\_HashMap:
 better efficiency:
- * list iteration not cut short when node found
-verification or return of 1|0 for success|failure
+ * list iteration cut short when node found
+ * verification or return of 1|0 for success|failure
 
-FxB_Array:
-verification with return boolean on push etc
+FxB\_Array:
+ * verification with return boolean on push etc
 
 
 ## Interpreter
-Function objects
+Function definition objects
 Class building and context/scope lookup
+
+The way I would like to implement this is with a native register hash
+any code that needs to wrap native functions should be able to do it from Fauxy
+code. So, to get this passing we would just have to parse and interpret some
+fauxy files.
+
+In order to do this first attr assignment has to be possible.
+Next, assigning functions to those attrs needs to happen.
 
 ## Ideas
 http://www.nongnu.org/libunwind/man/libunwind(3).html for stack inspection? Used by Julia

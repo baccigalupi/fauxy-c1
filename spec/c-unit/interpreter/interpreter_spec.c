@@ -16,9 +16,9 @@ char *test_literal_setup() {
 char *test_class_setup() {
   setup_interpreter();
 
-  // assert_truthy(fxi_global_get(interpreter, OBJECT_CLASS_KEY), "has an object by key");
-  // assert_truthy(fxi_global_get(interpreter, BOOLEAN_CLASS_KEY), "false has object by key");
-  // assert_truthy(fxi_global_get(interpreter, NIL_CLASS_KEY), "nil has object by key");
+  // assert_truthy(fxi_global_get(interpreter, "274-Object"), "has an object by key");
+  // assert_truthy(fxi_global_get(interpreter, "274-Boolean"), "false has object by key");
+  // assert_truthy(fxi_global_get(interpreter, "274-Nil"), "nil has object by key");
 
   return NULL;
 }

@@ -28,7 +28,7 @@ FxN_Object *fxi_evaluate(FxI_Interpreter *interpreter, FxP_Expression *expressio
   } else if ( type == FXP_ST_LOCAL_ASSIGN ) {
     result = fxi_evaluate_local_assign(interpreter, expression);
   } else if ( type == FXP_ST_COLON_EXPRESSION ) {
-    result = fxi_evaluate_colon_expression(interpreter, expression);
+    result = fxi_evaluate_attr_assign(interpreter, expression);
   } else if ( type == FXP_ST_EXPRESSIONS ) {
     result = fxi_evaluate_expressions(interpreter, expression);
   } else {
@@ -49,13 +49,13 @@ FxN_Object *fxi_evaluate_literal(FxI_Interpreter *interpreter, FxP_Expression *e
   if (key) {
     object = fxi_literal_get(interpreter, key);
     if (!object) {
-      object = FxN_Object_create(interpreter, NULL); // todo: add class lookup
+      object = FxN_Object_create(interpreter, NULL); // todo: add class context
       verify(object);
       fxn_object_value(object) = expression;
       fxi_literal_set(interpreter, key, object);
     }
   } else { // floats don't get stored in the literal pool, so just make one
-    object = FxN_Object_create(interpreter, NULL); // todo: add class lookup
+    object = FxN_Object_create(interpreter, NULL); // todo: add class context
     verify(object);
     fxn_object_value(object) = expression;
   }
@@ -63,6 +63,16 @@ FxN_Object *fxi_evaluate_literal(FxI_Interpreter *interpreter, FxP_Expression *e
   return object;
 error:
   return NULL;
+}
+
+FxN_Object *fxi_evaluate_attr_assign(FxI_Interpreter *interpreter, FxP_Expression *expression) {
+  FxP_Expression *left = fxp_expression_left(expression);
+  char *key = fxi_lookup_key(left);
+  FxP_Expression *value_expression = fxp_expression_right(expression);
+  FxN_Object *result = fxi_evaluate(interpreter, value_expression);
+  // TODO: change to fxi_context_set
+  fxi_global_set(interpreter, key, result);
+  return result;
 }
 
 FxN_Object *fxi_evaluate_function_arguments(FxI_Interpreter *interpreter, FxP_Expression *expression) {
@@ -97,9 +107,10 @@ FxN_Object *fxi_evaluate_local_assign(FxI_Interpreter *interpreter, FxP_Expressi
   return NULL;
 }
 
-FxN_Object *fxi_evaluate_colon_expression(FxI_Interpreter *interpreter, FxP_Expression *expression) {
-  return NULL;
-}
+
+/*FxN_Object *fxi_evaluate_colon_expression(FxI_Interpreter *interpreter, FxP_Expression *expression) {*/
+  /*return NULL;*/
+/*}*/
 
 FxN_Object *fxi_evaluate_expressions(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   return NULL;

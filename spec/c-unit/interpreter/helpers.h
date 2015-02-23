@@ -31,3 +31,14 @@ FxB_HashMap *create_pool_config() {
   fxb_hash_map_set(config, "global_capacity", capacity);
   return config;
 }
+
+void *print_keys(FxB_HashMap *hash_map) {
+  FxB_Array *keys = fxb_hash_map_keys(hash_map);
+  int i;
+  char *key;
+  puts("printing keys:");
+  for (i = 0; i < fxb_array_length(keys); i++) {
+    key = fxb_array_at_index(keys, i);
+    printf("'%s', %p\n", key, key);
+  }
+}

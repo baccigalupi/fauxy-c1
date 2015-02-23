@@ -73,12 +73,10 @@ char *fxi_lookup_key(FxP_Lookup *lookup) {
   char *_key = fxb_string_value(key);
 
   fxb_string_free(key);
-  fxb_string_free(bit_description);
   fx_pfree(key_type);
 
   return _key;
 error:
-  if (bit_description) { fxb_string_free(bit_description); }
   if (key)             { fxb_string_free(key); }
   if (key_type)        { fx_pfree(key_type); }
   return NULL;

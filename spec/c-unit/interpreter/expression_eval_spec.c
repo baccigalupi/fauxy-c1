@@ -102,7 +102,7 @@ char *test_interpet_literal_string() {
   setup_interpreter();
 
   FxP_Bit *bit = FxP_Bit_string_create("hello world");
-  FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_FLOAT);
+  FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_STRING);
   FxN_Object *object = fxi_evaluate(interpreter, literal);
 
   assert_strings_equal(fxb_string_value(fxi_object_value_string(object)), "hello world", "returned the right string");
@@ -116,6 +116,30 @@ char *test_interpet_literal_string() {
   return NULL;
 }
 
+char *test_global_assignment_of_literal() {
+  spec_describe("set assigning literal to the global namespace");
+  setup_interpreter();
+
+  FxP_Bit     *value_bit =      FxP_Bit_string_create("Hello Fauxy world!");
+  FxP_Literal *value =          FxP_Literal_create(value_bit, TOKEN_STRING);
+
+  FxN_Object  *value_object =   fxi_evaluate(interpreter, value);
+
+  FxP_Bit     *lookup_bit =     FxP_Bit_string_create("greeting");
+  FxP_Lookup  *lookup =         FxP_Lookup_create(lookup_bit, TOKEN_ID);
+
+  FxP_Expression *assignment =  FxP_ColonExpression_create(lookup, value);
+
+  FxN_Object *value_dup =       fxi_evaluate(interpreter, assignment);
+
+  print_keys(fxi_pool_literals(fxi_interpreter_pool(interpreter)));
+  print_keys(fxi_pool_globals(fxi_interpreter_pool(interpreter)));
+
+  assert_equal(value_dup, value_object, "evaluation of assignment returns what is assigned to it");
+  /*assert_equal(fxi_evaluate(interpreter, lookup), value_object, "lookup of the id returns the object");*/
+
+  return NULL;
+}
 
 char *all_specs() {
   spec_setup("Interpreter");
@@ -127,7 +151,7 @@ char *all_specs() {
   run_spec(test_interpet_literal_decimal);
   run_spec(test_interpet_literal_string);
 
-
+  run_spec(test_global_assignment_of_literal);
 
   spec_teardown();
 
