@@ -15,6 +15,4 @@
 
 #define fxi_object_value_string(O)     (fxp_bit_string__value(fxi_object_bit(O)))
 
-char *fxi_literal_key(FxP_Literal *literal);
-
 #endif

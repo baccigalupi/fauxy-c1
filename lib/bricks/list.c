@@ -27,6 +27,7 @@ void  fxb_list_push_node(FxB_List *list, FxB_Node *new_node) {
 
   fxb_list_node_last(list) = new_node;
   fxb_list_length(list) ++;
+  return;
 error:
   return;
 }

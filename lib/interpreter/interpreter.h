@@ -3,21 +3,28 @@
 
 #include "../bricks/helpers.h"
 #include "../bricks/hash_map.h"
+#include "../bricks/list.h"
 #include "pool.h"
 
 typedef struct FxI_Interpreter {
   // main event loop?
   // references to other loops
   FxI_Pool *pool;
+  FxB_List *contexts;
 } FxI_Interpreter;
 
 #define fxi_interpreter_pool(I)           ((I)->pool)
+#define fxi_interpreter_contexts(I)       ((I)->contexts)
+
 #define fxi_interpreter_free(I)           (fxi_pool_free(fxi_interpreter_pool(I)), fx_alloc(I))
+
 #define fxi_literal_get(I, K)             (fxi_pool_literal_get(fxi_interpreter_pool(I), K))
 #define fxi_literal_set(I, K, V)          (fxi_pool_literal_set(fxi_interpreter_pool(I), K, V))
-#define fxi_interpreter_get(I, K)         (fxi_context_current_get(fxi_interpreter_pool(I), K))
+#define fxi_interpreter_literal_length(I) (fxb_hash_map_length(fxi_pool_literals(fxi_interpreter_pool(I))))
 
-#define fxi_interpreter_literal_length(I)  (fxb_hash_map_length(fxi_pool_literals(fxi_interpreter_pool(I))))
+#define fxi_global_get(I, K)              (fxi_pool_global_get(fxi_intepreter_pool(I), K))
+#define fxi_global_set(I, K, V)           (fxi_pool_global_set(fxi_intepreter_pool(I), K, V))
+#define fxi_interpreter_global_length(I)  (fxb_hash_map_length(fxi_pool_globals(fxi_interpreter_pool(I))))
 
 #define fxi_interpreter_setup(I)          (fxi_interpreter_add_base_classes(I), fxi_interpreter_add_base_literals(I))
 

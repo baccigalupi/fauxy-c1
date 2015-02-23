@@ -1,7 +1,4 @@
-#include "../../../lib/interpreter/literal.h"
-#include "../../../lib/parser/expressions.h"
-#include "../../../lib/parser/tokens.h"
-#include "../lib/spec.h"
+#include "helpers.h"
 
 char *test_nil_key() {
   spec_describe("nil");
@@ -84,9 +81,22 @@ char *test_large_decimal_key() {
   return NULL;
 }
 
+char *test_class_key() {
+  spec_describe("class");
+
+  FxP_Bit *bit = FxP_Bit_string_create("MyClass");
+  FxP_Lookup  *exp = FxP_Lookup_create(bit, TOKEN_CLASS_ID);
+  char *key = fxi_lookup_key(exp);
+
+  assert_strings_equal(key, "274-MyClass", "key is correct");
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Interpreter Literal keys");
 
+  // literals
   run_spec(test_nil_key);
   run_spec(test_true_key);
   run_spec(test_false_key);
@@ -94,6 +104,9 @@ char *all_specs() {
   run_spec(test_eval_string_key);
   run_spec(test_large_integer_key);
   run_spec(test_large_decimal_key);
+
+  // classes
+  run_spec(test_class_key);
 
   spec_teardown();
 

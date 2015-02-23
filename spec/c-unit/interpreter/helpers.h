@@ -4,6 +4,7 @@
 #include "../../../lib/interpreter/object.h"
 #include "../../../lib/interpreter/literal.h"
 #include "../../../lib/interpreter/expression_eval.h"
+#include "../../../lib/interpreter/expression_key.h"
 
 #include "../../../lib/native/boolean_methods.h"
 #include "../../../lib/native/nil_methods.h"

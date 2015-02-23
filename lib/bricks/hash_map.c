@@ -63,15 +63,15 @@ void fxb_hash_map_set(FxB_HashMap *hash_map, char *key, void *value) {
     // find node if exists, and reset value
     node_value(node) = value;
   } else {
-    // create node
-    fxb_list_push(list, value);
+    node = FxB_Node_create(value);
 
     // set extra node attributes
     char *dup_key = calloc(strlen(key) + 1, sizeof(char));
     strcpy(dup_key, key);
-    node = fxb_list_node_last(list);
     node_hash(node) = fxb_string_hash(dup_key);
     node_key(node) = dup_key;
+
+    fxb_list_push_node(list, node);
   }
 
   fxb_hash_map_length(hash_map) ++;

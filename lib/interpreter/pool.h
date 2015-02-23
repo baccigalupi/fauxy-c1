@@ -8,7 +8,7 @@
 #define FXI_POOL_LITERAL_CAPACITY_DEFAULT  400
 #define FXI_POOL_GLOBAL_CAPACITY_DEFAULT    200
 
-// Garbage managment:
+// Garbage managment: ??
 //   * New allocations end up in the literals
 //     for stuff that is part of the source code
 //   * Otherwise it ends up in 'all', which is a list
@@ -36,7 +36,8 @@ typedef struct FxI_Pool {
 #define fxi_pool_literal_get(P, K)       (fxb_hash_map_get(fxi_pool_literals(P), K))
 #define fxi_pool_literal_set(P, K, V)    (fxb_hash_map_set(fxi_pool_literals(P), K, V))
 
-
+#define fxi_pool_global_get(P, K)       (fxb_hash_map_get(fxi_pool_global(P), K))
+#define fxi_pool_global_set(P, K, V)    (fxb_hash_map_set(fxi_pool_global(P), K, V))
 
 #define fxi_pool_free(P)            (fx_pfree(P)) // TODO: more better
 

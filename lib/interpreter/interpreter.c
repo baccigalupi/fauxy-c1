@@ -8,22 +8,27 @@
 
 
 FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config) {
+  FxI_Pool *pool = NULL;
   FxI_Interpreter *self = fx_alloc(FxI_Interpreter);
   verify_memory(self);
 
-  FxI_Pool *pool = FxI_Pool_create(config);
+  pool = FxI_Pool_create(config);
   verify(pool);
   fxi_interpreter_pool(self) = pool;
+
+  FxB_List *contexts = FxB_List_create();
+  verify(contexts);
+  fxb_list_push(contexts, fxi_pool_globals(pool));
+  fxi_interpreter_contexts(self) = contexts;
 
   return self;
 error:
   if (self) { fx_pfree(self); }
+  if (pool) { fxi_pool_free(pool); }
   return NULL;
 }
 
 void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
-  FxI_Pool *pool = fxi_interpreter_pool(self);
-
   /*FxN_Class *object_class = FxN_Class_create("Object", NULL);*/
   // add native methods
   // add to global context
