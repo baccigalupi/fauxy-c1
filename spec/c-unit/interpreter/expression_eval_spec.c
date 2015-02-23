@@ -130,13 +130,11 @@ char *test_global_assignment_of_literal() {
 
   FxP_Expression *assignment =  FxP_ColonExpression_create(lookup, value);
 
-  FxN_Object *value_dup =       fxi_evaluate(interpreter, assignment);
-
-  print_keys(fxi_pool_literals(fxi_interpreter_pool(interpreter)));
-  print_keys(fxi_pool_globals(fxi_interpreter_pool(interpreter)));
+  FxN_Object   *value_dup =     fxi_evaluate(interpreter, assignment);
 
   assert_equal(value_dup, value_object, "evaluation of assignment returns what is assigned to it");
-  /*assert_equal(fxi_evaluate(interpreter, lookup), value_object, "lookup of the id returns the object");*/
+  FxN_Object *evaluation = fxi_evaluate(interpreter, lookup);
+  assert_equal(evaluation, value_object, "lookup of the id returns the object");
 
   return NULL;
 }

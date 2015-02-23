@@ -72,7 +72,7 @@ char *fxi_lookup_key(FxP_Lookup *lookup) {
 
   char *_key = fxb_string_value(key);
 
-  fxb_string_free(key);
+  fx_pfree(key);
   fx_pfree(key_type);
 
   return _key;
