@@ -14,27 +14,27 @@ void *fxp_inspect(void *element) {
   FxB_String *json;
   int type = fxp_expression_type(expression);
 
-  if (type == FXP_ST_LITERAL) {
+  if (type == FX_ST_LITERAL) {
     unwrapped_pair = fxp_literal_body_inspect(expression);
-  } else if (type == FXP_ST_LOOKUP) {
+  } else if (type == FX_ST_LOOKUP) {
     unwrapped_pair = fxp_lookup_body_inspect(expression);
-  } else if (type == FXP_ST_METHOD) {
+  } else if (type == FX_ST_METHOD) {
     unwrapped_pair = fxp_method_body_inspect(expression);
-  } else if (type == FXP_ST_FUNCTION) {
+  } else if (type == FX_ST_FUNCTION) {
     unwrapped_pair = fxp_function_body_inspect(expression);
-  } else if (type == FXP_ST_GROUPED) {
+  } else if (type == FX_ST_GROUPED) {
     unwrapped_pair = fxp_collection_body_inspect(expression);
-  } else if (type == FXP_ST_LIST) {
+  } else if (type == FX_ST_LIST) {
     unwrapped_pair = fxp_list_body_inspect(expression);
-  } else if (type == FXP_ST_METHOD_ARGUMENTS) {
+  } else if (type == FX_ST_METHOD_ARGUMENTS) {
     unwrapped_pair = fxp_list_body_inspect(expression);
-  } else if (type == FXP_ST_FUNCTION_ARGUMENTS) {
+  } else if (type == FX_ST_FUNCTION_ARGUMENTS) {
     unwrapped_pair = fxp_list_body_inspect(expression);
-  } else if (type == FXP_ST_LOCAL_ASSIGN) {
+  } else if (type == FX_ST_LOCAL_ASSIGN) {
     unwrapped_pair = fxp_left_right_inspect(expression);
-  } else if (type == FXP_ST_COLON_EXPRESSION) {
+  } else if (type == FX_ST_COLON_EXPRESSION) {
     unwrapped_pair = fxp_left_right_inspect(expression);
-  } else if (type == FXP_ST_EXPRESSIONS) {
+  } else if (type == FX_ST_EXPRESSIONS) {
     unwrapped_pair = fxp_collection_body_inspect(expression);
   } else {
     unwrapped_pair = FxB_String_create("\"UNKNOWN STATEMENT\"");
@@ -459,27 +459,27 @@ FxB_String *fxp_expression_type_description(FxP_Expression *expression) {
   FxB_String *description;
   int type = fxp_expression_type(expression);
 
-  if (type == FXP_ST_LITERAL) {
+  if (type == FX_ST_LITERAL) {
     description = FxB_String_create("literal");
-  } else if (type == FXP_ST_LOOKUP) {
+  } else if (type == FX_ST_LOOKUP) {
     description = FxB_String_create("lookup");
-  } else if (type == FXP_ST_METHOD) {
+  } else if (type == FX_ST_METHOD) {
     description = FxB_String_create("method_call");
-  } else if (type == FXP_ST_FUNCTION) {
+  } else if (type == FX_ST_FUNCTION) {
     description = FxB_String_create("function_definition");
-  } else if (type == FXP_ST_GROUPED) {
+  } else if (type == FX_ST_GROUPED) {
     description = FxB_String_create("grouped_expression");
-  } else if (type == FXP_ST_LIST) {
+  } else if (type == FX_ST_LIST) {
     description = FxB_String_create("list");
-  } else if (type == FXP_ST_METHOD_ARGUMENTS) {
+  } else if (type == FX_ST_METHOD_ARGUMENTS) {
     description = FxB_String_create("method_arguments");
-  } else if (type == FXP_ST_FUNCTION_ARGUMENTS) {
+  } else if (type == FX_ST_FUNCTION_ARGUMENTS) {
     description = FxB_String_create("function_arguments");
-  } else if (type == FXP_ST_LOCAL_ASSIGN) {
+  } else if (type == FX_ST_LOCAL_ASSIGN) {
     description = FxB_String_create("local_assignment");
-  } else if (type == FXP_ST_COLON_EXPRESSION) {
+  } else if (type == FX_ST_COLON_EXPRESSION) {
     description = FxB_String_create("colon_expression");
-  } else if (type == FXP_ST_EXPRESSIONS) {
+  } else if (type == FX_ST_EXPRESSIONS) {
     description = FxB_String_create("expressions");
   } else {
     description = FxB_String_create("\"UNKNOWN STATEMENT\"");

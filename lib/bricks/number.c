@@ -29,16 +29,16 @@ FxB_Number *FxB_Integer_from_string(char *str) {
   } else {
     if ( number_value <= SHRT_MAX ) {
       fxb_number_create_value(integer, short);
-      type = FXB_INT_SHORT;
+      type = FX_INT_SHORT;
     } else if ( number_value <= INT_MAX ) {
       fxb_number_create_value(integer, int);
-      type = FXB_INT_STANDARD;
+      type = FX_INT_STANDARD;
     } else if ( number_value <= LONG_MAX ) {
       fxb_number_create_value(integer, long);
-      type = FXB_INT_LONG;
+      type = FX_INT_LONG;
     } else {
       fxb_number_create_value(integer, long long);
-      type = FXB_INT_LLONG;
+      type = FX_INT_LLONG;
     }
   }
 
@@ -59,12 +59,12 @@ FxB_Number *FxB_Decimal_from_string(char *str) {
     double number_value;
     sscanf(str, "%lf", &number_value);
     fxb_number_create_value(decimal, double);
-    type = FXB_DECIMAL_DOUBLE;
+    type = FX_DECIMAL_DOUBLE;
   } else {
     long double number_value;
     sscanf(str, "%Lf", &number_value);
     fxb_number_create_value(decimal, long double);
-    type = FXB_DECIMAL_LDOUBLE;
+    type = FX_DECIMAL_LDOUBLE;
   }
 
   fxb_number_type(decimal) = type;
@@ -109,12 +109,12 @@ FxB_Number *FxB_Exponent_from_string(char *str) {
     long double number_value;
     sscanf(str, format, &number_value);
     fxb_number_create_value(decimal, long double);
-    type = FXB_DECIMAL_LDOUBLE;
+    type = FX_DECIMAL_LDOUBLE;
   } else {
     double number_value;
     sscanf(str, format, &number_value);
     fxb_number_create_value(decimal, double);
-    type = FXB_DECIMAL_DOUBLE;
+    type = FX_DECIMAL_DOUBLE;
   }
 
   fxb_number_exponent(decimal) = true;
@@ -129,11 +129,11 @@ error:
 FxB_String *fxb_integer_inspect(FxB_Number *number) {
   char str[200];
 
-  if (fxb_number_type(number) == FXB_INT_SHORT) {
+  if (fxb_number_type(number) == FX_INT_SHORT) {
     sprintf(str, "%d", fxb_number_value_short(number));
-  } else if (fxb_number_type(number) == FXB_INT_STANDARD) {
+  } else if (fxb_number_type(number) == FX_INT_STANDARD) {
     sprintf(str, "%d", fxb_number_value_standard(number));
-  } else if (fxb_number_type(number) == FXB_INT_LONG) {
+  } else if (fxb_number_type(number) == FX_INT_LONG) {
     sprintf(str, "%ld", fxb_number_value_long(number));
   } else {
     sprintf(str, "%lld", fxb_number_value_llong(number));
@@ -146,13 +146,13 @@ FxB_String *fxb_decimal_inspect(FxB_Number *number) {
   char str[200];
 
   if (fxb_number_exponent(number)) {
-    if (fxb_number_type(number) == FXB_DECIMAL_DOUBLE) {
+    if (fxb_number_type(number) == FX_DECIMAL_DOUBLE) {
       sprintf(str, "%.1le", fxb_number_value_double(number));
     } else {
       sprintf(str, "%.1Le", fxb_number_value_ldouble(number));
     }
   } else {
-    if (fxb_number_type(number) == FXB_DECIMAL_DOUBLE) {
+    if (fxb_number_type(number) == FX_DECIMAL_DOUBLE) {
       sprintf(str, "%.3lf", fxb_number_value_double(number));
     } else {
       sprintf(str, "%.3Lf", fxb_number_value_ldouble(number));
@@ -166,13 +166,13 @@ FxB_String *fxb_decimal_full_inspect(FxB_Number *number) {
   char str[200];
 
   if (fxb_number_exponent(number)) {
-    if (fxb_number_type(number) == FXB_DECIMAL_DOUBLE) {
+    if (fxb_number_type(number) == FX_DECIMAL_DOUBLE) {
       sprintf(str, "%le", fxb_number_value_double(number));
     } else {
       sprintf(str, "%Le", fxb_number_value_ldouble(number));
     }
   } else {
-    if (fxb_number_type(number) == FXB_DECIMAL_DOUBLE) {
+    if (fxb_number_type(number) == FX_DECIMAL_DOUBLE) {
       sprintf(str, "%lf", fxb_number_value_double(number));
     } else {
       sprintf(str, "%Lf", fxb_number_value_ldouble(number));
@@ -207,7 +207,7 @@ FxB_String *fxb_number_full_inspect(FxB_Number *number) {
 FxB_String *fxb_number_type_description(FxB_Number *number) {
   int type = fxb_number_type(number);
   FxB_String *string = NULL;
-  if (type == FXB_INT_SHORT || type == FXB_INT_STANDARD || type == FXB_INT_LONG || type == FXB_INT_LLONG) {
+  if (type == FX_INT_SHORT || type == FX_INT_STANDARD || type == FX_INT_LONG || type == FX_INT_LLONG) {
     string = FxB_String_create("INTEGER");
   } else {
     string = FxB_String_create("DECIMAL");

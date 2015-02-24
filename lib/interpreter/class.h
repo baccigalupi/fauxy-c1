@@ -5,6 +5,7 @@
 #include "../bricks/hash_map.h"
 
 typedef struct FxN_Class {
+  int              type;
   char             *name;
   struct FxN_Class *super_class;
   FxB_HashMap      *methods;
@@ -13,6 +14,7 @@ typedef struct FxN_Class {
 #include "pool.h"
 #include "function.h"
 
+#define fxn_class_type(C)          ((C)->type)
 #define fxn_class_name(C)          ((C)->name)
 #define fxn_class_super_class(C)   ((C)->super_class)
 #define fxn_class_methods(C)       ((C)->methods)

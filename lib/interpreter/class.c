@@ -6,6 +6,7 @@ FxN_Class *FxN_Class_create(char *name, FxN_Class *super_class) {
   FxN_Class *self = fx_alloc(FxN_Class);
   verify_memory(self);
 
+  fxn_class_type(self) = FX_CLASS;
   fxn_class_name(self) = name;
   fxn_class_super_class(self) = super_class;
 

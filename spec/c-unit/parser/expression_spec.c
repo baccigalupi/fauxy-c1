@@ -139,7 +139,7 @@ char *test_inspect_function() {
   FxP_Literal *arg_2 = FxP_Lookup_create(bit_2, TOKEN_ID);
 
   FxP_FxB_List    *arguments = FxP_FxB_List_create_double(arg_1, arg_2);
-  fxp_expression_type(arguments) = FXP_ST_FUNCTION_ARGUMENTS;
+  fxp_expression_type(arguments) = FX_ST_FUNCTION_ARGUMENTS;
 
   // expressions
   FxP_Expressions *expressions = FxP_Expressions_create();

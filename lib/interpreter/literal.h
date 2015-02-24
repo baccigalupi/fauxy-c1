@@ -1,8 +1,6 @@
 #ifndef __int_literal_h
 #define __int_literal_h
 
-#include "../parser/expressions.h"
-
 #define fxi_object_bit(O)                   (fxp_literal_bit(fxn_object_value(O)))
 
 #define fxi_object_value_short(O)           (fxb_bit_short_int_value(fxi_object_bit(O)))

@@ -8,7 +8,7 @@ char *test_read_short_int() {
 
   FxB_Number *integer = FxB_Integer_from_string("1");
 
-  assert_ints_equal(fxb_number_type(integer), FXB_INT_SHORT, "type");
+  assert_ints_equal(fxb_number_type(integer), FX_INT_SHORT, "type");
   assert_equal(fxb_number_value_short(integer), (short)1, "value");
 
   return NULL;
@@ -23,7 +23,7 @@ char *test_read_standard_int() {
 
   FxB_Number *integer = FxB_Integer_from_string(str_number);
 
-  assert_ints_equal(fxb_number_type(integer), FXB_INT_STANDARD, "type");
+  assert_ints_equal(fxb_number_type(integer), FX_INT_STANDARD, "type");
   assert_equal(fxb_number_value_standard(integer), number, "value");
 
   return NULL;
@@ -38,7 +38,7 @@ char *test_read_long_int() {
 
   FxB_Number *integer = FxB_Integer_from_string(str_number);
 
-  assert_ints_equal(fxb_number_type(integer), FXB_INT_LONG, "type");
+  assert_ints_equal(fxb_number_type(integer), FX_INT_LONG, "type");
   assert_equal(fxb_number_value_long(integer), number, "value");
 
   return NULL;
@@ -49,7 +49,7 @@ char *test_small_decimals() {
 
   FxB_Number *decimal = FxB_Decimal_from_string("1.2");
 
-  assert_ints_equal(fxb_number_type(decimal), FXB_DECIMAL_DOUBLE, "type");
+  assert_ints_equal(fxb_number_type(decimal), FX_DECIMAL_DOUBLE, "type");
   assert_equal(fxb_number_value_double(decimal), (double)1.2, "value");
 
   return NULL;
@@ -60,7 +60,7 @@ char *test_big_decimals() {
 
   FxB_Number *decimal = FxB_Decimal_from_string("1.234567890123456700");
 
-  assert_ints_equal(fxb_number_type(decimal), FXB_DECIMAL_LDOUBLE, "type");
+  assert_ints_equal(fxb_number_type(decimal), FX_DECIMAL_LDOUBLE, "type");
   double diff = fxb_number_value_ldouble(decimal) - (long double)1.2345678901234567;
   assert_truthy(diff < 1e-17, "value");
 
@@ -72,7 +72,7 @@ char *test_exponential_decimals() {
 
   FxB_Number *exponent = FxB_Exponent_from_string("1.2e34");
 
-  assert_ints_equal(fxb_number_type(exponent), FXB_DECIMAL_DOUBLE, "type");
+  assert_ints_equal(fxb_number_type(exponent), FX_DECIMAL_DOUBLE, "type");
   assert_equal(fxb_number_value_double(exponent), (double)1.2e34, "value");
 
   return NULL;

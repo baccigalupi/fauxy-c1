@@ -7,6 +7,7 @@
 #include "../parser/expressions.h"
 
 typedef struct FxN_Object {
+  int              type;
   FxN_Class       *scope;
   FxB_HashMap     *attributes;
   FxI_Interpreter *interpreter;
@@ -15,6 +16,7 @@ typedef struct FxN_Object {
 
 #define FXN_OBJECT_ATTRIBUTE_HASHMAP_SIZE   50
 
+#define fxn_object_type(O)                  ((O)->type)
 #define fxn_object_scope(O)                 ((O)->scope)
 #define fxn_object_interpreter(O)           ((O)->interpreter)
 #define fxn_object_attributes(O)            ((O)->attributes)

@@ -25,7 +25,7 @@ void fxp_expression_free(void *void_expression) {
   FxP_Expression *expression = void_expression;
   int type = fxp_expression_type(expression);
 
-  if (type == FXP_ST_LITERAL || type == FXP_ST_LOOKUP) {
+  if (type == FX_ST_LITERAL || type == FX_ST_LOOKUP) {
     fxp_expression_free_typed_guts(expression);
   } else {
     fxb_array_each(fxp_expression_value(expression), fxp_expression_free);
@@ -47,7 +47,7 @@ void fxp_expression_free_typed_guts(FxP_Expression *expression) {
 }
 
 FxP_Expressions *FxP_Expressions_create() {
-  FxP_Expression *expressions = FxP_Expression_create(FXP_ST_EXPRESSIONS);
+  FxP_Expression *expressions = FxP_Expression_create(FX_ST_EXPRESSIONS);
   verify(expressions);
   return expressions;
 error:
@@ -70,7 +70,7 @@ error:
 }
 
 FxP_Expression *FxP_Literal_create(FxP_Bit *bit, int token_type) {
-  FxP_Expression *literal = FxP_TypedExpression_create(bit, FXP_ST_LITERAL, token_type);
+  FxP_Expression *literal = FxP_TypedExpression_create(bit, FX_ST_LITERAL, token_type);
   verify(literal);
   return literal;
 error:
@@ -78,7 +78,7 @@ error:
 }
 
 FxP_Lookup *FxP_Lookup_create(FxP_Bit *bit, int token_type) {
-  FxP_Expression *lookup = FxP_TypedExpression_create(bit, FXP_ST_LOOKUP, token_type);
+  FxP_Expression *lookup = FxP_TypedExpression_create(bit, FX_ST_LOOKUP, token_type);
   verify(lookup);
 
   return lookup;
@@ -92,11 +92,11 @@ FxP_Method *FxP_Method_create_implicit(FxP_Literal *method_name, FxP_Expression 
   verify(call);
 
   fxp_method_set_message(call, method_name);
-  if (fxp_expression_type(argument) == FXP_ST_LIST || fxp_expression_type(argument) == FXP_ST_GROUPED) {
+  if (fxp_expression_type(argument) == FX_ST_LIST || fxp_expression_type(argument) == FX_ST_GROUPED) {
     arguments = argument;
-    fxp_expression_type(arguments) = FXP_ST_METHOD_ARGUMENTS;
+    fxp_expression_type(arguments) = FX_ST_METHOD_ARGUMENTS;
   } else {
-    arguments = FxP_Expression_create(FXP_ST_METHOD_ARGUMENTS);
+    arguments = FxP_Expression_create(FX_ST_METHOD_ARGUMENTS);
     verify(arguments);
     fxp_list_push(arguments, argument);
   }
@@ -117,7 +117,7 @@ FxP_Method *fxp_method_add_function_argument(FxP_Method *method, FxP_Function *f
   FxP_MethodArguments *list;
 
   if (fxp_expression_length(method) == 2) {
-    list = FxP_Expression_create(FXP_ST_METHOD_ARGUMENTS);
+    list = FxP_Expression_create(FX_ST_METHOD_ARGUMENTS);
     verify(list);
     fxp_method_set_arguments(method, list);
   }
@@ -172,7 +172,7 @@ error:
 }
 
 FxP_Grouped *FxP_Grouped_create(FxP_Expression *value) {
-  FxP_Grouped *group = FxP_Expression_create(FXP_ST_GROUPED);
+  FxP_Grouped *group = FxP_Expression_create(FX_ST_GROUPED);
   verify_memory(group);
 
   if (value) {
@@ -184,7 +184,7 @@ error:
 }
 
 FxP_FxB_List *fxp_list_convert(FxP_Grouped *group) {
-  fxp_expression_type(group) = FXP_ST_LIST;
+  fxp_expression_type(group) = FX_ST_LIST;
   return group;
 }
 
@@ -192,7 +192,7 @@ FxP_FxB_List *FxP_FxB_List_create_deferred() {
   FxP_Literal *value = FxP_Literal_create(NULL, TOKEN_DEFERRED_ARGUMENT);
   verify(value);
 
-  FxP_FxB_List *list = FxP_Expression_create(FXP_ST_LIST);
+  FxP_FxB_List *list = FxP_Expression_create(FX_ST_LIST);
   verify(list);
   fxp_expression_push(list, value);
 
@@ -203,7 +203,7 @@ error:
 }
 
 FxP_FxB_List *FxP_FxB_List_create_double(FxP_Expression *first, FxP_Expression *second) {
-  FxP_FxB_List *list = FxP_Expression_create(FXP_ST_LIST);
+  FxP_FxB_List *list = FxP_Expression_create(FX_ST_LIST);
   verify(list);
 
   fxp_expression_push(list, second);
@@ -218,14 +218,14 @@ FxP_MethodArguments *fxp_method_arguments_convert(FxP_Expression *expression) {
   FxP_MethodArguments *list = NULL;
   int type = fxp_expression_type(expression);
 
-  if (type == FXP_ST_LIST || type == FXP_ST_GROUPED) {
+  if (type == FX_ST_LIST || type == FX_ST_GROUPED) {
     list = expression;
   } else {
     list = FxP_Grouped_create(expression);
     verify(list);
   }
 
-  fxp_expression_type(list) = FXP_ST_METHOD_ARGUMENTS;
+  fxp_expression_type(list) = FX_ST_METHOD_ARGUMENTS;
   return list;
 error:
   return NULL;
@@ -233,10 +233,10 @@ error:
 
 FxP_Function *FxP_Function_create_no_args() {
   FxP_Function *function = NULL;
-  FxP_Expressions *expressions = FxP_Expression_create(FXP_ST_EXPRESSIONS);
+  FxP_Expressions *expressions = FxP_Expression_create(FX_ST_EXPRESSIONS);
   verify(expressions);
 
-  function = FxP_Expression_create(FXP_ST_FUNCTION);
+  function = FxP_Expression_create(FX_ST_FUNCTION);
   verify(function);
 
   fxp_function_set_expressions(function, expressions);
@@ -251,7 +251,7 @@ FxP_Function *FxP_Function_create(FxP_FxB_List *list) {
   FxP_Function *function = FxP_Function_create_no_args();
   verify(function);
 
-  fxp_expression_type(list) = FXP_ST_FUNCTION_ARGUMENTS;
+  fxp_expression_type(list) = FX_ST_FUNCTION_ARGUMENTS;
   fxp_function_set_arguments(function, list);
 
   return function;
@@ -260,7 +260,7 @@ error:
 }
 
 FxP_LocalAssign *FxP_LocalAssign_create(FxP_Lookup *variable, FxP_Expression *value) {
-  FxP_Function *local = FxP_Expression_create(FXP_ST_LOCAL_ASSIGN);
+  FxP_Function *local = FxP_Expression_create(FX_ST_LOCAL_ASSIGN);
   verify(local);
 
   fxp_expression_set_left(local, variable);
@@ -272,7 +272,7 @@ error:
 }
 
 FxP_LocalAssign *FxP_ColonExpression_create(FxP_Lookup *variable, FxP_Expression *value) {
-  FxP_Function *colon = FxP_Expression_create(FXP_ST_COLON_EXPRESSION);
+  FxP_Function *colon = FxP_Expression_create(FX_ST_COLON_EXPRESSION);
   verify(colon);
 
   fxp_expression_set_left(colon, variable);

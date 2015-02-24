@@ -9,27 +9,27 @@ FxN_Object *fxi_evaluate(FxI_Interpreter *interpreter, FxP_Expression *expressio
   int type = fxp_expression_type(expression);
   FxN_Object *result = NULL;
 
-  if (type == FXP_ST_LITERAL) {
+  if (type == FX_ST_LITERAL) {
     result = fxi_evaluate_literal(interpreter, expression);
-  } else if ( type == FXP_ST_LOOKUP ) {
+  } else if ( type == FX_ST_LOOKUP ) {
     result = fxi_evaluate_lookup(interpreter, expression);
-  } else if ( type == FXP_ST_METHOD ) {
+  } else if ( type == FX_ST_METHOD ) {
     result = fxi_evaluate_method(interpreter, expression);
-  } else if ( type == FXP_ST_FUNCTION ) {
+  } else if ( type == FX_ST_FUNCTION ) {
     result = fxi_evaluate_function(interpreter, expression);
-  } else if ( type == FXP_ST_GROUPED) {
+  } else if ( type == FX_ST_GROUPED) {
     result = fxi_evaluate_grouped(interpreter, expression);
-  } else if (type == FXP_ST_LIST ) {
+  } else if (type == FX_ST_LIST ) {
     result = fxi_evaluate_list(interpreter, expression);
-  } else if ( type == FXP_ST_METHOD_ARGUMENTS ) {
+  } else if ( type == FX_ST_METHOD_ARGUMENTS ) {
     result = fxi_evaluate_method_arguments(interpreter, expression);
-  } else if ( type == FXP_ST_FUNCTION_ARGUMENTS ) {
+  } else if ( type == FX_ST_FUNCTION_ARGUMENTS ) {
     result = fxi_evaluate_function_arguments(interpreter, expression);
-  } else if ( type == FXP_ST_LOCAL_ASSIGN ) {
+  } else if ( type == FX_ST_LOCAL_ASSIGN ) {
     result = fxi_evaluate_local_assign(interpreter, expression);
-  } else if ( type == FXP_ST_COLON_EXPRESSION ) {
+  } else if ( type == FX_ST_COLON_EXPRESSION ) {
     result = fxi_evaluate_attr_assign(interpreter, expression);
-  } else if ( type == FXP_ST_EXPRESSIONS ) {
+  } else if ( type == FX_ST_EXPRESSIONS ) {
     result = fxi_evaluate_expressions(interpreter, expression);
   } else {
     printf("%d expression evaluation not defined\n", type);

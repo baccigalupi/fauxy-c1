@@ -84,7 +84,7 @@ FxP_Function *FxP_Function_create(FxP_FxB_List *list);
 #define fxp_method_set_message(E, V)     fxp_expression_value_set(E, 1, V)
 #define fxp_method_arguments(E)          fxp_expression_value_at(E, 2)
 #define fxp_method_set_arguments(E, V)   fxp_expression_value_set(E, 2, V)
-#define FxP_Method_create()              FxP_Expression_create(FXP_ST_METHOD)
+#define FxP_Method_create()              FxP_Expression_create(FX_ST_METHOD)
 
 FxP_Method *FxP_Method_create_implicit(FxP_Literal *message, FxP_Expression *argument);
 FxP_Method *fxp_method_convert_implicit(FxP_Method *self, FxP_Expression *receivier);

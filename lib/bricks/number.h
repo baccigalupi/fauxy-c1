@@ -22,8 +22,8 @@ typedef struct FxB_Number {
 #define fxb_number_value_ldouble(I)  (*(long double*)(fxb_number_value(I)))
 
 #define fxb_number_is_decimal(I)    (                                               \
-                                      (fxb_number_type(I) == FXB_DECIMAL_DOUBLE) || \
-                                      (fxb_number_type(I) == FXB_DECIMAL_LDOUBLE)   \
+                                      (fxb_number_type(I) == FX_DECIMAL_DOUBLE) || \
+                                      (fxb_number_type(I) == FX_DECIMAL_LDOUBLE)   \
                                     )
 
 #define fxb_number_free_husk(I)    (fx_pfree(I))
