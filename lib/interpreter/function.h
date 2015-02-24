@@ -5,7 +5,7 @@ typedef struct FxN_Function {
   int whatever;
 } FxN_Function;
 
-FxN_Function *FxN_Function_create(char *name, FxN_Class *super_class);
+FxN_Function *FxN_Function_create(char *name, FxN_Object *super_class);
 // arity
 // arguments_match // given argument values, does it match
 // arguments_signature_match // is this a duplicate method because the signature is identical

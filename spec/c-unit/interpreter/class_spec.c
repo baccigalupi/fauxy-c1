@@ -3,7 +3,8 @@
 char *set_method_with_no_name_match() {
   spec_describe("set method with no group yet created");
 
-  FxN_Class *klass = FxN_Class_create("MyClass", NULL);
+  setup_interpreter();
+  FxN_Object *klass = FxN_Object_create(interpreter, NULL);
   FxN_Function *function = fx_alloc(FxN_Function);
   fxn_class_set_method(klass, "my-call", function);
 
@@ -19,7 +20,8 @@ char *set_method_with_no_name_match() {
 char *set_method_with_name_match() {
   spec_describe("set method with group already created");
 
-  FxN_Class *klass = FxN_Class_create("MyClass", NULL);
+  setup_interpreter();
+  FxN_Object *klass = FxN_Object_create(interpreter, NULL);
 
   FxN_Function *function_1 = fx_alloc(FxN_Function);
   FxN_Function *function_2 = fx_alloc(FxN_Function);
