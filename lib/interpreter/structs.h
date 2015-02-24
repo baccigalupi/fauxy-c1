@@ -2,7 +2,6 @@
 #define __structs_h 1
 
 #include "../bricks/_bricks.h"
-#include "../parser/_parser.h"
 
 /*
  * There is an interdependency between struct members, and it is easier to have
@@ -14,7 +13,7 @@ typedef struct FxN_Object {
   struct FxN_Object      *scope;
   FxB_HashMap            *attributes;
   struct FxI_Interpreter *interpreter;
-  FxP_Expression         *value;
+  void                   *value;
 } FxN_Object;
 
 typedef struct FxI_Pool {

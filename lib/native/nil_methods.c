@@ -8,7 +8,7 @@ FxN_Object *FxN_Nil_create(FxI_Interpreter *interpreter, FxP_Literal *value) {
   FxN_Object *self = FxN_Object_create(interpreter, NULL); // TODO: switch to Nil class
   verify(self);
 
-  fxn_object_value(self) = value;
+  fxn_object__value(self) = value;
 
   return self;
 error:

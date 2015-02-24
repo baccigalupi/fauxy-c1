@@ -2,6 +2,7 @@
 #include "../interpreter/interpreter.h"
 
 FxN_Object *fxn_object_is_empty(FxN_Object *self);
+// init, setup, lockdown, open!, open?, close!, closed?
 //FxN_Object *fxn_object_equal(FxN_Object *self, FxN_Object *other);
 //FxN_Object *fxn_object_identical(FxN_Object *self, FxN_Object *other);
 

@@ -51,13 +51,13 @@ FxN_Object *fxi_evaluate_literal(FxI_Interpreter *interpreter, FxP_Expression *e
     if (!object) {
       object = FxN_Object_create(interpreter, NULL); // todo: add class context
       verify(object);
-      fxn_object_value(object) = expression;
+      fxn_object__value(object) = expression;
       fxi_literal_set(interpreter, key, object);
     }
   } else { // floats don't get stored in the literal pool, so just make one
     object = FxN_Object_create(interpreter, NULL); // todo: add class context
     verify(object);
-    fxn_object_value(object) = expression;
+    fxn_object__value(object) = expression;
   }
 
   return object;

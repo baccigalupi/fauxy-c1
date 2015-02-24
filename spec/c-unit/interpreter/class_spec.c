@@ -1,5 +1,17 @@
 #include "helpers.h"
 
+char *test_class_name() {
+  spec_describe("class name");
+  setup_interpreter();
+  char *name = "MyClass";
+  void *superclass = NULL;
+
+  FxN_Class *klass = FxN_Class_create(interpreter, name, superclass);
+
+  assert_strings_equal(fxn_class_name(klass), name, "is equal to init value");
+  return NULL;
+}
+
 char *set_method_with_no_name_match() {
   spec_describe("set method with no group yet created");
 
@@ -43,6 +55,7 @@ char *set_method_with_name_match() {
 char *all_specs() {
   spec_setup("Class");
 
+  run_spec(test_class_name);
   run_spec(set_method_with_no_name_match);
   run_spec(set_method_with_name_match);
 

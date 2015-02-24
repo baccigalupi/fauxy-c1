@@ -12,7 +12,8 @@
 #define fxn_object_scope(O)                 ((O)->scope)
 #define fxn_object_interpreter(O)           ((O)->interpreter)
 #define fxn_object_attributes(O)            ((O)->attributes)
-#define fxn_object_value(O)                 ((O)->value)
+#define fxn_object__value(O)                ((O)->value)
+#define fxn_object_value(O)                 (FxP_Expression *)((O)->value)
 
 #define fxn_object_get_attribute(O, K)      (fxb_hash_map_get(fxn_object_attributes(O), K))
 #define fxn_object_set_attribute(O, K, V)   (fxb_hash_map_set(fxn_object_attributes(O), K, V))

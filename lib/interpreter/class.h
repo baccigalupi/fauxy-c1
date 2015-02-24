@@ -8,7 +8,9 @@
 #include "function.h"
 #include "object.h"
 
-//#define fxn_class_name(C)          (char *)(fxn_object_value(C)) // must change value to a void *
+typedef FxN_Object FxN_Class;
+
+#define fxn_class_name(C)          (char *)((C)->value)
 #define fxn_class_super_class(C)   (fxn_object_scope(C))
 
 #define fxn_class_method_count(C)           (fxb_hash_map_length(fxn_object_attributes(C)))
@@ -17,7 +19,8 @@
 
 #define fxn_class_free(C)          (fx_pfree(C)) // TODO: more better
 
-void          fxn_class_set_method(FxN_Object *self, char *method_name, FxN_Function *function);
-FxN_Function *fxn_class_get_method(FxN_Object *self, char *method_name);
+FxN_Class    *FxN_Class_create(FxI_Interpreter *interpreter, char *name, FxN_Class *superclass);
+void          fxn_class_set_method(FxN_Class *self, char *method_name, FxN_Function *function);
+FxN_Function *fxn_class_get_method(FxN_Class *self, char *method_name);
 
 #endif
