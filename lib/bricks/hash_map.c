@@ -2,11 +2,13 @@
 
 #include "hash_map.h"
 #include "list.h"
+#include "../types.h"
 
 FxB_HashMap *FxB_HashMap_create(int capacity) {
   FxB_HashMap *hash_map = fx_alloc(FxB_Hash);
   verify_memory(hash_map);
 
+  fxb_hash_map_type(hash_map) = FX_HASH_MAP;
   fxb_hash_map_capacity(hash_map) = capacity;
   fxb_hash_map_values(hash_map) =   FxB_Array_create(capacity);
   verify(fxb_hash_map_values(hash_map));

@@ -68,7 +68,8 @@ enum {
 
   // Contexts
   FX_OBJECT,
-  FX_CLASS
+  FX_CLASS,
+  FX_HASH_MAP
 };
 
 

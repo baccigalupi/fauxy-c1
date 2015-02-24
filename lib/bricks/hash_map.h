@@ -11,12 +11,15 @@ typedef struct FxB_HashMap {
   int length;
   int capacity;
   FxB_Array *values;
+  int type; // moving this to the top make everything break :(
 } FxB_HashMap;
 
+#define fxb_hash_map_type(H)              ((H)->type)
 #define fxb_hash_map_values(H)            ((H)->values)
-#define fxb_hash_map_list_at_index(H, I)  (fxb_array_at_index(fxb_hash_map_values(H), I))
 #define fxb_hash_map_length(H)            ((H)->length)
 #define fxb_hash_map_capacity(H)          ((H)->capacity)
+
+#define fxb_hash_map_list_at_index(H, I)  (fxb_array_at_index(fxb_hash_map_values(H), I))
 #define fxb_hash_map_index_for_key(H, K)  (fxb_string_hash(K) % fxb_hash_map_capacity(H))
 #define fxb_hash_map_free(H)              ((fxb_hash_map_free_list_values(H)), (fxb_array_free(fxb_hash_map_values(H))), (fx_pfree(H)))
 
