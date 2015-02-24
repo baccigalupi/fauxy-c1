@@ -1,8 +1,7 @@
 #ifndef FxN_Class_h
 #define FxN_Class_h 1
 
-#include "../bricks/helpers.h"
-#include "../bricks/hash_map.h"
+#include "../bricks/_bricks.h"
 
 typedef struct FxN_Class {
   int              type;

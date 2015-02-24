@@ -1,8 +1,9 @@
 #ifndef __expression_eval_h
 #define __expression_eval_h
 
-#include "../bricks/helpers.h"
-#include "../parser/expressions.h"
+#include "../bricks/_bricks.h"
+#include "../parser/_parser.h"
+
 #include "interpreter.h"
 #include "object.h"
 

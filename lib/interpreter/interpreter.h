@@ -1,9 +1,8 @@
 #ifndef __FxI_Interpreter_h
 #define __FxI_Interpreter_h 1
 
-#include "../bricks/helpers.h"
-#include "../bricks/hash_map.h"
-#include "../bricks/list.h"
+#include "../bricks/_bricks.h"
+
 #include "pool.h"
 
 typedef struct FxI_Interpreter {

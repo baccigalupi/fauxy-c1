@@ -1,17 +1,18 @@
 #ifndef FxN_Object_h
 #define FxN_Object_h 1
 
-#include "../bricks/hash_map.h"
-#include "class.h"
+#include "../bricks/_bricks.h"
+#include "../parser/_parser.h"
+
+//#include "class.h"
 #include "interpreter.h"
-#include "../parser/expressions.h"
 
 typedef struct FxN_Object {
-  int              type;
-  FxN_Class       *scope;
-  FxB_HashMap     *attributes;
-  FxI_Interpreter *interpreter;
-  FxP_Expression  *value;
+  int                     type;
+  struct FxN_Object      *scope;
+  FxB_HashMap            *attributes;
+  FxI_Interpreter        *interpreter; // needed??
+  FxP_Expression         *value;
 } FxN_Object;
 
 #define FXN_OBJECT_ATTRIBUTE_HASHMAP_SIZE   50
@@ -28,6 +29,6 @@ typedef struct FxN_Object {
 
 #define fxn_object_free(O)                  (fxb_hash_map_free(fxn_object_attributes(O)), fx_pfree(O))
 
-FxN_Object *FxN_Object_create(FxI_Interpreter *interpreter, FxN_Class *scope);
+FxN_Object *FxN_Object_create(FxI_Interpreter *interpreter, FxN_Object *scope);
 
 #endif

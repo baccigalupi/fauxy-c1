@@ -2,7 +2,7 @@
 
 #include "../bricks/helpers.h"
 
-FxN_Object *FxN_Object_create(FxI_Interpreter *interpreter, FxN_Class *scope) {
+FxN_Object *FxN_Object_create(FxI_Interpreter *interpreter, FxN_Object *scope) {
   FxN_Object *object = fx_alloc(FxN_Object);
   verify_memory(object);
 

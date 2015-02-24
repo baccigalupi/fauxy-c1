@@ -1,8 +1,7 @@
 #ifndef FxN_MethodGroup_h
 #define FxN_MethodGroup_h 1
 
-#include "../bricks/helpers.h"
-#include "../bricks/list.h"
+#include "../bricks/_bricks.h"
 
 typedef struct FxN_MethodGroup {
   char             *name;
