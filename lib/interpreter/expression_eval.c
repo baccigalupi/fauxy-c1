@@ -68,17 +68,15 @@ error:
 FxN_Object *fxi_evaluate_attr_assign(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   FxP_Expression *value_expression = fxp_expression_right(expression);
   FxN_Object *result = fxi_evaluate(interpreter, value_expression);
-  // TODO: change to fxi_context_set for non-global setting
   char *key = fxi_lookup_key(fxp_expression_left(expression));
-  fxi_global_set(interpreter, key, result);
+  fxi_context_set(interpreter, key, result);
   return result;
 }
 
 FxN_Object *fxi_evaluate_lookup(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   char *key = fxi_lookup_key(expression);
-  // TODO: change to fxi_lookup for chained lookup
-  return fxi_global_get(interpreter, key);
-  // TODO: raise run time erro if not found
+  return fxi_lookup(interpreter, key);
+  // TODO: raise run time error if not found
 }
 
 FxN_Object *fxi_evaluate_function_arguments(FxI_Interpreter *interpreter, FxP_Expression *expression) {

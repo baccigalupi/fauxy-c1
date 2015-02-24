@@ -30,6 +30,9 @@ typedef struct FxI_Interpreter {
 
 #define fxi_interpreter_setup(I)          (fxi_interpreter_add_base_classes(I), fxi_interpreter_add_base_literals(I))
 
+#define fxi_lookup(I, K)                  (fxi_global_get(I, K)) // TODO: change to function with better chain lookup
+#define fxi_context_set(I, K, V)          (fxi_global_set(I, K, V)) // TODO: set in current context
+
 FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config);
 void             fxi_interpreter_add_base_classes(FxI_Interpreter *self);
 void             fxi_interpreter_add_base_literals(FxI_Interpreter *self);
