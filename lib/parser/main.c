@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
     printf("\nFauxy -> Go!\n\n");
     FxP_ParserContext *context = NULL;
 
-    while(!context || fxp_parser_context_status(context)) {
+    while(!context) {
       context = parse_stdin();
       verify(context);
       fxp_parser_context_free(context);

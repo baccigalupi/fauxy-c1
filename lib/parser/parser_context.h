@@ -2,19 +2,15 @@
 #define __FxP_ParserContext 1
 
 #include "../bricks/list.h"
-#include "exception.h"
 
 typedef struct FxP_ParserContext {
   FxB_List *list;
-  FxP_Exception *exception;
+  // exception, lex related stuff??
 } FxP_ParserContext;
 
 #include "expressions.h"
 
-#define fxp_parser_context_list(C)          ((C)->list)
-#define fxp_parser_context_execption(C)     ((C)->exception)
-#define fxp_parser_context_status(C)        ((C)->exception ? fxp_exception_code((C)->exception) : 0)
-#define fxp_parser_context_error_message(C) ((C)->exception ? fxp_exception_message((C)->exception) : NULL)
+#define fxp_parser_context_list(C)       ((C)->list)
 
 #define fxp_parser_context_push(C, V)    fxb_list_push(fxp_parser_context_list(C), V)
 #define fxp_parser_context_pop(C)        ((FxP_Expressions *)fxb_list_pop(fxp_parser_context_list(C)))

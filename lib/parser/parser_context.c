@@ -27,10 +27,6 @@ error:
 }
 
 void fxp_parser_context_free(FxP_ParserContext *context) {
-  if (fxp_parser_context_execption(context)) {
-    fxp_exception_free(fxp_parser_context_execption(context));
-  }
-
   FxB_Node *node = NULL;
   fxb_list_each(fxp_parser_context_list(context), node) {
     fxp_expression_free(node_value(node));
@@ -39,4 +35,3 @@ void fxp_parser_context_free(FxP_ParserContext *context) {
 
   fx_pfree(context);
 }
-

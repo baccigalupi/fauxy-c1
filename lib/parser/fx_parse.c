@@ -13,7 +13,6 @@
 #include "lex.yy.h"    // yylex_init, and yylex_destroy
 
 FxP_ParserContext *parse_with_state(FxP_LexWrapper state) {
-  FxP_Exception *exception = NULL;
   FxB_String *error_message    = NULL;
   int status;
 
@@ -23,11 +22,7 @@ FxP_ParserContext *parse_with_state(FxP_LexWrapper state) {
   status = yyparse(&state, context);
 
   if (status) {
-    error_message = FxB_String_create("Parse Error");
-    verify(error_message);
-    exception = FxP_Exception_create(status, error_message);
-    verify(exception);
-    fxp_parser_context_execption(context) = exception;
+    printf("ParseError: %s", error_message); // TODO: exceptions
   }
 
   yylex_destroy(state.scanner);
