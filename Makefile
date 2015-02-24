@@ -16,10 +16,10 @@ TESTS=$(patsubst %.c,%,$(TEST_SRC))
 TARGET=build/fauxy.a
 SO_TARGET=$(patsubst %.a,%.so,$(TARGET))
 
-all: bin/fauxy dev
+all: bin/fauxy $(TARGET)
 
 dev: CFLAGS=-g -std=gnu11 -Wall -Wextra -Isrc $(OPTFLAGS)
-dev: $(TARGET) c-unit
+dev: all c-unit
 
 # converts to an archive static lib, produces build/fauxy.a
 # indexes archive for use
