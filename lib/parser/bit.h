@@ -6,16 +6,11 @@ typedef struct {
   void *value;
 } FxP_Bit;
 
-// Lots of this shit needs to be included because bits are part of the lex/parse
-// process. Lex and Bison are pretty hopelessly nested together and therefore
-// everything needs to be included here
-#include "../bricks/helpers.h"
-#include "../bricks/string.h"
-#include "../bricks/number.h"
-#include "lex_wrapper.h"
-#include "parser_context.h"
+#include "../bricks/_bricks.h"
 #include "../types.h"
 
+#include "lex_wrapper.h"
+#include "parser_context.h"
 
 #define fxp_bit_type(F)             ((F)->type)
 #define fxp_bit_value(F)            ((F)->value)

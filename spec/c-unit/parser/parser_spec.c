@@ -1,6 +1,4 @@
-#include "../../../lib/parser/bit.h"
-#include "../../../lib/parser/fx_parse.h"
-#include "../../../lib/parser/expression_inspect.h"
+#include "../../../lib/parser/_parser.h"
 #include "../../../lib/parser/parse.tab.h"
 #include "../../../lib/parser/lex.yy.h"
 #include "../lib/spec.h"

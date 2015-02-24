@@ -1,8 +1,6 @@
 #include <string.h>
 
-#include "../../../lib/parser/bit.h"
-#include "../../../lib/parser/expressions.h"
-#include "../../../lib/parser/expression_inspect.h"
+#include "../../../lib/parser/_parser.h"
 #include "../lib/spec.h"
 
 char *test_create_literal() {

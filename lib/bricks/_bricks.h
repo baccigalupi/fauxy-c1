@@ -3,6 +3,8 @@
 #ifndef ___bricks_h
 #define ___bricks_h
 
+#include "../types.h"
+
 #include "helpers.h"
 #include "expandable.h"
 #include "hash_key.h"
