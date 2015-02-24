@@ -1,7 +1,4 @@
-#include "../../../lib/bricks/string.h"
-#include "../../../lib/bricks/array.h"
-#include "../../../lib/bricks/json_gen.h"
-
+#include "../../../lib/bricks/_bricks.h"
 #include "../lib/spec.h"
 
 char *test_bald_wrapping_pair() {

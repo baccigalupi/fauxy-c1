@@ -1,7 +1,6 @@
-#include "../../../lib/bricks/number.h"
-#include <limits.h>
-
+#include "../../../lib/bricks/_bricks.h"
 #include "../lib/spec.h"
+#include <limits.h>
 
 char *test_read_short_int() {
   spec_describe("reading a short integer from a string");

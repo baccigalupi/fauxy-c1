@@ -1,5 +1,5 @@
-#include "../../../lib/bricks/hash_map.h"
-#include "../../../lib/bricks/list.h"
+#include "../../../lib/bricks/_bricks.h"
+#include "../lib/spec.h"
 
 #include "../lib/spec.h"
 

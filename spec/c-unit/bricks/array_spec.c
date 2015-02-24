@@ -1,5 +1,4 @@
-#include "../../../lib/bricks/array.h"
-
+#include "../../../lib/bricks/_bricks.h"
 #include "../lib/spec.h"
 
 char *test_create_array() {

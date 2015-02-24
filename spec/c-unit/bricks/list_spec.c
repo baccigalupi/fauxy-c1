@@ -1,6 +1,4 @@
-#include <assert.h>
-
-#include "../../../lib/bricks/list.h"
+#include "../../../lib/bricks/_bricks.h"
 #include "../lib/spec.h"
 
 char *test_fxb_list_first_push() {

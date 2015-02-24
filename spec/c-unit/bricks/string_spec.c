@@ -1,5 +1,4 @@
-#include "../../../lib/bricks/string.h"
-
+#include "../../../lib/bricks/_bricks.h"
 #include "../lib/spec.h"
 
 char *test_create_from_literal() {
