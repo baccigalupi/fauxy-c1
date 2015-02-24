@@ -3,14 +3,8 @@
 
 #include "../bricks/_bricks.h"
 
+#include "structs.h"
 #include "pool.h"
-
-typedef struct FxI_Interpreter {
-  // main event loop?
-  // references to other loops
-  FxI_Pool *pool;
-  FxB_List *contexts;
-} FxI_Interpreter;
 
 #define fxi_interpreter_pool(I)           ((I)->pool)
 #define fxi_interpreter_contexts(I)       ((I)->contexts)

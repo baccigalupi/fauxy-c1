@@ -1,9 +1,11 @@
 #include "pool.h"
+#include "object.h"
 
 FxI_Pool *FxI_Pool_create(FxB_HashMap *config) {
   FxB_HashMap *literals = NULL;
+  FxB_HashMap *global_attributes = NULL;
   FxB_List    *all = NULL;
-  FxB_HashMap *globals  = NULL;
+  FxN_Object *globals  = NULL;
 
   FxI_Pool *pool = fx_alloc(FxI_Pool);
   verify_memory(pool);
@@ -21,8 +23,16 @@ FxI_Pool *FxI_Pool_create(FxB_HashMap *config) {
   verify(all)
   fxi_pool_all(pool) = all;
 
-  globals = FxB_HashMap_create(global_capacity);
-  verify(globals);
+  // Smaller version of the code for object create.
+  // Classes, Objects and Globals are all objects so that
+  // every possible context is an object
+  globals = fx_alloc(FxN_Object);
+  verify_memory(globals);
+  fxn_object_type(globals) = FX_GLOBALS;
+  global_attributes = FxB_HashMap_create(global_capacity);
+  verify(global_attributes);
+  fxn_object_attributes(globals) = global_attributes;
+
   fxi_pool_globals(pool) = globals;
 
   return pool;
@@ -30,7 +40,8 @@ error:
   if (pool) { fx_pfree(pool); }
   if (all) { fxb_list_free(all); }
   if (literals) { fxb_hash_map_free(literals); }
-  if (globals) { fxb_hash_map_free(globals); }
+  if (global_attributes) { fxb_hash_map_free(global_attributes); }
+  if (globals) { fxn_object_free(globals); }
 
   return NULL;
 }

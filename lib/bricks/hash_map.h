@@ -11,10 +11,8 @@ typedef struct FxB_HashMap {
   int length;
   int capacity;
   FxB_Array *values;
-  int type; // moving this to the top make everything break :(
 } FxB_HashMap;
 
-#define fxb_hash_map_type(H)              ((H)->type)
 #define fxb_hash_map_values(H)            ((H)->values)
 #define fxb_hash_map_length(H)            ((H)->length)
 #define fxb_hash_map_capacity(H)          ((H)->capacity)

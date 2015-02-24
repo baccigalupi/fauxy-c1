@@ -4,8 +4,9 @@
 // Class is an object too. I decided that while I was asleep, after wondering about
 // it for a couple days.
 
-#include "object.h"
+#include "structs.h"
 #include "function.h"
+#include "object.h"
 
 //#define fxn_class_name(C)          (char *)(fxn_object_value(C)) // must change value to a void *
 #define fxn_class_super_class(C)   (fxn_object_scope(C))

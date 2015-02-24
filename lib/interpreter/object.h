@@ -4,16 +4,7 @@
 #include "../bricks/_bricks.h"
 #include "../parser/_parser.h"
 
-//#include "class.h"
-#include "interpreter.h"
-
-typedef struct FxN_Object {
-  int                     type;
-  struct FxN_Object      *scope;
-  FxB_HashMap            *attributes;
-  FxI_Interpreter        *interpreter; // needed??
-  FxP_Expression         *value;
-} FxN_Object;
+#include "structs.h"
 
 #define FXN_OBJECT_ATTRIBUTE_HASHMAP_SIZE   50
 

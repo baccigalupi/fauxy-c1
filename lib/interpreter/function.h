@@ -1,9 +1,7 @@
 #ifndef FxN_Function_h
 #define FxN_Function_h 1
 
-typedef struct FxN_Function {
-  int whatever;
-} FxN_Function;
+#include "structs.h"
 
 FxN_Function *FxN_Function_create(char *name, FxN_Object *super_class);
 // arity

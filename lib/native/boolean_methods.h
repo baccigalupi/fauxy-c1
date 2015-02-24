@@ -6,7 +6,7 @@
 
 #include "../parser/expressions.h"
 #include "../interpreter/object.h"
-#include "../interpreter/pool.h"
+#include "../interpreter/interpreter.h"
 
 #define fxn_boolean_value(O)                (fxp_literal_type(fxn_object_value(O)) == TOKEN_TRUE ? 1 : 0)
 

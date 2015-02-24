@@ -6,7 +6,7 @@
 #include "../bricks/helpers.h"
 
 #define FXI_POOL_LITERAL_CAPACITY_DEFAULT  400
-#define FXI_POOL_GLOBAL_CAPACITY_DEFAULT    200
+#define FXI_POOL_GLOBAL_CAPACITY_DEFAULT   200
 
 // Garbage managment: ??
 //   * New allocations end up in the literals
@@ -22,22 +22,17 @@
 //
 // Defragmentation ... not really covered for now.
 
-typedef struct FxI_Pool {
-  FxB_HashMap *literals;
-  FxB_List    *all;
-  FxB_HashMap *globals;
-} FxI_Pool;
-
+#include "structs.h"
 
 #define fxi_pool_literals(P)        ((P)->literals)
 #define fxi_pool_all(P)             ((P)->all)
 #define fxi_pool_globals(P)         ((P)->globals)
 
-#define fxi_pool_literal_get(P, K)       (fxb_hash_map_get(fxi_pool_literals(P), K))
-#define fxi_pool_literal_set(P, K, V)    (fxb_hash_map_set(fxi_pool_literals(P), K, V))
+#define fxi_pool_literal_get(P, K)      (fxb_hash_map_get(fxi_pool_literals(P), K))
+#define fxi_pool_literal_set(P, K, V)   (fxb_hash_map_set(fxi_pool_literals(P), K, V))
 
-#define fxi_pool_global_get(P, K)       (fxb_hash_map_get(fxi_pool_globals(P), K))
-#define fxi_pool_global_set(P, K, V)    (fxb_hash_map_set(fxi_pool_globals(P), K, V))
+#define fxi_pool_global_get(P, K)       (fxn_object_get_attribute(fxi_pool_globals(P), K))
+#define fxi_pool_global_set(P, K, V)    (fxn_object_set_attribute(fxi_pool_globals(P), K, V))
 
 #define fxi_pool_free(P)            (fx_pfree(P)) // TODO: more better
 

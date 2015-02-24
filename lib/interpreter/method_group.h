@@ -3,10 +3,7 @@
 
 #include "../bricks/_bricks.h"
 
-typedef struct FxN_MethodGroup {
-  char             *name;
-  FxB_List         *functions;
-} FxN_MethodGroup;
+#include "structs.h"
 
 #define fxn_method_group_name(C)        ((C)->name)
 #define fxn_method_group_functions(C)   ((C)->functions)
