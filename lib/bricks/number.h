@@ -32,15 +32,7 @@ typedef struct FxB_Number {
                                             verify_memory(value);         \
                                             *value = (TYPE)number_value;  \
                                             fxb_number_value(I) = value;
-
-enum {
-  FXB_INT_SHORT = 340,
-  FXB_INT_STANDARD,
-  FXB_INT_LONG,
-  FXB_INT_LLONG,
-  FXB_DECIMAL_DOUBLE,
-  FXB_DECIMAL_LDOUBLE
-};
+#include "../types.h"
 
 FxB_Number *FxB_Number_create();
 FxB_Number *FxB_Integer_from_string(char *str);

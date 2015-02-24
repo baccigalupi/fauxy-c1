@@ -14,12 +14,8 @@ typedef struct {
 #include "../bricks/number.h"
 #include "lex_wrapper.h"
 #include "parser_context.h"
-#include "tokens.h"
+#include "../types.h"
 
-enum {
-  FX_BIT_STRING = 300,
-  FX_BIT_NUMBER
-};
 
 #define fxp_bit_type(F)             ((F)->type)
 #define fxp_bit_value(F)            ((F)->value)

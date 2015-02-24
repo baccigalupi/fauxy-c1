@@ -29,20 +29,7 @@ typedef FxP_Expression FxP_Expressions;
 
 #define FX_EXPRESSION_INITAL_SIZE 5
 
-enum {
-  FXP_ST_LITERAL = 320,
-  FXP_ST_LOOKUP,
-  FXP_ST_METHOD,
-  FXP_ST_FUNCTION,
-  FXP_ST_GROUPED,
-  FXP_ST_LIST,
-  FXP_ST_METHOD_ARGUMENTS,
-  FXP_ST_FUNCTION_ARGUMENTS,
-  FXP_ST_LOCAL_ASSIGN,
-  FXP_ST_COLON_EXPRESSION,
-  FXP_ST_EXPORT,
-  FXP_ST_EXPRESSIONS
-}; // statement types
+#include "../types.h"
 
 
 #define fxp_expression_type(E)            ((E)->type)

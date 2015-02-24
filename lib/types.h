@@ -1,6 +1,10 @@
+#ifndef __types_h
+#define __types_h
+
 #ifndef YYTOKENTYPE
 #define YYTOKENTYPE
 
+// Tokens: must be kept in sync when changes are made to lexer/parser
 enum yytokentype {
   TOKEN_TRUE = 258,
   TOKEN_FALSE = 259,
@@ -32,5 +36,36 @@ enum yytokentype {
   TOKEN_NOT = 285,
   TOKEN_EOF = 286
 };
+
+#endif
+
+enum {
+  // Bit Types
+  FX_BIT_STRING = TOKEN_EOF+10,
+  FX_BIT_NUMBER,
+
+  // Expression Types
+  FXP_ST_LITERAL,
+  FXP_ST_LOOKUP,
+  FXP_ST_METHOD,
+  FXP_ST_FUNCTION,
+  FXP_ST_GROUPED,
+  FXP_ST_LIST,
+  FXP_ST_METHOD_ARGUMENTS,
+  FXP_ST_FUNCTION_ARGUMENTS,
+  FXP_ST_LOCAL_ASSIGN,
+  FXP_ST_COLON_EXPRESSION,
+  FXP_ST_EXPORT,
+  FXP_ST_EXPRESSIONS,
+
+  // Number types
+  FXB_INT_SHORT,
+  FXB_INT_STANDARD,
+  FXB_INT_LONG,
+  FXB_INT_LLONG,
+  FXB_DECIMAL_DOUBLE,
+  FXB_DECIMAL_LDOUBLE
+};
+
 
 #endif
