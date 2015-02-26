@@ -36,16 +36,9 @@ typedef struct FxN_MethodGroup {
   FxB_List         *functions;
 } FxN_MethodGroup;
 
-// not yet sure what this entails yet
-typedef struct FxN_Function {
-  int whatever;
-} FxN_Function;
-
-// not sure what this is either, but the native register needs it
-typedef struct FxI_MethodCallArguments {
-  int whatever;
-} FxI_MethodCallArguments;
-
+// not yet sure what function definition of method calls entail
+typedef FxN_Object FxN_Function;
+typedef FxN_Object FxI_MethodCallArguments;
 typedef FxN_Object *(* FxI_NativeFunction)(FxI_MethodCallArguments *arguments);
 
 #endif
