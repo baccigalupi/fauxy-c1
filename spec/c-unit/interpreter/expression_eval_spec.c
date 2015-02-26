@@ -169,6 +169,32 @@ char *test_context_assignment_of_literal() {
   return NULL;
 }
 
+char *test_global_assignment_but_lookup_from_context() {
+  spec_describe("setting a literal at global, then looking up from a context");
+  setup_interpreter();
+
+  FxN_Object *object = FxN_Object_create(interpreter, NULL);
+
+  FxP_Bit     *value_bit =      FxP_Bit_string_create("Hello Fauxy world!");
+  FxP_Literal *value =          FxP_Literal_create(value_bit, TOKEN_STRING);
+
+  FxN_Object  *value_object =   fxi_evaluate(interpreter, value);
+
+  FxP_Bit     *lookup_bit =     FxP_Bit_string_create("greeting");
+  FxP_Lookup  *lookup =         FxP_Lookup_create(lookup_bit, TOKEN_ID);
+
+  FxP_Expression *assignment =  FxP_ColonExpression_create(lookup, value);
+
+  FxN_Object   *assign_return_value = fxi_evaluate(interpreter, assignment);
+
+  fxi_interpreter_push_context(interpreter, object);
+
+  FxN_Object *evaluation = fxi_evaluate(interpreter, lookup);
+  assert_equal(evaluation, value_object, "lookup of the id bypasses context to find it higher up");
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Interpreter");
 
@@ -181,6 +207,7 @@ char *all_specs() {
 
   run_spec(test_global_assignment_of_literal);
   run_spec(test_context_assignment_of_literal);
+  run_spec(test_global_assignment_but_lookup_from_context);
 
   spec_teardown();
 

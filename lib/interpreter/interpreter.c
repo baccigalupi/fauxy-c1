@@ -57,3 +57,22 @@ void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
   FxP_Expression *nil_literal = FxP_Literal_create(NULL, TOKEN_NIL);
   fxi_evaluate(self, nil_literal);
 }
+
+FxN_Object *fxi_lookup(FxI_Interpreter *self, char *key) {
+  FxN_Object *object = NULL;
+  FxN_Object *context = NULL;
+  FxB_List   *contexts = fxi_interpreter_contexts(self);
+  FxB_Node   *node =    fxb_list_node_last(contexts);
+
+  while(!object && node) {
+    context = node_value(node);
+    verify(context);
+    object = fxn_object_get_attribute(context, key);
+    node = node_prev(node);
+  }
+
+  return object;
+error:
+  return NULL;
+}
+

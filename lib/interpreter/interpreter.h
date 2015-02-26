@@ -29,11 +29,12 @@
 
 // TODO: lookup needs to move up the list to find values
 // needs to raise an evaluation error when not found
-#define fxi_lookup(I, K)                    (fxn_object_get_attribute(fxi_current_context(I), K))
+//#define fxi_lookup(I, K)                    (fxn_object_get_attribute(fxi_current_context(I), K))
 #define fxi_context_set(I, K, V)            (fxn_object_set_attribute(fxi_current_context(I), K, V))
 
 FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config);
 void             fxi_interpreter_add_base_classes(FxI_Interpreter *self);
 void             fxi_interpreter_add_base_literals(FxI_Interpreter *self);
+FxN_Object      *fxi_lookup(FxI_Interpreter *self, char *key);
 
 #endif
