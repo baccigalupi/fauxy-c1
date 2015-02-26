@@ -29,7 +29,7 @@ error:
 void fxp_parser_context_free(FxP_ParserContext *context) {
   FxB_Node *node = NULL;
   fxb_list_each(fxp_parser_context_list(context), node) {
-    fxp_expression_free(node_value(node));
+    fxp_expression_free(fxb_node_value(node));
   }
   fxb_list_free(fxp_parser_context_list(context));
 

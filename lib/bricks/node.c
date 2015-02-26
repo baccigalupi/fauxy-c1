@@ -6,7 +6,7 @@
 FxB_Node *FxB_Node_create(void *value) {
   FxB_Node *node = fx_alloc(FxB_Node);
   verify_memory(node);
-  node_value(node) = value;
+  fxb_node_value(node) = value;
   return node;
 error:
   return NULL;

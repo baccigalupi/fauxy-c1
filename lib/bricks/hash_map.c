@@ -22,7 +22,7 @@ void *fxb_hash_map_get(FxB_HashMap *hash_map, char *key) {
   FxB_Node *node = fxb_hash_map_get_node(hash_map, key);
 
   if (node) {
-    value = node_value(node);
+    value = fxb_node_value(node);
   }
 
   return value;
@@ -37,7 +37,7 @@ FxB_Node *fxb_hash_map_get_node(FxB_HashMap *hash_map, char *key) {
   if (!list) { return node; }
 
   fxb_list_each(list, current_node) {
-    if ( (node_hash(current_node) == fxb_string_hash(key)) && !strcmp(node_key(current_node), key) ) {
+    if ( (fxb_node_hash(current_node) == fxb_string_hash(key)) && !strcmp(fxb_node_key(current_node), key) ) {
       node = current_node;
       break;
     }
@@ -61,15 +61,15 @@ void fxb_hash_map_set(FxB_HashMap *hash_map, char *key, void *value) {
   FxB_Node *node = fxb_hash_map_get_node(hash_map, key);
   if (node) {
     // find node if exists, and reset value
-    node_value(node) = value;
+    fxb_node_value(node) = value;
   } else {
     node = FxB_Node_create(value);
 
     // set extra node attributes
     char *dup_key = calloc(strlen(key) + 1, sizeof(char));
     strcpy(dup_key, key);
-    node_hash(node) = fxb_string_hash(dup_key);
-    node_key(node) = dup_key;
+    fxb_node_hash(node) = fxb_string_hash(dup_key);
+    fxb_node_key(node) = dup_key;
 
     fxb_list_push_node(list, node);
   }
@@ -89,15 +89,15 @@ FxB_Array *fxb_hash_map_keys(FxB_HashMap *hash_map) {
   int length = fxb_hash_map_capacity(hash_map);
   unsigned long max_length = 0;
   FxB_Node *node = NULL;
-  FxB_List *node_list = NULL;
+  FxB_List *fxb_node_list = NULL;
   for (i = 0; i < length; i++) {
     // get list at array index
-    node_list = fxb_hash_map_list_at_index(hash_map, i);
-    if (!node_list) { continue; }
+    fxb_node_list = fxb_hash_map_list_at_index(hash_map, i);
+    if (!fxb_node_list) { continue; }
     // iterate through list gathering keys
 
-    fxb_list_each(node_list, node) {
-      char *key = node_key(node);
+    fxb_list_each(fxb_node_list, node) {
+      char *key = fxb_node_key(node);
       max_length = max_length < strlen(key) ? strlen(key) : max_length;
       temp_keys[keys_found] = key;
       keys_found ++;

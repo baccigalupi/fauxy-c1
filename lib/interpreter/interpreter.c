@@ -65,10 +65,10 @@ FxN_Object *fxi_lookup(FxI_Interpreter *self, char *key) {
   FxB_Node   *node =    fxb_list_node_last(contexts);
 
   while(!object && node) {
-    context = node_value(node);
+    context = fxb_node_value(node);
     verify(context);
     object = fxn_object_get_attribute(context, key);
-    node = node_prev(node);
+    node = fxb_node_prev(node);
   }
 
   return object;
