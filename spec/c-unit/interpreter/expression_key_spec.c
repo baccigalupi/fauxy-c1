@@ -88,7 +88,7 @@ char *test_class_key() {
   FxP_Lookup  *exp = FxP_Lookup_create(bit, TOKEN_CLASS_ID);
   char *key = fxi_lookup_key(exp);
 
-  assert_strings_equal(key, "274-MyClass", "key is correct");
+  assert_strings_equal(key, "MyClass", "key is correct");
 
   return NULL;
 }
@@ -100,7 +100,7 @@ char *test_identifier_key() {
   FxP_Lookup  *exp = FxP_Lookup_create(bit, TOKEN_ID);
   char *key = fxi_lookup_key(exp);
 
-  assert_strings_equal(key, "273-x", "key is correct");
+  assert_strings_equal(key, "x", "key is correct");
 
   return NULL;
 }

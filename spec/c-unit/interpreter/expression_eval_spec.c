@@ -160,7 +160,7 @@ char *test_context_assignment_of_literal() {
 
   assert_equal(assign_return_value, value_object, "evaluation of assignment returns what is assigned to it");
 
-  FxN_Object *attr = fxn_object_get_attribute(object, "273-greeting");
+  FxN_Object *attr = fxn_object_get_attribute(object, "greeting");
   assert_equal(attr, value_object, "literal is stored in context");
 
   FxN_Object *evaluation = fxi_evaluate(interpreter, lookup);

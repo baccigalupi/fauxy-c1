@@ -53,31 +53,18 @@ error:
 }
 
 char *fxi_lookup_key(FxP_Lookup *lookup) {
-  FxB_String *key = NULL;
-  char *key_type = NULL;
-  FxB_String *bit_description = NULL;
-
+  char *key = NULL;
+  char *original_key = NULL;
   FxP_Bit *bit = fxp_lookup_bit(lookup);
   verify(bit);
 
-  bit_description = fxp_bit_string__value(bit);
-  verify(bit_description);
+  original_key = fxp_bit_string_value(bit);
+  verify(original_key);
 
-  key_type = fxi_type_key(lookup);
+  key = calloc(strlen(original_key) + 1, sizeof(char));
+  strcpy(key, original_key);
 
-  key = FxB_String_create(key_type);
-  verify(key);
-  verify(fxb_string_push_char(key, '-'));
-  verify(fxb_string_add_string(key, bit_description));
-
-  char *_key = fxb_string_value(key);
-
-  fx_pfree(key);
-  fx_pfree(key_type);
-
-  return _key;
+  return key;
 error:
-  if (key)             { fxb_string_free(key); }
-  if (key_type)        { fx_pfree(key_type); }
   return NULL;
 }
