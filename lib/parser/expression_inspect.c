@@ -18,17 +18,17 @@ void *fxp_inspect(void *element) {
     unwrapped_pair = fxp_literal_body_inspect(expression);
   } else if (type == FX_ST_LOOKUP) {
     unwrapped_pair = fxp_lookup_body_inspect(expression);
-  } else if (type == FX_ST_METHOD) {
-    unwrapped_pair = fxp_method_body_inspect(expression);
-  } else if (type == FX_ST_FUNCTION) {
-    unwrapped_pair = fxp_function_body_inspect(expression);
+  } else if (type == FX_ST_METHOD_CALL) {
+    unwrapped_pair = fxp_method_call_body_inspect(expression);
+  } else if (type == FX_ST_FUNCTION_DEFINITION) {
+    unwrapped_pair = fxp_function_definition_body_inspect(expression);
   } else if (type == FX_ST_GROUPED) {
     unwrapped_pair = fxp_collection_body_inspect(expression);
   } else if (type == FX_ST_LIST) {
     unwrapped_pair = fxp_list_body_inspect(expression);
-  } else if (type == FX_ST_METHOD_ARGUMENTS) {
+  } else if (type == FX_ST_METHOD_CALL_ARGUMENTS) {
     unwrapped_pair = fxp_list_body_inspect(expression);
-  } else if (type == FX_ST_FUNCTION_ARGUMENTS) {
+  } else if (type == FX_ST_FUNCTION_DEFINITION_ARGUMENTS) {
     unwrapped_pair = fxp_list_body_inspect(expression);
   } else if (type == FX_ST_LOCAL_ASSIGN) {
     unwrapped_pair = fxp_left_right_inspect(expression);
@@ -273,7 +273,7 @@ error:
   return NULL;
 }
 
-FxB_String *fxp_method_body_inspect(FxP_Expression *expression) {
+FxB_String *fxp_method_call_body_inspect(FxP_Expression *expression) {
   /*[receiver, method_name, method_arguments]*/
   FxB_String *receiver_key = NULL;
   FxB_String *receiver_value = NULL;
@@ -290,22 +290,22 @@ FxB_String *fxp_method_body_inspect(FxP_Expression *expression) {
   FxB_Array  *exp_values = FxB_Array_create(3);
   verify(exp_values);
 
-  if ( fxp_method_receiver(expression) ) {
+  if ( fxp_method_call_receiver(expression) ) {
     receiver_key = FxB_String_create("receiver");
-    receiver_value = fxp_inspect(fxp_method_receiver(expression));
+    receiver_value = fxp_inspect(fxp_method_call_receiver(expression));
     receiver_pair = fxb_json_gen_bald_pair(receiver_key, receiver_value);
     verify(receiver_pair);
     fxb_array_push(exp_values, receiver_pair);
   }
 
   message_key = FxB_String_create("message");
-  message_value = fxp_inspect(fxp_method_message(expression));
+  message_value = fxp_inspect(fxp_method_call_message(expression));
   message_pair = fxb_json_gen_bald_pair(message_key, message_value);
   verify(message_pair);
   fxb_array_push(exp_values, message_pair);
 
-  if ( fxp_method_arguments(expression) ) {
-    arg_value = fxp_list_body_inspect(fxp_method_arguments(expression));
+  if ( fxp_method_call_arguments(expression) ) {
+    arg_value = fxp_list_body_inspect(fxp_method_call_arguments(expression));
     verify(arg_value);
     fxb_array_push(exp_values, arg_value);
   }
@@ -348,7 +348,7 @@ error:
   return NULL;
 }
 
-FxB_String *fxp_function_body_inspect(FxP_Expression *expression) {
+FxB_String *fxp_function_definition_body_inspect(FxP_Expression *expression) {
   /*[arguments, expressions]*/
   FxB_String *arguments_value = NULL;
 
@@ -361,13 +361,13 @@ FxB_String *fxp_function_body_inspect(FxP_Expression *expression) {
   FxB_Array *exp_values = FxB_Array_create(2);
   verify(exp_values);
 
-  if ( fxp_function_arguments(expression) ) {
-    arguments_value = fxp_list_body_inspect(fxp_function_arguments(expression));
+  if ( fxp_function_definition_arguments(expression) ) {
+    arguments_value = fxp_list_body_inspect(fxp_function_definition_arguments(expression));
     verify(arguments_value);
     fxb_array_push(exp_values, arguments_value);
   }
 
-  expressions_value = fxp_collection_body_inspect(fxp_function_expressions(expression));
+  expressions_value = fxp_collection_body_inspect(fxp_function_definition_expressions(expression));
   verify(expressions_value);
   fxb_array_push(exp_values, expressions_value);
 
@@ -463,17 +463,17 @@ FxB_String *fxp_expression_type_description(FxP_Expression *expression) {
     description = FxB_String_create("literal");
   } else if (type == FX_ST_LOOKUP) {
     description = FxB_String_create("lookup");
-  } else if (type == FX_ST_METHOD) {
+  } else if (type == FX_ST_METHOD_CALL) {
     description = FxB_String_create("method_call");
-  } else if (type == FX_ST_FUNCTION) {
+  } else if (type == FX_ST_FUNCTION_DEFINITION) {
     description = FxB_String_create("function_definition");
   } else if (type == FX_ST_GROUPED) {
     description = FxB_String_create("grouped_expression");
   } else if (type == FX_ST_LIST) {
     description = FxB_String_create("list");
-  } else if (type == FX_ST_METHOD_ARGUMENTS) {
+  } else if (type == FX_ST_METHOD_CALL_ARGUMENTS) {
     description = FxB_String_create("method_arguments");
-  } else if (type == FX_ST_FUNCTION_ARGUMENTS) {
+  } else if (type == FX_ST_FUNCTION_DEFINITION_ARGUMENTS) {
     description = FxB_String_create("function_arguments");
   } else if (type == FX_ST_LOCAL_ASSIGN) {
     description = FxB_String_create("local_assignment");

@@ -93,7 +93,7 @@ char *test_inspect_implicit_method() {
   FxP_Literal *arg = FxP_Literal_create(bit_2, TOKEN_STRING);
 
   // print "hello world"
-  FxP_Method *method = FxP_Method_create_implicit(message, arg);
+  FxP_MethodCall*method = FxP_MethodCall_create_implicit(message, arg);
   FxB_String *inspection = fxp_inspect(method);
   char *expected = "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"method_arguments\": [\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}}";
   assert_strings_equal(fxb_string_value(inspection), expected, "json");
@@ -114,7 +114,7 @@ char *test_inspect_method_no_args() {
   FxP_Literal *message = FxP_Lookup_create(bit_2, TOKEN_ID);
 
   // printer.print
-  FxP_Method *method = FxP_Method_create_no_args(receiver, message);
+  FxP_MethodCall*method = FxP_MethodCall_create_no_args(receiver, message);
 
   FxB_String *inspection = fxp_inspect(method);
   char *expected = "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"printer\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}}}";
@@ -137,14 +137,14 @@ char *test_inspect_function() {
   FxP_Literal *arg_2 = FxP_Lookup_create(bit_2, TOKEN_ID);
 
   FxP_FxB_List    *arguments = FxP_FxB_List_create_double(arg_1, arg_2);
-  fxp_expression_type(arguments) = FX_ST_FUNCTION_ARGUMENTS;
+  fxp_expression_type(arguments) = FX_ST_FUNCTION_DEFINITION_ARGUMENTS;
 
   // expressions
   FxP_Expressions *expressions = FxP_Expressions_create();
 
   // function
-  FxP_Function *function = FxP_Function_create(arguments);
-  fxp_function_set_expressions(function, expressions);
+  FxP_FunctionDefinition *function = FxP_FunctionDefinition_create(arguments);
+  fxp_function_definition_set_expressions(function, expressions);
 
   FxB_String *inspection = fxp_inspect(function);
   char *expected = "{\"function_definition\": {"

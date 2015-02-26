@@ -128,13 +128,13 @@ list_elements
 
 function_start
   : FUNCTION_DECLARATION OPEN_BRACE         {
-                                              FxP_Function *function = FxP_Function_create_no_args();
-                                              fxp_parser_context_push(context, fxp_function_expressions(function));
+                                              FxP_FunctionDefinition *function = FxP_FunctionDefinition_create_no_args();
+                                              fxp_parser_context_push(context, fxp_function_definition_expressions(function));
                                               $$ = function;
                                             }
   | FUNCTION_DECLARATION list OPEN_BRACE    {
-                                              FxP_Function *function = FxP_Function_create($2);
-                                              fxp_parser_context_push(context, fxp_function_expressions(function));
+                                              FxP_FunctionDefinition *function = FxP_FunctionDefinition_create($2);
+                                              fxp_parser_context_push(context, fxp_function_definition_expressions(function));
                                               $$ = function;
                                             }
   ;
@@ -155,22 +155,22 @@ function
 */
 
 operator_call /* n + 3; -> {'foo' } >> a(_); (1, 2, 3) << 17 */
-  : unterminated_expression id_lookup unterminated_expression       { $$ = FxP_Method_create_args($1, $2, $3); }
-  | unterminated_expression operator unterminated_expression        { $$ = FxP_Method_create_args($1, $2, $3); }
+  : unterminated_expression id_lookup unterminated_expression       { $$ = FxP_MethodCall_create_args($1, $2, $3); }
+  | unterminated_expression operator unterminated_expression        { $$ = FxP_MethodCall_create_args($1, $2, $3); }
   ;
 
 dot_method_call /* Print.line "foo"; Print.line("foo"); Print.line */
-  : unterminated_expression DOT id_lookup unterminated_expression   { $$ = FxP_Method_create_args($1, $3, $4); }
-  | unterminated_expression DOT id_lookup                           { $$ = FxP_Method_create_no_args($1, $3); }
+  : unterminated_expression DOT id_lookup unterminated_expression   { $$ = FxP_MethodCall_create_args($1, $3, $4); }
+  | unterminated_expression DOT id_lookup                           { $$ = FxP_MethodCall_create_no_args($1, $3); }
   ;
 
 function_method_call
-  : dot_method_call function                                        { $$ = fxp_method_add_function_argument($1, $2); }
+  : dot_method_call function                                        { $$ = fxp_method_call_add_function_definition_argument($1, $2); }
   ;
 
 negation
-  : NOT unterminated_expression   { $$ = FxP_Method_create_negation($2, $1); }
-  | NOT implicit_method_call      { $$ = FxP_Method_create_negation($2, $1); }
+  : NOT unterminated_expression   { $$ = FxP_MethodCall_create_negation($2, $1); }
+  | NOT implicit_method_call      { $$ = FxP_MethodCall_create_negation($2, $1); }
   ;
 
 method_call
@@ -181,7 +181,7 @@ method_call
   ;
 
 implicit_method_call /* puts "hello"; foo(1,2,3);  */
-  : id_lookup unterminated_expression                               { $$ = FxP_Method_create_implicit($1, $2); }
+  : id_lookup unterminated_expression                               { $$ = FxP_MethodCall_create_implicit($1, $2); }
   ;
 
 /* ----------------

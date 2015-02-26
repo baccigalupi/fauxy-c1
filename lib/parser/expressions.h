@@ -13,12 +13,12 @@ typedef struct FxP_Expression {
 
 typedef FxP_Expression FxP_Literal;
 typedef FxP_Expression FxP_Lookup;
-typedef FxP_Expression FxP_Function;
-typedef FxP_Expression FxP_Method;
+typedef FxP_Expression FxP_FunctionDefinition;
+typedef FxP_Expression FxP_MethodCall;
 typedef FxP_Expression FxP_Grouped;
 typedef FxP_Expression FxP_FxB_List;
-typedef FxP_Expression FxP_MethodArguments;
-typedef FxP_Expression FxP_FunctionArguments;
+typedef FxP_Expression FxP_MethodCallArguments;
+typedef FxP_Expression FxP_FunctionDefinitionArguments;
 typedef FxP_Expression FxP_LocalAssign;
 typedef FxP_Expression FxP_ColonExpression;
 typedef FxP_Expression FxP_Expressions;
@@ -69,29 +69,29 @@ FxP_Literal *FxP_Literal_create(FxP_Bit *bit, int token_type);
 FxP_Lookup  *FxP_Lookup_create(FxP_Bit *bit, int token_type);
 
 // Function value array [arguments, expressions]
-#define fxp_function_arguments(E)           fxp_expression_value_at(E, 0)
-#define fxp_function_set_arguments(E, V)    fxp_expression_value_set(E, 0, V)
-#define fxp_function_expressions(E)         fxp_expression_value_at(E, 1)
-#define fxp_function_set_expressions(E, V)  fxp_expression_value_set(E, 1, V)
+#define fxp_function_definition_arguments(E)           fxp_expression_value_at(E, 0)
+#define fxp_function_definition_set_arguments(E, V)    fxp_expression_value_set(E, 0, V)
+#define fxp_function_definition_expressions(E)         fxp_expression_value_at(E, 1)
+#define fxp_function_definition_set_expressions(E, V)  fxp_expression_value_set(E, 1, V)
 
-FxP_Function *FxP_Function_create_no_args();
-FxP_Function *FxP_Function_create(FxP_FxB_List *list);
+FxP_FunctionDefinition *FxP_FunctionDefinition_create_no_args();
+FxP_FunctionDefinition *FxP_FunctionDefinition_create(FxP_FxB_List *list);
 
 // Method calls [receiver, method_name, method_arguments]
-#define fxp_method_receiver(E)           fxp_expression_value_at(E, 0)
-#define fxp_method_set_receiver(E, V)    fxp_expression_value_set(E, 0, V)
-#define fxp_method_message(E)            fxp_expression_value_at(E, 1)
-#define fxp_method_set_message(E, V)     fxp_expression_value_set(E, 1, V)
-#define fxp_method_arguments(E)          fxp_expression_value_at(E, 2)
-#define fxp_method_set_arguments(E, V)   fxp_expression_value_set(E, 2, V)
-#define FxP_Method_create()              FxP_Expression_create(FX_ST_METHOD)
+#define fxp_method_call_receiver(E)           fxp_expression_value_at(E, 0)
+#define fxp_method_call_set_receiver(E, V)    fxp_expression_value_set(E, 0, V)
+#define fxp_method_call_message(E)            fxp_expression_value_at(E, 1)
+#define fxp_method_call_set_message(E, V)     fxp_expression_value_set(E, 1, V)
+#define fxp_method_call_arguments(E)          fxp_expression_value_at(E, 2)
+#define fxp_method_call_set_arguments(E, V)   fxp_expression_value_set(E, 2, V)
+#define FxP_MethodCall_create()              FxP_Expression_create(FX_ST_METHOD_CALL)
 
-FxP_Method *FxP_Method_create_implicit(FxP_Literal *message, FxP_Expression *argument);
-FxP_Method *fxp_method_convert_implicit(FxP_Method *self, FxP_Expression *receivier);
-FxP_Method *FxP_Method_create_no_args(FxP_Expression *receiver, FxP_Literal *message);
-FxP_Method *FxP_Method_create_negation(FxP_Expression *receiver, FxP_Bit *not_id);
-FxP_Method *FxP_Method_create_args(FxP_Expression *receiver, FxP_Literal *message, FxP_Expression *argument);
-FxP_Method *fxp_method_add_function_argument(FxP_Method *method, FxP_Function *function);
+FxP_MethodCall *FxP_MethodCall_create_implicit(FxP_Literal *message, FxP_Expression *argument);
+FxP_MethodCall *fxp_method_call_convert_implicit(FxP_MethodCall *self, FxP_Expression *receivier);
+FxP_MethodCall *FxP_MethodCall_create_no_args(FxP_Expression *receiver, FxP_Literal *message);
+FxP_MethodCall *FxP_MethodCall_create_negation(FxP_Expression *receiver, FxP_Bit *not_id);
+FxP_MethodCall *FxP_MethodCall_create_args(FxP_Expression *receiver, FxP_Literal *message, FxP_Expression *argument);
+FxP_MethodCall *fxp_method_call_add_function_definition_argument(FxP_MethodCall *method, FxP_FunctionDefinition *function);
 
 // Grouped expressions are lists with one value,
 // they could be an actual paren-ed exp or a list of one element
@@ -107,7 +107,7 @@ FxP_FxB_List *fxp_list_convert(FxP_Grouped *group);
 FxP_FxB_List *FxP_FxB_List_create_deferred();
 FxP_FxB_List *FxP_FxB_List_create_double(FxP_Expression *first, FxP_Expression *second);
 
-FxP_MethodArguments *fxp_method_arguments_convert(FxP_Expression *expression);
+FxP_MethodCallArguments *fxp_method_call_arguments_convert(FxP_Expression *expression);
 
 // Local assignment: [variable, value]
 FxP_LocalAssign     *FxP_LocalAssign_create(FxP_Lookup *lookup, FxP_Expression *expression);

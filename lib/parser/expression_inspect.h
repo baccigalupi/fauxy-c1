@@ -10,8 +10,8 @@ FxB_String *fxp_literal_body_inspect(     FxP_Expression *expression);
 FxB_String *fxp_lookup_body_inspect(      FxP_Expression *expression);
 FxB_String *fxp_collection_body_inspect(  FxP_Expression *expression);
 FxB_String *fxp_list_body_inspect(        FxP_Expression *expression);
-FxB_String *fxp_method_body_inspect(      FxP_Expression *expression);
-FxB_String *fxp_function_body_inspect(    FxP_Expression *expression);
+FxB_String *fxp_method_call_body_inspect(      FxP_Expression *expression);
+FxB_String *fxp_function_definition_body_inspect(    FxP_Expression *expression);
 FxB_String *fxp_left_right_inspect(       FxP_Expression *expression);
 FxB_String *fxp_colon_exp_inspect(        FxP_Expression *expression);
 

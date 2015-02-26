@@ -13,18 +13,18 @@ FxN_Object *fxi_evaluate(FxI_Interpreter *interpreter, FxP_Expression *expressio
     result = fxi_evaluate_literal(interpreter, expression);
   } else if ( type == FX_ST_LOOKUP ) {
     result = fxi_evaluate_lookup(interpreter, expression);
-  } else if ( type == FX_ST_METHOD ) {
+  } else if ( type == FX_ST_METHOD_CALL ) {
     result = fxi_evaluate_method(interpreter, expression);
-  } else if ( type == FX_ST_FUNCTION ) {
+  } else if ( type == FX_ST_FUNCTION_DEFINITION ) {
     result = fxi_evaluate_function(interpreter, expression);
   } else if ( type == FX_ST_GROUPED) {
     result = fxi_evaluate_grouped(interpreter, expression);
   } else if (type == FX_ST_LIST ) {
     result = fxi_evaluate_list(interpreter, expression);
-  } else if ( type == FX_ST_METHOD_ARGUMENTS ) {
+  } else if ( type == FX_ST_METHOD_CALL_ARGUMENTS ) {
     result = fxi_evaluate_method_arguments(interpreter, expression);
-  } else if ( type == FX_ST_FUNCTION_ARGUMENTS ) {
-    result = fxi_evaluate_function_arguments(interpreter, expression);
+  } else if ( type == FX_ST_FUNCTION_DEFINITION_ARGUMENTS ) {
+    result = fxi_evaluate_function_definition_arguments(interpreter, expression);
   } else if ( type == FX_ST_LOCAL_ASSIGN ) {
     result = fxi_evaluate_local_assign(interpreter, expression);
   } else if ( type == FX_ST_COLON_EXPRESSION ) {
@@ -79,7 +79,7 @@ FxN_Object *fxi_evaluate_lookup(FxI_Interpreter *interpreter, FxP_Expression *ex
   // TODO: raise run time error if not found
 }
 
-FxN_Object *fxi_evaluate_function_arguments(FxI_Interpreter *interpreter, FxP_Expression *expression) {
+FxN_Object *fxi_evaluate_function_definition_arguments(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   return NULL;
 }
 

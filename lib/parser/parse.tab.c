@@ -1567,8 +1567,8 @@ yyreduce:
   case 28:
 #line 130 "lib/parser/parse.y" /* yacc.c:1661  */
     {
-                                              FxP_Function *function = FxP_Function_create_no_args();
-                                              fxp_parser_context_push(context, fxp_function_expressions(function));
+                                              FxP_FunctionDefinition *function = FxP_FunctionDefinition_create_no_args();
+                                              fxp_parser_context_push(context, fxp_function_definition_expressions(function));
                                               (yyval) = function;
                                             }
 #line 1575 "lib/parser/parse.tab.c" /* yacc.c:1661  */
@@ -1577,8 +1577,8 @@ yyreduce:
   case 29:
 #line 135 "lib/parser/parse.y" /* yacc.c:1661  */
     {
-                                              FxP_Function *function = FxP_Function_create((yyvsp[-1]));
-                                              fxp_parser_context_push(context, fxp_function_expressions(function));
+                                              FxP_FunctionDefinition *function = FxP_FunctionDefinition_create((yyvsp[-1]));
+                                              fxp_parser_context_push(context, fxp_function_definition_expressions(function));
                                               (yyval) = function;
                                             }
 #line 1585 "lib/parser/parse.tab.c" /* yacc.c:1661  */
@@ -1600,43 +1600,43 @@ yyreduce:
 
   case 33:
 #line 158 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Method_create_args((yyvsp[-2]), (yyvsp[-1]), (yyvsp[0])); }
+    { (yyval) = FxP_MethodCall_create_args((yyvsp[-2]), (yyvsp[-1]), (yyvsp[0])); }
 #line 1605 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 34:
 #line 159 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Method_create_args((yyvsp[-2]), (yyvsp[-1]), (yyvsp[0])); }
+    { (yyval) = FxP_MethodCall_create_args((yyvsp[-2]), (yyvsp[-1]), (yyvsp[0])); }
 #line 1611 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 35:
 #line 163 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Method_create_args((yyvsp[-3]), (yyvsp[-1]), (yyvsp[0])); }
+    { (yyval) = FxP_MethodCall_create_args((yyvsp[-3]), (yyvsp[-1]), (yyvsp[0])); }
 #line 1617 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 36:
 #line 164 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Method_create_no_args((yyvsp[-2]), (yyvsp[0])); }
+    { (yyval) = FxP_MethodCall_create_no_args((yyvsp[-2]), (yyvsp[0])); }
 #line 1623 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 37:
 #line 168 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = fxp_method_add_function_argument((yyvsp[-1]), (yyvsp[0])); }
+    { (yyval) = fxp_method_call_add_function_definition_argument((yyvsp[-1]), (yyvsp[0])); }
 #line 1629 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 38:
 #line 172 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Method_create_negation((yyvsp[0]), (yyvsp[-1])); }
+    { (yyval) = FxP_MethodCall_create_negation((yyvsp[0]), (yyvsp[-1])); }
 #line 1635 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 39:
 #line 173 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Method_create_negation((yyvsp[0]), (yyvsp[-1])); }
+    { (yyval) = FxP_MethodCall_create_negation((yyvsp[0]), (yyvsp[-1])); }
 #line 1641 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
@@ -1666,7 +1666,7 @@ yyreduce:
 
   case 44:
 #line 184 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Method_create_implicit((yyvsp[-1]), (yyvsp[0])); }
+    { (yyval) = FxP_MethodCall_create_implicit((yyvsp[-1]), (yyvsp[0])); }
 #line 1671 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
