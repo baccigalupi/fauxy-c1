@@ -19,9 +19,9 @@ typedef FxN_Object FxN_Class;
 
 #define fxn_class_free(C)          (fx_pfree(C)) // TODO: more better
 
-FxN_Class    *FxN_Class_create(FxI_Interpreter *interpreter, char *name, FxN_Class *superclass);
-void          fxn_class_set_method(FxN_Class *self, char *method_name, FxN_Function *function);
-FxN_Function *fxn_class_get_method(FxN_Class *self, char *method_name);
+FxN_Class              *FxN_Class_create(FxI_Interpreter *interpreter, char *name, FxN_Class *superclass);
+void                    fxn_class_set_method(FxN_Class *self, char *method_name, FxN_FunctionDefinition *function);
+FxN_FunctionDefinition *fxn_class_get_method(FxN_Class *self, char *method_name);
 
 /*
  * Class methods:

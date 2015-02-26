@@ -37,7 +37,7 @@ typedef struct FxN_MethodGroup {
 } FxN_MethodGroup;
 
 // not yet sure what function definition of method calls entail
-typedef FxN_Object FxN_Function;
+typedef FxN_Object FxN_FunctionDefinition;
 typedef FxN_Object FxI_MethodCallArguments;
 typedef FxN_Object *(* FxI_NativeFunction)(FxI_MethodCallArguments *arguments);
 

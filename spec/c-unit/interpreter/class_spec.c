@@ -17,7 +17,7 @@ char *set_method_with_no_name_match() {
 
   setup_interpreter();
   FxN_Object *klass = FxN_Object_create(interpreter, NULL);
-  FxN_Function *function = fx_alloc(FxN_Function);
+  FxN_FunctionDefinition *function = fx_alloc(FxN_FunctionDefinition);
   fxn_class_set_method(klass, "my-call", function);
 
   assert_ints_equal(fxn_class_method_count(klass), 1, "has the right number of methods");
@@ -35,8 +35,8 @@ char *set_method_with_name_match() {
   setup_interpreter();
   FxN_Object *klass = FxN_Object_create(interpreter, NULL);
 
-  FxN_Function *function_1 = fx_alloc(FxN_Function);
-  FxN_Function *function_2 = fx_alloc(FxN_Function);
+  FxN_FunctionDefinition *function_1 = fx_alloc(FxN_FunctionDefinition);
+  FxN_FunctionDefinition *function_2 = fx_alloc(FxN_FunctionDefinition);
 
   fxn_class_set_method(klass, "my-call", function_1);
   fxn_class_set_method(klass, "my-call", function_2);
