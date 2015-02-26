@@ -19,6 +19,7 @@ typedef struct FxN_Object {
 
 typedef struct FxI_Pool {
   FxB_HashMap *literals;
+  FxB_HashMap *natives;
   FxB_List    *all;
   FxN_Object  *globals; // this needs to be an object so that all contexts are objects!
 } FxI_Pool;
