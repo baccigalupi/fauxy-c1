@@ -31,14 +31,21 @@ typedef struct FxI_Interpreter {
   FxB_List *contexts;
 } FxI_Interpreter;
 
+typedef struct FxN_MethodGroup {
+  char             *name;
+  FxB_List         *functions;
+} FxN_MethodGroup;
+
 // not yet sure what this entails yet
 typedef struct FxN_Function {
   int whatever;
 } FxN_Function;
 
-typedef struct FxN_MethodGroup {
-  char             *name;
-  FxB_List         *functions;
-} FxN_MethodGroup;
+// not sure what this is either, but the native register needs it
+typedef struct FxI_MethodCallArguments {
+  int whatever;
+} FxI_MethodCallArguments;
+
+typedef FxN_Object *(* FxI_NativeFunction)(FxI_MethodCallArguments *arguments);
 
 #endif
