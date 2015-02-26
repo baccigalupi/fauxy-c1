@@ -23,4 +23,13 @@ FxN_Class    *FxN_Class_create(FxI_Interpreter *interpreter, char *name, FxN_Cla
 void          fxn_class_set_method(FxN_Class *self, char *method_name, FxN_Function *function);
 FxN_Function *fxn_class_get_method(FxN_Class *self, char *method_name);
 
+/*
+ * Class methods:
+ *    new
+ *    extend
+ *    // `native` will be in the global space so any c function that returns a FxN_Object
+ *    // can be made into a wrapped function
+ *
+ */
+
 #endif

@@ -14,6 +14,7 @@ typedef struct FxN_Object {
   FxB_HashMap            *attributes;
   struct FxI_Interpreter *interpreter;
   void                   *value;
+  Boolean                 closed; // double negative, but better defaults
 } FxN_Object;
 
 typedef struct FxI_Pool {

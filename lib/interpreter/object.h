@@ -13,6 +13,13 @@
 #define fxn_object_interpreter(O)           ((O)->interpreter)
 #define fxn_object_attributes(O)            ((O)->attributes)
 #define fxn_object__value(O)                ((O)->value)
+
+#define fxn_object_closed(O)                ((O)->closed)
+#define fxn_object_is_closed(O)             fxn_object_closed(O)
+#define fxn_object_is_open(O)               (!fxn_object_closed(O))
+#define fxn_object_close(O)                 (fxn_object_closed(O) = true)
+#define fxn_object_open(O)                  (fxn_object_closed(O) = false)
+
 #define fxn_object_value(O)                 (FxP_Expression *)((O)->value)
 
 #define fxn_object_get_attribute(O, K)      (fxb_hash_map_get(fxn_object_attributes(O), K))

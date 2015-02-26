@@ -5,6 +5,9 @@
 5. Expression validation in parser
 
 ## Optimize later
+Boolean is unsigned short
+Switch other enums to unsigned shorts
+
 Event Loop
 
 JSON Library integration: Jansson
