@@ -26,7 +26,8 @@ FxN_FunctionDefinition *fxn_class_get_method(FxN_Class *self, char *method_name)
 /*
  * Class methods:
  *    new
- *    extend
+ *    extend, add, <<
+ *    alias
  *    // `native` will be in the global space so any c function that returns a FxN_Object
  *    // can be made into a wrapped function
  *

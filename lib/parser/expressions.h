@@ -16,7 +16,7 @@ typedef FxP_Expression FxP_Lookup;
 typedef FxP_Expression FxP_FunctionDefinition;
 typedef FxP_Expression FxP_MethodCall;
 typedef FxP_Expression FxP_Grouped;
-typedef FxP_Expression FxP_FxB_List;
+typedef FxP_Expression FxP_List;
 typedef FxP_Expression FxP_MethodCallArguments;
 typedef FxP_Expression FxP_FunctionDefinitionArguments;
 typedef FxP_Expression FxP_LocalAssign;
@@ -75,7 +75,7 @@ FxP_Lookup  *FxP_Lookup_create(FxP_Bit *bit, int token_type);
 #define fxp_function_definition_set_expressions(E, V)  fxp_expression_value_set(E, 1, V)
 
 FxP_FunctionDefinition *FxP_FunctionDefinition_create_no_args();
-FxP_FunctionDefinition *FxP_FunctionDefinition_create(FxP_FxB_List *list);
+FxP_FunctionDefinition *FxP_FunctionDefinition_create(FxP_List *list);
 
 // Method calls [receiver, method_name, method_arguments]
 #define fxp_method_call_receiver(E)           fxp_expression_value_at(E, 0)
@@ -84,7 +84,7 @@ FxP_FunctionDefinition *FxP_FunctionDefinition_create(FxP_FxB_List *list);
 #define fxp_method_call_set_message(E, V)     fxp_expression_value_set(E, 1, V)
 #define fxp_method_call_arguments(E)          fxp_expression_value_at(E, 2)
 #define fxp_method_call_set_arguments(E, V)   fxp_expression_value_set(E, 2, V)
-#define FxP_MethodCall_create()              FxP_Expression_create(FX_ST_METHOD_CALL)
+#define FxP_MethodCall_create()               FxP_Expression_create(FX_ST_METHOD_CALL)
 
 FxP_MethodCall *FxP_MethodCall_create_implicit(FxP_Literal *message, FxP_Expression *argument);
 FxP_MethodCall *fxp_method_call_convert_implicit(FxP_MethodCall *self, FxP_Expression *receivier);
@@ -103,9 +103,9 @@ FxP_Grouped *FxP_Grouped_create(FxP_Expression *value);
 #define fxp_list_set(E, I, V)          fxp_expression_value_set(E, fxp_list_index(E, I), V)
 #define fxp_list_push(E, V)            fxp_expression_push(E, V)
 
-FxP_FxB_List *fxp_list_convert(FxP_Grouped *group);
-FxP_FxB_List *FxP_FxB_List_create_deferred();
-FxP_FxB_List *FxP_FxB_List_create_double(FxP_Expression *first, FxP_Expression *second);
+FxP_List *fxp_list_convert(FxP_Grouped *group);
+FxP_List *FxP_List_create_deferred();
+FxP_List *FxP_List_create_double(FxP_Expression *first, FxP_Expression *second);
 
 FxP_MethodCallArguments *fxp_method_call_arguments_convert(FxP_Expression *expression);
 

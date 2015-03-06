@@ -2,6 +2,7 @@
 #include "expression_key.h"
 #include "literal.h"
 #include "pool.h"
+#include "method_call_arguments.h"
 #include "../parser/expression_inspect.h"
 #include "../parser/bit.h"
 
@@ -16,13 +17,13 @@ FxN_Object *fxi_evaluate(FxI_Interpreter *interpreter, FxP_Expression *expressio
   } else if ( type == FX_ST_METHOD_CALL ) {
     result = fxi_evaluate_method(interpreter, expression);
   } else if ( type == FX_ST_FUNCTION_DEFINITION ) {
-    result = fxi_evaluate_function(interpreter, expression);
+    result = fxi_evaluate_function_definition(interpreter, expression);
   } else if ( type == FX_ST_GROUPED) {
     result = fxi_evaluate_grouped(interpreter, expression);
   } else if (type == FX_ST_LIST ) {
     result = fxi_evaluate_list(interpreter, expression);
   } else if ( type == FX_ST_METHOD_CALL_ARGUMENTS ) {
-    result = fxi_evaluate_method_arguments(interpreter, expression);
+    result = fxi_evaluate_method_call_arguments(interpreter, expression);
   } else if ( type == FX_ST_FUNCTION_DEFINITION_ARGUMENTS ) {
     result = fxi_evaluate_function_definition_arguments(interpreter, expression);
   } else if ( type == FX_ST_LOCAL_ASSIGN ) {
@@ -76,14 +77,28 @@ FxN_Object *fxi_evaluate_attr_assign(FxI_Interpreter *interpreter, FxP_Expressio
 FxN_Object *fxi_evaluate_lookup(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   char *key = fxi_lookup_key(expression);
   return fxi_lookup(interpreter, key);
-  // TODO: raise run time error if not found
+  // TODO: raise evaluation error if not found
 }
 
+FxN_Object *fxi_evaluate_method_call_arguments(FxI_Interpreter *interpreter, FxP_Expression *expression) {
+  FxN_Object *result = FxN_MethodCallArguments_create(interpreter, expression);
+  // TODO: validate arguments?
+  return result;
+}
+
+// does this happen/make sense?
 FxN_Object *fxi_evaluate_function_definition_arguments(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   return NULL;
 }
 
-FxN_Object *fxi_evaluate_function(FxI_Interpreter *interpreter, FxP_Expression *expression) {
+FxN_Object *fxi_evaluate_function_definition(FxI_Interpreter *interpreter, FxP_Expression *expression) {
+  // TODO: this is the same as creating a literal without a key, wrap it up!
+  FxN_Object *object = FxN_Object_create(interpreter, NULL); // todo: add class context
+  verify(object);
+  fxn_object__value(object) = expression;
+
+  return object;
+error:
   return NULL;
 }
 
@@ -96,10 +111,6 @@ FxN_Object *fxi_evaluate_grouped(FxI_Interpreter *interpreter, FxP_Expression *e
 }
 
 FxN_Object *fxi_evaluate_list(FxI_Interpreter *interpreter, FxP_Expression *expression) {
-  return NULL;
-}
-
-FxN_Object *fxi_evaluate_method_arguments(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   return NULL;
 }
 

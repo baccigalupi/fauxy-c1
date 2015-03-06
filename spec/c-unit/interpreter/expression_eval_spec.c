@@ -195,6 +195,26 @@ char *test_global_assignment_but_lookup_from_context() {
   return NULL;
 }
 
+char *test_function_declaration() {
+  spec_describe("function definition");
+  setup_interpreter();
+
+  FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_TRUE);
+
+  // expressions
+  FxP_Expressions *expressions = FxP_Expressions_create();
+  fxp_expression_push(expressions, literal);
+  // function definition setup
+  FxP_FunctionDefinition *function_definition = FxP_FunctionDefinition_create_no_args();
+  fxp_function_definition_set_expressions(function_definition, expressions);
+
+  FxN_Object *evaluation = fxi_evaluate(interpreter, function_definition);
+  assert_equal(fxn_object_value(evaluation), function_definition, "returns an object with the expression stored in the value");
+  // TODO: assert about the class/type
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Interpreter");
 
@@ -208,6 +228,8 @@ char *all_specs() {
   run_spec(test_global_assignment_of_literal);
   run_spec(test_context_assignment_of_literal);
   run_spec(test_global_assignment_but_lookup_from_context);
+
+  run_spec(test_function_declaration);
 
   spec_teardown();
 
