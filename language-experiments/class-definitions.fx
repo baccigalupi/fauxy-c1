@@ -1,4 +1,37 @@
-// Ideas for declaring a class
+// Assignment style
+
+Printer: Class.new -> (data-thing) {
+  print: -> {
+    wrap( Print.line(data-thing.to_s) )
+  }
+
+  wrap: -> (e) { e }
+}
+
+// implicit modification of the class
+Printer.extend -> {
+  HTML: Class.new(Printer) -> (data-thing, tag) {
+    wrap: -> (e) {
+      "<{{tag}}>{{e}}</{{tag}}>"
+    }
+  }
+}
+
+// explicit modification of the class instead of implicit
+Printer: Class.new(Printer) -> {
+  HTML: Class.new(Printer) -> (data-thing, tag) {
+    wrap: -> (e) {
+      "<{{tag}}>{{e}}</{{tag}}>"
+    }
+  }
+}
+
+Printer.new('hello').print // 'hello'
+Printer.HTML.new('hello', 'h1').print // '<h1>hello</h1>'
+
+// ------------------------
+
+// EARLIER Ideas for declaring a class
 
 // class keyword has special parse meaning
 // allows the setting of the name in a consistent way
@@ -17,27 +50,6 @@ class Printer -> (data-thing) {
 class Printer.HTML << Printer -> (data-thing, tag) {
   wrap: -> (e) {
     "<{{tag}}>{{e}}</{{tag}}>"
-  }
-}
-
-Printer.new('hello').print // 'hello'
-Printer.HTML.new('hello', 'h1').print // '<h1>hello</h1>'
-
-// Assignment style
-
-Printer: Class.new -> (data-thing) {
-  print: -> {
-    wrap( Print.line(data-thing.to_s) )
-  }
-
-  wrap: -> (e) { e }
-}
-
-Printer.extend -> {
-  HTML: Class.new(Printer) -> (data-thing, tag) {
-    wrap: -> (e) {
-      "<{{tag}}>{{e}}</{{tag}}>"
-    }
   }
 }
 
@@ -79,7 +91,7 @@ Print.line "{{o.hello}} {{o.world}}"
 // Shorthand
 o = O(hello: 'hello', world: 'world')
 // where
-O: -> { Object.new(arguments)}
+O: -> { Object.new(arguments) }
 
 // arguments available as a variable for each function/method
 

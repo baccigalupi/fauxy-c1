@@ -1,17 +1,17 @@
-NumberToWords: class(n) -> {
+NumberToWords: Class.new -> (n) {
   setup: -> {
-    describer: Stream.Accumulating.new -> (n) {
+    words: Stream.Accumulating.new -> (n) {
       Hundreds.new(n).to-words
     }
   }
 
   to-words: -> {
     split(n)
-    describer.join -> (list) { list.reverse.join(' ') }
+    words.join -> (list) { list.reverse.join(' ') }
   }
 
   split: -> (n: n < 1000) {
-    describer << n
+    words << n
   }
 
   split: -> (n) {
@@ -20,7 +20,7 @@ NumberToWords: class(n) -> {
   }
 }
 
-NumberToWords.Hundreds: class(n) -> {
+NumberToWords.Hundreds: Class.new -> (n) {
   to-words: -> {
     (
       hundreds-to-words(hundreds),
@@ -43,7 +43,7 @@ NumberToWords.Hundreds: class(n) -> {
   }
 }
 
-NumberToWords.Tens: class(n) -> {
+NumberToWords.Tens: Class.new -> (n) {
   to-words: -> { convert(n) }
 
   convert: -> (n: n < 20) {
@@ -66,7 +66,7 @@ NumberToWords.Tens: class(n) -> {
   }
 }
 
-NumberToWords.Teens -> (n) {
+NumberToWords.Teens: Class.new -> (n) {
   convert: -> (n: 11) { 'eleven' }
   convert: -> (n: 12) { 'twelve' }
   convert: -> (n: 13) { 'thirteen' }
@@ -76,7 +76,7 @@ NumberToWords.Teens -> (n) {
   }
 }
 
-NumberToWords.Digit: class(n) -> {
+NumberToWords.Digit: Class.new -> (n) {
   to-words: -> { convert(n) }
 
   convert: -> (n: 1) { 'one' }
@@ -90,15 +90,15 @@ NumberToWords.Digit: class(n) -> {
   convert: -> (n: 9) { 'nine' }
 }
 
-NumberToWords.TensDigit: class(n) -> {
+NumberToWords.TensDigit: Class.new -> (n) {
   to-words: -> { convert(n) }
 
   convert: -> (n: 2) { 'twenty' }
   convert: -> (n: 3) { 'thirty' }
-  convert: -> (n: 4) { 'fourty' }
+  convert: -> (n: 4) { 'forty' }
   convert: -> (n: 5) { 'fifty' }
   convert: -> (n: 6) { 'sixty' }
   convert: -> (n: 7) { 'seventy' }
-  convert: -> (n: 8) { 'eightty' }
+  convert: -> (n: 8) { 'eighty' }
   convert: -> (n: 9) { 'ninety' }
 }

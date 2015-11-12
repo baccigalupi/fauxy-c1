@@ -1,21 +1,20 @@
-false.true?     // false
+false?          // false
+false ?         // false
+true ?          // true
 false = false   // true
 false == false  // true
+
+
 false to Integer // 0
 false to String  // "false"
 false to JSON    // false
 
-/* methods for nil, true, false: BaseObject
+/* methods for true, false: BaseObject
 * ------------------------------------------
-*  true?
-*  false?
-*  not, !
-*  =
-*  ==
-*  to
+*  ?
+*  !
+*  = equal
+*  == identical
 */
 
-
-nil.true?    // false
-nil = false  // true
-nil == false // false, not identical
+// NO NIL
