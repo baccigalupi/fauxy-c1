@@ -40,26 +40,6 @@ char *test_interpet_literal_false() {
   return NULL;
 }
 
-char *test_interpet_literal_nil() {
-  spec_describe("'nil' returns nil object");
-  setup_interpreter();
-
-  FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_NIL);
-  FxN_Object *object = fxi_evaluate(interpreter, literal);
-
-  assert_truthy(fxn_object_is_nil(object),  "returned object is nil");
-  // assert that object has the right class
-
-  FxN_Object *stored_object = fxi_literal_get(interpreter, NIL_KEY);
-  assert_truthy(fxn_object_is_nil(object), "literal is set in the interpreter");
-
-  assert_equal(object, stored_object, "literal returned is same as one stored in the interpreter");
-
-  fxi_interpreter_free(interpreter);
-
-  return NULL;
-}
-
 char *test_interpet_literal_integer() {
   spec_describe("integer expressions return an object");
   setup_interpreter();
@@ -90,7 +70,7 @@ char *test_interpet_literal_decimal() {
   assert_equal(fxi_object_value_double(object), (double)1.2, "returned the right number");
   // assert that object has the right class
 
-  assert_ints_equal(fxi_interpreter_literal_length(interpreter), 3, "decimal was not added to the interpreter");
+  assert_ints_equal(fxi_interpreter_literal_length(interpreter), 2, "decimal was not added to the interpreter pool");
 
   fxi_interpreter_free(interpreter);
 
@@ -220,7 +200,6 @@ char *all_specs() {
 
   run_spec(test_interpet_literal_true);
   run_spec(test_interpet_literal_false);
-  run_spec(test_interpet_literal_nil);
   run_spec(test_interpet_literal_integer);
   run_spec(test_interpet_literal_decimal);
   run_spec(test_interpet_literal_string);

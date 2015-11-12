@@ -507,8 +507,6 @@ FxB_String *fxp_literal_class_description(FxP_Literal *literal) {
     description = FxB_String_create("\"Integer\"");
   } else if (fxp_literal_type(literal) == TOKEN_FLOAT) {
     description = FxB_String_create("\"Float\"");
-  } else if (fxp_literal_type(literal) == TOKEN_NIL) {
-    description = FxB_String_create("\"Nil\"");
   } else if (fxp_literal_type(literal) == TOKEN_TRUE) {
     description = FxB_String_create("\"Boolean\"");
   } else if (fxp_literal_type(literal) == TOKEN_FALSE) {

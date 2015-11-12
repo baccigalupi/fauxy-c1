@@ -1,3 +1,2 @@
-require 'object.fx'
-require 'boolean.fx'
-require 'nil.fx'
+import 'object.fx'
+import 'boolean.fx'

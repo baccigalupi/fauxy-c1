@@ -26,7 +26,6 @@ BREAK_SPACE ([ \t]*)?[\n]*([ \t]*)?
 
 "true"												{ return TOKEN_TRUE; }
 "false"												{ return TOKEN_FALSE; }
-"nil"													{ return TOKEN_NIL; }
 "export"											{ return TOKEN_EXPORT; }
 "and"													{ FX_LexStringBit(TOKEN_AND, "and"); }
 "&&"													{ FX_LexStringBit(TOKEN_AND, "and"); }

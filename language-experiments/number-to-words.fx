@@ -32,7 +32,7 @@ NumberToWords.Hundreds: Class.new -> (n) {
     "{{Digit.new(n).to-words}}-hundred"
   }
 
-  hundreds-to-words: -> { nil }
+  hundreds-to-words: -> { '' }
 
   hundreds: -> {
     (n/100).truncate

@@ -1,16 +1,5 @@
 #include "helpers.h"
 
-char *test_nil_key() {
-  spec_describe("nil");
-
-  FxP_Literal *nil_exp = FxP_Literal_create(NULL, TOKEN_NIL);
-  char *key = fxi_literal_key(nil_exp);
-
-  assert_strings_equal(key, "260", "key is correct");
-
-  return NULL;
-}
-
 char *test_true_key() {
   spec_describe("true");
 
@@ -40,7 +29,7 @@ char *test_string_key() {
   FxP_Literal *exp = FxP_Literal_create(bit, TOKEN_STRING);
   char *key = fxi_literal_key(exp);
 
-  assert_strings_equal(key, "267-Hello, world! How are you today!", "key is correct");
+  assert_strings_equal(key, "266-Hello, world! How are you today!", "key is correct");
 
   return NULL;
 }
@@ -52,7 +41,7 @@ char *test_eval_string_key() {
   FxP_Literal *exp = FxP_Literal_create(bit, TOKEN_EVAL_STRING);
   char *key = fxi_literal_key(exp);
 
-  assert_strings_equal(key, "268-Hello, world! How are you today!", "key is correct");
+  assert_strings_equal(key, "267-Hello, world! How are you today!", "key is correct");
 
   return NULL;
 }
@@ -64,7 +53,7 @@ char *test_large_integer_key() {
   FxP_Literal *exp = FxP_Literal_create(bit, TOKEN_INTEGER);
   char *key = fxi_literal_key(exp);
 
-  assert_strings_equal(key, "269-1234567890123456789", "key is correct");
+  assert_strings_equal(key, "268-1234567890123456789", "key is correct");
 
   return NULL;
 }
@@ -109,7 +98,6 @@ char *all_specs() {
   spec_setup("Interpreter Literal keys");
 
   // literals
-  run_spec(test_nil_key);
   run_spec(test_true_key);
   run_spec(test_false_key);
   run_spec(test_string_key);

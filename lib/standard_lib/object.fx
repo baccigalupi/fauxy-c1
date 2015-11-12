@@ -1,6 +1,5 @@
-Object: Class.new(nil) -> {
-  empty?: native(:fxn_object_is_empty)
-  nil?:   native(:fxn_object_is_nil)
+Object: Class.new(Object) -> {
+  /*empty?: native(:fxn_object_is_empty)*/
 
   true?:  -> { !empty? }
   not:    -> { !true? }

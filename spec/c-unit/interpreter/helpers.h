@@ -7,7 +7,6 @@
 #include "../../../lib/interpreter/expression_key.h"
 
 #include "../../../lib/native/boolean_methods.h"
-#include "../../../lib/native/nil_methods.h"
 
 #include "../../../lib/parser/expressions.h"
 #include "../../../lib/parser/expression_inspect.h"

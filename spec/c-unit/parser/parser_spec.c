@@ -97,9 +97,9 @@ char *test_function_with_expression() {
   FxB_String *inspection = fxp_parser_inspect(context);
   char *expected =  "{\"expressions\": [\n"
                       "{\"function_definition\": {\"expressions\": [\n"
-                      "{\"method_call\": {\"receiver\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"+\"}}}, \"method_arguments\": [\n"
-                          "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}\n"
-                      "]}}\n"
+                        "{\"method_call\": {\"receiver\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"+\"}}}, \"method_arguments\": [\n"
+                            "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}\n"
+                        "]}}\n"
                       "]}}\n"
                     "]}";
   assert_strings_equal(fxb_string_value(inspection), expected, "ast");

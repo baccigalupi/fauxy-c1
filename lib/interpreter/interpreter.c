@@ -4,7 +4,6 @@
 #include "object.h"
 #include "../parser/expressions.h"
 #include "../native/boolean_methods.h"
-#include "../native/nil_methods.h"
 
 
 FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config) {
@@ -37,7 +36,6 @@ void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
   // -------------
   // Object
   // Boolean
-  // Nil
   // Integer
   // Float
   // String
@@ -53,9 +51,6 @@ void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
 
   FxP_Expression *true_literal = FxP_Literal_create(NULL, TOKEN_TRUE);
   fxi_evaluate(self, true_literal);
-
-  FxP_Expression *nil_literal = FxP_Literal_create(NULL, TOKEN_NIL);
-  fxi_evaluate(self, nil_literal);
 }
 
 FxN_Object *fxi_lookup(FxI_Interpreter *self, char *key) {

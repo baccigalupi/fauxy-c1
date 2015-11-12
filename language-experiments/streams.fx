@@ -143,7 +143,7 @@ describer.join -> (list) { list.reverse.join(' ') }
 //   }
 //
 //   finish: -> {
-//     finish(:finish, nil)
+//     finish(:finish)
 //   }
 // }
 //

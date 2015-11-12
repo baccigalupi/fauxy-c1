@@ -36,7 +36,7 @@
   #define scanner     YYLEX_PARAM
 %}
 
-%token TRUE FALSE NIL
+%token TRUE FALSE
 %right LOCAL_ASSIGN COLON EXPORT // import
 %token SEMICOLON LINE_END COMMA
 %token STRING EVAL_STRING INTEGER FLOAT SYMBOL REGEX
@@ -226,7 +226,6 @@ literal
   | REGEX         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_REGEX); }
   | TRUE          { $$ = FxP_Literal_create(NULL, TOKEN_TRUE); }
   | FALSE         { $$ = FxP_Literal_create(NULL, TOKEN_FALSE); }
-  | NIL           { $$ = FxP_Literal_create(NULL, TOKEN_NIL); }
   ;
 
 lookup

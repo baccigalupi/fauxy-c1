@@ -3,10 +3,9 @@
 char *test_literal_setup() {
   setup_interpreter();
 
-  assert_ints_equal(fxi_interpreter_literal_length(interpreter), 3, "has three literals");
+  assert_ints_equal(fxi_interpreter_literal_length(interpreter), 2, "has three literals");
   assert_truthy(fxi_literal_get(interpreter, TRUE_KEY), "true has object by key");
   assert_truthy(fxi_literal_get(interpreter, FALSE_KEY), "false has object by key");
-  assert_truthy(fxi_literal_get(interpreter, NIL_KEY), "nil has object by key");
 
   fxi_interpreter_free(interpreter);
 
@@ -18,7 +17,6 @@ char *test_class_setup() {
 
   // assert_truthy(fxi_global_get(interpreter, "274-Object"), "has an object by key");
   // assert_truthy(fxi_global_get(interpreter, "274-Boolean"), "false has object by key");
-  // assert_truthy(fxi_global_get(interpreter, "274-Nil"), "nil has object by key");
 
   return NULL;
 }
