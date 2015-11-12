@@ -1,3 +1,5 @@
+
+
 # Fauxy - Programming Language
 Fauxy is a dynamic language influenced by Ruby, JavaScript, IO and Erlang. It gets its name from the combination of faux objects and faux functional style that aim for the best programmer experience while utilizing great concurrency models.
 
@@ -114,3 +116,5 @@ Not a lick of code is currently working. Samples and ideas are available in the 
 
 ### Contributing
 I would love feedback. Please message me on Github or open tickets. Feel free also to fork and propose.
+
+Current list of stories: [https://trello.com/b/EZqSrPwN/fauxy](https://trello.com/b/EZqSrPwN/fauxy)
