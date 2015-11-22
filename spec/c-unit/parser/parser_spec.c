@@ -388,14 +388,14 @@ char *test_native_assignment() {
 }
 
 char *test_block_assignment() {
-  spec_describe("native assignments: true?: -> { !empty? }");
-  FxP_ParserContext *context = parse_string("true?: -> { !empty? }\n");
+  spec_describe("function assignments: ?: -> { !empty? }");
+  FxP_ParserContext *context = parse_string("?: -> { !empty? }\n");
 
   FxB_String *inspection = fxp_parser_inspect(context);
   char *expected =  "{\"expressions\": [\n"
-                    "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"true?\"}}}, \"right\": {\"function_definition\": {\"expressions\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"empty?\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"not\"}}}}}\n"
-                    "]}}}}\n"
+                      "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"?\"}}}, \"right\": {\"function_definition\": {\"expressions\": [\n"
+                        "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"empty?\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"not\"}}}}}\n"
+                      "]}}}}\n"
                     "]}";
 
   assert_strings_equal(fxb_string_value(inspection), expected, "ast");

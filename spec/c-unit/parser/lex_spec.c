@@ -175,12 +175,35 @@ char *test_ids_with_equals_signs() {
   return NULL;
 }
 
-char *test_ruby_special_ending_ids() {
-  spec_describe("ids ending in ? and !");
+char *test_ending_with_a_bang() {
+  spec_describe("ids ending with !");
 
   FxP_LexWrapper state;
   yylex_init(&state.scanner);
-  char *operators = "valid? do-it!";
+  char *operators = "do-it!";
+  YY_BUFFER_STATE buffer = yy_scan_string(operators, state.scanner);
+  void *bit = fx_alloc(FxP_Bit);
+  YYLTYPE *location = fx_alloc(YYLTYPE);
+
+  int token_type;
+
+  token_type = yylex(bit, location, state.scanner);
+  assert_ints_equal(token_type, TOKEN_ID, "do-it!");
+
+  token_type = yylex(bit, location, state.scanner);
+  assert_ints_equal(token_type, TOKEN_EOF, "right number of total tokens");
+
+  yylex_destroy(state.scanner);
+  fx_pfree(location);
+  return NULL;
+}
+
+char *test_ending_with_a_question_mark() {
+  spec_describe("ids followed a ?");
+
+  FxP_LexWrapper state;
+  yylex_init(&state.scanner);
+  char *operators = "valid?";
   YY_BUFFER_STATE buffer = yy_scan_string(operators, state.scanner);
   void *bit = fx_alloc(FxP_Bit);
   YYLTYPE *location = fx_alloc(YYLTYPE);
@@ -191,7 +214,56 @@ char *test_ruby_special_ending_ids() {
   assert_ints_equal(token_type, TOKEN_ID, "valid?");
 
   token_type = yylex(bit, location, state.scanner);
-  assert_ints_equal(token_type, TOKEN_ID, "do-it!");
+  assert_ints_equal(token_type, TOKEN_EOF, "right number of total tokens");
+
+  yylex_destroy(state.scanner);
+  fx_pfree(location);
+  return NULL;
+}
+
+char *test_question_mark_standalone() {
+  spec_describe("ids followed a space and ?");
+
+  FxP_LexWrapper state;
+  yylex_init(&state.scanner);
+  char *operators = "thing ?";
+  YY_BUFFER_STATE buffer = yy_scan_string(operators, state.scanner);
+  void *bit = fx_alloc(FxP_Bit);
+  YYLTYPE *location = fx_alloc(YYLTYPE);
+
+  int token_type;
+
+  token_type = yylex(bit, location, state.scanner);
+  assert_ints_equal(token_type, TOKEN_ID, "thing");
+
+  token_type = yylex(bit, location, state.scanner);
+  assert_ints_equal(token_type, TOKEN_ID, "?");
+
+  token_type = yylex(bit, location, state.scanner);
+  assert_ints_equal(token_type, TOKEN_EOF, "right number of total tokens");
+
+  yylex_destroy(state.scanner);
+  fx_pfree(location);
+  return NULL;
+}
+
+char *test_question_mark_assignment() {
+  spec_describe("assignment to a ?");
+
+  FxP_LexWrapper state;
+  yylex_init(&state.scanner);
+  char *operators = "?:";
+  YY_BUFFER_STATE buffer = yy_scan_string(operators, state.scanner);
+  void *bit = fx_alloc(FxP_Bit);
+  YYLTYPE *location = fx_alloc(YYLTYPE);
+
+  int token_type;
+
+  token_type = yylex(bit, location, state.scanner);
+  assert_ints_equal(token_type, TOKEN_ID, "?");
+
+  token_type = yylex(bit, location, state.scanner);
+  assert_ints_equal(token_type, TOKEN_COLON, ":");
 
   token_type = yylex(bit, location, state.scanner);
   assert_ints_equal(token_type, TOKEN_EOF, "right number of total tokens");
@@ -231,7 +303,10 @@ char *all_specs() {
   run_spec(test_numeric_start);
   run_spec(test_dashes_and_underscores);
   run_spec(test_ids_with_equals_signs);
-  run_spec(test_ruby_special_ending_ids);
+  run_spec(test_ending_with_a_bang);
+  run_spec(test_ending_with_a_question_mark);
+  run_spec(test_question_mark_standalone);
+  run_spec(test_question_mark_assignment);
 
   run_spec(test_ids_with_caps_fail);
 

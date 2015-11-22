@@ -45,6 +45,7 @@ BREAK_SPACE ([ \t]*)?[\n]*([ \t]*)?
 "{"                         	{ return TOKEN_OPEN_BRACE; }
 "}"                         	{ return TOKEN_CLOSE_BRACE; }
 "!"                         	{ FX_LexStringBit(TOKEN_NOT, "not"); }
+"?"                           { FX_LexStringBit(TOKEN_ID, yytext); }
 \/\*(.|\n)*\*\/             	{ /* comment bracketed, treat as white space */ }
 \/\/[^\n]*                		{ /* terminating comment, treat as white space */ }
 {BREAK}	                      { return TOKEN_LINE_END; }
@@ -63,5 +64,5 @@ BREAK_SPACE ([ \t]*)?[\n]*([ \t]*)?
 \"([^"]|\\.)*\"           				{ FX_LexStringBit(TOKEN_EVAL_STRING, yytext); }
 \'([^']|\\.)*\'           				{ FX_LexStringBit(TOKEN_STRING, yytext); }
 
-{ID_PREFACE}+{CLASS_SUFFIX}				{ printf("illegal id: %s\n", yytext); }
+{ID_PREFACE}+{CLASS_SUFFIX}				{ printf("illegal id: %s\n", yytext); /* TODO: throw exception */ }
 .                    							{ printf("unknown token: %s\n", yytext); }
