@@ -278,7 +278,7 @@ char *test_ids_with_caps_fail() {
 
   FxP_LexWrapper state;
   yylex_init(&state.scanner);
-  char *operators = "helloWorld 123W";
+  char *operators = "helloWorld 123W #";
   YY_BUFFER_STATE buffer = yy_scan_string(operators, state.scanner);
   void *bit = fx_alloc(FxP_Bit);
   YYLTYPE *location = fx_alloc(YYLTYPE);
@@ -286,7 +286,16 @@ char *test_ids_with_caps_fail() {
   int token_type;
 
   token_type = yylex(bit, location, state.scanner);
-  assert_ints_equal(token_type, TOKEN_EOF, "no valid tokens found");
+  assert_ints_equal(token_type, TOKEN_LEX_ERROR_ILLEGAL_VARIABLE, "lex error: helloWorld");
+
+  token_type = yylex(bit, location, state.scanner);
+  assert_ints_equal(token_type, TOKEN_LEX_ERROR_ILLEGAL_VARIABLE, "lex error: 123W");
+
+  token_type = yylex(bit, location, state.scanner);
+  assert_ints_equal(token_type, TOKEN_LEX_ERROR_UNKNOWN_TOKEN, "lex error: #");
+
+  token_type = yylex(bit, location, state.scanner);
+  assert_ints_equal(token_type, TOKEN_EOF, "right number of total tokens");
 
   yylex_destroy(state.scanner);
   fx_pfree(location);

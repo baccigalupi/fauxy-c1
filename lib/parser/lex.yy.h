@@ -340,7 +340,7 @@ extern int yylex \
 #undef YY_DECL
 #endif
 
-#line 87 "lib/parser/lex.l"
+#line 81 "lib/parser/lex.l"
 
 #line 346 "lib/parser/lex.yy.h"
 #undef yyIN_HEADER

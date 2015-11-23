@@ -47,6 +47,7 @@
 %left  AND OR
 %token NOT
 %token EOF
+%token LEX_ERROR_ILLEGAL_VARIABLE LEX_ERROR_UNKNOWN_TOKEN
 
 %start program
 

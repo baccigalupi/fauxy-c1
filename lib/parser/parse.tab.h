@@ -72,7 +72,9 @@ extern int yydebug;
      TOKEN_AND = 282,
      TOKEN_OR = 283,
      TOKEN_NOT = 284,
-     TOKEN_EOF = 285
+     TOKEN_EOF = 285,
+     TOKEN_LEX_ERROR_ILLEGAL_VARIABLE = 286,
+     TOKEN_LEX_ERROR_UNKNOWN_TOKEN = 287
   };
 #endif
 

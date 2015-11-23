@@ -28,7 +28,7 @@
 %option bison-locations
 %option yylineno
 
-ID_PREFACE 	[\\/\=\-\*\^~@<+&a-z0-9_]
+ID_PREFACE 	[\\/\=\-\*\^~@<>%`+&a-z0-9_]
 CLASS_SUFFIX [A-Za-z0-9_\-]*
 BREAK [\n]*
 SPACE ([ \t]*)?
@@ -62,7 +62,7 @@ BREAK_SPACE ([ \t]*)?[\n]*([ \t]*)?
 \/\/[^\n]*                		    { /* terminating comment, treat as white space */ }
 {BREAK}	                          { FX_LexToken(TOKEN_LINE_END); }
 <<EOF>>												    { FX_LexToken(TOKEN_EOF); }
-[ \t]                     		    { /* white space, move along */ }
+[ \t]*                     		    { /* white space, move along */ }
 
 [A-Z]+{CLASS_SUFFIX} 					  	{ FX_LexStringBit(TOKEN_CLASS_ID, yytext); }
 
@@ -76,11 +76,5 @@ BREAK_SPACE ([ \t]*)?[\n]*([ \t]*)?
 \"([^"]|\\.)*\"           				{ FX_LexStringBit(TOKEN_EVAL_STRING, yytext); }
 \'([^']|\\.)*\'           				{ FX_LexStringBit(TOKEN_STRING, yytext); }
 
-{ID_PREFACE}+{CLASS_SUFFIX}				{
-                                    FX_LexDebugLocations();
-                                    printf("illegal id: %s\n", yytext);
-                                  }
-.                    							{
-                                    FX_LexDebugLocations();
-                                    printf("unknown token: %s\n", yytext);
-                                  }
+{ID_PREFACE}+{CLASS_SUFFIX}				{ FX_LexStringBit(TOKEN_LEX_ERROR_ILLEGAL_VARIABLE, yytext); }
+.                    							{ FX_LexStringBit(TOKEN_LEX_ERROR_UNKNOWN_TOKEN, yytext); }
