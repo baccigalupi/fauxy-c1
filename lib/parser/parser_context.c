@@ -14,6 +14,8 @@ FxP_ParserContext *FxP_ParserContext_create() {
   verify(list);
   fxp_parser_context_list(context) = list;
 
+  fxp_parser_context_error_code(context) = 0; // no error
+
   FxP_Expressions *expressions = FxP_Expressions_create();
   verify(expressions);
 

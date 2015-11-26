@@ -4,12 +4,12 @@
 #include "parser_context.h"
 #include "expression_inspect.h"
 
-
 int main(int argc, char **argv) {
+  FxP_ParserContext *context = NULL;
+
   if (argc == 3) {
     char *command = argv[1];
     char *data = argv[2];
-    FxP_ParserContext *context = NULL;
 
     if (!strcmp(command, "-p")) {
       // parse and inspect statement
@@ -25,14 +25,13 @@ int main(int argc, char **argv) {
       }
     }
 
-    if (context) {
+    if (context && !fxp_parser_context_error_code(context)) {
       FxB_String *inspection = fxp_parser_inspect(context);
       printf("%s\n", fxb_string_value(inspection));
     }
   } else {
     // repl type thing
     printf("\nFauxy -> Go!\n\n");
-    FxP_ParserContext *context = NULL;
 
     while(!context) {
       context = parse_stdin();
@@ -41,7 +40,7 @@ int main(int argc, char **argv) {
     }
   }
 
-  return 0;
+  return (int)fxp_parser_context_error_code(context);
 error:
-  return 1;
+  return context ? fxp_parser_context_error_code(context) : 1;
 }

@@ -29,7 +29,7 @@
   #include "lex.yy.h"
 
   static void yyerror(YYLTYPE *location, FxP_LexWrapper *state, FxP_ParserContext *context, const char *s) {
-    fprintf(stderr, "line %d:%d error %s\n", location->first_line, location->first_column, s);
+    fprintf(stderr, "ParseError: line %d:%d %s\n", location->first_line, location->first_column, s);
   }
 
   #define YYLEX_PARAM state->scanner
@@ -65,7 +65,8 @@ expression
   | implicit_method_call expression_end     { fxp_parser_push_expression(context, $1); }
   | expression_end                          { }
   | unterminated_expression EOF             { fxp_parser_push_expression(context, $1); YYACCEPT; }
-  | implicit_method_call EOF                { fxp_parser_push_expression(context, $1); YYACCEPT;}
+  | implicit_method_call EOF                { fxp_parser_push_expression(context, $1); YYACCEPT; }
+  | lex_error                               { YYACCEPT; }
   | EOF                                     { YYACCEPT; }
   ;
 
@@ -242,4 +243,16 @@ operator /* for precedence */
   : AND           { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
   | OR            { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
   ;
+
+lex_error
+  : LEX_ERROR_ILLEGAL_VARIABLE          {
+                                          fxp_parser_context_error_code(context) = TOKEN_LEX_ERROR_ILLEGAL_VARIABLE;
+                                          yyerror(&(@1), state, context, "Illegal variable or method name");
+                                        }
+  | LEX_ERROR_UNKNOWN_TOKEN             {
+                                          fxp_parser_context_error_code(context) = TOKEN_LEX_ERROR_UNKNOWN_TOKEN;
+                                          yyerror(&(@1), state, context, "Unknown token");
+                                        }
+  ;
+
 %%
