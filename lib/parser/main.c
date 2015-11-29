@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
     }
   }
 
-  return (int)fxp_parser_context_error_code(context);
+  return fxp_parser_context_error_code(context);
 error:
   return context ? fxp_parser_context_error_code(context) : 1;
 }

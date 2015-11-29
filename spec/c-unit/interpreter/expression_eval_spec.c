@@ -1,13 +1,14 @@
 #include "helpers.h"
 
 char *test_interpet_literal_true() {
-  spec_describe("'true' returns true object");
+  spec_describe("literal evaluation: 'true' returns true object");
   setup_interpreter();
 
   FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_TRUE);
   FxN_Object *object = fxi_evaluate(interpreter, literal);
 
   assert_truthy(fxn_boolean_value(object) == true,  "returned object is true");
+  /*assert_truthy(,  "returned object is true");*/
   // assert that object has the right class
 
   FxN_Object *stored_object = fxi_literal_get(interpreter, TRUE_KEY);
@@ -21,7 +22,7 @@ char *test_interpet_literal_true() {
 }
 
 char *test_interpet_literal_false() {
-  spec_describe("'false' returns false object");
+  spec_describe("literal evaluation: 'false' returns false object");
   setup_interpreter();
 
   FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_FALSE);
@@ -41,7 +42,7 @@ char *test_interpet_literal_false() {
 }
 
 char *test_interpet_literal_integer() {
-  spec_describe("integer expressions return an object");
+  spec_describe("literal evaluation: integer literal return an object");
   setup_interpreter();
 
   FxP_Bit *bit = FxP_Bit_integer_create("12");
@@ -60,7 +61,7 @@ char *test_interpet_literal_integer() {
 }
 
 char *test_interpet_literal_decimal() {
-  spec_describe("decimal literal expression returns an object");
+  spec_describe("literal evaluation: decimal literal returns an object");
   setup_interpreter();
 
   FxP_Bit *bit = FxP_Bit_decimal_create("1.2");
@@ -78,7 +79,7 @@ char *test_interpet_literal_decimal() {
 }
 
 char *test_interpet_literal_string() {
-  spec_describe("string literal expression returns an object");
+  spec_describe("literal evaluation: string literal returns an object");
   setup_interpreter();
 
   FxP_Bit *bit = FxP_Bit_string_create("hello world");
@@ -97,7 +98,7 @@ char *test_interpet_literal_string() {
 }
 
 char *test_global_assignment_of_literal() {
-  spec_describe("assigning literal to the global namespace and then retrieving it");
+  spec_describe("literal lookup evaluation: assigning literal to the top context and then retrieving it");
   setup_interpreter();
 
   FxP_Bit     *value_bit =      FxP_Bit_string_create("Hello Fauxy world!");
@@ -120,7 +121,7 @@ char *test_global_assignment_of_literal() {
 }
 
 char *test_context_assignment_of_literal() {
-  spec_describe("setting a literal inside the current context (non-global) and then retrieving it");
+  spec_describe("lookup evaluation: literal in current context (non-global)");
   setup_interpreter();
 
   FxN_Object *object = FxN_Object_create(interpreter, NULL);
@@ -150,7 +151,7 @@ char *test_context_assignment_of_literal() {
 }
 
 char *test_global_assignment_but_lookup_from_context() {
-  spec_describe("setting a literal at global, then looking up from a context");
+  spec_describe("lookup evaluation: global level literal from context");
   setup_interpreter();
 
   FxN_Object *object = FxN_Object_create(interpreter, NULL);
@@ -176,7 +177,7 @@ char *test_global_assignment_but_lookup_from_context() {
 }
 
 char *test_function_declaration() {
-  spec_describe("function definition");
+  spec_describe("function definition evaluation: returns function definition");
   setup_interpreter();
 
   FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_TRUE);
