@@ -175,6 +175,33 @@ char *test_ids_with_equals_signs() {
   return NULL;
 }
 
+char *test_equality_operator() {
+  spec_describe("= operator");
+
+  FxP_LexWrapper state;
+  yylex_init(&state.scanner);
+  char *operators = "3 = 3";
+  YY_BUFFER_STATE buffer = yy_scan_string(operators, state.scanner);
+  void *bit = fx_alloc(FxP_Bit);
+  YYLTYPE *location = fx_alloc(YYLTYPE);
+
+  int token_type;
+
+  token_type = yylex(bit, location, state.scanner);
+
+  token_type = yylex(bit, location, state.scanner);
+  assert_ints_equal(token_type, TOKEN_EQUALITY, "= token");
+
+  token_type = yylex(bit, location, state.scanner);
+
+  token_type = yylex(bit, location, state.scanner);
+  assert_ints_equal(token_type, TOKEN_EOF, "right number of total tokens");
+
+  yylex_destroy(state.scanner);
+  fx_pfree(location);
+  return NULL;
+}
+
 char *test_ending_with_a_bang() {
   spec_describe("ids ending with !");
 
@@ -312,6 +339,7 @@ char *all_specs() {
   run_spec(test_numeric_start);
   run_spec(test_dashes_and_underscores);
   run_spec(test_ids_with_equals_signs);
+  run_spec(test_equality_operator);
   run_spec(test_ending_with_a_bang);
   run_spec(test_ending_with_a_question_mark);
   run_spec(test_question_mark_standalone);

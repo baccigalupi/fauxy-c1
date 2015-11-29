@@ -39,10 +39,12 @@ BREAK_SPACE ([ \t]*)?[\n]*([ \t]*)?
 "true"												    { FX_LexToken(TOKEN_TRUE); }
 "false"												    { FX_LexToken(TOKEN_FALSE); }
 "export"											    { FX_LexToken(TOKEN_EXPORT); }
-"and"													    { FX_LexStringBit(TOKEN_AND, "and"); }
+"and"													    { FX_LexStringBit(TOKEN_AND, yytext); }
 "&&"													    { FX_LexStringBit(TOKEN_AND, "and"); }
-"or"													    { FX_LexStringBit(TOKEN_OR, "or"); }
+"or"													    { FX_LexStringBit(TOKEN_OR, yytext); }
 "||"													    { FX_LexStringBit(TOKEN_OR, "or"); }
+"="													      { FX_LexStringBit(TOKEN_EQUALITY, "="); }
+"=="													    { FX_LexStringBit(TOKEN_STRICT_EQUALITY, "=="); }
 "..."													    { FX_LexToken(TOKEN_ELIPSES); }
 ".."													    { FX_LexToken(TOKEN_ELIPSES); }
 {BREAK_SPACE}"."{BREAK_SPACE}	    { FX_LexToken(TOKEN_DOT); }
@@ -56,7 +58,7 @@ BREAK_SPACE ([ \t]*)?[\n]*([ \t]*)?
 "->"                         	    { FX_LexToken(TOKEN_FUNCTION_DECLARATION); }
 "{"                         	    { FX_LexToken(TOKEN_OPEN_BRACE); }
 "}"                         	    { FX_LexToken(TOKEN_CLOSE_BRACE); }
-"!"                         	    { FX_LexStringBit(TOKEN_NOT, "not"); }
+"!"                         	    { FX_LexStringBit(TOKEN_NOT, yytext); }
 "?"                               { FX_LexStringBit(TOKEN_ID, yytext); }
 \/\*(.|\n)*\*\/             	    { /* comment bracketed, treat as white space */ }
 \/\/[^\n]*                		    { /* terminating comment, treat as white space */ }

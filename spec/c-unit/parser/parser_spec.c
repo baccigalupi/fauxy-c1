@@ -394,7 +394,7 @@ char *test_block_assignment() {
   FxB_String *inspection = fxp_parser_inspect(context);
   char *expected =  "{\"expressions\": [\n"
                       "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"?\"}}}, \"right\": {\"function_definition\": {\"expressions\": [\n"
-                        "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"empty?\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"not\"}}}}}\n"
+                        "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"empty?\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"!\"}}}}}\n"
                       "]}}}}\n"
                     "]}";
 

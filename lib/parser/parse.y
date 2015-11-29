@@ -44,7 +44,7 @@
 %left  ELIPSES DOT
 %token FUNCTION_DECLARATION OPEN_BRACE CLOSE_BRACE
 %token OPEN_PAREN CLOSE_PAREN
-%left  AND OR
+%left  AND OR EQUALITY STRICT_EQUALITY
 %token NOT
 %token EOF
 %token LEX_ERROR_ILLEGAL_VARIABLE LEX_ERROR_UNKNOWN_TOKEN
@@ -239,8 +239,10 @@ id_lookup
   ;
 
 operator /* for precedence */
-  : AND           { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
-  | OR            { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
+  : AND             { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
+  | OR              { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
+  | EQUALITY        { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
+  | STRICT_EQUALITY { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
   ;
 
 lex_error
