@@ -369,13 +369,13 @@ char *test_multi_line_list() {
 }
 
 char *test_native_assignment() {
-  spec_describe("native assignments: to_s: native(:fxn_native_to_s)");
-  FxP_ParserContext *context = parse_string("to_s: native(:fxn_native_to_s)\n");
+  spec_describe("native assignments: to_s: native('fxn_native_to_s')");
+  FxP_ParserContext *context = parse_string("to_s: native('fxn_native_to_s')\n");
 
   FxB_String *inspection = fxp_parser_inspect(context);
   char *expected =  "{\"expressions\": [\n"
                     "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"to_s\"}}}, \"right\": {\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"native\"}}}, \"method_arguments\": [\n"
-                    "{\"literal\": {\"class\": \"Symbol\", \"bit\": {\"STRING\": \":fxn_nativ...\"}}}\n"
+                    "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"fxn_native...\"}}}\n"
                     "]}}}}\n"
                     "]}";
 

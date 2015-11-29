@@ -71,7 +71,6 @@ BREAK_SPACE ([ \t]*)?[\n]*([ \t]*)?
 -?[0-9]+                  				{ FX_LexIntegerBit(TOKEN_INTEGER, yytext); }
 
 {ID_PREFACE}+[a-z0-9_\-\=]*[!?]? 	{ FX_LexStringBit(TOKEN_ID, yytext); }
-:[a-z0-9_]+[a-z0-9_\-]* 		  		{ FX_LexStringBit(TOKEN_SYMBOL, yytext); }
 \/.*\/[a-z]? 											{ FX_LexStringBit(TOKEN_REGEX, yytext); }
 \"([^"]|\\.)*\"           				{ FX_LexStringBit(TOKEN_EVAL_STRING, yytext); }
 \'([^']|\\.)*\'           				{ FX_LexStringBit(TOKEN_STRING, yytext); }

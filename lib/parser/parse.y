@@ -39,7 +39,7 @@
 %token TRUE FALSE
 %right LOCAL_ASSIGN COLON EXPORT // import
 %token SEMICOLON LINE_END COMMA
-%token STRING EVAL_STRING INTEGER FLOAT SYMBOL REGEX
+%token STRING EVAL_STRING INTEGER FLOAT REGEX
 %token ID CLASS_ID DEFERRED_ARGUMENT
 %left  ELIPSES DOT
 %token FUNCTION_DECLARATION OPEN_BRACE CLOSE_BRACE
@@ -224,7 +224,6 @@ literal
   | EVAL_STRING   { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_EVAL_STRING); }
   | INTEGER       { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_INTEGER); }
   | FLOAT         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_FLOAT); }
-  | SYMBOL        { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_SYMBOL); }
   | REGEX         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_REGEX); }
   | TRUE          { $$ = FxP_Literal_create(NULL, TOKEN_TRUE); }
   | FALSE         { $$ = FxP_Literal_create(NULL, TOKEN_FALSE); }

@@ -501,8 +501,6 @@ FxB_String *fxp_literal_class_description(FxP_Literal *literal) {
     description = FxB_String_create("\"EvalString\"");
   } else if (fxp_literal_type(literal) == TOKEN_REGEX) {
     description = FxB_String_create("\"Regex\"");
-  } else if (fxp_literal_type(literal) == TOKEN_SYMBOL) {
-    description = FxB_String_create("\"Symbol\"");
   } else if (fxp_literal_type(literal) == TOKEN_INTEGER) {
     description = FxB_String_create("\"Integer\"");
   } else if (fxp_literal_type(literal) == TOKEN_FLOAT) {
