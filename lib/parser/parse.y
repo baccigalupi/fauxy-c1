@@ -37,7 +37,7 @@
 %}
 
 %token TRUE FALSE
-%right LOCAL_ASSIGN COLON EXPORT // import
+%right LOCAL_ASSIGN COLON IMPORT
 %token SEMICOLON LINE_END COMMA
 %token STRING EVAL_STRING INTEGER FLOAT REGEX
 %token ID CLASS_ID DEFERRED_ARGUMENT
@@ -83,7 +83,7 @@ unterminated_expression
   | local_assignment      { $$ = $1; }
   | colonized_expression  { $$ = $1; }
   | list                  { $$ = $1; }
-  | export_expression     { printf("export expression"); }
+  | import_expression     { printf("import expression"); }
   ;
 
 /* -------------------------
@@ -211,8 +211,8 @@ colonized_expression
   | lookup COLON implicit_method_call                       { $$ = FxP_ColonExpression_create($1, $3); }
   ;
 
-export_expression
-  : EXPORT unterminated_expression    // waiting until know more about import export process, and requiring
+import_expression
+  : IMPORT unterminated_expression
   ;
 
 /* ------------------

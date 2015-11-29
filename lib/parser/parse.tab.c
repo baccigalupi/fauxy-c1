@@ -122,7 +122,7 @@ extern int yydebug;
      TOKEN_FALSE = 259,
      TOKEN_LOCAL_ASSIGN = 260,
      TOKEN_COLON = 261,
-     TOKEN_EXPORT = 262,
+     TOKEN_IMPORT = 262,
      TOKEN_SEMICOLON = 263,
      TOKEN_LINE_END = 264,
      TOKEN_COMMA = 265,
@@ -499,7 +499,7 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "TRUE", "FALSE", "LOCAL_ASSIGN", "COLON",
-  "EXPORT", "SEMICOLON", "LINE_END", "COMMA", "STRING", "EVAL_STRING",
+  "IMPORT", "SEMICOLON", "LINE_END", "COMMA", "STRING", "EVAL_STRING",
   "INTEGER", "FLOAT", "REGEX", "ID", "CLASS_ID", "DEFERRED_ARGUMENT",
   "ELIPSES", "DOT", "FUNCTION_DECLARATION", "OPEN_BRACE", "CLOSE_BRACE",
   "OPEN_PAREN", "CLOSE_PAREN", "AND", "OR", "EQUALITY", "STRICT_EQUALITY",
@@ -509,7 +509,7 @@ static const char *const yytname[] =
   "function_start", "function_expressions", "function", "operator_call",
   "dot_method_call", "function_method_call", "negation", "method_call",
   "implicit_method_call", "local_assignment", "colonized_expression",
-  "export_expression", "literal", "lookup", "id_lookup", "operator",
+  "import_expression", "literal", "lookup", "id_lookup", "operator",
   "lex_error", YY_NULLPTR
 };
 #endif
@@ -1533,7 +1533,7 @@ yyreduce:
 
   case 21:
 #line 86 "lib/parser/parse.y" /* yacc.c:1661  */
-    { printf("export expression"); }
+    { printf("import expression"); }
 #line 1538 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 

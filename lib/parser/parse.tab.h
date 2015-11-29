@@ -49,7 +49,7 @@ extern int yydebug;
      TOKEN_FALSE = 259,
      TOKEN_LOCAL_ASSIGN = 260,
      TOKEN_COLON = 261,
-     TOKEN_EXPORT = 262,
+     TOKEN_IMPORT = 262,
      TOKEN_SEMICOLON = 263,
      TOKEN_LINE_END = 264,
      TOKEN_COMMA = 265,
