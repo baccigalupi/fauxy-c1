@@ -83,7 +83,7 @@ unterminated_expression
   | local_assignment      { $$ = $1; }
   | colonized_expression  { $$ = $1; }
   | list                  { $$ = $1; }
-  | import_expression     { printf("import expression"); }
+  | import_expression     { $$ = $1; }
   ;
 
 /* -------------------------
@@ -212,7 +212,7 @@ colonized_expression
   ;
 
 import_expression
-  : IMPORT unterminated_expression
+  : IMPORT unterminated_expression                          { $$ = FxP_ImportExpression_create($2); }
   ;
 
 /* ------------------

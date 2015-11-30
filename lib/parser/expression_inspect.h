@@ -19,5 +19,6 @@ FxB_String *fxp_expression_join(FxP_Expression *expression, FxB_String *value);
 FxB_String *fxp_expression_type_description(FxP_Expression *expression);
 FxB_String *fxp_literal_class_description(FxP_Literal *literal);
 FxB_String *fxp_lookup_type_description(FxP_Lookup *literal);
+FxB_String *fxp_import_expression_body_inspect(FxP_Expression *expression);
 
 #endif

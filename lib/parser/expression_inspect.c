@@ -36,9 +36,10 @@ void *fxp_inspect(void *element) {
     unwrapped_pair = fxp_left_right_inspect(expression);
   } else if (type == FX_ST_EXPRESSIONS) {
     unwrapped_pair = fxp_collection_body_inspect(expression);
+  } else if (type == FX_ST_IMPORT) {
+    unwrapped_pair = fxp_import_expression_body_inspect(expression);
   } else {
-    unwrapped_pair = FxB_String_create("\"UNKNOWN STATEMENT\"");
-    printf("printing unknown statement: %d\n", type);
+    unwrapped_pair = FxB_String_create("\"UNKNOWN EXPRESSION\"");
   }
 
   verify(unwrapped_pair);
@@ -86,6 +87,7 @@ error:
 
   return NULL;
 }
+
 
 FxB_String *fxp_literal_body_inspect(FxP_Literal *expression) {
   FxB_String *exp_value = NULL;
@@ -210,6 +212,45 @@ error:
   if (bit_pair) { fxb_string_free(bit_pair); }
 
   if (type_bit_pairs) { fxb_array_free(type_bit_pairs); }
+
+  return NULL;
+}
+
+FxB_String *fxp_import_expression_body_inspect(FxP_Expression *expression) {
+  FxB_String *path_key = NULL;
+  FxB_String *path_value = NULL;
+  FxB_String *path_pair = NULL;
+  FxB_Array  *path_pairs = NULL;
+  FxB_String *expresssion_body = NULL;
+  FxB_String *json = NULL;
+
+  path_key = FxB_String_create("path");
+  path_value = fxp_inspect(fxp_import_path_expression(expression));
+  path_pair = fxb_json_gen_bald_pair(path_key, path_value);
+  verify(path_pair);
+
+  path_pairs = FxB_Array_create(1);
+  verify(path_pairs);
+  fxb_array_push(path_pairs, path_pair);
+  expresssion_body = fxb_json_gen_wrap_pairs(path_pairs);
+  verify(expresssion_body);
+
+  json = fxp_expression_join(expression, expresssion_body);
+  verify(json);
+
+  fxb_string_free(path_key);
+  fxb_string_free(path_value);
+  fxb_string_free(path_pair);
+  fxb_string_free(expresssion_body);
+  fxb_array_free(path_pairs);
+
+  return json;
+error:
+  if (path_key)         { fxb_string_free(path_key); }
+  if (path_value)       { fxb_string_free(path_value); }
+  if (path_pair)        { fxb_string_free(path_pair); }
+  if (expresssion_body) { fxb_string_free(expresssion_body); }
+  if (path_pairs)       { fxb_array_free(path_pairs); }
 
   return NULL;
 }
@@ -481,9 +522,10 @@ FxB_String *fxp_expression_type_description(FxP_Expression *expression) {
     description = FxB_String_create("colon_expression");
   } else if (type == FX_ST_EXPRESSIONS) {
     description = FxB_String_create("expressions");
+  } else if (type == FX_ST_IMPORT) {
+    description = FxB_String_create("import");
   } else {
-    description = FxB_String_create("\"UNKNOWN STATEMENT\"");
-    printf("unknown statement type: %d\n", type);
+    description = FxB_String_create("\"UNKNOWN EXPRESSION TYPE\"");
   }
 
   verify(description);

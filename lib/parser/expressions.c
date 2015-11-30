@@ -282,3 +282,14 @@ FxP_LocalAssign *FxP_ColonExpression_create(FxP_Lookup *variable, FxP_Expression
 error:
   return NULL;
 }
+
+FxP_ImportExpression *FxP_ImportExpression_create(FxP_Expression *value) {
+  FxP_ImportExpression *path_expression = FxP_Expression_create(FX_ST_IMPORT);
+  verify(path_expression);
+
+  fxp_import_set_path_expression(path_expression, value);
+
+  return path_expression;
+error:
+  return NULL;
+}

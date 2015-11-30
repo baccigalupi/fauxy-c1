@@ -406,6 +406,24 @@ char *test_block_assignment() {
   return NULL;
 }
 
+char *test_import_expression() {
+  spec_describe("import expression: import 'my-file'");
+
+  FxP_ParserContext *context = parse_string("import 'my-file'");
+
+  FxB_String *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\"expressions\": [\n"
+                      "{\"import\": {\"path\": {\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"my-file\"}}}}}\n"
+                    "]}";
+
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  fxb_string_free(inspection);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Parsing Expressions");
 
@@ -435,6 +453,8 @@ char *all_specs() {
 
   run_spec(test_native_assignment);
   run_spec(test_block_assignment);
+
+  run_spec(test_import_expression);
 
   spec_teardown();
 

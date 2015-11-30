@@ -22,6 +22,7 @@ typedef FxP_Expression FxP_FunctionDefinitionArguments;
 typedef FxP_Expression FxP_LocalAssign;
 typedef FxP_Expression FxP_ColonExpression;
 typedef FxP_Expression FxP_Expressions;
+typedef FxP_Expression FxP_ImportExpression;
 
 // IMPORTANT, this bit thing is a bitch and has to stay
 // below the typedefs!
@@ -118,5 +119,9 @@ FxP_LocalAssign     *FxP_LocalAssign_create(FxP_Lookup *lookup, FxP_Expression *
 
 // Attribute assignment: [variable, value]
 FxP_ColonExpression *FxP_ColonExpression_create(FxP_Lookup *variable, FxP_Expression *value);
+
+FxP_ImportExpression *FxP_ImportExpression_create(FxP_Expression *value);
+#define fxp_import_path_expression(E)         fxp_expression_value_at(E, 0)
+#define fxp_import_set_path_expression(E, V)  fxp_expression_value_set(E, 0, V)
 
 #endif
