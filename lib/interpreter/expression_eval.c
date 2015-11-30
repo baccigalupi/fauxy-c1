@@ -3,8 +3,7 @@
 #include "literal.h"
 #include "pool.h"
 #include "method_call_arguments.h"
-#include "../parser/expression_inspect.h"
-#include "../parser/bit.h"
+#include "../parser/_parser.h"
 
 FxN_Object *fxi_evaluate(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   int type = fxp_expression_type(expression);
@@ -32,6 +31,8 @@ FxN_Object *fxi_evaluate(FxI_Interpreter *interpreter, FxP_Expression *expressio
     result = fxi_evaluate_attr_assign(interpreter, expression);
   } else if ( type == FX_ST_EXPRESSIONS ) {
     result = fxi_evaluate_expressions(interpreter, expression);
+  } else if ( type == FX_ST_IMPORT ) {
+    result = fxi_evaluate_import(interpreter, expression);
   } else {
     printf("%d expression evaluation not defined\n", type);
   }
@@ -118,11 +119,24 @@ FxN_Object *fxi_evaluate_local_assign(FxI_Interpreter *interpreter, FxP_Expressi
   return NULL;
 }
 
-
 /*FxN_Object *fxi_evaluate_colon_expression(FxI_Interpreter *interpreter, FxP_Expression *expression) {*/
   /*return NULL;*/
 /*}*/
 
 FxN_Object *fxi_evaluate_expressions(FxI_Interpreter *interpreter, FxP_Expression *expression) {
+  return NULL;
+}
+
+FxN_Object *fxi_evaluate_import(FxI_Interpreter *interpreter, FxP_ImportExpression *expression) {
+  // this part is a file async read
+  // if path expression is a string
+  //    file_contents = read the file from the bit value
+  // else
+  //    evaluate the expression, get the value from the string
+  //    file_contents = read the file
+  // end
+  //
+  // FxP_ParserContext *context = parse_string(file_contents);
+  // return fxi_evaluate(fxp_context_expressions(context));
   return NULL;
 }

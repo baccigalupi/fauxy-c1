@@ -4,6 +4,7 @@
 #include "parser_context.h"
 #include "expression_inspect.h"
 
+// repl of sorts, plus file parsing
 int main(int argc, char **argv) {
   FxP_ParserContext *context = NULL;
 
@@ -12,17 +13,9 @@ int main(int argc, char **argv) {
     char *data = argv[2];
 
     if (!strcmp(command, "-p")) {
-      // parse and inspect statement
       context = parse_string(data);
     } else if (!strcmp(command, "-f")) {
-      // parse from file and inspect statement
-      char *content = read_file(data);
-      if (!content) {
-        printf("file not found %s\n", data);
-      } else {
-        printf("%s\n", content);
-        context = parse_string(content);
-      }
+      context = parse_file(data);
     }
 
     if (context && !fxp_parser_context_error_code(context)) {
@@ -35,6 +28,7 @@ int main(int argc, char **argv) {
 
     while(!context) {
       context = parse_stdin();
+      printf("%s\n", fxp_parser_inspect(context));
       verify(context);
       fxp_parser_context_free(context);
     }

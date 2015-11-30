@@ -47,6 +47,16 @@ FxP_ParserContext *parse_string(char *str) {
   return parse_with_state(state);
 }
 
+FxP_ParserContext *parse_file(char *file_name) {
+  char *content = read_file(file_name);
+  verify(content);
+
+  return parse_string(content);
+error:
+  printf("file not found %s\n", file_name);
+  return NULL;
+}
+
 char *read_file(char *file_name) {
   FILE *file = fopen(file_name, "r");
   if (file) {
@@ -73,3 +83,5 @@ char *read_file(char *file_name) {
 error:
   return NULL;
 }
+
+

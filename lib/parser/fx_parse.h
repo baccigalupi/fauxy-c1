@@ -6,7 +6,7 @@
 
 FxP_ParserContext *parse_stdin();
 FxP_ParserContext *parse_string(char *str);
-
+FxP_ParserContext *parse_file(char *file_name);
 FxP_ParserContext *parse_with_state(FxP_LexWrapper state);
 
 char *read_file(char *file_name);

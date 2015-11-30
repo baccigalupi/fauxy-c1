@@ -20,5 +20,6 @@ FxN_Object *fxi_evaluate_local_assign(                  FxI_Interpreter *interpr
 FxN_Object *fxi_evaluate_attr_assign(                   FxI_Interpreter *interpreter, FxP_Expression *expression);
 FxN_Object *fxi_evaluate_colon_expression(              FxI_Interpreter *interpreter, FxP_Expression *expression);
 FxN_Object *fxi_evaluate_expressions(                   FxI_Interpreter *interpreter, FxP_Expression *expression);
+FxN_Object *fxi_evaluate_import(                        FxI_Interpreter *interpreter, FxP_Expression *expression);
 
 #endif
