@@ -29,7 +29,7 @@ char *test_string_key() {
   FxP_Literal *exp = FxP_Literal_create(bit, TOKEN_STRING);
   char *key = fxi_literal_key(exp);
 
-  assert_strings_equal(key, "266-Hello, world! How are you today!", "key is correct");
+  assert_strings_equal(key, "265-Hello, world! How are you today!", "key is correct");
 
   return NULL;
 }
@@ -41,7 +41,7 @@ char *test_eval_string_key() {
   FxP_Literal *exp = FxP_Literal_create(bit, TOKEN_EVAL_STRING);
   char *key = fxi_literal_key(exp);
 
-  assert_strings_equal(key, "267-Hello, world! How are you today!", "key is correct");
+  assert_strings_equal(key, "266-Hello, world! How are you today!", "key is correct");
 
   return NULL;
 }
@@ -53,7 +53,7 @@ char *test_large_integer_key() {
   FxP_Literal *exp = FxP_Literal_create(bit, TOKEN_INTEGER);
   char *key = fxi_literal_key(exp);
 
-  assert_strings_equal(key, "268-1234567890123456789", "key is correct");
+  assert_strings_equal(key, "267-1234567890123456789", "key is correct");
 
   return NULL;
 }

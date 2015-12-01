@@ -19,7 +19,6 @@ typedef FxP_Expression FxP_Grouped;
 typedef FxP_Expression FxP_List;
 typedef FxP_Expression FxP_MethodCallArguments;
 typedef FxP_Expression FxP_FunctionDefinitionArguments;
-typedef FxP_Expression FxP_LocalAssign;
 typedef FxP_Expression FxP_ColonExpression;
 typedef FxP_Expression FxP_Expressions;
 typedef FxP_Expression FxP_ImportExpression;
@@ -111,8 +110,7 @@ FxP_List *FxP_List_create_double(FxP_Expression *first, FxP_Expression *second);
 
 FxP_MethodCallArguments *fxp_method_call_arguments_convert(FxP_Expression *expression);
 
-// Local assignment: [variable, value]
-FxP_LocalAssign     *FxP_LocalAssign_create(FxP_Lookup *lookup, FxP_Expression *expression);
+// assignment: [variable, value]
 #define fxp_expression_left(E)             fxp_expression_value_at(E, 0)
 #define fxp_expression_set_left(E, V)      fxp_expression_value_set(E, 0, V)
 #define fxp_expression_right(E)            fxp_expression_value_at(E, 1)

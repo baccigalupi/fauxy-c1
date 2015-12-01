@@ -37,7 +37,7 @@
 %}
 
 %token TRUE FALSE
-%right LOCAL_ASSIGN COLON IMPORT
+%right COLON IMPORT
 %token SEMICOLON LINE_END COMMA
 %token STRING EVAL_STRING INTEGER FLOAT REGEX
 %token ID CLASS_ID DEFERRED_ARGUMENT
@@ -80,7 +80,6 @@ unterminated_expression
   | lookup                { $$ = $1; }
   | function              { $$ = $1; }
   | method_call           { $$ = $1; }
-  | local_assignment      { $$ = $1; }
   | colonized_expression  { $$ = $1; }
   | list                  { $$ = $1; }
   | import_expression     { $$ = $1; }
@@ -188,12 +187,6 @@ implicit_method_call /* puts "hello"; foo(1,2,3);  */
 
 /* ----------------
 ** Assignment related expressions
-*/
-
-local_assignment
-  : lookup LOCAL_ASSIGN unterminated_expression                 { $$ = FxP_LocalAssign_create($1, $2); }
-  ;
-
 /*
   either argument conditions in method def, named arguments, or local assignment:
 
@@ -203,7 +196,7 @@ local_assignment
   named arguments:
     Object.new(foo: 0, bar: 1)
 
-  local assignment:
+  assignment:
     foo: -> { Print.line 'foo' }
 */
 colonized_expression

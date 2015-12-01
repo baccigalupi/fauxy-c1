@@ -30,9 +30,7 @@ void *fxp_inspect(void *element) {
     unwrapped_pair = fxp_list_body_inspect(expression);
   } else if (type == FX_ST_FUNCTION_DEFINITION_ARGUMENTS) {
     unwrapped_pair = fxp_list_body_inspect(expression);
-  } else if (type == FX_ST_LOCAL_ASSIGN) {
-    unwrapped_pair = fxp_left_right_inspect(expression);
-  } else if (type == FX_ST_COLON_EXPRESSION) {
+  }  else if (type == FX_ST_COLON_EXPRESSION) {
     unwrapped_pair = fxp_left_right_inspect(expression);
   } else if (type == FX_ST_EXPRESSIONS) {
     unwrapped_pair = fxp_collection_body_inspect(expression);
@@ -444,7 +442,7 @@ error:
 }
 
 FxB_String *fxp_left_right_inspect(FxP_Expression *expression) {
-  // Local assignment: [local, value]
+  // assignment: [id, value]
   FxB_String *left_key = NULL;
   FxB_String *left_value = NULL;
   FxB_String *left_pair = NULL;
@@ -516,8 +514,6 @@ FxB_String *fxp_expression_type_description(FxP_Expression *expression) {
     description = FxB_String_create("method_arguments");
   } else if (type == FX_ST_FUNCTION_DEFINITION_ARGUMENTS) {
     description = FxB_String_create("function_arguments");
-  } else if (type == FX_ST_LOCAL_ASSIGN) {
-    description = FxB_String_create("local_assignment");
   } else if (type == FX_ST_COLON_EXPRESSION) {
     description = FxB_String_create("colon_expression");
   } else if (type == FX_ST_EXPRESSIONS) {

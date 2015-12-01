@@ -25,8 +25,6 @@ FxN_Object *fxi_evaluate(FxI_Interpreter *interpreter, FxP_Expression *expressio
     result = fxi_evaluate_method_call_arguments(interpreter, expression);
   } else if ( type == FX_ST_FUNCTION_DEFINITION_ARGUMENTS ) {
     result = fxi_evaluate_function_definition_arguments(interpreter, expression);
-  } else if ( type == FX_ST_LOCAL_ASSIGN ) {
-    result = fxi_evaluate_local_assign(interpreter, expression);
   } else if ( type == FX_ST_COLON_EXPRESSION ) {
     result = fxi_evaluate_attr_assign(interpreter, expression);
   } else if ( type == FX_ST_EXPRESSIONS ) {
@@ -112,10 +110,6 @@ FxN_Object *fxi_evaluate_grouped(FxI_Interpreter *interpreter, FxP_Expression *e
 }
 
 FxN_Object *fxi_evaluate_list(FxI_Interpreter *interpreter, FxP_Expression *expression) {
-  return NULL;
-}
-
-FxN_Object *fxi_evaluate_local_assign(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   return NULL;
 }
 

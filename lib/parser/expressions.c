@@ -259,19 +259,7 @@ error:
   return NULL;
 }
 
-FxP_LocalAssign *FxP_LocalAssign_create(FxP_Lookup *variable, FxP_Expression *value) {
-  FxP_FunctionDefinition *local = FxP_Expression_create(FX_ST_LOCAL_ASSIGN);
-  verify(local);
-
-  fxp_expression_set_left(local, variable);
-  fxp_expression_set_right(local, value);
-
-  return local;
-error:
-  return NULL;
-}
-
-FxP_LocalAssign *FxP_ColonExpression_create(FxP_Lookup *variable, FxP_Expression *value) {
+FxP_ColonExpression *FxP_ColonExpression_create(FxP_Lookup *variable, FxP_Expression *value) {
   FxP_FunctionDefinition *colon = FxP_Expression_create(FX_ST_COLON_EXPRESSION);
   verify(colon);
 

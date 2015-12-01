@@ -53,7 +53,6 @@ BREAK_SPACE ([ \t]*)?[\n]*([ \t]*)?
 {BREAK_SPACE}")"                  { FX_LexToken(TOKEN_CLOSE_PAREN); }
 {BREAK_SPACE}","{BREAK_SPACE}     { FX_LexToken(TOKEN_COMMA); }
 "_"                         	    { FX_LexToken(TOKEN_DEFERRED_ARGUMENT); }
-"::"                         	    { FX_LexToken(TOKEN_LOCAL_ASSIGN); }
 ":"                         	    { FX_LexToken(TOKEN_COLON); }
 "->"                         	    { FX_LexToken(TOKEN_FUNCTION_DECLARATION); }
 "{"                         	    { FX_LexToken(TOKEN_OPEN_BRACE); }
