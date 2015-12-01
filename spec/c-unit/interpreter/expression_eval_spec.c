@@ -196,6 +196,27 @@ char *test_function_declaration() {
   return NULL;
 }
 
+char *test_import_expression_on_global_space() {
+  spec_describe("import expression adds to global namespace");
+  setup_interpreter();
+
+  // currently path is from root run location, not relative to her or file require
+  FxP_Bit *bit                              = FxP_Bit_string_create("spec/c-unit/interpreter/fixtures/import-test.fx");
+  FxP_Literal *literal                      = FxP_Literal_create(bit, TOKEN_STRING);
+  FxP_ImportExpression *import_expression   = FxP_ImportExpression_create(literal);
+
+  FxN_Object *object = fxi_evaluate(interpreter, import_expression);
+  assert_equal(fxn_boolean_value(object), true, "returns the last expression return value from the import");
+
+  bit = FxP_Bit_string_create("it-worked?");
+  FxP_Lookup *lookup = FxP_Lookup_create(bit, TOKEN_ID);
+  object = fxi_evaluate(interpreter, lookup);
+
+  assert_equal(fxn_boolean_value(object), true, "import code run against current interpreter context");
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Interpreter");
 
@@ -210,6 +231,9 @@ char *all_specs() {
   run_spec(test_global_assignment_but_lookup_from_context);
 
   run_spec(test_function_declaration);
+
+  // can't run this until instance assignment is defined
+  /*run_spec(test_import_expression_on_global_space);*/
 
   spec_teardown();
 

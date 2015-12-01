@@ -128,15 +128,20 @@ FxN_Object *fxi_evaluate_expressions(FxI_Interpreter *interpreter, FxP_Expressio
 }
 
 FxN_Object *fxi_evaluate_import(FxI_Interpreter *interpreter, FxP_ImportExpression *expression) {
-  // this part is a file async read
-  // if path expression is a string
-  //    file_contents = read the file from the bit value
-  // else
-  //    evaluate the expression, get the value from the string
-  //    file_contents = read the file
-  // end
-  //
-  // FxP_ParserContext *context = parse_string(file_contents);
-  // return fxi_evaluate(fxp_context_expressions(context));
+  FxP_ParserContext *context = NULL;
+  FxP_Expression *path_expression = fxp_import_path_expression(expression);
+
+  if (fxp_expression_type(path_expression) == FX_ST_LITERAL && fxp_literal_bit_type(path_expression) == FX_BIT_STRING) {
+    context = parse_file(fxp_bit_string_value(fxp_literal_bit(path_expression)));
+    verify(context);
+    printf("%s\n", fxp_inspect(context));
+    /*return fxi_evaluate(interpreter, fxp_parser_current_context(context));*/
+  /* TODO: else if case around expression that resolves to string */
+  } else {
+    printf("%d %d\n", fxp_expression_type(path_expression), FX_ST_LITERAL);
+    puts("Runtime Error: File path expression is not a string.");
+    return NULL;
+  }
+error:
   return NULL;
 }

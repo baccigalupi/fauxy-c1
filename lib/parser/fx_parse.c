@@ -76,6 +76,9 @@ char *read_file(char *file_name) {
     char *file_contents = fxb_string_value(contents);
     fxb_string_free(contents);
 
+    // this is here for debugging mostly, take out as needed
+    printf("%s", file_contents);
+
     return file_contents;
   } else {
     return NULL;
