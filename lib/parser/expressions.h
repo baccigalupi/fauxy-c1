@@ -66,6 +66,7 @@ FxP_Literal *FxP_Literal_create(FxP_Bit *bit, int token_type);
 #define fxp_lookup__type(E)           fxp_typed__type(E)
 #define fxp_lookup_type(E)            fxp_typed_type(E)
 #define fxp_lookup_bit(E)             fxp_typed_bit(E)
+#define fxp_lookup_key(E)             fxp_bit_string_value(fxp_lookup_bit(E))
 
 FxP_Lookup  *FxP_Lookup_create(FxP_Bit *bit, int token_type);
 

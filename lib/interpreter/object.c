@@ -20,3 +20,11 @@ error:
   if (object) { fx_pfree(object); }
   return NULL;
 }
+
+FxN_Object *fxn_object_set(FxN_Object *self, char *key, FxN_Object *value) {
+  verify(fxn_object_is_open(self))
+  fxn_object_set_attribute(self, key, value);
+  return value;
+error:
+  return NULL;
+}

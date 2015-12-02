@@ -29,5 +29,6 @@
 #define fxn_object_free(O)                  (fxb_hash_map_free(fxn_object_attributes(O)), fx_pfree(O))
 
 FxN_Object *FxN_Object_create(FxI_Interpreter *interpreter, FxN_Object *scope);
+FxN_Object *fxn_object_set(FxN_Object *self, char *key, FxN_Object *value);
 
 #endif

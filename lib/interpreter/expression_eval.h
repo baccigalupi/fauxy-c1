@@ -18,6 +18,7 @@ FxN_Object *fxi_evaluate_function_definition_arguments( FxI_Interpreter *interpr
 FxN_Object *fxi_evaluate_method_call_arguments(         FxI_Interpreter *interpreter, FxP_Expression *expression);
 FxN_Object *fxi_evaluate_attr_assign(                   FxI_Interpreter *interpreter, FxP_Expression *expression);
 FxN_Object *fxi_evaluate_colon_expression(              FxI_Interpreter *interpreter, FxP_Expression *expression);
+FxN_Object *fxi_evaluate_assignment(                    FxI_Interpreter *interpreter, FxP_Expression *expression);
 FxN_Object *fxi_evaluate_expressions(                   FxI_Interpreter *interpreter, FxP_Expression *expression);
 FxN_Object *fxi_evaluate_import(                        FxI_Interpreter *interpreter, FxP_Expression *expression);
 

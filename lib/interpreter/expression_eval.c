@@ -113,12 +113,30 @@ FxN_Object *fxi_evaluate_list(FxI_Interpreter *interpreter, FxP_Expression *expr
   return NULL;
 }
 
-/*FxN_Object *fxi_evaluate_colon_expression(FxI_Interpreter *interpreter, FxP_Expression *expression) {*/
-  /*return NULL;*/
-/*}*/
+FxN_Object *fxi_evaluate_colon_expression(FxI_Interpreter *interpreter, FxP_Expression *expression) {
+  // need some disambiguation?
+  return fxi_evaluate_assignment(interpreter, expression);
+}
 
-FxN_Object *fxi_evaluate_expressions(FxI_Interpreter *interpreter, FxP_Expression *expression) {
+FxN_Object *fxi_evaluate_assignment(FxI_Interpreter *interpreter, FxP_Expression *expression) {
+  FxP_Lookup *left =      fxp_expression_left(expression);
+  FxP_Expression *right = fxp_expression_right(expression);
+
+  FxN_Object *value = fxi_evaluate(interpreter, right);
+
+  fxn_object_set(fxi_current_context(interpreter), fxp_lookup_key(left), value);
   return NULL;
+}
+
+FxN_Object *fxi_evaluate_expressions(FxI_Interpreter *interpreter, FxP_Expression *expressions) {
+  FxP_Expression *expression = NULL;
+  FxN_Object *object = NULL;
+  int i;
+  for (i = 0; i < fxp_expression_length(expressions); i++) {
+    expression = fxp_expression_value_at(expressions, i);
+    object = fxi_evaluate(interpreter, expression);
+  }
+  return object;
 }
 
 FxN_Object *fxi_evaluate_import(FxI_Interpreter *interpreter, FxP_ImportExpression *expression) {

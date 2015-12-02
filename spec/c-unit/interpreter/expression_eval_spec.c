@@ -97,8 +97,8 @@ char *test_interpet_literal_string() {
   return NULL;
 }
 
-char *test_global_assignment_of_literal() {
-  spec_describe("literal lookup evaluation: assigning literal to the top context and then retrieving it");
+char *test_global_assigned_lookup() {
+  spec_describe("test lookup of global");
   setup_interpreter();
 
   FxP_Bit     *value_bit =      FxP_Bit_string_create("Hello Fauxy world!");
@@ -120,8 +120,8 @@ char *test_global_assignment_of_literal() {
   return NULL;
 }
 
-char *test_context_assignment_of_literal() {
-  spec_describe("lookup evaluation: literal in current context (non-global)");
+char *test_context_lookup_of_literal() {
+  spec_describe("test lookup of attribute in local context");
   setup_interpreter();
 
   FxN_Object *object = FxN_Object_create(interpreter, NULL);
@@ -150,8 +150,8 @@ char *test_context_assignment_of_literal() {
   return NULL;
 }
 
-char *test_global_assignment_but_lookup_from_context() {
-  spec_describe("lookup evaluation: global level literal from context");
+char *test_context_lookup_of_global() {
+  spec_describe("test lookup of global from local context");
   setup_interpreter();
 
   FxN_Object *object = FxN_Object_create(interpreter, NULL);
@@ -217,6 +217,52 @@ char *test_import_expression_on_global_space() {
   return NULL;
 }
 
+char *test_assignment_to_global() {
+  spec_describe("assignment to global space");
+  setup_interpreter();
+
+  FxP_Bit *bit = FxP_Bit_string_create("it-worked?");
+  FxP_Lookup *lookup = FxP_Lookup_create(bit, TOKEN_ID);
+  FxP_Literal *true_literal = FxP_Literal_create(NULL, TOKEN_TRUE);
+
+  FxP_ColonExpression *assignment = FxP_ColonExpression_create(lookup, true_literal);
+
+  // set the variable in the interpreter context
+  FxN_Object *object = fxi_evaluate(interpreter, assignment);
+  assert_equal(fxn_boolean_value(object), true, "expression returns assigned value");
+
+  // evaluate the lookup to get the value ... easier
+  object = fxi_evaluate(interpreter, lookup);
+  assert_equal(fxn_boolean_value(object), true, "lookup retrieves the assigned value");
+
+  return NULL;
+}
+
+char *test_expressions_evaluation() {
+  spec_describe("evaluation of expressions");
+  setup_interpreter();
+
+  FxP_Bit *bit = FxP_Bit_string_create("it-worked?");
+  FxP_Lookup *lookup = FxP_Lookup_create(bit, TOKEN_ID);
+  FxP_Literal *true_literal = FxP_Literal_create(NULL, TOKEN_TRUE);
+  FxP_ColonExpression *assignment = FxP_ColonExpression_create(lookup, true_literal);
+
+  FxP_Literal *false_literal = FxP_Literal_create(NULL, TOKEN_FALSE);
+
+  FxP_Expressions *expressions = FxP_Expressions_create();
+  fxp_expression_push(expressions, assignment);
+  fxp_expression_push(expressions, false_literal);
+
+  FxN_Object *object = fxi_evaluate(interpreter, expressions);
+  assert_equal(fxn_boolean_value(object), false, "returns value of last expression");
+
+  // evaluate the lookup to get the value ... easier
+  object = fxi_evaluate(interpreter, lookup);
+  assert_equal(fxn_boolean_value(object), true, "evaluates earlier expressions");
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Interpreter");
 
@@ -226,9 +272,13 @@ char *all_specs() {
   run_spec(test_interpet_literal_decimal);
   run_spec(test_interpet_literal_string);
 
-  run_spec(test_global_assignment_of_literal);
-  run_spec(test_context_assignment_of_literal);
-  run_spec(test_global_assignment_but_lookup_from_context);
+  run_spec(test_global_assigned_lookup);
+  run_spec(test_context_lookup_of_literal);
+  run_spec(test_context_lookup_of_global);
+
+  run_spec(test_assignment_to_global);
+
+  run_spec(test_expressions_evaluation);
 
   run_spec(test_function_declaration);
 
