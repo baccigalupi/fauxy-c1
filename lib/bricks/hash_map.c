@@ -3,6 +3,9 @@
 #include "hash_map.h"
 #include "list.h"
 
+#include <math.h>
+#include <jansson.h>
+
 FxB_HashMap *FxB_HashMap_create(int capacity) {
   FxB_HashMap *hash_map = fx_alloc(FxB_Hash);
   verify_memory(hash_map);
@@ -139,4 +142,45 @@ void fxb_hash_map_free_list_values(FxB_HashMap *hash_map) {
       fxb_list_free(list);
     }
   }
+}
+
+CHAR  *fxb_hash_map_inspect(FxB_HashMap *hash_map) {
+  int flags = 0;
+  json_t *root = json_object();
+  json_t *hash_root = json_object();
+  json_object_set_new(root, "FxB_HashMap", hash_root);
+
+  int length = fxb_hash_map_capacity(hash_map);
+  FxB_Node *node = NULL;
+  FxB_List *fxb_node_list = NULL;
+  int i;
+  for (i = 0; i < length; i++) {
+    // bucket number key
+    int number_length = (ceil(log10(i))+1)*sizeof(char);
+    if (number_length <= 1) { number_length = 2; }
+    char number_key[number_length];
+    sprintf(number_key, "%d", i);
+
+    fxb_node_list = fxb_hash_map_list_at_index(hash_map, i);
+
+    json_t *json_arr = json_array();
+    json_object_set_new(hash_root, number_key, json_arr);
+
+    if (fxb_node_list) {
+      fxb_list_each(fxb_node_list, node) {
+        char *key = fxb_node_key(node);
+        json_array_append(json_arr, json_string(key));
+      }
+    }
+  }
+
+  char *raw_json = json_dumps(root, flags);
+  char *json = calloc(strlen(raw_json) + 1, sizeof(char));
+  verify_memory(json);
+  strcpy(json, raw_json);
+  json_decref(root);
+
+  return json;
+error:
+  return NULL;
 }

@@ -18,7 +18,7 @@ SO_TARGET=$(patsubst %.a,%.so,$(TARGET))
 
 all: bin/fauxy $(TARGET)
 
-dev: CFLAGS=-g -std=gnu11 -Wall -Wextra -Isrc $(OPTFLAGS)
+dev: CFLAGS=-g -std=gnu11 -Wall -Wextra -Isrc $(OPTFLAGS) $(LIBS)
 dev: all c-unit
 
 # converts to an archive static lib, produces build/fauxy.a

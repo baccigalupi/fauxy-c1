@@ -30,4 +30,6 @@ typedef enum { false, true }  Boolean;
 #define fx_alloc(S)         (calloc(1, sizeof(S)))
 #define fx_pfree(P)         ((P) != NULL) ? (free(P), ((P) = NULL)) : (NULL)
 
+#define inspect(S)          (printf("%s\n", S), free(S))
+
 #endif

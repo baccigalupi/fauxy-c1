@@ -145,6 +145,34 @@ char *test_getting_keys() {
   return NULL;
 }
 
+char *test_inspection() {
+  spec_describe("inspecting hashes");
+
+  FxB_HashMap *hash_map = FxB_HashMap_create(10);
+  FxB_String *value_1 = FxB_String_create("value");
+  FxB_String *value_2 = FxB_String_create("another value");
+
+  char *key1 = calloc(5, sizeof(char));
+  char *key2 = calloc(5, sizeof(char));
+  strcpy(key1, "key1");
+  strcpy(key2, "key2");
+
+  fxb_hash_map_set(hash_map, key1, value_1);
+  fxb_hash_map_set(hash_map, key2, value_2);
+
+  free(key1);
+  free(key2);
+
+  char *inspection = fxb_hash_map_inspect(hash_map);
+  inspect(inspection);
+
+  fxb_string_free(value_1);
+  fxb_string_free(value_2);
+  fxb_hash_map_free(hash_map);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Brick FxB_Hash");
 
@@ -154,6 +182,8 @@ char *all_specs() {
   run_spec(test_set_value_with_freed_key);
   run_spec(test_reset_value);
   run_spec(test_getting_keys);
+
+  run_spec(test_inspection);
 
   spec_teardown();
 
