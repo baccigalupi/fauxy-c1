@@ -35,6 +35,7 @@ FxB_String *fxb_json_gen_join_pairs(FxB_Array *pairs, char *joiner) {
 
   return joined;
 error:
+  if (joined) { fxb_string_free(joined); }
   return NULL;
 }
 
@@ -45,6 +46,7 @@ FxB_String *fxb_json_gen_wrap_pairs(FxB_Array *pairs) {
   verify(fxb_string_wrap(json, '{', '}'));
   return json;
 error:
+  if (json) { fxb_string_free(json); }
   return NULL;
 }
 
@@ -55,5 +57,6 @@ FxB_String *fxb_json_gen_wrap_array_pairs(FxB_Array *pairs) {
   verify(fxb_string_wrap(json, '[', ']'));
   return json;
 error:
+  if (json) { fxb_string_free(json); }
   return NULL;
 }
