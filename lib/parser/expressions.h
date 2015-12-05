@@ -59,6 +59,8 @@ void            fxp_expression_free_typed_guts(FxP_Expression *expression);
 #define fxp_literal_type(E)            fxp_typed_type(E)
 #define fxp_literal_bit(E)             fxp_typed_bit(E)
 #define fxp_literal_bit_type(E)        fxp_bit_type(fxp_typed_bit(E))
+#define fxp_literal_string_value(E)    fxp_bit_string_value(fxp_literal_bit(E))
+#define fxp_is_string_literal(E)       (fxp_expression_type(E) == FX_ST_LITERAL && fxp_literal_bit_type(E) == FX_BIT_STRING)
 
 FxP_Literal *FxP_Literal_create(FxP_Bit *bit, int token_type);
 

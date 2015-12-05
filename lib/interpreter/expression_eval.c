@@ -5,9 +5,16 @@
 #include "method_call_arguments.h"
 #include "../parser/_parser.h"
 
+#define DEBUG_INTERPRETER false
+
 FxN_Object *fxi_evaluate(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   int type = fxp_expression_type(expression);
   FxN_Object *result = NULL;
+
+  if (DEBUG_INTERPRETER) {
+    printf("current context has %d attributes\n", fxn_object_attributes_length(fxi_current_context(interpreter)));
+    printf("evaluating: %d %s\n", type, fxb_string_value((FxB_String *)fxp_inspect(expression)));
+  }
 
   if (type == FX_ST_LITERAL) {
     result = fxi_evaluate_literal(interpreter, expression);
@@ -39,6 +46,7 @@ FxN_Object *fxi_evaluate(FxI_Interpreter *interpreter, FxP_Expression *expressio
 
   return result;
 error:
+  printf("Evalutaion error: %s\n", fxb_string_value((FxB_String *)fxp_inspect(expression)));
   return NULL;
 }
 
@@ -68,9 +76,12 @@ error:
 FxN_Object *fxi_evaluate_attr_assign(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   FxP_Expression *value_expression = fxp_expression_right(expression);
   FxN_Object *result = fxi_evaluate(interpreter, value_expression);
+  verify(result);
   char *key = fxi_lookup_key(fxp_expression_left(expression));
   fxi_context_set(interpreter, key, result);
   return result;
+error:
+  return NULL;
 }
 
 FxN_Object *fxi_evaluate_lookup(FxI_Interpreter *interpreter, FxP_Expression *expression) {
@@ -123,14 +134,18 @@ FxN_Object *fxi_evaluate_assignment(FxI_Interpreter *interpreter, FxP_Expression
   FxP_Expression *right = fxp_expression_right(expression);
 
   FxN_Object *value = fxi_evaluate(interpreter, right);
+  verify(value)
 
+  printf("lookup key for assignement: %s\n", fxp_lookup_key(left));
   fxn_object_set(fxi_current_context(interpreter), fxp_lookup_key(left), value);
+  return value;
+error:
   return NULL;
 }
 
 FxN_Object *fxi_evaluate_expressions(FxI_Interpreter *interpreter, FxP_Expression *expressions) {
   FxP_Expression *expression = NULL;
-  FxN_Object *object = NULL;
+  FxN_Object *object = NULL_OBJECT;
   int i;
   for (i = 0; i < fxp_expression_length(expressions); i++) {
     expression = fxp_expression_value_at(expressions, i);
@@ -143,17 +158,31 @@ FxN_Object *fxi_evaluate_import(FxI_Interpreter *interpreter, FxP_ImportExpressi
   FxP_ParserContext *context = NULL;
   FxP_Expression *path_expression = fxp_import_path_expression(expression);
 
-  if (fxp_expression_type(path_expression) == FX_ST_LITERAL && fxp_literal_bit_type(path_expression) == FX_BIT_STRING) {
-    context = parse_file(fxp_bit_string_value(fxp_literal_bit(path_expression)));
-    verify(context);
-    printf("%s\n", fxp_inspect(context));
-    /*return fxi_evaluate(interpreter, fxp_parser_current_context(context));*/
-  /* TODO: else if case around expression that resolves to string */
-  } else {
-    printf("%d %d\n", fxp_expression_type(path_expression), FX_ST_LITERAL);
-    puts("Runtime Error: File path expression is not a string.");
-    return NULL;
-  }
+  // TODO: allow other expressions and verify result is a string
+  verify(fxp_is_string_literal(path_expression));
+
+  context = parse_file(fxp_literal_string_value(path_expression));
+  verify(context);
+
+  FxN_Object *object = fxi_evaluate_parser(interpreter, context);
+  // TODO: free the parser
+  return object;
 error:
+  printf("%d %d\n", fxp_expression_type(path_expression), FX_ST_LITERAL);
+  puts("Runtime Error: File path expression is not a string.");
   return NULL;
+}
+
+FxN_Object *fxi_evaluate_parser(FxI_Interpreter *interpreter, FxP_ParserContext *context) {
+  FxB_List *list = fxp_parser_context_list(context);
+  FxB_Node *node = NULL;
+  FxP_Expressions *expressions = NULL;
+  FxN_Object *object = NULL_OBJECT;
+
+  for (node = fxb_list_node_first(list); node != NULL; node = fxb_node_next(node)) {
+    expressions = fxb_node_value(node);
+    object = fxi_evaluate(interpreter, expressions);
+  }
+
+  return object;
 }

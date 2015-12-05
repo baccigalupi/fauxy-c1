@@ -196,32 +196,11 @@ char *test_function_declaration() {
   return NULL;
 }
 
-char *test_import_expression_on_global_space() {
-  spec_describe("import expression adds to global namespace");
-  setup_interpreter();
-
-  // currently path is from root run location, not relative to her or file require
-  FxP_Bit *bit                              = FxP_Bit_string_create("spec/c-unit/interpreter/fixtures/import-test.fx");
-  FxP_Literal *literal                      = FxP_Literal_create(bit, TOKEN_STRING);
-  FxP_ImportExpression *import_expression   = FxP_ImportExpression_create(literal);
-
-  FxN_Object *object = fxi_evaluate(interpreter, import_expression);
-  assert_equal(fxn_boolean_value(object), true, "returns the last expression return value from the import");
-
-  bit = FxP_Bit_string_create("it-worked?");
-  FxP_Lookup *lookup = FxP_Lookup_create(bit, TOKEN_ID);
-  object = fxi_evaluate(interpreter, lookup);
-
-  assert_equal(fxn_boolean_value(object), true, "import code run against current interpreter context");
-
-  return NULL;
-}
-
 char *test_assignment_to_global() {
   spec_describe("assignment to global space");
   setup_interpreter();
 
-  FxP_Bit *bit = FxP_Bit_string_create("it-worked?");
+  FxP_Bit *bit = FxP_Bit_string_create("whatever");
   FxP_Lookup *lookup = FxP_Lookup_create(bit, TOKEN_ID);
   FxP_Literal *true_literal = FxP_Literal_create(NULL, TOKEN_TRUE);
 
@@ -242,7 +221,7 @@ char *test_expressions_evaluation() {
   spec_describe("evaluation of expressions");
   setup_interpreter();
 
-  FxP_Bit *bit = FxP_Bit_string_create("it-worked?");
+  FxP_Bit *bit = FxP_Bit_string_create("what-do-you-think?");
   FxP_Lookup *lookup = FxP_Lookup_create(bit, TOKEN_ID);
   FxP_Literal *true_literal = FxP_Literal_create(NULL, TOKEN_TRUE);
   FxP_ColonExpression *assignment = FxP_ColonExpression_create(lookup, true_literal);
@@ -259,6 +238,29 @@ char *test_expressions_evaluation() {
   // evaluate the lookup to get the value ... easier
   object = fxi_evaluate(interpreter, lookup);
   assert_equal(fxn_boolean_value(object), true, "evaluates earlier expressions");
+
+  return NULL;
+}
+
+char *test_import_expression_on_global_space() {
+  spec_describe("import expression adds to global namespace");
+  setup_interpreter();
+
+  // currently path is from root run location, not relative to here or file require
+  FxP_Bit *bit                              = FxP_Bit_string_create("spec/c-unit/interpreter/fixtures/import-test.fx");
+  FxP_Literal *literal                      = FxP_Literal_create(bit, TOKEN_STRING);
+  FxP_ImportExpression *import_expression   = FxP_ImportExpression_create(literal);
+
+  FxN_Object *object = fxi_evaluate(interpreter, import_expression);
+  assert_equal(fxn_boolean_value(object), true, "returns the last expression return value from the import");
+
+  bit = FxP_Bit_string_create("it-worked?");
+  FxP_Lookup *lookup = FxP_Lookup_create(bit, TOKEN_ID);
+  object = fxi_evaluate(interpreter, lookup);
+  printf("object %p\n", object);
+
+  // this is segfaulting because the object is not found via lookup
+  assert_equal(fxn_boolean_value(object), true, "import code run against current interpreter context");
 
   return NULL;
 }
@@ -282,8 +284,7 @@ char *all_specs() {
 
   run_spec(test_function_declaration);
 
-  // can't run this until instance assignment is defined
-  /*run_spec(test_import_expression_on_global_space);*/
+  run_spec(test_import_expression_on_global_space);
 
   spec_teardown();
 

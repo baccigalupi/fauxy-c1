@@ -424,6 +424,23 @@ char *test_import_expression() {
   return NULL;
 }
 
+char *test_parse_from_file() {
+  spec_describe("parsing content of file, should work the same");
+
+  FxP_ParserContext *context = parse_file("spec/c-unit/interpreter/fixtures/import-test.fx");
+  FxB_String *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\"expressions\": [\n"
+                      "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"it-worked?\"}}}, \"right\": {\"literal\": {\"class\": \"Boolean\", \"value\": true}}}}\n"
+                    "]}";
+
+  assert_strings_equal(fxb_string_value(inspection), expected, "ast");
+
+  fxp_parser_context_free(context);
+  fxb_string_free(inspection);
+
+  return NULL;
+}
+
 char *all_specs() {
   spec_setup("Parsing Expressions");
 
@@ -455,6 +472,8 @@ char *all_specs() {
   run_spec(test_block_assignment);
 
   run_spec(test_import_expression);
+
+  run_spec(test_parse_from_file);
 
   spec_teardown();
 
