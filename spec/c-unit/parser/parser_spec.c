@@ -375,7 +375,7 @@ char *test_native_assignment() {
   FxB_String *inspection = fxp_parser_inspect(context);
   char *expected =  "{\"expressions\": [\n"
                     "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"to_s\"}}}, \"right\": {\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"native\"}}}, \"method_arguments\": [\n"
-                    "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"fxn_native...\"}}}\n"
+                    "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"fxn_native_to_s\"}}}\n"
                     "]}}}}\n"
                     "]}";
 

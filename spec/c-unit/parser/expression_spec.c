@@ -24,7 +24,7 @@ char *test_inspect_literal_with_bit() {
   FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_STRING);
 
   FxB_String *inspection = fxp_inspect(literal);
-  assert_strings_equal(fxb_string_value(inspection), "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}", "json");
+  assert_strings_equal(fxb_string_value(inspection), "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello world\"}}}", "json");
 
   fxp_expression_free(literal);
   fxb_string_free(inspection);
@@ -74,7 +74,7 @@ char *test_inspect_list() {
   FxP_List    *list = FxP_List_create_double(arg_1, arg_2);
 
   FxB_String *inspection = fxp_inspect(list);
-  char *expected = "{\"list\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}";
+  char *expected = "{\"list\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello world\"}}}\n]}";
   assert_strings_equal(fxb_string_value(inspection), expected, "json");
 
   fxp_expression_free(list);
@@ -95,7 +95,7 @@ char *test_inspect_implicit_method() {
   // print "hello world"
   FxP_MethodCall*method = FxP_MethodCall_create_implicit(message, arg);
   FxB_String *inspection = fxp_inspect(method);
-  char *expected = "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"method_arguments\": [\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}\n]}}";
+  char *expected = "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"method_arguments\": [\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello world\"}}}\n]}}";
   assert_strings_equal(fxb_string_value(inspection), expected, "json");
 
   fxp_expression_free(method);
@@ -174,7 +174,7 @@ char *test_inspect_colon_expression() {
 
   char *expected = "{\"colon_expression\": {"
                       "\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"greeting\"}}}, "
-                      "\"right\": {\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello worl...\"}}}"
+                      "\"right\": {\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello world\"}}}"
                    "}}";
 
   assert_strings_equal(fxb_string_value(inspection), expected, "json");

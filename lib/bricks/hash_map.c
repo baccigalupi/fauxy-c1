@@ -1,6 +1,7 @@
 #include "helpers.h"
 
 #include "hash_map.h"
+#include "json_gen.h"
 #include "list.h"
 
 #include <math.h>
@@ -145,7 +146,6 @@ void fxb_hash_map_free_list_values(FxB_HashMap *hash_map) {
 }
 
 CHAR  *fxb_hash_map_inspect(FxB_HashMap *hash_map) {
-  int flags = 0;
   json_t *root = json_object();
   json_t *hash_root = json_object();
   json_object_set_new(root, "FxB_HashMap", hash_root);
@@ -174,11 +174,7 @@ CHAR  *fxb_hash_map_inspect(FxB_HashMap *hash_map) {
     }
   }
 
-  char *raw_json = json_dumps(root, flags);
-  char *json = calloc(strlen(raw_json) + 1, sizeof(char));
-  verify_memory(json);
-  strcpy(json, raw_json);
-  json_decref(root);
+  json_gen(root);
 
   return json;
 error:
