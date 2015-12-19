@@ -23,11 +23,20 @@ char *test_inspect_literal_with_bit() {
   FxP_Bit *bit = FxP_Bit_string_create("\"hello world\"");
   FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_STRING);
 
-  FxB_String *inspection = fxp_inspect(literal);
-  assert_strings_equal(fxb_string_value(inspection), "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello world\"}}}", "json");
+  char *inspection = fxp_inspect(literal);
+  char *expected = "{\n"
+  "  \"literal\": {\n"
+  "    \"bit\": {\n"
+  "      \"STRING\": \"hello world\"\n"
+  "    },\n"
+  "    \"class\": \"String\"\n"
+  "  }\n"
+  "}";
+
+  assert_strings_equal(inspection, expected, "json");
 
   fxp_expression_free(literal);
-  fxb_string_free(inspection);
+  free(inspection);
 
   return NULL;
 }
@@ -37,11 +46,18 @@ char *test_inspect_literal_without_bit() {
 
   FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_TRUE);
 
-  FxB_String *inspection = fxp_inspect(literal);
-  assert_strings_equal(fxb_string_value(inspection), "{\"literal\": {\"class\": \"Boolean\", \"value\": true}}", "json");
+  char *inspection = fxp_inspect(literal);
+  char *expected = "{\n"
+    "  \"literal\": {\n"
+    "    \"value\": true,\n"
+    "    \"class\": \"Boolean\"\n"
+    "  }\n"
+    "}";
+
+  assert_strings_equal(inspection, expected, "json");
 
   fxp_expression_free(literal);
-  fxb_string_free(inspection);
+  free(inspection);
 
   return NULL;
 }
@@ -53,11 +69,20 @@ char *test_inspect_lookup() {
   FxP_Bit *bit = FxP_Bit_string_create("foo");
   FxP_Literal *lookup = FxP_Lookup_create(bit, TOKEN_ID);
 
-  FxB_String *inspection = fxp_inspect(lookup);
-  assert_strings_equal(fxb_string_value(inspection), "{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}}", "json");
+  char *inspection = fxp_inspect(lookup);
+  char *expected = "{\n"
+    "  \"lookup\": {\n"
+    "    \"type\": \"Identifier\",\n"
+    "    \"bit\": {\n"
+    "      \"STRING\": \"foo\"\n"
+    "    }\n"
+    "  }\n"
+    "}";
+
+  assert_strings_equal(inspection, expected, "json");
 
   fxp_expression_free(lookup);
-  fxb_string_free(inspection);
+  free(inspection);
 
   return NULL;
 }
@@ -73,12 +98,32 @@ char *test_inspect_list() {
 
   FxP_List    *list = FxP_List_create_double(arg_1, arg_2);
 
-  FxB_String *inspection = fxp_inspect(list);
-  char *expected = "{\"list\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello world\"}}}\n]}";
-  assert_strings_equal(fxb_string_value(inspection), expected, "json");
+  char *inspection = fxp_inspect(list);
+  char *expected = "{\n"
+    "  \"list\": [\n"
+    "    {\n"
+    "      \"lookup\": {\n"
+    "        \"type\": \"Identifier\",\n"
+    "        \"bit\": {\n"
+    "          \"STRING\": \"foo\"\n"
+    "        }\n"
+    "      }\n"
+    "    },\n"
+    "    {\n"
+    "      \"literal\": {\n"
+    "        \"bit\": {\n"
+    "          \"STRING\": \"hello world\"\n"
+    "        },\n"
+    "        \"class\": \"String\"\n"
+    "      }\n"
+    "    }\n"
+    "  ]\n"
+    "}";
+
+  assert_strings_equal(inspection, expected, "json");
 
   fxp_expression_free(list);
-  fxb_string_free(inspection);
+  free(inspection);
 
   return NULL;
 }
@@ -94,12 +139,34 @@ char *test_inspect_implicit_method() {
 
   // print "hello world"
   FxP_MethodCall*method = FxP_MethodCall_create_implicit(message, arg);
-  FxB_String *inspection = fxp_inspect(method);
-  char *expected = "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"method_arguments\": [\n{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello world\"}}}\n]}}";
-  assert_strings_equal(fxb_string_value(inspection), expected, "json");
+  char *inspection = fxp_inspect(method);
+  char *expected = "{\n"
+    "  \"method_call\": {\n"
+    "    \"message\": {\n"
+    "      \"lookup\": {\n"
+    "        \"type\": \"Identifier\",\n"
+    "        \"bit\": {\n"
+    "          \"STRING\": \"print\"\n"
+    "        }\n"
+    "      }\n"
+    "    },\n"
+    "    \"arguments\": [\n"
+    "      {\n"
+    "        \"literal\": {\n"
+    "          \"bit\": {\n"
+    "            \"STRING\": \"hello world\"\n"
+    "          },\n"
+    "          \"class\": \"String\"\n"
+    "        }\n"
+    "      }\n"
+    "    ]\n"
+    "  }\n"
+    "}";
+
+  assert_strings_equal(inspection, expected, "json");
 
   fxp_expression_free(method);
-  fxb_string_free(inspection);
+  free(inspection);
 
   return NULL;
 }
@@ -116,12 +183,31 @@ char *test_inspect_method_no_args() {
   // printer.print
   FxP_MethodCall*method = FxP_MethodCall_create_no_args(receiver, message);
 
-  FxB_String *inspection = fxp_inspect(method);
-  char *expected = "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"printer\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}}}";
-  assert_strings_equal(fxb_string_value(inspection), expected, "json");
+  char *inspection = fxp_inspect(method);
+  char *expected = "{\n"
+    "  \"method_call\": {\n"
+    "    \"receiver\": {\n"
+    "      \"lookup\": {\n"
+    "        \"type\": \"Identifier\",\n"
+    "        \"bit\": {\n"
+    "          \"STRING\": \"printer\"\n"
+    "        }\n"
+    "      }\n"
+    "    },\n"
+    "    \"message\": {\n"
+    "      \"lookup\": {\n"
+    "        \"type\": \"Identifier\",\n"
+    "        \"bit\": {\n"
+    "          \"STRING\": \"print\"\n"
+    "        }\n"
+    "      }\n"
+    "    }\n"
+    "  }\n"
+    "}";
+  assert_strings_equal(inspection, expected, "json");
 
   fxp_expression_free(method);
-  fxb_string_free(inspection);
+  free(inspection);
 
   return NULL;
 }
@@ -146,15 +232,37 @@ char *test_inspect_function() {
   FxP_FunctionDefinition *function = FxP_FunctionDefinition_create(arguments);
   fxp_function_definition_set_expressions(function, expressions);
 
-  FxB_String *inspection = fxp_inspect(function);
-  char *expected = "{\"function_definition\": {"
-                      "\"function_arguments\": [\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"foo\"}}},\n{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"bar\"}}}\n], "
-                      "\"expressions\": [\n\n]"
-                    "}}";
-  assert_strings_equal(fxb_string_value(inspection), expected, "json");
+  char *inspection = fxp_inspect(function);
+  char *expected = "{\n"
+    "  \"function_definition\": {\n"
+    "    \"arguments\": {\n"
+    "      \"function_arguments\": [\n"
+    "        {\n"
+    "          \"lookup\": {\n"
+    "            \"type\": \"Identifier\",\n"
+    "            \"bit\": {\n"
+    "              \"STRING\": \"foo\"\n"
+    "            }\n"
+    "          }\n"
+    "        },\n"
+    "        {\n"
+    "          \"lookup\": {\n"
+    "            \"type\": \"Identifier\",\n"
+    "            \"bit\": {\n"
+    "              \"STRING\": \"bar\"\n"
+    "            }\n"
+    "          }\n"
+    "        }\n"
+    "      ]\n"
+    "    },\n"
+    "    \"expressions\": []\n"
+    "  }\n"
+    "}";
+
+  assert_strings_equal(inspection, expected, "json");
 
   fxp_expression_free(function);
-  fxb_string_free(inspection);
+  free(inspection);
 
   return NULL;
 }
@@ -170,17 +278,75 @@ char *test_inspect_colon_expression() {
   FxP_Literal *value = FxP_Literal_create(bit_2, TOKEN_STRING);
 
   FxP_Expression *attr_assignment = FxP_ColonExpression_create(attr, value);
-  FxB_String *inspection = fxp_inspect(attr_assignment);
+  char *inspection = fxp_inspect(attr_assignment);
 
-  char *expected = "{\"colon_expression\": {"
-                      "\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"greeting\"}}}, "
-                      "\"right\": {\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"hello world\"}}}"
-                   "}}";
+  char *expected = "{\n"
+    "  \"colon_expression\": {\n"
+    "    \"left\": {\n"
+    "      \"lookup\": {\n"
+    "        \"type\": \"Identifier\",\n"
+    "        \"bit\": {\n"
+    "          \"STRING\": \"greeting\"\n"
+    "        }\n"
+    "      }\n"
+    "    },\n"
+    "    \"right\": {\n"
+    "      \"literal\": {\n"
+    "        \"bit\": {\n"
+    "          \"STRING\": \"hello world\"\n"
+    "        },\n"
+    "        \"class\": \"String\"\n"
+    "      }\n"
+    "    }\n"
+    "  }\n"
+    "}";
 
-  assert_strings_equal(fxb_string_value(inspection), expected, "json");
+  assert_strings_equal(inspection, expected, "json");
 
   fxp_expression_free(attr_assignment);
-  fxb_string_free(inspection);
+  free(inspection);
+
+  return NULL;
+}
+
+char *test_inspect_expressions() {
+  spec_describe("inspecting expressions");
+
+  FxP_Bit     *bit_1 = FxP_Bit_string_create("greeting");
+  FxP_Literal *lookup = FxP_Lookup_create(bit_1, TOKEN_ID);
+
+  FxP_Bit     *bit_2 = FxP_Bit_string_create("\"hello world\"");
+  FxP_Literal *string = FxP_Literal_create(bit_2, TOKEN_STRING);
+
+  FxP_Expressions *expressions = FxP_Expressions_create();
+  fxp_expression_push(expressions, lookup);
+  fxp_expression_push(expressions, string);
+
+  char *inspection = fxp_inspect(expressions);
+  char *expected = "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"lookup\": {\n"
+"        \"type\": \"Identifier\",\n"
+"        \"bit\": {\n"
+"          \"STRING\": \"greeting\"\n"
+"        }\n"
+"      }\n"
+"    },\n"
+"    {\n"
+"      \"literal\": {\n"
+"        \"bit\": {\n"
+"          \"STRING\": \"hello world\"\n"
+"        },\n"
+"        \"class\": \"String\"\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
+  assert_strings_equal(inspection, expected, "json");
+
+  fxp_expression_free(expressions);
+  free(inspection);
 
   return NULL;
 }
@@ -197,6 +363,7 @@ char *all_specs() {
   run_spec(test_inspect_method_no_args);
   run_spec(test_inspect_function);
   run_spec(test_inspect_colon_expression);
+  run_spec(test_inspect_expressions);
 
   spec_teardown();
 

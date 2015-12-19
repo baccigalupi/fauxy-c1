@@ -85,13 +85,13 @@ FxP_FunctionDefinition *FxP_FunctionDefinition_create(FxP_List *list);
 #define fxp_method_call_receiver(E)           fxp_expression_value_at(E, 0)
 #define fxp_method_call_set_receiver(E, V)    fxp_expression_value_set(E, 0, V)
 #define fxp_method_call_message(E)            fxp_expression_value_at(E, 1)
+#define fxp_method_call_message_char(E)       fxp_lookup_key(fxp_expression_value_at(E, 1))
 #define fxp_method_call_set_message(E, V)     fxp_expression_value_set(E, 1, V)
 #define fxp_method_call_arguments(E)          fxp_expression_value_at(E, 2)
 #define fxp_method_call_set_arguments(E, V)   fxp_expression_value_set(E, 2, V)
 #define FxP_MethodCall_create()               FxP_Expression_create(FX_ST_METHOD_CALL)
 
 FxP_MethodCall *FxP_MethodCall_create_implicit(FxP_Literal *message, FxP_Expression *argument);
-FxP_MethodCall *fxp_method_call_convert_implicit(FxP_MethodCall *self, FxP_Expression *receivier);
 FxP_MethodCall *FxP_MethodCall_create_no_args(FxP_Expression *receiver, FxP_Literal *message);
 FxP_MethodCall *FxP_MethodCall_create_negation(FxP_Expression *receiver, FxP_Bit *not_id);
 FxP_MethodCall *FxP_MethodCall_create_args(FxP_Expression *receiver, FxP_Literal *message, FxP_Expression *argument);

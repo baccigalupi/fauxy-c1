@@ -4,7 +4,6 @@
 
 #include "../bricks/helpers.h"
 #include "../bricks/string.h"
-#include "../bricks/json_gen.h"
 
 FxP_Bit *FxP_Bit_string_create(char *text) {
   FxP_Bit *bit = fx_alloc(FxP_Bit);
@@ -113,6 +112,21 @@ FxB_String *fxp_bit_type_description(FxP_Bit *bit) {
 }
 
 FxB_String *fxp_bit_inspect(FxP_Bit *bit) {
+  json_t *root = fxp_bit_body_inspect(bit);
+  FxB_String *json = NULL;
+
+  verify(root);
+  json = FxB_String_create(generate_json_chars(root));
+  verify(json);
+
+  json_decref(root);
+  return json;
+error:
+  if (root) { json_decref(root); }
+  return NULL;
+}
+
+json_t *fxp_bit_body_inspect(FxP_Bit *bit) {
   int type = fxp_bit_type(bit);
   json_t *root = NULL;
   FxB_String *bit_value = NULL;
@@ -138,17 +152,12 @@ FxB_String *fxp_bit_inspect(FxP_Bit *bit) {
     json_object_set_new(root, fxb_string_value(bit_key), json_string(fxp_bit_string_value(bit)));
   }
 
-  FxB_String *json = FxB_String_create(generate_json_chars(root));
-  verify(json);
-
-  json_decref(root);
   fxb_string_free(bit_key);
   if (bit_value) { fxb_string_free(bit_value); }
 
-  return json;
+  return root;
 error:
-  if (bit_key) { fxb_string_free(bit_key); }
-  if (bit_value) { fxb_string_free(bit_value); }
-  if (root) { json_decref(root); }
+  if (bit_key)    { fxb_string_free(bit_key); }
+  if (bit_value)  { fxb_string_free(bit_value); }
   return NULL;
 }

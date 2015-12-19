@@ -8,7 +8,6 @@ char *test_interpet_literal_true() {
   FxN_Object *object = fxi_evaluate(interpreter, literal);
 
   assert_truthy(fxn_boolean_value(object) == true,  "returned object is true");
-  /*assert_truthy(,  "returned object is true");*/
   // assert that object has the right class
 
   FxN_Object *stored_object = fxi_literal_get(interpreter, TRUE_KEY);

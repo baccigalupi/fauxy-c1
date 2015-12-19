@@ -79,7 +79,7 @@ char *test_string_inspection() {
 
   FxB_String *inspection = fxp_bit_inspect(bit);
 
-  assert_strings_equal(fxb_string_value(inspection), "{\"STRING\": \"what\"}", "representation");
+  assert_string_includes(fxb_string_value(inspection), "\"STRING\": \"what\"", "representation");
 
   fxp_bit_free(bit);
 
@@ -96,7 +96,7 @@ char *test_integer_inspection() {
 
   FxB_String *inspection = fxp_bit_inspect(bit);
 
-  assert_strings_equal(fxb_string_value(inspection), "{\"INTEGER\": 23}", "representation");
+  assert_string_includes(fxb_string_value(inspection), "\"INTEGER\": 23", "representation");
 
   fxp_bit_free(bit);
 
@@ -113,7 +113,7 @@ char *test_long_integer_inspection() {
 
   FxB_String *inspection = fxp_bit_inspect(bit);
 
-  assert_strings_equal(fxb_string_value(inspection), "{\"INTEGER\": 23004567}", "representation");
+  assert_string_includes(fxb_string_value(inspection), "\"INTEGER\": 23004567", "representation");
 
   fxp_bit_free(bit);
 
@@ -131,7 +131,7 @@ char *test_float_inspection() {
 
   FxB_String *inspection = fxp_bit_inspect(bit);
 
-  assert_strings_equal(fxb_string_value(inspection), "{\"DECIMAL\": 230.0456}", "representation");
+  assert_string_includes(fxb_string_value(inspection), "\"DECIMAL\": 230.0456", "representation");
 
   fxp_bit_free(bit);
 
@@ -148,7 +148,7 @@ char *test_exponent_inspection() {
 
   FxB_String *inspection = fxp_bit_inspect(bit);
 
-  assert_strings_equal(fxb_string_value(inspection), "{\"DECIMAL\": 0.0014}", "representation");
+  assert_string_includes(fxb_string_value(inspection), "\"DECIMAL\": 0.0014", "representation");
 
   fxp_bit_free(bit);
 

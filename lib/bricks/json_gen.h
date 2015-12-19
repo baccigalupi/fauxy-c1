@@ -6,7 +6,7 @@
 
 #include <jansson.h>
 
-#define JSON_FLAGS 0
+#define JSON_FLAGS JSON_INDENT(2) | JSON_PRESERVE_ORDER
 #define generate_json_chars(S)  json_dumps(S, JSON_FLAGS)
 
 // macro that sets flag defaults generate the json, copies to new memory and returns it
@@ -16,10 +16,5 @@
                       verify_memory(json);                                      \
                       strcpy(json, raw_json);                                   \
                       json_decref(S);
-
-FxB_String *fxb_json_gen_bald_pair(FxB_String *key, FxB_String *value);
-FxB_String *fxb_json_gen_join_pairs(FxB_Array *pairs, char *joiner);
-FxB_String *fxb_json_gen_wrap_pairs(FxB_Array *pairs);
-FxB_String *fxb_json_gen_wrap_array_pairs(FxB_Array *pairs);
 
 #endif

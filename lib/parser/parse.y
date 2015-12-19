@@ -232,10 +232,10 @@ id_lookup
   ;
 
 operator /* for precedence */
-  : AND             { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
-  | OR              { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
-  | EQUALITY        { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
-  | STRICT_EQUALITY { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_ID); }
+  : AND             { $$ = FxP_Lookup_create((FxP_Bit *)$1, TOKEN_ID); }
+  | OR              { $$ = FxP_Lookup_create((FxP_Bit *)$1, TOKEN_ID); }
+  | EQUALITY        { $$ = FxP_Lookup_create((FxP_Bit *)$1, TOKEN_ID); }
+  | STRICT_EQUALITY { $$ = FxP_Lookup_create((FxP_Bit *)$1, TOKEN_ID); }
   ;
 
 lex_error

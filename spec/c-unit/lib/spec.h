@@ -29,6 +29,7 @@
 #define print_float_expectation(A, B)   (printf("    Expected %f to be %f\n", (float)A, (float)B))
 #define print_string_expectation(A, B)  (printf("    Expected '%s' to be    '%s'\n", A, B))
 #define print_pointer_expectation(A, B) (printf("    Expected %p to be %p\n", A, B))
+#define print_string_include_expectation(A, B) (printf("    Expected '%s' to include    '%s'\n", A, B))
 
 #define assert_truthy(A, S)       (                                                                 \
                                     (!!(A)) ?                                                       \
@@ -56,6 +57,12 @@
                                         ((++assertions_passed), (print_success(S))) :                                                       \
                                         ((++assertions_failed), (print_failure(S)), (print_location()), (print_string_expectation(A, B)))   \
                                       )
+
+#define assert_string_includes(A, B, S) (                                                                                                           \
+                                          strstr(A, B) ?                                                                                            \
+                                          ((++assertions_passed), (print_success(S))) :                                                             \
+                                          ((++assertions_failed), (print_failure(S)), (print_location()), (print_string_include_expectation(A, B))) \
+                                        )
 
 #define run_spec(S)                S(); specs_run++;
 

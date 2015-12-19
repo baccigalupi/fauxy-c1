@@ -108,11 +108,6 @@ error:
   return NULL;
 }
 
-FxP_MethodCall *fxp_method_call_convert_implicit(FxP_MethodCall *self, FxP_Expression *receiver) {
-  fxp_method_call_set_receiver(self, receiver);
-  return self;
-}
-
 FxP_MethodCall *fxp_method_call_add_function_definition_argument(FxP_MethodCall *method, FxP_FunctionDefinition *function) {
   FxP_MethodCallArguments *list;
 
