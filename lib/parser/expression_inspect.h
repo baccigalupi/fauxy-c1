@@ -17,7 +17,4 @@ json_t *fxp_backwards_list_body(      FxP_Expression *expression);
 json_t *fxp_left_right_body(          FxP_Expression *expression);
 json_t *fxp_import_body(              FxP_Expression *expression);
 
-FxB_String *fxp_literal_class_description(FxP_Literal *literal);
-FxB_String *fxp_lookup_type_description(FxP_Lookup *literal);
-
 #endif

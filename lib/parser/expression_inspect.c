@@ -82,11 +82,28 @@ error:
 json_t *fxp_literal_body(FxP_Literal *expression) {
   /*{"class": "String", "bit": {"STRING": "hello world"}}"*/
   json_t *root = json_object();
-  FxB_String *class_value = fxp_literal_class_description(expression);
+  char *description;
   json_t *bit_body = NULL;
 
   verify(root);
-  verify(class_value);
+
+  if (fxp_literal_type(expression) == TOKEN_STRING) {
+    description = "String";
+  } else if (fxp_literal_type(expression) == TOKEN_EVAL_STRING) {
+    description = "EvalString";
+  } else if (fxp_literal_type(expression) == TOKEN_REGEX) {
+    description = "Regex";
+  } else if (fxp_literal_type(expression) == TOKEN_INTEGER) {
+    description = "Integer";
+  } else if (fxp_literal_type(expression) == TOKEN_FLOAT) {
+    description = "Float";
+  } else if (fxp_literal_type(expression) == TOKEN_TRUE) {
+    description = "Boolean";
+  } else if (fxp_literal_type(expression) == TOKEN_FALSE) {
+    description ="Boolean";
+  } else {
+    description = FxB_String_create_blank();
+  }
 
   if (fxp_literal_bit(expression)) {
     bit_body = fxp_bit_body_inspect(fxp_literal_bit(expression));
@@ -98,15 +115,12 @@ json_t *fxp_literal_body(FxP_Literal *expression) {
     json_object_set_new(root, "value", json_false());
   }
 
-  json_object_set_new(root, "class", json_string(fxb_string_value(class_value)));
-
-  fxb_string_free(class_value);
+  json_object_set_new(root, "class", json_string(description));
 
   return root;
 error:
   if (bit_body) { json_decref(bit_body); }
   if (root)     { json_decref(root); }
-  if (class_value) { fxb_string_free(class_value); }
   return NULL;
 }
 
@@ -114,22 +128,24 @@ json_t *fxp_lookup_body(FxP_Literal *expression) {
   /*{"type": "Identifier", "bit": {"STRING": "hello world"}}"*/
   json_t *bit_body = fxp_bit_body_inspect(fxp_literal_bit(expression));
   json_t *root = json_object();
-  FxB_String *type_value = fxp_lookup_type_description(expression);
+  char *description;
+
+  if (fxp_lookup_type(expression) == TOKEN_ID) {
+    description = "Identifier";
+  } else {
+    description = "Class Identifier";
+  }
 
   verify(bit_body);
   verify(root);
-  verify(type_value);
 
-  json_object_set_new(root, "type", json_string(fxb_string_value(type_value)));
+  json_object_set_new(root, "type", json_string(description));
   json_object_set_new(root, "bit", bit_body);
-
-  fxb_string_free(type_value);
 
   return root;
 error:
   if (bit_body) { json_decref(bit_body); }
   if (root)     { json_decref(root); }
-  if (type_value) { fxb_string_free(type_value); }
   return NULL;
 }
 
@@ -272,51 +288,5 @@ json_t *fxp_import_body(FxP_Expression *expression) {
 error:
   if (body) { json_decref(body); }
   if (root) { json_decref(root); }
-  return NULL;
-}
-
-// TODO: inline to avoid releasing String objects
-FxB_String *fxp_literal_class_description(FxP_Literal *literal) {
-  FxB_String *description;
-
-  if (fxp_literal_type(literal) == TOKEN_STRING) {
-    description = FxB_String_create("String");
-  } else if (fxp_literal_type(literal) == TOKEN_EVAL_STRING) {
-    description = FxB_String_create("EvalString");
-  } else if (fxp_literal_type(literal) == TOKEN_REGEX) {
-    description = FxB_String_create("Regex");
-  } else if (fxp_literal_type(literal) == TOKEN_INTEGER) {
-    description = FxB_String_create("Integer");
-  } else if (fxp_literal_type(literal) == TOKEN_FLOAT) {
-    description = FxB_String_create("Float");
-  } else if (fxp_literal_type(literal) == TOKEN_TRUE) {
-    description = FxB_String_create("Boolean");
-  } else if (fxp_literal_type(literal) == TOKEN_FALSE) {
-    description = FxB_String_create("Boolean");
-  } else {
-    description = FxB_String_create_blank();
-  }
-
-  verify(description);
-
-  return description;
-error:
-  return NULL;
-}
-
-// TODO: inline to avoid alloc and release of strings
-FxB_String *fxp_lookup_type_description(FxP_Lookup *lookup) {
-  FxB_String *description;
-
-  if (fxp_lookup_type(lookup) == TOKEN_ID) {
-    description = FxB_String_create("Identifier");
-  } else {
-    description = FxB_String_create("Class Identifier");
-  }
-
-  verify(description);
-
-  return description;
-error:
   return NULL;
 }
