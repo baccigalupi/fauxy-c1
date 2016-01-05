@@ -111,21 +111,6 @@ FxB_String *fxp_bit_type_description(FxP_Bit *bit) {
   return string;
 }
 
-FxB_String *fxp_bit_inspect(FxP_Bit *bit) {
-  json_t *root = fxp_bit_body_inspect(bit);
-  FxB_String *json = NULL;
-
-  verify(root);
-  json = FxB_String_create(generate_json_chars(root));
-  verify(json);
-
-  json_decref(root);
-  return json;
-error:
-  if (root) { json_decref(root); }
-  return NULL;
-}
-
 json_t *fxp_bit_body_inspect(FxP_Bit *bit) {
   int type = fxp_bit_type(bit);
   json_t *root = NULL;

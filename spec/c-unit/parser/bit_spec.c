@@ -69,92 +69,6 @@ char *test_exponent_type_creation() {
   return NULL;
 }
 
-char *test_string_inspection() {
-  spec_describe("inspecting strings");
-  char *text = calloc(9, sizeof(char));
-  strcpy(text, "\"what\"");
-
-  FxP_Bit *bit = FxP_Bit_string_create(text);
-  free(text);
-
-  FxB_String *inspection = fxp_bit_inspect(bit);
-
-  assert_string_includes(fxb_string_value(inspection), "\"STRING\": \"what\"", "representation");
-
-  fxp_bit_free(bit);
-
-  return NULL;
-}
-
-char *test_integer_inspection() {
-  spec_describe("inspecting small bit integers");
-  char *text = calloc(9, sizeof(char));
-  strcpy(text, "23");
-
-  FxP_Bit *bit = FxP_Bit_integer_create(text);
-  free(text);
-
-  FxB_String *inspection = fxp_bit_inspect(bit);
-
-  assert_string_includes(fxb_string_value(inspection), "\"INTEGER\": 23", "representation");
-
-  fxp_bit_free(bit);
-
-  return NULL;
-}
-
-char *test_long_integer_inspection() {
-  spec_describe("inspecting large bit integers");
-  char *text = calloc(9, sizeof(char));
-  strcpy(text, "23004567");
-
-  FxP_Bit *bit = FxP_Bit_integer_create(text);
-  free(text);
-
-  FxB_String *inspection = fxp_bit_inspect(bit);
-
-  assert_string_includes(fxb_string_value(inspection), "\"INTEGER\": 23004567", "representation");
-
-  fxp_bit_free(bit);
-
-  return NULL;
-}
-
-// TODO: looks like a bug with numbers where there is an extra value at end of decimal
-char *test_float_inspection() {
-  spec_describe("inspecting bit floats");
-  char *text = calloc(9, sizeof(char));
-  strcpy(text, "230.0456");
-
-  FxP_Bit *bit = FxP_Bit_decimal_create(text);
-  free(text);
-
-  FxB_String *inspection = fxp_bit_inspect(bit);
-
-  assert_string_includes(fxb_string_value(inspection), "\"DECIMAL\": 230.0456", "representation");
-
-  fxp_bit_free(bit);
-
-  return NULL;
-}
-
-char *test_exponent_inspection() {
-  spec_describe("inspecting bit floats");
-  char *text = calloc(9, sizeof(char));
-  strcpy(text, "1.4e-3");
-
-  FxP_Bit *bit = FxP_Bit_exponent_create(text);
-  free(text);
-
-  FxB_String *inspection = fxp_bit_inspect(bit);
-
-  assert_string_includes(fxb_string_value(inspection), "\"DECIMAL\": 0.0014", "representation");
-
-  fxp_bit_free(bit);
-
-  return NULL;
-}
-
 char *all_specs() {
   spec_setup("Parser Bit");
 
@@ -162,12 +76,6 @@ char *all_specs() {
   run_spec(test_integer_type_creation);
   run_spec(test_float_type_creation);
   run_spec(test_exponent_type_creation);
-
-  run_spec(test_string_inspection);
-  run_spec(test_integer_inspection);
-  run_spec(test_long_integer_inspection);
-  /*run_spec(test_float_inspection);*/
-  run_spec(test_exponent_inspection);
 
   spec_teardown();
 

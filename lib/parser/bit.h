@@ -34,7 +34,6 @@ FxP_Bit        *FxP_Bit_exponent_create(char *text);
 
 char           *fx_trim_quote_char_text(char *original);
 void            fxp_bit_free(FxP_Bit *bit);
-FxB_String     *fxp_bit_inspect(FxP_Bit *bit);
 json_t         *fxp_bit_body_inspect(FxP_Bit *bit);
 
 #endif
