@@ -1,5 +1,5 @@
-#ifndef FxN_Object_h
-#define FxN_Object_h 1
+#ifndef FxI_Object_h
+#define FxI_Object_h 1
 
 #include "../bricks/_bricks.h"
 #include "../parser/_parser.h"
@@ -28,7 +28,7 @@
 
 #define fxn_object_free(O)                  (fxb_hash_map_free(fxn_object_attributes(O)), fx_pfree(O))
 
-FxN_Object *FxN_Object_create(FxI_Interpreter *interpreter, FxN_Object *scope);
-FxN_Object *fxn_object_set(FxN_Object *self, char *key, FxN_Object *value);
+FxI_Object *FxI_Object_create(FxI_Interpreter *interpreter, FxI_Object *scope);
+FxI_Object *fxn_object_set(FxI_Object *self, char *key, FxI_Object *value);
 
 #endif

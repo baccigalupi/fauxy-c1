@@ -5,12 +5,12 @@ char *test_set_and_get_attribute() {
 
   setup_interpreter();
 
-  FxN_Object *object =  FxN_Object_create(interpreter, NULL);
-  FxN_Object *value =   FxN_Object_create(interpreter, NULL);
+  FxI_Object *object =  FxI_Object_create(interpreter, NULL);
+  FxI_Object *value =   FxI_Object_create(interpreter, NULL);
   char *key = "thing";
 
   fxn_object_set_attribute(object, key, value);
-  FxN_Object *gotten = fxn_object_get_attribute(object, key);
+  FxI_Object *gotten = fxn_object_get_attribute(object, key);
 
   assert_equal(gotten, value, "stored attribute is save as attribute gotten by same key");
 

@@ -6,7 +6,7 @@ FxI_Pool *FxI_Pool_create(FxB_HashMap *config) {
   FxB_HashMap *global_attributes = NULL;
   FxB_HashMap *natives = NULL;
   FxB_List    *all = NULL;
-  FxN_Object *globals  = NULL;
+  FxI_Object *globals  = NULL;
 
   FxI_Pool *pool = fx_alloc(FxI_Pool);
   verify_memory(pool);
@@ -33,7 +33,7 @@ FxI_Pool *FxI_Pool_create(FxB_HashMap *config) {
   // Smaller version of the code for object create.
   // Classes, Objects and Globals are all objects so that
   // every possible context is an object
-  globals = fx_alloc(FxN_Object);
+  globals = fx_alloc(FxI_Object);
   verify_memory(globals);
   fxn_object_type(globals) = FX_GLOBALS;
   global_attributes = FxB_HashMap_create(global_capacity);

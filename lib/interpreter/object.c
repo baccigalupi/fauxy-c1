@@ -2,8 +2,8 @@
 
 #include "../bricks/helpers.h"
 
-FxN_Object *FxN_Object_create(FxI_Interpreter *interpreter, FxN_Object *scope) {
-  FxN_Object *object = fx_alloc(FxN_Object);
+FxI_Object *FxI_Object_create(FxI_Interpreter *interpreter, FxI_Object *scope) {
+  FxI_Object *object = fx_alloc(FxI_Object);
   verify_memory(object);
 
   fxn_object_type(object) = FX_OBJECT;
@@ -21,7 +21,7 @@ error:
   return NULL;
 }
 
-FxN_Object *fxn_object_set(FxN_Object *self, char *key, FxN_Object *value) {
+FxI_Object *fxn_object_set(FxI_Object *self, char *key, FxI_Object *value) {
   verify(fxn_object_is_open(self))
   fxn_object_set_attribute(self, key, value);
   return value;

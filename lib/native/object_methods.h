@@ -1,10 +1,10 @@
 #include "../interpreter/object.h"
 #include "../interpreter/interpreter.h"
 
-FxN_Object *fxn_object_is_empty(FxN_Object *self);
+FxI_Object *fxn_object_is_empty(FxI_Object *self);
 // init, setup, lockdown, open!, open?, close!, closed?
-//FxN_Object *fxn_object_equal(FxN_Object *self, FxN_Object *other);
-//FxN_Object *fxn_object_identical(FxN_Object *self, FxN_Object *other);
+//FxI_Object *fxn_object_equal(FxI_Object *self, FxI_Object *other);
+//FxI_Object *fxn_object_identical(FxI_Object *self, FxI_Object *other);
 
-/*FxN_String *fxn_object_to_json();*/
-/*FxN_String *fxn_object_to_string(FxN_Object *self);*/
+/*FxI_String *fxn_object_to_json();*/
+/*FxI_String *fxn_object_to_string(FxI_Object *self);*/

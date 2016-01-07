@@ -1,5 +1,5 @@
-#ifndef FxN_Class_h
-#define FxN_Class_h 1
+#ifndef FxI_Class_h
+#define FxI_Class_h 1
 
 // Class is an object too. I decided that while I was asleep, after wondering about
 // it for a couple days.
@@ -8,7 +8,7 @@
 #include "function.h"
 #include "object.h"
 
-typedef FxN_Object FxN_Class;
+typedef FxI_Object FxI_Class;
 
 #define fxn_class_name(C)          (char *)((C)->value)
 #define fxn_class_super_class(C)   (fxn_object_scope(C))
@@ -19,16 +19,16 @@ typedef FxN_Object FxN_Class;
 
 #define fxn_class_free(C)          (fx_pfree(C)) // TODO: more better
 
-FxN_Class              *FxN_Class_create(FxI_Interpreter *interpreter, char *name, FxN_Class *superclass);
-void                    fxn_class_set_method(FxN_Class *self, char *method_name, FxI_FunctionDefinition *function);
-FxI_FunctionDefinition *fxn_class_get_method(FxN_Class *self, char *method_name);
+FxI_Class              *FxI_Class_create(FxI_Interpreter *interpreter, char *name, FxI_Class *superclass);
+void                    fxn_class_set_method(FxI_Class *self, char *method_name, FxI_FunctionDefinition *function);
+FxI_FunctionDefinition *fxn_class_get_method(FxI_Class *self, char *method_name);
 
 /*
  * Class methods:
  *    new
  *    extend, add, <<
  *    alias
- *    // `native` will be in the global space so any c function that returns a FxN_Object
+ *    // `native` will be in the global space so any c function that returns a FxI_Object
  *    // can be made into a wrapped function
  *
  */

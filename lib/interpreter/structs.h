@@ -8,14 +8,14 @@
  * these interconnected structs all in one file to avoid header hell.
  */
 
-typedef struct FxN_Object {
+typedef struct FxI_Object {
   int                     type;
-  struct FxN_Object      *scope;
+  struct FxI_Object      *scope;
   FxB_HashMap            *attributes;
   struct FxI_Interpreter *interpreter;
   void                   *value;
   Boolean                 closed; // double negative, but better defaults
-} FxN_Object;
+} FxI_Object;
 
 typedef FxB_HashMap FxI_NativeRegistry;
 
@@ -23,7 +23,7 @@ typedef struct FxI_Pool {
   FxB_HashMap *literals;
   FxB_HashMap *natives;
   FxB_List    *all;
-  FxN_Object  *globals; // this needs to be an object so that all contexts are objects!
+  FxI_Object  *globals; // this needs to be an object so that all contexts are objects!
 } FxI_Pool;
 
 typedef struct FxI_Interpreter {
@@ -34,15 +34,15 @@ typedef struct FxI_Interpreter {
   FxI_NativeRegistry  *registry;
 } FxI_Interpreter;
 
-typedef struct FxN_MethodGroup {
+typedef struct FxI_MethodGroup {
   char             *name;
   FxB_List         *functions;
-} FxN_MethodGroup;
+} FxI_MethodGroup;
 
 // not yet sure what function definition of method calls entail
-typedef FxN_Object FxI_FunctionDefinition;
-typedef FxN_Object FxI_MethodCallArguments;
+typedef FxI_Object FxI_FunctionDefinition;
+typedef FxI_Object FxI_MethodCallArguments;
 
-typedef FxN_Object *(* FxI_NativeFunction)(FxI_MethodCallArguments *arguments);
+typedef FxI_Object *(* FxI_NativeFunction)(FxI_MethodCallArguments *arguments);
 
 #endif

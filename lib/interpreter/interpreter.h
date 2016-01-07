@@ -24,7 +24,7 @@
 
 #define fxi_interpreter_setup(I)          (fxi_interpreter_add_base_classes(I), fxi_interpreter_add_base_literals(I))
 
-#define fxi_current_context(I)              (FxN_Object *)(fxb_list_last(fxi_interpreter_contexts(I)))
+#define fxi_current_context(I)              (FxI_Object *)(fxb_list_last(fxi_interpreter_contexts(I)))
 #define fxi_interpreter_push_context(I, V)  (fxb_list_push(fxi_interpreter_contexts(I), V))
 #define fxi_interpreter_pop_context(I)      (fxb_list_pop(fxi_interpreter_contexts(I)))
 
@@ -33,6 +33,6 @@
 FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config);
 void             fxi_interpreter_add_base_classes(FxI_Interpreter *self);
 void             fxi_interpreter_add_base_literals(FxI_Interpreter *self);
-FxN_Object      *fxi_lookup(FxI_Interpreter *self, char *key);
+FxI_Object      *fxi_lookup(FxI_Interpreter *self, char *key);
 
 #endif

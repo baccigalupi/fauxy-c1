@@ -37,7 +37,7 @@ error:
 }
 
 void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
-  /*FxN_Class *object_class = FxN_Class_create("Object", NULL);*/
+  /*FxI_Class *object_class = FxI_Class_create("Object", NULL);*/
   // add native methods
   // add to global context
 
@@ -62,9 +62,9 @@ void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
   fxi_evaluate(self, true_literal);
 }
 
-FxN_Object *fxi_lookup(FxI_Interpreter *self, char *key) {
-  FxN_Object *object = NULL;
-  FxN_Object *context = NULL;
+FxI_Object *fxi_lookup(FxI_Interpreter *self, char *key) {
+  FxI_Object *object = NULL;
+  FxI_Object *context = NULL;
   FxB_List   *contexts = fxi_interpreter_contexts(self);
   FxB_Node   *node =    fxb_list_node_last(contexts);
 
