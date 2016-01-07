@@ -28,7 +28,7 @@
 #define fxi_interpreter_push_context(I, V)  (fxb_list_push(fxi_interpreter_contexts(I), V))
 #define fxi_interpreter_pop_context(I)      (fxb_list_pop(fxi_interpreter_contexts(I)))
 
-#define fxi_context_set(I, K, V)            (fxn_object_set_attribute(fxi_current_context(I), K, V))
+#define fxi_context_set(I, K, V)            (fxi_object_set_attribute(fxi_current_context(I), K, V))
 
 FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config);
 void             fxi_interpreter_add_base_classes(FxI_Interpreter *self);

@@ -7,11 +7,11 @@ char *test_interpet_literal_true() {
   FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_TRUE);
   FxI_Object *object = fxi_evaluate(interpreter, literal);
 
-  assert_truthy(fxn_boolean_value(object) == true,  "returned object is true");
+  assert_truthy(fxi_boolean_value(object) == true,  "returned object is true");
   // assert that object has the right class
 
   FxI_Object *stored_object = fxi_literal_get(interpreter, TRUE_KEY);
-  assert_truthy(fxn_boolean_value(object) == true, "literal is set in the interpreter");
+  assert_truthy(fxi_boolean_value(object) == true, "literal is set in the interpreter");
 
   assert_equal(object, stored_object, "literal returned is same as one stored in the interpreter");
 
@@ -27,11 +27,11 @@ char *test_interpet_literal_false() {
   FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_FALSE);
   FxI_Object *object = fxi_evaluate(interpreter, literal);
 
-  assert_truthy(fxn_boolean_value(object) == false,  "returned object is false");
+  assert_truthy(fxi_boolean_value(object) == false,  "returned object is false");
   // assert that object has the right class
 
   FxI_Object *stored_object = fxi_literal_get(interpreter, FALSE_KEY);
-  assert_truthy(fxn_boolean_value(object) == false, "literal is set in the interpreter");
+  assert_truthy(fxi_boolean_value(object) == false, "literal is set in the interpreter");
 
   assert_equal(object, stored_object, "literal returned is same as one stored in the interpreter");
 
@@ -140,7 +140,7 @@ char *test_context_lookup_of_literal() {
 
   assert_equal(assign_return_value, value_object, "evaluation of assignment returns what is assigned to it");
 
-  FxI_Object *attr = fxn_object_get_attribute(object, "greeting");
+  FxI_Object *attr = fxi_object_get_attribute(object, "greeting");
   assert_equal(attr, value_object, "literal is stored in context");
 
   FxI_Object *evaluation = fxi_evaluate(interpreter, lookup);
@@ -189,7 +189,7 @@ char *test_function_declaration() {
   fxp_function_definition_set_expressions(function_definition, expressions);
 
   FxI_Object *evaluation = fxi_evaluate(interpreter, function_definition);
-  assert_equal(fxn_object_value(evaluation), function_definition, "returns an object with the expression stored in the value");
+  assert_equal(fxi_object_value(evaluation), function_definition, "returns an object with the expression stored in the value");
   // TODO: assert about the class/type
 
   return NULL;
@@ -207,11 +207,11 @@ char *test_assignment_to_global() {
 
   // set the variable in the interpreter context
   FxI_Object *object = fxi_evaluate(interpreter, assignment);
-  assert_equal(fxn_boolean_value(object), true, "expression returns assigned value");
+  assert_equal(fxi_boolean_value(object), true, "expression returns assigned value");
 
   // evaluate the lookup to get the value ... easier
   object = fxi_evaluate(interpreter, lookup);
-  assert_equal(fxn_boolean_value(object), true, "lookup retrieves the assigned value");
+  assert_equal(fxi_boolean_value(object), true, "lookup retrieves the assigned value");
 
   return NULL;
 }
@@ -232,11 +232,11 @@ char *test_expressions_evaluation() {
   fxp_expression_push(expressions, false_literal);
 
   FxI_Object *object = fxi_evaluate(interpreter, expressions);
-  assert_equal(fxn_boolean_value(object), false, "returns value of last expression");
+  assert_equal(fxi_boolean_value(object), false, "returns value of last expression");
 
   // evaluate the lookup to get the value ... easier
   object = fxi_evaluate(interpreter, lookup);
-  assert_equal(fxn_boolean_value(object), true, "evaluates earlier expressions");
+  assert_equal(fxi_boolean_value(object), true, "evaluates earlier expressions");
 
   return NULL;
 }
@@ -251,7 +251,7 @@ char *test_import_expression_on_global_space() {
   FxP_ImportExpression *import_expression   = FxP_ImportExpression_create(literal);
 
   FxI_Object *object = fxi_evaluate(interpreter, import_expression);
-  assert_equal(fxn_boolean_value(object), true, "returns the last expression return value from the import");
+  assert_equal(fxi_boolean_value(object), true, "returns the last expression return value from the import");
 
   bit = FxP_Bit_string_create("it-worked?");
   FxP_Lookup *lookup = FxP_Lookup_create(bit, TOKEN_ID);
@@ -259,7 +259,7 @@ char *test_import_expression_on_global_space() {
   printf("object %p\n", object);
 
   // this is segfaulting because the object is not found via lookup
-  assert_equal(fxn_boolean_value(object), true, "import code run against current interpreter context");
+  assert_equal(fxi_boolean_value(object), true, "import code run against current interpreter context");
 
   return NULL;
 }

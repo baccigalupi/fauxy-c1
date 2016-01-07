@@ -71,7 +71,7 @@ FxI_Object *fxi_lookup(FxI_Interpreter *self, char *key) {
   while(!object && node) {
     context = fxb_node_value(node);
     verify(context);
-    object = fxn_object_get_attribute(context, key);
+    object = fxi_object_get_attribute(context, key);
     node = fxb_node_prev(node);
   }
 

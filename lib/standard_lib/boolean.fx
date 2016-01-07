@@ -1,4 +1,4 @@
 Boolean: Class.new -> {
-  /* not: native(:fxn_boolean_not) */
+  /* not: native(:fxi_boolean_not) */
   ?: -> { self }
 }

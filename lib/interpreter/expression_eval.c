@@ -12,7 +12,7 @@ FxI_Object *fxi_evaluate(FxI_Interpreter *interpreter, FxP_Expression *expressio
   FxI_Object *result = NULL;
 
   if (DEBUG_INTERPRETER) {
-    printf("current context has %d attributes\n", fxn_object_attributes_length(fxi_current_context(interpreter)));
+    printf("current context has %d attributes\n", fxi_object_attributes_length(fxi_current_context(interpreter)));
     printf("evaluating: %d %s\n", type, fxb_string_value((FxB_String *)fxp_inspect(expression)));
   }
 
@@ -59,13 +59,13 @@ FxI_Object *fxi_evaluate_literal(FxI_Interpreter *interpreter, FxP_Expression *e
     if (!object) {
       object = FxI_Object_create(interpreter, NULL); // todo: add class context
       verify(object);
-      fxn_object__value(object) = expression;
+      fxi_object__value(object) = expression;
       fxi_literal_set(interpreter, key, object);
     }
   } else { // floats don't get stored in the literal pool, so just make one
     object = FxI_Object_create(interpreter, NULL); // todo: add class context
     verify(object);
-    fxn_object__value(object) = expression;
+    fxi_object__value(object) = expression;
   }
 
   return object;
@@ -105,7 +105,7 @@ FxI_Object *fxi_evaluate_function_definition(FxI_Interpreter *interpreter, FxP_E
   // TODO: this is the same as creating a literal without a key, wrap it up!
   FxI_Object *object = FxI_Object_create(interpreter, NULL); // todo: add class context
   verify(object);
-  fxn_object__value(object) = expression;
+  fxi_object__value(object) = expression;
 
   return object;
 error:
@@ -137,7 +137,7 @@ FxI_Object *fxi_evaluate_assignment(FxI_Interpreter *interpreter, FxP_Expression
   verify(value)
 
   printf("lookup key for assignement: %s\n", fxp_lookup_key(left));
-  fxn_object_set(fxi_current_context(interpreter), fxp_lookup_key(left), value);
+  fxi_object_set(fxi_current_context(interpreter), fxp_lookup_key(left), value);
   return value;
 error:
   return NULL;

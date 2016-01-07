@@ -10,18 +10,18 @@
 
 typedef FxI_Object FxI_Class;
 
-#define fxn_class_name(C)          (char *)((C)->value)
-#define fxn_class_super_class(C)   (fxn_object_scope(C))
+#define fxi_class_name(C)          (char *)((C)->value)
+#define fxi_class_super_class(C)   (fxi_object_scope(C))
 
-#define fxn_class_method_count(C)           (fxb_hash_map_length(fxn_object_attributes(C)))
-#define fxn_class_get_method_group(C, K)    (fxb_hash_map_get(fxn_object_attributes(C), K))
-#define fxn_class_set_method_group(C, K, V) (fxb_hash_map_set(fxn_object_attributes(C), K, V))
+#define fxi_class_method_count(C)           (fxb_hash_map_length(fxi_object_attributes(C)))
+#define fxi_class_get_method_group(C, K)    (fxb_hash_map_get(fxi_object_attributes(C), K))
+#define fxi_class_set_method_group(C, K, V) (fxb_hash_map_set(fxi_object_attributes(C), K, V))
 
-#define fxn_class_free(C)          (fx_pfree(C)) // TODO: more better
+#define fxi_class_free(C)          (fx_pfree(C)) // TODO: more better
 
 FxI_Class              *FxI_Class_create(FxI_Interpreter *interpreter, char *name, FxI_Class *superclass);
-void                    fxn_class_set_method(FxI_Class *self, char *method_name, FxI_FunctionDefinition *function);
-FxI_FunctionDefinition *fxn_class_get_method(FxI_Class *self, char *method_name);
+void                    fxi_class_set_method(FxI_Class *self, char *method_name, FxI_FunctionDefinition *function);
+FxI_FunctionDefinition *fxi_class_get_method(FxI_Class *self, char *method_name);
 
 /*
  * Class methods:

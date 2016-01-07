@@ -35,10 +35,10 @@ FxI_Pool *FxI_Pool_create(FxB_HashMap *config) {
   // every possible context is an object
   globals = fx_alloc(FxI_Object);
   verify_memory(globals);
-  fxn_object_type(globals) = FX_GLOBALS;
+  fxi_object_type(globals) = FX_GLOBALS;
   global_attributes = FxB_HashMap_create(global_capacity);
   verify(global_attributes);
-  fxn_object_attributes(globals) = global_attributes;
+  fxi_object_attributes(globals) = global_attributes;
 
   fxi_pool_globals(pool) = globals;
 
@@ -49,7 +49,7 @@ error:
   if (literals) { fxb_hash_map_free(literals); }
   if (natives)  { fxb_hash_map_free(natives); }
   if (global_attributes) { fxb_hash_map_free(global_attributes); }
-  if (globals) { fxn_object_free(globals); }
+  if (globals) { fxi_object_free(globals); }
 
   return NULL;
 }
