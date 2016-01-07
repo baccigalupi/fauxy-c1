@@ -8,8 +8,13 @@
 
 FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config) {
   FxI_Pool *pool = NULL;
+  FxI_NativeRegistry *registry = NULL;
+
   FxI_Interpreter *self = fx_alloc(FxI_Interpreter);
   verify_memory(self);
+
+  registry = FxB_HashMap_create(100);
+  verify(registry);
 
   pool = FxI_Pool_create(config);
   verify(pool);
@@ -17,13 +22,17 @@ FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config) {
 
   FxB_List *contexts = FxB_List_create();
   verify(contexts);
+
   fxb_list_push(contexts, fxi_pool_globals(pool));
   fxi_interpreter_contexts(self) = contexts;
+  fxi_interpreter_registry(self) = registry;
 
   return self;
 error:
   if (self) { fx_pfree(self); }
   if (pool) { fxi_pool_free(pool); }
+  if (registry) { fxb_hash_map_free(registry); }
+
   return NULL;
 }
 

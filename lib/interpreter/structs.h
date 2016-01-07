@@ -17,6 +17,8 @@ typedef struct FxN_Object {
   Boolean                 closed; // double negative, but better defaults
 } FxN_Object;
 
+typedef FxB_HashMap FxI_NativeRegistry;
+
 typedef struct FxI_Pool {
   FxB_HashMap *literals;
   FxB_HashMap *natives;
@@ -27,8 +29,9 @@ typedef struct FxI_Pool {
 typedef struct FxI_Interpreter {
   // main event loop?
   // references to other loops
-  FxI_Pool *pool;
-  FxB_List *contexts;
+  FxI_Pool            *pool;
+  FxB_List            *contexts;
+  FxI_NativeRegistry  *registry;
 } FxI_Interpreter;
 
 typedef struct FxN_MethodGroup {
@@ -37,8 +40,9 @@ typedef struct FxN_MethodGroup {
 } FxN_MethodGroup;
 
 // not yet sure what function definition of method calls entail
-typedef FxN_Object FxN_FunctionDefinition;
+typedef FxN_Object FxI_FunctionDefinition;
 typedef FxN_Object FxI_MethodCallArguments;
+
 typedef FxN_Object *(* FxI_NativeFunction)(FxI_MethodCallArguments *arguments);
 
 #endif

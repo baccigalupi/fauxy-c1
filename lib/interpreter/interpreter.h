@@ -8,8 +8,9 @@
 
 #define fxi_interpreter_pool(I)           ((I)->pool)
 #define fxi_interpreter_contexts(I)       ((I)->contexts)
+#define fxi_interpreter_registry(I)       ((I)->registry)
 
-#define fxi_interpreter_free(I)           (fxi_pool_free(fxi_interpreter_pool(I)), fx_alloc(I))
+#define fxi_interpreter_free(I)           (fxi_pool_free(fxi_interpreter_pool(I)), fxb_hash_map_free(fxi_interpreter_registry(I)), fx_pfree(I))
 
 #define fxi_interpreter_literals(I)       (fxi_pool_literals(fxi_interpreter_pool(I)))
 #define fxi_literal_get(I, K)             (fxi_pool_literal_get(fxi_interpreter_pool(I), K))

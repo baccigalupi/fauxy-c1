@@ -2,7 +2,7 @@
 #include "object.h"
 #include "method_group.h"
 
-void fxn_class_set_method(FxN_Object *self, char *method_name, FxN_FunctionDefinition *function) {
+void fxn_class_set_method(FxN_Object *self, char *method_name, FxI_FunctionDefinition *function) {
   FxN_MethodGroup *method_group = NULL;
 
   method_group = fxn_class_get_method_group(self, method_name);
