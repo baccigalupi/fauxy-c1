@@ -39,10 +39,9 @@ typedef struct FxI_MethodGroup {
   FxB_List         *functions;
 } FxI_MethodGroup;
 
-// not yet sure what function definition of method calls entail
 typedef FxI_Object FxI_FunctionDefinition;
-typedef FxI_Object FxI_MethodCallArguments;
 
-typedef FxI_Object *(* FxI_NativeFunction)(FxI_MethodCallArguments *arguments);
+typedef FxI_Object FxI_MethodCallArguments;
+typedef FxI_Object *(* FxI_NativeFunction)(FxI_Interpreter *interpreter, FxI_MethodCallArguments *arguments);
 
 #endif
