@@ -42,6 +42,7 @@ typedef struct FxI_MethodGroup {
 typedef FxI_Object FxI_FunctionDefinition;
 
 typedef FxI_Object FxI_MethodCallArguments;
-typedef FxI_Object *(* FxI_NativeFunction)(FxI_Interpreter *interpreter, FxI_MethodCallArguments *arguments);
+// object has the interpreter, remove from object or don't always pass along the interpreter, think remove it
+typedef FxI_Object *(* FxI_NativeFunction)(FxI_Interpreter *interpreter, FxI_Object *self, FxI_MethodCallArguments *arguments);
 
 #endif

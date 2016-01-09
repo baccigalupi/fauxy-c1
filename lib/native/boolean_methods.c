@@ -12,8 +12,8 @@ error:
   return NULL;
 }
 
-FxI_Object *fxi_boolean_not(FxI_Object *self) {
-  FxI_Interpreter *interpreter = fxi_object_interpreter(self);
+// native(:fxi_boolean_not)
+FxI_Object *fxi_boolean_not(FxI_Interpreter *interpreter, FxI_Object *self, FxI_MethodCallArguments *arguments) {
   FxI_Object *not_value;
 
   if (fxi_boolean_value(self)) {

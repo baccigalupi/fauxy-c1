@@ -1,4 +1,4 @@
-Boolean: Class.new -> {
-  /* not: native(:fxi_boolean_not) */
+Boolean.extend -> {
+  not: native(:fxi_boolean_not)
   ?: -> { self }
 }
