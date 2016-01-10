@@ -375,17 +375,6 @@ char *test_function_with_two_expressions() {
     "INTEGER");
   assert_ints_equal(json_integer_value(element), 1, "first expression arguments correct");
 
-  /*char *expected =  "{\"expressions\": [\n"*/
-                      /*"{\"function_definition\": {\"expressions\": [\n"*/
-                      /*"{\"method_call\": {\"receiver\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"+\"}}}, \"method_arguments\": [\n"*/
-                          /*"{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}\n"*/
-                      /*"]}},\n"*/
-                      /*"{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"method_arguments\": [\n"*/
-                          /*"{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"word\"}}}\n"*/
-                      /*"]}}\n"*/
-                      /*"]}}\n"*/
-                    /*"]}";*/
-
   cleanup();
   return NULL;
 }
@@ -395,19 +384,99 @@ char *test_expression_function_with_expression_expression() {
   FxP_ParserContext *context = parse_string("1 + 1\n-> {\n print 'word'\n}\n2 * 2\n");
 
   char *inspection = fxp_parser_inspect(context);
-  char *expected =  "{\"expressions\": [\n"
-                      "{\"method_call\": {\"receiver\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"+\"}}}, \"method_arguments\": [\n"
-                          "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}\n"
-                      "]}},\n"
-                      "{\"function_definition\": {\"expressions\": [\n"
-                      "{\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"print\"}}}, \"method_arguments\": [\n"
-                          "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"word\"}}}\n"
-                      "]}}\n"
-                      "]}},\n"
-                      "{\"method_call\": {\"receiver\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"*\"}}}, \"method_arguments\": [\n"
-                          "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}}\n"
-                      "]}}\n"
-                    "]}";
+  char *expected =  "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"method_call\": {\n"
+"        \"receiver\": {\n"
+"          \"literal\": {\n"
+"            \"bit\": {\n"
+"              \"INTEGER\": 1\n"
+"            },\n"
+"            \"class\": \"Integer\"\n"
+"          }\n"
+"        },\n"
+"        \"message\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"+\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"arguments\": [\n"
+"          {\n"
+"            \"literal\": {\n"
+"              \"bit\": {\n"
+"                \"INTEGER\": 1\n"
+"              },\n"
+"              \"class\": \"Integer\"\n"
+"            }\n"
+"          }\n"
+"        ]\n"
+"      }\n"
+"    },\n"
+"    {\n"
+"      \"function_definition\": {\n"
+"        \"expressions\": [\n"
+"          {\n"
+"            \"method_call\": {\n"
+"              \"message\": {\n"
+"                \"lookup\": {\n"
+"                  \"type\": \"Identifier\",\n"
+"                  \"bit\": {\n"
+"                    \"STRING\": \"print\"\n"
+"                  }\n"
+"                }\n"
+"              },\n"
+"              \"arguments\": [\n"
+"                {\n"
+"                  \"literal\": {\n"
+"                    \"bit\": {\n"
+"                      \"STRING\": \"word\"\n"
+"                    },\n"
+"                    \"class\": \"String\"\n"
+"                  }\n"
+"                }\n"
+"              ]\n"
+"            }\n"
+"          }\n"
+"        ]\n"
+"      }\n"
+"    },\n"
+"    {\n"
+"      \"method_call\": {\n"
+"        \"receiver\": {\n"
+"          \"literal\": {\n"
+"            \"bit\": {\n"
+"              \"INTEGER\": 2\n"
+"            },\n"
+"            \"class\": \"Integer\"\n"
+"          }\n"
+"        },\n"
+"        \"message\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"*\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"arguments\": [\n"
+"          {\n"
+"            \"literal\": {\n"
+"              \"bit\": {\n"
+"                \"INTEGER\": 2\n"
+"              },\n"
+"              \"class\": \"Integer\"\n"
+"            }\n"
+"          }\n"
+"        ]\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
+
   assert_strings_equal(inspection, expected, "ast");
 
   fxp_parser_context_free(context);
@@ -421,11 +490,42 @@ char *test_parened_method_call() {
   FxP_ParserContext *context = parse_string("Print.line('word')\n");
 
   char *inspection = fxp_parser_inspect(context);
-  char *expected = "{\"expressions\": [\n"
-        "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Class Identifier\", \"bit\": {\"STRING\": \"Print\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"line\"}}}, \"method_arguments\": [\n"
-            "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"word\"}}}\n"
-        "]}}\n"
-      "]}";
+
+  char *expected = "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"method_call\": {\n"
+"        \"receiver\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Class Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"Print\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"message\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"line\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"arguments\": [\n"
+"          {\n"
+"            \"literal\": {\n"
+"              \"bit\": {\n"
+"                \"STRING\": \"word\"\n"
+"              },\n"
+"              \"class\": \"String\"\n"
+"            }\n"
+"          }\n"
+"        ]\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
+
   assert_strings_equal(inspection, expected, "ast");
 
   fxp_parser_context_free(context);
@@ -439,11 +539,42 @@ char *test_no_parens_method_call() {
   FxP_ParserContext *context = parse_string("Print.line 'word' \n");
 
   char *inspection = fxp_parser_inspect(context);
-  char *expected = "{\"expressions\": [\n"
-        "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Class Identifier\", \"bit\": {\"STRING\": \"Print\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"line\"}}}, \"method_arguments\": [\n"
-            "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"word\"}}}\n"
-        "]}}\n"
-      "]}";
+
+  char *expected = "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"method_call\": {\n"
+"        \"receiver\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Class Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"Print\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"message\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"line\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"arguments\": [\n"
+"          {\n"
+"            \"literal\": {\n"
+"              \"bit\": {\n"
+"                \"STRING\": \"word\"\n"
+"              },\n"
+"              \"class\": \"String\"\n"
+"            }\n"
+"          }\n"
+"        ]\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
+
   assert_strings_equal(inspection, expected, "ast");
 
   fxp_parser_context_free(context);
@@ -457,17 +588,81 @@ char *test_method_call_with_block() {
   FxP_ParserContext *context = parse_string("collection.map -> (e) { Print.line(e) }\n");
 
   char *inspection = fxp_parser_inspect(context);
-  char *expected = "{\"expressions\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"collection\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"map\"}}}, \"method_arguments\": [\n"
-                    "{\"function_definition\": {\"function_arguments\": [\n"
-                    "{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"e\"}}}\n"
-                    "], \"expressions\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Class Identifier\", \"bit\": {\"STRING\": \"Print\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"line\"}}}, \"method_arguments\": [\n"
-                    "{\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"e\"}}}\n"
-                    "]}}\n"
-                    "]}}\n"
-                    "]}}\n"
-                    "]}";
+  char *expected =
+"{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"method_call\": {\n"
+"        \"receiver\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"collection\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"message\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"map\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"arguments\": [\n"
+"          {\n"
+"            \"function_definition\": {\n"
+"              \"arguments\": {\n"
+"                \"function_arguments\": [\n"
+"                  {\n"
+"                    \"lookup\": {\n"
+"                      \"type\": \"Identifier\",\n"
+"                      \"bit\": {\n"
+"                        \"STRING\": \"e\"\n"
+"                      }\n"
+"                    }\n"
+"                  }\n"
+"                ]\n"
+"              },\n"
+"              \"expressions\": [\n"
+"                {\n"
+"                  \"method_call\": {\n"
+"                    \"receiver\": {\n"
+"                      \"lookup\": {\n"
+"                        \"type\": \"Class Identifier\",\n"
+"                        \"bit\": {\n"
+"                          \"STRING\": \"Print\"\n"
+"                        }\n"
+"                      }\n"
+"                    },\n"
+"                    \"message\": {\n"
+"                      \"lookup\": {\n"
+"                        \"type\": \"Identifier\",\n"
+"                        \"bit\": {\n"
+"                          \"STRING\": \"line\"\n"
+"                        }\n"
+"                      }\n"
+"                    },\n"
+"                    \"arguments\": [\n"
+"                      {\n"
+"                        \"lookup\": {\n"
+"                          \"type\": \"Identifier\",\n"
+"                          \"bit\": {\n"
+"                            \"STRING\": \"e\"\n"
+"                          }\n"
+"                        }\n"
+"                      }\n"
+"                    ]\n"
+"                  }\n"
+"                }\n"
+"              ]\n"
+"            }\n"
+"          }\n"
+"        ]\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
 
   assert_strings_equal(inspection, expected, "ast");
 
@@ -482,17 +677,86 @@ char *test_multi_operator_method() {
   FxP_ParserContext *context = parse_string("1 + (n * 3) - 5\n");
 
   char *inspection = fxp_parser_inspect(context);
-  char *expected =  "{\"expressions\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"+\"}}}, \"method_arguments\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"grouped_expression\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"n\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"*\"}}}, \"method_arguments\": [\n"
-                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 3}}}\n"
-                    "]}}\n"
-                    "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"-\"}}}, \"method_arguments\": [\n"
-                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 5}}}\n"
-                    "]}}\n"
-                    "]}}\n"
-                    "]}";
+  char *expected = "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"method_call\": {\n"
+"        \"receiver\": {\n"
+"          \"literal\": {\n"
+"            \"bit\": {\n"
+"              \"INTEGER\": 1\n"
+"            },\n"
+"            \"class\": \"Integer\"\n"
+"          }\n"
+"        },\n"
+"        \"message\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"+\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"arguments\": [\n"
+"          {\n"
+"            \"method_call\": {\n"
+"              \"receiver\": {\n"
+"                \"grouped_expression\": {\n"
+"                  \"method_call\": {\n"
+"                    \"receiver\": {\n"
+"                      \"lookup\": {\n"
+"                        \"type\": \"Identifier\",\n"
+"                        \"bit\": {\n"
+"                          \"STRING\": \"n\"\n"
+"                        }\n"
+"                      }\n"
+"                    },\n"
+"                    \"message\": {\n"
+"                      \"lookup\": {\n"
+"                        \"type\": \"Identifier\",\n"
+"                        \"bit\": {\n"
+"                          \"STRING\": \"*\"\n"
+"                        }\n"
+"                      }\n"
+"                    },\n"
+"                    \"arguments\": [\n"
+"                      {\n"
+"                        \"literal\": {\n"
+"                          \"bit\": {\n"
+"                            \"INTEGER\": 3\n"
+"                          },\n"
+"                          \"class\": \"Integer\"\n"
+"                        }\n"
+"                      }\n"
+"                    ]\n"
+"                  }\n"
+"                }\n"
+"              },\n"
+"              \"message\": {\n"
+"                \"lookup\": {\n"
+"                  \"type\": \"Identifier\",\n"
+"                  \"bit\": {\n"
+"                    \"STRING\": \"-\"\n"
+"                  }\n"
+"                }\n"
+"              },\n"
+"              \"arguments\": [\n"
+"                {\n"
+"                  \"literal\": {\n"
+"                    \"bit\": {\n"
+"                      \"INTEGER\": 5\n"
+"                    },\n"
+"                    \"class\": \"Integer\"\n"
+"                  }\n"
+"                }\n"
+"              ]\n"
+"            }\n"
+"          }\n"
+"        ]\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
 
   assert_strings_equal(inspection, expected, "ast");
 
@@ -507,13 +771,60 @@ char *test_function_assignment() {
   FxP_ParserContext *context = parse_string("convert: -> (n: 11) { 'eleven' }\n");
 
   char *inspection = fxp_parser_inspect(context);
-  char *expected =  "{\"expressions\": [\n"
-                    "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"convert\"}}}, \"right\": {\"function_definition\": {\"function_arguments\": [\n"
-                    "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"n\"}}}, \"right\": {\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 11}}}}}\n"
-                    "], \"expressions\": [\n"
-                    "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"eleven\"}}}\n"
-                    "]}}}}\n"
-                    "]}";
+  char *expected =  "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"colon_expression\": {\n"
+"        \"left\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"convert\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"right\": {\n"
+"          \"function_definition\": {\n"
+"            \"arguments\": {\n"
+"              \"function_arguments\": [\n"
+"                {\n"
+"                  \"colon_expression\": {\n"
+"                    \"left\": {\n"
+"                      \"lookup\": {\n"
+"                        \"type\": \"Identifier\",\n"
+"                        \"bit\": {\n"
+"                          \"STRING\": \"n\"\n"
+"                        }\n"
+"                      }\n"
+"                    },\n"
+"                    \"right\": {\n"
+"                      \"literal\": {\n"
+"                        \"bit\": {\n"
+"                          \"INTEGER\": 11\n"
+"                        },\n"
+"                        \"class\": \"Integer\"\n"
+"                      }\n"
+"                    }\n"
+"                  }\n"
+"                }\n"
+"              ]\n"
+"            },\n"
+"            \"expressions\": [\n"
+"              {\n"
+"                \"literal\": {\n"
+"                  \"bit\": {\n"
+"                    \"STRING\": \"eleven\"\n"
+"                  },\n"
+"                  \"class\": \"String\"\n"
+"                }\n"
+"              }\n"
+"            ]\n"
+"          }\n"
+"        }\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
 
   assert_strings_equal(inspection, expected, "ast");
 
@@ -529,13 +840,54 @@ char *test_grouped_expression_method_call() {
   FxP_ParserContext *context = parse_string("(n / 10).truncate\n");
 
   char *inspection = fxp_parser_inspect(context);
-  char *expected =  "{\"expressions\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"grouped_expression\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"n\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"/\"}}}, \"method_arguments\": [\n"
-                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 10}}}\n"
-                    "]}}\n"
-                    "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"truncate\"}}}}}\n"
-                    "]}";
+  char *expected =  "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"method_call\": {\n"
+"        \"receiver\": {\n"
+"          \"grouped_expression\": {\n"
+"            \"method_call\": {\n"
+"              \"receiver\": {\n"
+"                \"lookup\": {\n"
+"                  \"type\": \"Identifier\",\n"
+"                  \"bit\": {\n"
+"                    \"STRING\": \"n\"\n"
+"                  }\n"
+"                }\n"
+"              },\n"
+"              \"message\": {\n"
+"                \"lookup\": {\n"
+"                  \"type\": \"Identifier\",\n"
+"                  \"bit\": {\n"
+"                    \"STRING\": \"/\"\n"
+"                  }\n"
+"                }\n"
+"              },\n"
+"              \"arguments\": [\n"
+"                {\n"
+"                  \"literal\": {\n"
+"                    \"bit\": {\n"
+"                      \"INTEGER\": 10\n"
+"                    },\n"
+"                    \"class\": \"Integer\"\n"
+"                  }\n"
+"                }\n"
+"              ]\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"message\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"truncate\"\n"
+"            }\n"
+"          }\n"
+"        }\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
 
   assert_strings_equal(inspection, expected, "ast");
 
@@ -550,13 +902,54 @@ char *test_multi_line_group() {
   FxP_ParserContext *context = parse_string("(\n\tn / 10\n).truncate\n");
 
   char *inspection = fxp_parser_inspect(context);
-  char *expected =  "{\"expressions\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"grouped_expression\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"n\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"/\"}}}, \"method_arguments\": [\n"
-                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 10}}}\n"
-                    "]}}\n"
-                    "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"truncate\"}}}}}\n"
-                    "]}";
+  char *expected =  "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"method_call\": {\n"
+"        \"receiver\": {\n"
+"          \"grouped_expression\": {\n"
+"            \"method_call\": {\n"
+"              \"receiver\": {\n"
+"                \"lookup\": {\n"
+"                  \"type\": \"Identifier\",\n"
+"                  \"bit\": {\n"
+"                    \"STRING\": \"n\"\n"
+"                  }\n"
+"                }\n"
+"              },\n"
+"              \"message\": {\n"
+"                \"lookup\": {\n"
+"                  \"type\": \"Identifier\",\n"
+"                  \"bit\": {\n"
+"                    \"STRING\": \"/\"\n"
+"                  }\n"
+"                }\n"
+"              },\n"
+"              \"arguments\": [\n"
+"                {\n"
+"                  \"literal\": {\n"
+"                    \"bit\": {\n"
+"                      \"INTEGER\": 10\n"
+"                    },\n"
+"                    \"class\": \"Integer\"\n"
+"                  }\n"
+"                }\n"
+"              ]\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"message\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"truncate\"\n"
+"            }\n"
+"          }\n"
+"        }\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
 
   assert_strings_equal(inspection, expected, "ast");
 
@@ -571,13 +964,54 @@ char *test_multi_line_method_call() {
   FxP_ParserContext *context = parse_string("(n / 10)\n\t.truncate\n");
 
   char *inspection = fxp_parser_inspect(context);
-  char *expected =  "{\"expressions\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"grouped_expression\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"n\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"/\"}}}, \"method_arguments\": [\n"
-                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 10}}}\n"
-                    "]}}\n"
-                    "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"truncate\"}}}}}\n"
-                    "]}";
+  char *expected =  "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"method_call\": {\n"
+"        \"receiver\": {\n"
+"          \"grouped_expression\": {\n"
+"            \"method_call\": {\n"
+"              \"receiver\": {\n"
+"                \"lookup\": {\n"
+"                  \"type\": \"Identifier\",\n"
+"                  \"bit\": {\n"
+"                    \"STRING\": \"n\"\n"
+"                  }\n"
+"                }\n"
+"              },\n"
+"              \"message\": {\n"
+"                \"lookup\": {\n"
+"                  \"type\": \"Identifier\",\n"
+"                  \"bit\": {\n"
+"                    \"STRING\": \"/\"\n"
+"                  }\n"
+"                }\n"
+"              },\n"
+"              \"arguments\": [\n"
+"                {\n"
+"                  \"literal\": {\n"
+"                    \"bit\": {\n"
+"                      \"INTEGER\": 10\n"
+"                    },\n"
+"                    \"class\": \"Integer\"\n"
+"                  }\n"
+"                }\n"
+"              ]\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"message\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"truncate\"\n"
+"            }\n"
+"          }\n"
+"        }\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
 
   assert_strings_equal(inspection, expected, "ast");
 
@@ -588,35 +1022,6 @@ char *test_multi_line_method_call() {
   context = parse_string("(n / 10).\n\ntruncate\n");
 
   inspection = fxp_parser_inspect(context);
-  expected =        "{\"expressions\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"grouped_expression\": [\n"
-                    "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"n\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"/\"}}}, \"method_arguments\": [\n"
-                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 10}}}\n"
-                    "]}}\n"
-                    "]}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"truncate\"}}}}}\n"
-                    "]}";
-
-  assert_strings_equal(inspection, expected, "ast");
-
-  fxp_parser_context_free(context);
-  free(inspection);
-
-  return NULL;
-}
-
-char *test_multi_line_list() {
-  spec_describe("multiline group: (\n\t1,\n\t2, \n\t3\n)");
-  FxP_ParserContext *context = parse_string("(\n\t1,\n\t2, \n\t3\n)\n");
-
-  char *inspection = fxp_parser_inspect(context);
-  char *expected =  "{\"expressions\": [\n"
-                    "{\"list\": [\n"
-                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 1}}},\n"
-                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 2}}},\n"
-                    "{\"literal\": {\"class\": \"Integer\", \"bit\": {\"INTEGER\": 3}}}\n"
-                    "]}\n"
-                    "]}";
-
   assert_strings_equal(inspection, expected, "ast");
 
   fxp_parser_context_free(context);
@@ -630,11 +1035,44 @@ char *test_native_assignment() {
   FxP_ParserContext *context = parse_string("to_s: native('fxi_native_to_s')\n");
 
   char *inspection = fxp_parser_inspect(context);
-  char *expected =  "{\"expressions\": [\n"
-                    "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"to_s\"}}}, \"right\": {\"method_call\": {\"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"native\"}}}, \"method_arguments\": [\n"
-                    "{\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"fxi_native_to_s\"}}}\n"
-                    "]}}}}\n"
-                    "]}";
+  char *expected =  "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"colon_expression\": {\n"
+"        \"left\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"to_s\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"right\": {\n"
+"          \"method_call\": {\n"
+"            \"message\": {\n"
+"              \"lookup\": {\n"
+"                \"type\": \"Identifier\",\n"
+"                \"bit\": {\n"
+"                  \"STRING\": \"native\"\n"
+"                }\n"
+"              }\n"
+"            },\n"
+"            \"arguments\": [\n"
+"              {\n"
+"                \"literal\": {\n"
+"                  \"bit\": {\n"
+"                    \"STRING\": \"fxi_native_to_s\"\n"
+"                  },\n"
+"                  \"class\": \"String\"\n"
+"                }\n"
+"              }\n"
+"            ]\n"
+"          }\n"
+"        }\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
 
   assert_strings_equal(inspection, expected, "ast");
 
@@ -649,11 +1087,48 @@ char *test_block_assignment() {
   FxP_ParserContext *context = parse_string("?: -> { !empty? }\n");
 
   char *inspection = fxp_parser_inspect(context);
-  char *expected =  "{\"expressions\": [\n"
-                      "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"?\"}}}, \"right\": {\"function_definition\": {\"expressions\": [\n"
-                        "{\"method_call\": {\"receiver\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"empty?\"}}}, \"message\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"!\"}}}}}\n"
-                      "]}}}}\n"
-                    "]}";
+  char *expected =  "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"colon_expression\": {\n"
+"        \"left\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"?\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"right\": {\n"
+"          \"function_definition\": {\n"
+"            \"expressions\": [\n"
+"              {\n"
+"                \"method_call\": {\n"
+"                  \"receiver\": {\n"
+"                    \"lookup\": {\n"
+"                      \"type\": \"Identifier\",\n"
+"                      \"bit\": {\n"
+"                        \"STRING\": \"empty?\"\n"
+"                      }\n"
+"                    }\n"
+"                  },\n"
+"                  \"message\": {\n"
+"                    \"lookup\": {\n"
+"                      \"type\": \"Identifier\",\n"
+"                      \"bit\": {\n"
+"                        \"STRING\": \"!\"\n"
+"                      }\n"
+"                    }\n"
+"                  }\n"
+"                }\n"
+"              }\n"
+"            ]\n"
+"          }\n"
+"        }\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
 
   assert_strings_equal(inspection, expected, "ast");
 
@@ -669,9 +1144,22 @@ char *test_import_expression() {
   FxP_ParserContext *context = parse_string("import 'my-file'");
 
   char *inspection = fxp_parser_inspect(context);
-  char *expected =  "{\"expressions\": [\n"
-                      "{\"import\": {\"path\": {\"literal\": {\"class\": \"String\", \"bit\": {\"STRING\": \"my-file\"}}}}}\n"
-                    "]}";
+  char *expected = "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"import\": {\n"
+"        \"path\": {\n"
+"          \"literal\": {\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"my-file\"\n"
+"            },\n"
+"            \"class\": \"String\"\n"
+"          }\n"
+"        }\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
 
   assert_strings_equal(inspection, expected, "ast");
 
@@ -686,9 +1174,28 @@ char *test_parse_from_file() {
 
   FxP_ParserContext *context = parse_file("spec/c-unit/interpreter/fixtures/import-test.fx");
   char *inspection = fxp_parser_inspect(context);
-  char *expected =  "{\"expressions\": [\n"
-                      "{\"colon_expression\": {\"left\": {\"lookup\": {\"type\": \"Identifier\", \"bit\": {\"STRING\": \"it-worked?\"}}}, \"right\": {\"literal\": {\"class\": \"Boolean\", \"value\": true}}}}\n"
-                    "]}";
+  char *expected =  "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"colon_expression\": {\n"
+"        \"left\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"it-worked?\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"right\": {\n"
+"          \"literal\": {\n"
+"            \"value\": true,\n"
+"            \"class\": \"Boolean\"\n"
+"          }\n"
+"        }\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
 
   assert_strings_equal(inspection, expected, "ast");
 
@@ -712,27 +1219,25 @@ char *all_specs() {
   run_spec(test_function_with_expression);
   run_spec(test_function_with_two_expressions);
 
-  /*run_spec(test_expression_function_with_expression_expression);*/
-  /*run_spec(test_function_with_multiple_expressions);*/
+  run_spec(test_expression_function_with_expression_expression);
 
-  /*run_spec(test_parened_method_call);*/
-  /*run_spec(test_no_parens_method_call);*/
-  /*run_spec(test_method_call_with_block);*/
+  run_spec(test_parened_method_call);
+  run_spec(test_no_parens_method_call);
+  run_spec(test_method_call_with_block);
 
-  /*run_spec(test_multi_operator_method);*/
-  /*run_spec(test_function_assignment);*/
-  /*run_spec(test_grouped_expression_method_call);*/
+  run_spec(test_multi_operator_method);
+  run_spec(test_function_assignment);
+  run_spec(test_grouped_expression_method_call);
 
-  /*run_spec(test_multi_line_group);*/
-  /*run_spec(test_multi_line_method_call);*/
-  /*run_spec(test_multi_line_list);*/
+  run_spec(test_multi_line_group);
+  run_spec(test_multi_line_method_call);
 
-  /*run_spec(test_native_assignment);*/
-  /*run_spec(test_block_assignment);*/
+  run_spec(test_native_assignment);
+  run_spec(test_block_assignment);
 
-  /*run_spec(test_import_expression);*/
+  run_spec(test_import_expression);
 
-  /*run_spec(test_parse_from_file);*/
+  run_spec(test_parse_from_file);
 
   spec_teardown();
 
