@@ -102,7 +102,7 @@ json_t *fxp_literal_body(FxP_Literal *expression) {
   } else if (fxp_literal_type(expression) == TOKEN_FALSE) {
     description ="Boolean";
   } else {
-    description = FxB_String_create_blank();
+    description = "";
   }
 
   if (fxp_literal_bit(expression)) {

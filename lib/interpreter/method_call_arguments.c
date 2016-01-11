@@ -7,8 +7,8 @@ FxI_MethodCallArguments *FxI_MethodCallArguments_create(FxI_Interpreter *interpr
   FxI_Object *object = FxI_Object_create(interpreter, NULL); // TODO: add right class type here
 
   int length = fxp_list_length(list);
-  int i;
-  int key_length = log10((double)i) + 2;
+  int i = 0;
+  int key_length = log10((double)length) + 2;
   CHAR key[key_length];
   FxP_Expression *arg_expression;
   FxI_Object *arg;
