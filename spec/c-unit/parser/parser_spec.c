@@ -199,6 +199,7 @@ char *test_two_expressions() {
   return NULL;
 }
 
+// NOTE: giving up on the parsing, really hard to do and also segfaults on issue, which doesn't help
 
 char *test_empty_function() {
   spec_describe("empty function: -> {}");
@@ -1048,25 +1049,15 @@ char *test_native_assignment() {
 "          }\n"
 "        },\n"
 "        \"right\": {\n"
-"          \"method_call\": {\n"
-"            \"message\": {\n"
-"              \"lookup\": {\n"
-"                \"type\": \"Identifier\",\n"
+"          \"native\": {\n"
+"            \"function_name\": {\n"
+"              \"literal\": {\n"
 "                \"bit\": {\n"
-"                  \"STRING\": \"native\"\n"
-"                }\n"
+"                  \"STRING\": \"fxi_native_to_s\"\n"
+"                },\n"
+"                \"class\": \"String\"\n"
 "              }\n"
-"            },\n"
-"            \"arguments\": [\n"
-"              {\n"
-"                \"literal\": {\n"
-"                  \"bit\": {\n"
-"                    \"STRING\": \"fxi_native_to_s\"\n"
-"                  },\n"
-"                  \"class\": \"String\"\n"
-"                }\n"
-"              }\n"
-"            ]\n"
+"            }\n"
 "          }\n"
 "        }\n"
 "      }\n"
@@ -1169,6 +1160,37 @@ char *test_import_expression() {
   return NULL;
 }
 
+char *test_import_with_parens() {
+  spec_describe("import expression: import('my-file')");
+
+  FxP_ParserContext *context = parse_string("import('my-file')");
+
+  char *inspection = fxp_parser_inspect(context);
+  char *expected = "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"import\": {\n"
+"        \"path\": {\n"
+"          \"literal\": {\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"my-file\"\n"
+"            },\n"
+"            \"class\": \"String\"\n"
+"          }\n"
+"        }\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
+
+  assert_strings_equal(inspection, expected, "ast");
+
+  fxp_parser_context_free(context);
+  free(inspection);
+
+  return NULL;
+}
+
 char *test_parse_from_file() {
   spec_describe("parsing content of file, should work the same");
 
@@ -1236,6 +1258,9 @@ char *all_specs() {
   run_spec(test_block_assignment);
 
   run_spec(test_import_expression);
+  run_spec(test_import_with_parens);
+  /*run_spec(test_native_no_parens);*/
+  /*run_spec(test_native_with_args);*/
 
   run_spec(test_parse_from_file);
 

@@ -16,5 +16,6 @@ json_t *fxp_forward_list_body(        FxP_Expression *expression);
 json_t *fxp_backwards_list_body(      FxP_Expression *expression);
 json_t *fxp_left_right_body(          FxP_Expression *expression);
 json_t *fxp_import_body(              FxP_Expression *expression);
+json_t *fxp_native_body(              FxP_Expression *expression);
 
 #endif

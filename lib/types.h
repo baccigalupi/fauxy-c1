@@ -66,6 +66,7 @@ enum {
   FX_ST_LOCAL_ASSIGN,
   FX_ST_COLON_EXPRESSION,
   FX_ST_IMPORT,
+  FX_ST_NATIVE,
   FX_ST_EXPRESSIONS,
 
   // Contexts ... maybe

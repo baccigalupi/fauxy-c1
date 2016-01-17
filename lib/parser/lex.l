@@ -39,6 +39,7 @@ BREAK_SPACE ([ \t]*)?[\n]*([ \t]*)?
 "true"												    { FX_LexToken(TOKEN_TRUE); }
 "false"												    { FX_LexToken(TOKEN_FALSE); }
 "import"											    { FX_LexToken(TOKEN_IMPORT); }
+"native"											    { FX_LexToken(TOKEN_NATIVE); }
 "and"													    { FX_LexStringBit(TOKEN_AND, yytext); }
 "&&"													    { FX_LexStringBit(TOKEN_AND, "and"); }
 "or"													    { FX_LexStringBit(TOKEN_OR, yytext); }

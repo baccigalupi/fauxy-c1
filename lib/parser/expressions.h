@@ -22,6 +22,7 @@ typedef FxP_Expression FxP_FunctionDefinitionArguments;
 typedef FxP_Expression FxP_ColonExpression;
 typedef FxP_Expression FxP_Expressions;
 typedef FxP_Expression FxP_ImportExpression;
+typedef FxP_Expression FxP_NativeExpression;
 
 // IMPORTANT, this bit thing is a bitch and has to stay
 // below the typedefs!
@@ -30,7 +31,6 @@ typedef FxP_Expression FxP_ImportExpression;
 #define FX_EXPRESSION_INITAL_SIZE 5
 
 #include "../types.h"
-
 
 #define fxp_expression_type(E)            ((E)->type)
 #define fxp_expression_value(E)           ((E)->value)
@@ -125,5 +125,12 @@ FxP_ColonExpression *FxP_ColonExpression_create(FxP_Lookup *variable, FxP_Expres
 FxP_ImportExpression *FxP_ImportExpression_create(FxP_Expression *value);
 #define fxp_import_path_expression(E)         fxp_expression_value_at(E, 0)
 #define fxp_import_set_path_expression(E, V)  fxp_expression_value_set(E, 0, V)
+
+FxP_NativeExpression *FxP_NativeExpression_create_no_args(FxP_Expression *method_name);
+FxP_NativeExpression *FxP_NativeExpression_create_with_args(FxP_Expression *method_name, FxP_Expression *list_element_args);
+#define fxp_native_set_function_name(E, V)  fxp_expression_value_set(E, 0, V)
+#define fxp_native_function_name(E)         fxp_expression_value_at(E, 0)
+#define fxp_native_set_args(E, V)           fxp_expression_value_set(E, 1, V)
+#define fxp_native_args(E)                  fxp_expression_value_at(E, 1)
 
 #endif

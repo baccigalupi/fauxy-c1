@@ -80,16 +80,29 @@ unterminated_expression
   : literal               { $$ = $1; }
   | lookup                { $$ = $1; }
   | function              { $$ = $1; }
-  | method_call           { $$ = $1; }
   | colonized_expression  { $$ = $1; }
   | list                  { $$ = $1; }
   | import_expression     { $$ = $1; }
+  | native_expression     { $$ = $1; }
+  | method_call           { $$ = $1; }
   ;
 
 string_resolvable_expression
   : string                { $$ = $1; }
   | method_call           { $$ = $1; }
   ;
+
+import_expression
+  : IMPORT string_resolvable_expression                         { $$ = FxP_ImportExpression_create($2); }
+  | IMPORT OPEN_PAREN string_resolvable_expression CLOSE_PAREN  { $$ = FxP_ImportExpression_create($3); }
+  ;
+
+native_expression
+  : NATIVE string_resolvable_expression                                             { $$ = FxP_NativeExpression_create_no_args($2); }
+  | NATIVE OPEN_PAREN string_resolvable_expression CLOSE_PAREN                      { $$ = FxP_NativeExpression_create_no_args($3); }
+  | NATIVE OPEN_PAREN string_resolvable_expression COMMA list_elements CLOSE_PAREN  { $$ = FxP_NativeExpression_create_with_args($3, $5); }
+  ;
+
 
 /* -------------------------
 -- Expressions with parenthesis
@@ -208,10 +221,6 @@ implicit_method_call /* puts "hello"; foo(1,2,3);  */
 colonized_expression
   : lookup COLON unterminated_expression                    { $$ = FxP_ColonExpression_create($1, $3); }
   | lookup COLON implicit_method_call                       { $$ = FxP_ColonExpression_create($1, $3); }
-  ;
-
-import_expression
-  : IMPORT string_resolvable_expression                     { $$ = FxP_ImportExpression_create($2); }
   ;
 
 /* ------------------

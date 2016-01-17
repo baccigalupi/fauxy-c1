@@ -276,3 +276,26 @@ FxP_ImportExpression *FxP_ImportExpression_create(FxP_Expression *value) {
 error:
   return NULL;
 }
+
+FxP_NativeExpression *FxP_NativeExpression_create_no_args(FxP_Expression *function_name) {
+  FxP_NativeExpression *native = FxP_Expression_create(FX_ST_NATIVE);
+  verify(native);
+
+  fxp_native_set_function_name(native, function_name);
+
+  return native;
+error:
+  return NULL;
+}
+
+FxP_NativeExpression *FxP_NativeExpression_create_with_args(FxP_Expression *method_name, FxP_Expression *list_element_args) {
+  FxP_NativeExpression *native = FxP_NativeExpression_create_no_args(method_name);
+  verify(native);
+
+  fxp_expression_type(list_element_args) = FX_ST_FUNCTION_DEFINITION_ARGUMENTS;
+  fxp_native_set_args(native, list_element_args);
+
+  return native;
+error:
+  return NULL;
+};

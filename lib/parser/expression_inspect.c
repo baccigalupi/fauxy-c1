@@ -67,6 +67,10 @@ json_t *fxp_inspection_body(FxP_Expression *expression) {
     key = "import";
     body = fxp_import_body(expression);
     break;
+  case FX_ST_NATIVE:
+    key = "native";
+    body = fxp_native_body(expression);
+    break;
   }
 
   verify(body);
@@ -287,6 +291,24 @@ json_t *fxp_import_body(FxP_Expression *expression) {
   return root;
 error:
   if (body) { json_decref(body); }
+  if (root) { json_decref(root); }
+  return NULL;
+}
+
+json_t *fxp_native_body(FxP_Expression *expression) {
+  /*{"function_name": 'something', arguments: [whatever]}*/
+  json_t *root = json_object();
+  json_t *function_name = NULL;
+
+  verify(root);
+
+  function_name = fxp_inspection_body(fxp_native_function_name(expression));
+  verify(function_name);
+  json_object_set_new(root, "function_name", function_name);
+
+  return root;
+error:
+  if (function_name) { json_decref(function_name); }
   if (root) { json_decref(root); }
   return NULL;
 }
