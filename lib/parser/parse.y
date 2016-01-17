@@ -85,6 +85,11 @@ unterminated_expression
   | import_expression     { $$ = $1; }
   ;
 
+string_resolvable_expression
+  : string                { $$ = $1; }
+  | method_call           { $$ = $1; }
+  ;
+
 /* -------------------------
 -- Expressions with parenthesis
 */
@@ -205,7 +210,7 @@ colonized_expression
   ;
 
 import_expression
-  : IMPORT unterminated_expression                          { $$ = FxP_ImportExpression_create($2); }
+  : IMPORT string_resolvable_expression                     { $$ = FxP_ImportExpression_create($2); }
   ;
 
 /* ------------------
@@ -213,13 +218,17 @@ import_expression
 */
 
 literal
-  : STRING        { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_STRING); }
-  | EVAL_STRING   { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_EVAL_STRING); }
+  : string        { $$ = $1; }
   | INTEGER       { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_INTEGER); }
   | FLOAT         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_FLOAT); }
   | REGEX         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_REGEX); }
   | TRUE          { $$ = FxP_Literal_create(NULL, TOKEN_TRUE); }
   | FALSE         { $$ = FxP_Literal_create(NULL, TOKEN_FALSE); }
+  ;
+
+string
+  : STRING        { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_STRING); }
+  | EVAL_STRING   { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_EVAL_STRING); }
   ;
 
 lookup
