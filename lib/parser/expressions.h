@@ -127,6 +127,7 @@ FxP_ImportExpression *FxP_ImportExpression_create(FxP_Expression *value);
 #define fxp_import_set_path_expression(E, V)  fxp_expression_value_set(E, 0, V)
 
 FxP_NativeExpression *FxP_NativeExpression_create_no_args(FxP_Expression *method_name);
+FxP_NativeExpression *FxP_NativeExpression_create_with_arg(FxP_Expression *method_name, FxP_Expression *list_element);
 FxP_NativeExpression *FxP_NativeExpression_create_with_args(FxP_Expression *method_name, FxP_Expression *list_element_args);
 #define fxp_native_set_function_name(E, V)  fxp_expression_value_set(E, 0, V)
 #define fxp_native_function_name(E)         fxp_expression_value_at(E, 0)

@@ -1073,6 +1073,100 @@ char *test_native_assignment() {
   return NULL;
 }
 
+char *test_native_no_parens() {
+  spec_describe("native assignments: to_s: native 'fxi_native_to_s'");
+  FxP_ParserContext *context = parse_string("to_s: native 'fxi_native_to_s'\n");
+
+  char *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"colon_expression\": {\n"
+"        \"left\": {\n"
+"          \"lookup\": {\n"
+"            \"type\": \"Identifier\",\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"to_s\"\n"
+"            }\n"
+"          }\n"
+"        },\n"
+"        \"right\": {\n"
+"          \"native\": {\n"
+"            \"function_name\": {\n"
+"              \"literal\": {\n"
+"                \"bit\": {\n"
+"                  \"STRING\": \"fxi_native_to_s\"\n"
+"                },\n"
+"                \"class\": \"String\"\n"
+"              }\n"
+"            }\n"
+"          }\n"
+"        }\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
+
+  assert_strings_equal(inspection, expected, "ast");
+
+  fxp_parser_context_free(context);
+  free(inspection);
+
+  return NULL;
+}
+
+char *test_native_with_args() {
+  spec_describe("native assignments: native('fxi_native_to_s', format: String)");
+  FxP_ParserContext *context = parse_string("native('fxi_native_to_s', format: String)\n");
+
+  char *inspection = fxp_parser_inspect(context);
+  char *expected =  "{\n"
+"  \"expressions\": [\n"
+"    {\n"
+"      \"native\": {\n"
+"        \"function_name\": {\n"
+"          \"literal\": {\n"
+"            \"bit\": {\n"
+"              \"STRING\": \"fxi_native_to_s\"\n"
+"            },\n"
+"            \"class\": \"String\"\n"
+"          }\n"
+"        },\n"
+"        \"arguments\": [\n"
+"          {\n"
+"            \"colon_expression\": {\n"
+"              \"left\": {\n"
+"                \"lookup\": {\n"
+"                  \"type\": \"Identifier\",\n"
+"                  \"bit\": {\n"
+"                    \"STRING\": \"format\"\n"
+"                  }\n"
+"                }\n"
+"              },\n"
+"              \"right\": {\n"
+"                \"lookup\": {\n"
+"                  \"type\": \"Class Identifier\",\n"
+"                  \"bit\": {\n"
+"                    \"STRING\": \"String\"\n"
+"                  }\n"
+"                }\n"
+"              }\n"
+"            }\n"
+"          }\n"
+"        ]\n"
+"      }\n"
+"    }\n"
+"  ]\n"
+"}";
+
+  assert_strings_equal(inspection, expected, "ast");
+
+  fxp_parser_context_free(context);
+  free(inspection);
+
+  return NULL;
+}
+
 char *test_block_assignment() {
   spec_describe("function assignments: ?: -> { !empty? }");
   FxP_ParserContext *context = parse_string("?: -> { !empty? }\n");
@@ -1259,8 +1353,8 @@ char *all_specs() {
 
   run_spec(test_import_expression);
   run_spec(test_import_with_parens);
-  /*run_spec(test_native_no_parens);*/
-  /*run_spec(test_native_with_args);*/
+  run_spec(test_native_no_parens);
+  run_spec(test_native_with_args);
 
   run_spec(test_parse_from_file);
 

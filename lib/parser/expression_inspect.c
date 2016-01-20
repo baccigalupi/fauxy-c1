@@ -299,12 +299,19 @@ json_t *fxp_native_body(FxP_Expression *expression) {
   /*{"function_name": 'something', arguments: [whatever]}*/
   json_t *root = json_object();
   json_t *function_name = NULL;
+  json_t *args = NULL;
 
   verify(root);
 
   function_name = fxp_inspection_body(fxp_native_function_name(expression));
   verify(function_name);
   json_object_set_new(root, "function_name", function_name);
+
+  if (fxp_native_args(expression)) {
+    args = fxp_forward_list_body(fxp_native_args(expression));
+    verify(args);
+    json_object_set_new(root, "arguments", args);
+  }
 
   return root;
 error:

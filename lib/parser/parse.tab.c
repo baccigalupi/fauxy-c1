@@ -71,7 +71,7 @@
   #include "expressions.h"
   #include "expression_inspect.h"
   #include "bit.h"
-#line 27 "lib/parser/parse.y" /* yacc.c:339  */
+#line 30 "lib/parser/parse.y" /* yacc.c:339  */
 
   #include "parse.tab.h"
   #include "lex.yy.h"
@@ -425,16 +425,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   258
+#define YYLAST   272
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  34
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  28
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  71
+#define YYNRULES  72
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  99
+#define YYNSTATES  100
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -483,14 +483,14 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    57,    57,    59,    61,    65,    66,    67,    68,    69,
-      70,    71,    75,    76,    80,    81,    82,    83,    84,    85,
-      86,    87,    91,    92,    96,    97,   101,   102,   103,   111,
-     112,   116,   117,   118,   122,   123,   150,   155,   163,   164,
-     168,   178,   179,   183,   184,   188,   192,   193,   197,   198,
-     199,   200,   204,   222,   223,   231,   232,   233,   234,   235,
-     236,   240,   241,   245,   246,   250,   254,   255,   256,   257,
-     261,   265
+       0,    60,    60,    62,    64,    68,    69,    70,    71,    72,
+      73,    74,    78,    79,    83,    84,    85,    86,    87,    88,
+      89,    90,    94,    95,    99,   100,   104,   105,   106,   107,
+     115,   116,   120,   121,   122,   126,   127,   154,   159,   167,
+     168,   172,   182,   183,   187,   188,   192,   196,   197,   201,
+     202,   203,   204,   208,   226,   227,   235,   236,   237,   238,
+     239,   240,   244,   245,   249,   250,   254,   258,   259,   260,
+     261,   265,   269
 };
 #endif
 
@@ -545,12 +545,12 @@ static const yytype_int16 yypact[] =
      -73,   -73,   -73,   -73,   -73,   -73,   -73,    12,   137,   206,
      -73,   -73,   -73,   -73,   -73,     4,   -73,   -73,   -73,   -73,
      206,   -73,   -73,   -10,   -73,   -73,   -73,     6,   -73,   -73,
-     -73,    11,   206,   -73,   137,   229,   -73,    40,   -73,   -73,
-     137,   -73,   -73,    -1,     3,   -73,    50,    13,   229,   -73,
+     -73,    11,   206,   -73,   137,   234,   -73,    40,   -73,   -73,
+     137,   -73,   -73,    -1,     3,   -73,    50,    13,   234,   -73,
       26,   -73,   -73,   -73,   -73,   -73,   -73,   206,   206,   106,
-     229,    21,   -73,   -73,   -73,   206,   229,    27,     0,   -73,
-     -73,   206,   -73,   -73,   206,   229,   229,   -73,   229,   -73,
-     -73,   206,   -73,   215,   -73,   224,   215,    28,   -73
+     234,    21,   -73,   -73,   -73,   206,   234,    27,     0,   -73,
+     -73,   206,   -73,   -73,   206,   234,   234,   -73,   234,   -73,
+     -73,   206,   -73,   229,   -73,   243,   215,    28,   -73,   -73
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -558,16 +558,16 @@ static const yytype_int16 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       3,     0,     2,     1,    59,    60,     0,     0,    13,    12,
-      61,    62,    56,    57,    58,    65,    64,     0,     0,     0,
-      11,    70,    71,     4,     7,     0,    19,    20,    31,    18,
-       3,    16,    48,    49,    50,    51,    21,     0,    17,    14,
-      55,    15,    63,    10,     0,     0,    24,    21,    22,    63,
-       0,    26,    36,     0,     0,    29,     0,     0,    46,    47,
-       0,    66,    67,    68,    69,     8,     5,     0,     0,    38,
-      39,     0,    45,     9,     6,     0,    52,     0,     0,    37,
-      32,     0,    30,    33,    44,    41,    42,    40,    53,    54,
-      25,     0,    27,    34,    35,    43,     0,     0,    28
+       3,     0,     2,     1,    60,    61,     0,     0,    13,    12,
+      62,    63,    57,    58,    59,    66,    65,     0,     0,     0,
+      11,    71,    72,     4,     7,     0,    19,    20,    32,    18,
+       3,    16,    49,    50,    51,    52,    21,     0,    17,    14,
+      56,    15,    64,    10,     0,     0,    24,    21,    22,    64,
+       0,    26,    37,     0,     0,    30,     0,     0,    47,    48,
+       0,    67,    68,    69,    70,     8,     5,     0,     0,    39,
+      40,     0,    46,     9,     6,     0,    53,     0,     0,    38,
+      33,     0,    31,    34,    45,    42,    43,    41,    54,    55,
+      25,     0,    27,    35,    36,    44,     0,     0,    28,    29
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -596,7 +596,7 @@ static const yytype_int8 yytable[] =
       15,    79,    25,    67,    60,    92,    45,    45,    80,     0,
       61,    62,    63,    64,    52,    65,    18,    73,    83,    58,
       47,    77,    15,    67,    87,    48,    47,    78,   -23,   -23,
-      70,    48,    90,    98,    67,    69,    67,    89,    84,    53,
+      70,    48,    90,    99,    67,    69,    67,    89,    84,    53,
       81,   -23,    76,   -23,    72,     0,    15,    42,    67,     0,
       60,   -23,     0,    42,    67,    82,    61,    62,    63,    64,
        0,     0,     0,    67,    67,     0,    67,    85,    86,    25,
@@ -614,9 +614,11 @@ static const yytype_int8 yytable[] =
       15,    16,     0,     0,     0,    17,     0,     0,    50,     4,
        5,     0,     6,     7,    19,     0,     0,    10,    11,    12,
       13,    14,    15,    16,     0,    81,     0,    17,     0,     0,
-      18,    15,     0,     0,     0,    60,    19,     0,     0,     0,
-      15,    61,    62,    63,    64,    15,     0,     0,     0,    60,
-      61,    62,    63,    64,     0,    61,    62,    63,    64
+      18,    15,     0,     0,     0,    60,    19,     0,     0,    81,
+      98,    61,    62,    63,    64,    15,     0,     0,     0,    60,
+      15,     0,     0,     0,    60,    61,    62,    63,    64,    15,
+      61,    62,    63,    64,     0,     0,     0,     0,     0,    61,
+      62,    63,    64
 };
 
 static const yytype_int8 yycheck[] =
@@ -644,9 +646,11 @@ static const yytype_int8 yycheck[] =
       16,    17,    -1,    -1,    -1,    21,    -1,    -1,    24,     3,
        4,    -1,     6,     7,    30,    -1,    -1,    11,    12,    13,
       14,    15,    16,    17,    -1,    10,    -1,    21,    -1,    -1,
-      24,    16,    -1,    -1,    -1,    20,    30,    -1,    -1,    -1,
-      16,    26,    27,    28,    29,    16,    -1,    -1,    -1,    20,
-      26,    27,    28,    29,    -1,    26,    27,    28,    29
+      24,    16,    -1,    -1,    -1,    20,    30,    -1,    -1,    10,
+      25,    26,    27,    28,    29,    16,    -1,    -1,    -1,    20,
+      16,    -1,    -1,    -1,    20,    26,    27,    28,    29,    16,
+      26,    27,    28,    29,    -1,    -1,    -1,    -1,    -1,    26,
+      27,    28,    29
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -662,7 +666,7 @@ static const yytype_uint8 yystos[] =
       20,    26,    27,    28,    29,    31,    38,    59,    60,    36,
       39,    47,    48,    31,    38,     5,    39,    40,    40,    22,
       25,    10,    25,    25,    59,    39,    39,    23,    39,    54,
-      25,    10,    25,    39,    45,    39,    39,    45,    25
+      25,    10,    25,    39,    45,    39,    39,    45,    25,    25
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -670,12 +674,12 @@ static const yytype_uint8 yyr1[] =
 {
        0,    34,    35,    36,    36,    37,    37,    37,    37,    37,
       37,    37,    38,    38,    39,    39,    39,    39,    39,    39,
-      39,    39,    40,    40,    41,    41,    42,    42,    42,    43,
-      43,    44,    44,    44,    45,    45,    46,    46,    47,    47,
-      48,    49,    49,    50,    50,    51,    52,    52,    53,    53,
-      53,    53,    54,    55,    55,    56,    56,    56,    56,    56,
-      56,    57,    57,    58,    58,    59,    60,    60,    60,    60,
-      61,    61
+      39,    39,    40,    40,    41,    41,    42,    42,    42,    42,
+      43,    43,    44,    44,    44,    45,    45,    46,    46,    47,
+      47,    48,    49,    49,    50,    50,    51,    52,    52,    53,
+      53,    53,    53,    54,    55,    55,    56,    56,    56,    56,
+      56,    56,    57,    57,    58,    58,    59,    60,    60,    60,
+      60,    61,    61
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -683,12 +687,12 @@ static const yytype_uint8 yyr2[] =
 {
        0,     2,     1,     0,     2,     2,     2,     1,     2,     2,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     2,     4,     2,     4,     6,     2,
-       3,     1,     3,     3,     3,     3,     2,     3,     1,     1,
-       3,     3,     3,     4,     3,     2,     2,     2,     1,     1,
-       1,     1,     2,     3,     3,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     2,     4,     2,     4,     6,     6,
+       2,     3,     1,     3,     3,     3,     3,     2,     3,     1,
+       1,     3,     3,     3,     4,     3,     2,     2,     2,     1,
+       1,     1,     1,     2,     3,     3,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1
+       1,     1,     1
 };
 
 
@@ -1468,407 +1472,413 @@ yyreduce:
   switch (yyn)
     {
         case 5:
-#line 65 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 68 "lib/parser/parse.y" /* yacc.c:1661  */
     { fxp_parser_push_expression(context, (yyvsp[-1])); }
-#line 1474 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1478 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 6:
-#line 66 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 69 "lib/parser/parse.y" /* yacc.c:1661  */
     { fxp_parser_push_expression(context, (yyvsp[-1])); }
-#line 1480 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1484 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 7:
-#line 67 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 70 "lib/parser/parse.y" /* yacc.c:1661  */
     { }
-#line 1486 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1490 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 8:
-#line 68 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 71 "lib/parser/parse.y" /* yacc.c:1661  */
     { fxp_parser_push_expression(context, (yyvsp[-1])); YYACCEPT; }
-#line 1492 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1496 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 9:
-#line 69 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 72 "lib/parser/parse.y" /* yacc.c:1661  */
     { fxp_parser_push_expression(context, (yyvsp[-1])); YYACCEPT; }
-#line 1498 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1502 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 10:
-#line 70 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 73 "lib/parser/parse.y" /* yacc.c:1661  */
     { YYACCEPT; }
-#line 1504 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1508 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 11:
-#line 71 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 74 "lib/parser/parse.y" /* yacc.c:1661  */
     { YYACCEPT; }
-#line 1510 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1514 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 14:
-#line 80 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 83 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1516 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1520 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 15:
-#line 81 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 84 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1522 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1526 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 16:
-#line 82 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 85 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1528 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1532 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 17:
-#line 83 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 86 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1534 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1538 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 18:
-#line 84 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 87 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1540 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1544 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 19:
-#line 85 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 88 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1546 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1550 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 20:
-#line 86 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 89 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1552 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1556 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 21:
-#line 87 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 90 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1558 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1562 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 22:
-#line 91 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 94 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1564 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1568 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 23:
-#line 92 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 95 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1570 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1574 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 24:
-#line 96 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 99 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = FxP_ImportExpression_create((yyvsp[0])); }
-#line 1576 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1580 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 25:
-#line 97 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 100 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = FxP_ImportExpression_create((yyvsp[-1])); }
-#line 1582 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1586 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 26:
-#line 101 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 104 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = FxP_NativeExpression_create_no_args((yyvsp[0])); }
-#line 1588 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1592 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 27:
-#line 102 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 105 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = FxP_NativeExpression_create_no_args((yyvsp[-1])); }
-#line 1594 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1598 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 28:
-#line 103 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_NativeExpression_create_with_args((yyvsp[-3]), (yyvsp[-1])); }
-#line 1600 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 106 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_NativeExpression_create_with_arg((yyvsp[-3]), (yyvsp[-1])); }
+#line 1604 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 29:
-#line 111 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Grouped_create(NULL); }
-#line 1606 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 107 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_NativeExpression_create_with_args((yyvsp[-3]), (yyvsp[-1])); }
+#line 1610 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 30:
-#line 112 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Grouped_create((yyvsp[-1])); }
-#line 1612 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 115 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Grouped_create(NULL); }
+#line 1616 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 31:
 #line 116 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = (yyvsp[0]); }
-#line 1618 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    { (yyval) = FxP_Grouped_create((yyvsp[-1])); }
+#line 1622 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 32:
-#line 117 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_List_create_deferred(); }
-#line 1624 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 120 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = (yyvsp[0]); }
+#line 1628 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 33:
-#line 118 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = (yyvsp[-1]); }
-#line 1630 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 121 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_List_create_deferred(); }
+#line 1634 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 34:
 #line 122 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval)  = FxP_List_create_double((yyvsp[-2]), (yyvsp[0])); }
-#line 1636 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    { (yyval) = (yyvsp[-1]); }
+#line 1640 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 35:
-#line 123 "lib/parser/parse.y" /* yacc.c:1661  */
-    { fxp_list_push((FxP_List *)(yyvsp[0]), (yyvsp[-2])); (yyval) = (yyvsp[0]); }
-#line 1642 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 126 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval)  = FxP_List_create_double((yyvsp[-2]), (yyvsp[0])); }
+#line 1646 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 36:
-#line 150 "lib/parser/parse.y" /* yacc.c:1661  */
-    {
-                                              FxP_FunctionDefinition *function = FxP_FunctionDefinition_create_no_args();
-                                              fxp_parser_context_push(context, fxp_function_definition_expressions(function));
-                                              (yyval) = function;
-                                            }
+#line 127 "lib/parser/parse.y" /* yacc.c:1661  */
+    { fxp_list_push((FxP_List *)(yyvsp[0]), (yyvsp[-2])); (yyval) = (yyvsp[0]); }
 #line 1652 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 37:
-#line 155 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 154 "lib/parser/parse.y" /* yacc.c:1661  */
     {
-                                              FxP_FunctionDefinition *function = FxP_FunctionDefinition_create((yyvsp[-1]));
+                                              FxP_FunctionDefinition *function = FxP_FunctionDefinition_create_no_args();
                                               fxp_parser_context_push(context, fxp_function_definition_expressions(function));
                                               (yyval) = function;
                                             }
 #line 1662 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
-  case 39:
-#line 164 "lib/parser/parse.y" /* yacc.c:1661  */
-    { fxp_parser_push_expression(context, (yyvsp[0]));}
-#line 1668 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+  case 38:
+#line 159 "lib/parser/parse.y" /* yacc.c:1661  */
+    {
+                                              FxP_FunctionDefinition *function = FxP_FunctionDefinition_create((yyvsp[-1]));
+                                              fxp_parser_context_push(context, fxp_function_definition_expressions(function));
+                                              (yyval) = function;
+                                            }
+#line 1672 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 40:
 #line 168 "lib/parser/parse.y" /* yacc.c:1661  */
-    {
-                                                                fxp_parser_context_pop(context);
-                                                              }
-#line 1676 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    { fxp_parser_push_expression(context, (yyvsp[0]));}
+#line 1678 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 41:
-#line 178 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_MethodCall_create_args((yyvsp[-2]), (yyvsp[-1]), (yyvsp[0])); }
-#line 1682 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 172 "lib/parser/parse.y" /* yacc.c:1661  */
+    {
+                                                                fxp_parser_context_pop(context);
+                                                              }
+#line 1686 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 42:
-#line 179 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 182 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = FxP_MethodCall_create_args((yyvsp[-2]), (yyvsp[-1]), (yyvsp[0])); }
-#line 1688 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1692 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 43:
 #line 183 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_MethodCall_create_args((yyvsp[-3]), (yyvsp[-1]), (yyvsp[0])); }
-#line 1694 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    { (yyval) = FxP_MethodCall_create_args((yyvsp[-2]), (yyvsp[-1]), (yyvsp[0])); }
+#line 1698 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 44:
-#line 184 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_MethodCall_create_no_args((yyvsp[-2]), (yyvsp[0])); }
-#line 1700 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 187 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_MethodCall_create_args((yyvsp[-3]), (yyvsp[-1]), (yyvsp[0])); }
+#line 1704 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 45:
 #line 188 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = fxp_method_call_add_function_definition_argument((yyvsp[-1]), (yyvsp[0])); }
-#line 1706 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    { (yyval) = FxP_MethodCall_create_no_args((yyvsp[-2]), (yyvsp[0])); }
+#line 1710 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 46:
 #line 192 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_MethodCall_create_negation((yyvsp[0]), (yyvsp[-1])); }
-#line 1712 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    { (yyval) = fxp_method_call_add_function_definition_argument((yyvsp[-1]), (yyvsp[0])); }
+#line 1716 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 47:
-#line 193 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 196 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = FxP_MethodCall_create_negation((yyvsp[0]), (yyvsp[-1])); }
-#line 1718 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1722 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 48:
 #line 197 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = (yyvsp[0]); }
-#line 1724 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    { (yyval) = FxP_MethodCall_create_negation((yyvsp[0]), (yyvsp[-1])); }
+#line 1728 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 49:
-#line 198 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 201 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1730 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1734 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 50:
-#line 199 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 202 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1736 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1740 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 51:
-#line 200 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 203 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = (yyvsp[0]); }
-#line 1742 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1746 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 52:
 #line 204 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_MethodCall_create_implicit((yyvsp[-1]), (yyvsp[0])); }
-#line 1748 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    { (yyval) = (yyvsp[0]); }
+#line 1752 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 53:
-#line 222 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_ColonExpression_create((yyvsp[-2]), (yyvsp[0])); }
-#line 1754 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 208 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_MethodCall_create_implicit((yyvsp[-1]), (yyvsp[0])); }
+#line 1758 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 54:
-#line 223 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 226 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = FxP_ColonExpression_create((yyvsp[-2]), (yyvsp[0])); }
-#line 1760 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1764 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 55:
-#line 231 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = (yyvsp[0]); }
-#line 1766 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 227 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_ColonExpression_create((yyvsp[-2]), (yyvsp[0])); }
+#line 1770 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 56:
-#line 232 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_INTEGER); }
-#line 1772 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 235 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = (yyvsp[0]); }
+#line 1776 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 57:
-#line 233 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_FLOAT); }
-#line 1778 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 236 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_INTEGER); }
+#line 1782 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 58:
-#line 234 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_REGEX); }
-#line 1784 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 237 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_FLOAT); }
+#line 1788 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 59:
-#line 235 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create(NULL, TOKEN_TRUE); }
-#line 1790 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 238 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_REGEX); }
+#line 1794 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 60:
-#line 236 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create(NULL, TOKEN_FALSE); }
-#line 1796 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 239 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create(NULL, TOKEN_TRUE); }
+#line 1800 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 61:
 #line 240 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_STRING); }
-#line 1802 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create(NULL, TOKEN_FALSE); }
+#line 1806 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 62:
-#line 241 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_EVAL_STRING); }
-#line 1808 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 244 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_STRING); }
+#line 1812 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 63:
 #line 245 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = (yyvsp[0]); }
-#line 1814 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_EVAL_STRING); }
+#line 1818 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 64:
-#line 246 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Lookup_create((FxP_Bit *)(yyvsp[0]), TOKEN_CLASS_ID); }
-#line 1820 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 249 "lib/parser/parse.y" /* yacc.c:1661  */
+    { (yyval) = (yyvsp[0]); }
+#line 1824 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 65:
 #line 250 "lib/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Lookup_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
-#line 1826 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    { (yyval) = FxP_Lookup_create((FxP_Bit *)(yyvsp[0]), TOKEN_CLASS_ID); }
+#line 1830 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 66:
 #line 254 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = FxP_Lookup_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
-#line 1832 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1836 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 67:
-#line 255 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 258 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = FxP_Lookup_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
-#line 1838 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1842 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 68:
-#line 256 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 259 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = FxP_Lookup_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
-#line 1844 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1848 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 69:
-#line 257 "lib/parser/parse.y" /* yacc.c:1661  */
+#line 260 "lib/parser/parse.y" /* yacc.c:1661  */
     { (yyval) = FxP_Lookup_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
-#line 1850 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1854 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 70:
 #line 261 "lib/parser/parse.y" /* yacc.c:1661  */
-    {
-                                          fxp_parser_context_error_code(context) = TOKEN_LEX_ERROR_ILLEGAL_VARIABLE;
-                                          yyerror(&((yylsp[0])), state, context, "Illegal variable or method name");
-                                        }
-#line 1859 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    { (yyval) = FxP_Lookup_create((FxP_Bit *)(yyvsp[0]), TOKEN_ID); }
+#line 1860 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 71:
 #line 265 "lib/parser/parse.y" /* yacc.c:1661  */
     {
+                                          fxp_parser_context_error_code(context) = TOKEN_LEX_ERROR_ILLEGAL_VARIABLE;
+                                          yyerror(&((yylsp[0])), state, context, "Illegal variable or method name");
+                                        }
+#line 1869 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 72:
+#line 269 "lib/parser/parse.y" /* yacc.c:1661  */
+    {
                                           fxp_parser_context_error_code(context) = TOKEN_LEX_ERROR_UNKNOWN_TOKEN;
                                           yyerror(&((yylsp[0])), state, context, "Unknown token");
                                         }
-#line 1868 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1878 "lib/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
 
-#line 1872 "lib/parser/parse.tab.c" /* yacc.c:1661  */
+#line 1882 "lib/parser/parse.tab.c" /* yacc.c:1661  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2103,5 +2113,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 271 "lib/parser/parse.y" /* yacc.c:1906  */
+#line 275 "lib/parser/parse.y" /* yacc.c:1906  */
 

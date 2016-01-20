@@ -299,3 +299,19 @@ FxP_NativeExpression *FxP_NativeExpression_create_with_args(FxP_Expression *meth
 error:
   return NULL;
 };
+
+FxP_NativeExpression *FxP_NativeExpression_create_with_arg(FxP_Expression *method_name, FxP_Expression *expression) {
+  FxP_NativeExpression *native = FxP_NativeExpression_create_no_args(method_name);
+  verify(native);
+
+  FxP_Expression *argument_list = FxP_Expression_create(FX_ST_FUNCTION_DEFINITION_ARGUMENTS);
+  verify(argument_list);
+  fxp_list_push(argument_list, expression);
+
+  fxp_native_set_args(native, argument_list);
+
+  return native;
+error:
+  if (native) { fxp_expression_free(native); }
+  return NULL;
+}

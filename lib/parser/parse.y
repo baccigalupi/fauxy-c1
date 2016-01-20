@@ -8,6 +8,9 @@
   #include "bit.h"
 %}
 
+//lib/parser/parse.y: warning: 45 shift/reduce conflicts [-Wconflicts-sr]
+//lib/parser/parse.y: warning: 16 reduce/reduce conflicts [-Wconflicts-rr]
+
 // bison outputs header and c files in right location
 %file-prefix "lib/parser/parse"
 %defines
@@ -100,6 +103,7 @@ import_expression
 native_expression
   : NATIVE string_resolvable_expression                                             { $$ = FxP_NativeExpression_create_no_args($2); }
   | NATIVE OPEN_PAREN string_resolvable_expression CLOSE_PAREN                      { $$ = FxP_NativeExpression_create_no_args($3); }
+  | NATIVE OPEN_PAREN string_resolvable_expression COMMA unterminated_expression CLOSE_PAREN  { $$ = FxP_NativeExpression_create_with_arg($3, $5); }
   | NATIVE OPEN_PAREN string_resolvable_expression COMMA list_elements CLOSE_PAREN  { $$ = FxP_NativeExpression_create_with_args($3, $5); }
   ;
 
