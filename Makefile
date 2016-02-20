@@ -65,12 +65,21 @@ clean:
 	find . -name "*.gc*" -exec rm {} \;
 	rm -rf `find . -name "*.dSYM" -print`
 
-dependencies: dependencies/jansson
+dependencies: dependencies/jansson dependencies/libffi
 
 .PHONY: dependencies/jansson
 dependencies/jansson:
 	cd dependencies/jansson; \
 	autoreconf -i; \
+	./configure; \
+	make; \
+	make check; \
+	make install
+
+.PHONY: dependencies/libffi
+dependencies/libffi:
+	cd dependencies/libffi; \
+	./autogen.sh; \
 	./configure; \
 	make; \
 	make check; \

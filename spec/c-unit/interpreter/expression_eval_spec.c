@@ -256,10 +256,27 @@ char *test_import_expression_on_global_space() {
   bit = FxP_Bit_string_create("it-worked?");
   FxP_Lookup *lookup = FxP_Lookup_create(bit, TOKEN_ID);
   object = fxi_evaluate(interpreter, lookup);
-  printf("object %p\n", object);
 
   // this is segfaulting because the object is not found via lookup
   assert_equal(fxi_boolean_value(object), true, "import code run against current interpreter context");
+
+  return NULL;
+}
+
+char *test_native() {
+  // native('fxi_boolean_not');
+  spec_describe("native returns a method object");
+  setup_interpreter();
+
+  FxI_NativeRegistry_add(fxi_interpreter_registry(interpreter), "fxi_boolean_not", &fxi_boolean_not);
+
+  FxP_Bit *bit                              = FxP_Bit_string_create("fxi_boolean_not");
+  FxP_Literal *literal                      = FxP_Literal_create(bit, TOKEN_STRING);
+  FxP_NativeExpression *native_expression   = FxP_NativeExpression_create_no_args(literal);
+
+  FxI_Object *object = fxi_evaluate(interpreter, native_expression);
+
+  assert_equal(fxi_object__value(object), &fxi_boolean_not, "stores address of function in the private value of the object");
 
   return NULL;
 }
@@ -284,6 +301,7 @@ char *all_specs() {
   run_spec(test_function_declaration);
 
   run_spec(test_import_expression_on_global_space);
+  /*run_spec(test_native);*/
 
   spec_teardown();
 

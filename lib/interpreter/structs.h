@@ -36,13 +36,14 @@ typedef struct FxI_Interpreter {
 
 typedef struct FxI_MethodGroup {
   char             *name;
-  FxB_List         *functions;
+  FxB_List         *functions; // this should change to methods
 } FxI_MethodGroup;
 
 typedef FxI_Object FxI_FunctionDefinition;
 
 typedef FxI_Object FxI_MethodCallArguments;
 // object has the interpreter, remove from object or don't always pass along the interpreter, think remove it
+// also how is this signature different from a function?
 typedef FxI_Object *(* FxI_NativeFunction)(FxI_Interpreter *interpreter, FxI_Object *self, FxI_MethodCallArguments *arguments);
 
 #endif
