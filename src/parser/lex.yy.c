@@ -1,6 +1,6 @@
-#line 2 "lib/parser/lex.yy.c"
+#line 2 "src/parser/lex.yy.c"
 
-#line 4 "lib/parser/lex.yy.c"
+#line 4 "src/parser/lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -655,8 +655,8 @@ static yyconst flex_int32_t yy_rule_can_match_eol[40] =
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#line 1 "lib/parser/lex.l"
-#line 2 "lib/parser/lex.l"
+#line 1 "src/parser/lex.l"
+#line 2 "src/parser/lex.l"
 	#include <stdio.h>
 	#include "lex_wrapper.h"
 	#include "bit.h"
@@ -677,7 +677,7 @@ static yyconst flex_int32_t yy_rule_can_match_eol[40] =
 	#define FX_LexIntegerBit(T, S)  *yylval = FxP_Bit_integer_create(S);  FX_LexToken(T);
 	#define FX_LexDecimalBit(T, S)  *yylval = FxP_Bit_decimal_create(S);  FX_LexToken(T);
 	#define FX_LexExponentBit(T, S) *yylval = FxP_Bit_exponent_create(S); FX_LexToken(T);
-#line 681 "lib/parser/lex.yy.c"
+#line 681 "src/parser/lex.yy.c"
 
 #define INITIAL 0
 
@@ -922,10 +922,10 @@ YY_DECL
 	register int yy_act;
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
 
-#line 37 "lib/parser/lex.l"
+#line 37 "src/parser/lex.l"
 
 
-#line 929 "lib/parser/lex.yy.c"
+#line 929 "src/parser/lex.yy.c"
 
     yylval = yylval_param;
 
@@ -1026,212 +1026,212 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 39 "lib/parser/lex.l"
+#line 39 "src/parser/lex.l"
 { FX_LexToken(TOKEN_TRUE); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 40 "lib/parser/lex.l"
+#line 40 "src/parser/lex.l"
 { FX_LexToken(TOKEN_FALSE); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 41 "lib/parser/lex.l"
+#line 41 "src/parser/lex.l"
 { FX_LexToken(TOKEN_IMPORT); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 42 "lib/parser/lex.l"
+#line 42 "src/parser/lex.l"
 { FX_LexToken(TOKEN_NATIVE); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 43 "lib/parser/lex.l"
+#line 43 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_AND, yytext); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 44 "lib/parser/lex.l"
+#line 44 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_AND, "and"); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 45 "lib/parser/lex.l"
+#line 45 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_OR, yytext); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 46 "lib/parser/lex.l"
+#line 46 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_OR, "or"); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 47 "lib/parser/lex.l"
+#line 47 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_EQUALITY, "="); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 48 "lib/parser/lex.l"
+#line 48 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_STRICT_EQUALITY, "=="); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 49 "lib/parser/lex.l"
+#line 49 "src/parser/lex.l"
 { FX_LexToken(TOKEN_ELIPSES); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 50 "lib/parser/lex.l"
+#line 50 "src/parser/lex.l"
 { FX_LexToken(TOKEN_ELIPSES); }
 	YY_BREAK
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 51 "lib/parser/lex.l"
+#line 51 "src/parser/lex.l"
 { FX_LexToken(TOKEN_DOT); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 52 "lib/parser/lex.l"
+#line 52 "src/parser/lex.l"
 { FX_LexToken(TOKEN_SEMICOLON); }
 	YY_BREAK
 case 15:
 /* rule 15 can match eol */
 YY_RULE_SETUP
-#line 53 "lib/parser/lex.l"
+#line 53 "src/parser/lex.l"
 { FX_LexToken(TOKEN_OPEN_PAREN); }
 	YY_BREAK
 case 16:
 /* rule 16 can match eol */
 YY_RULE_SETUP
-#line 54 "lib/parser/lex.l"
+#line 54 "src/parser/lex.l"
 { FX_LexToken(TOKEN_CLOSE_PAREN); }
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 55 "lib/parser/lex.l"
+#line 55 "src/parser/lex.l"
 { FX_LexToken(TOKEN_COMMA); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 56 "lib/parser/lex.l"
+#line 56 "src/parser/lex.l"
 { FX_LexToken(TOKEN_DEFERRED_ARGUMENT); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 57 "lib/parser/lex.l"
+#line 57 "src/parser/lex.l"
 { FX_LexToken(TOKEN_COLON); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 58 "lib/parser/lex.l"
+#line 58 "src/parser/lex.l"
 { FX_LexToken(TOKEN_FUNCTION_DECLARATION); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 59 "lib/parser/lex.l"
+#line 59 "src/parser/lex.l"
 { FX_LexToken(TOKEN_OPEN_BRACE); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 60 "lib/parser/lex.l"
+#line 60 "src/parser/lex.l"
 { FX_LexToken(TOKEN_CLOSE_BRACE); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 61 "lib/parser/lex.l"
+#line 61 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_NOT, yytext); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 62 "lib/parser/lex.l"
+#line 62 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_ID, yytext); }
 	YY_BREAK
 case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
-#line 63 "lib/parser/lex.l"
+#line 63 "src/parser/lex.l"
 { /* comment bracketed, treat as white space */ }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 64 "lib/parser/lex.l"
+#line 64 "src/parser/lex.l"
 { /* terminating comment, treat as white space */ }
 	YY_BREAK
 case 27:
 /* rule 27 can match eol */
 YY_RULE_SETUP
-#line 65 "lib/parser/lex.l"
+#line 65 "src/parser/lex.l"
 { FX_LexToken(TOKEN_LINE_END); }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 66 "lib/parser/lex.l"
+#line 66 "src/parser/lex.l"
 { FX_LexToken(TOKEN_EOF); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 67 "lib/parser/lex.l"
+#line 67 "src/parser/lex.l"
 { /* white space, move along */ }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 69 "lib/parser/lex.l"
+#line 69 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_CLASS_ID, yytext); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 71 "lib/parser/lex.l"
+#line 71 "src/parser/lex.l"
 { FX_LexDecimalBit(TOKEN_FLOAT, yytext); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 72 "lib/parser/lex.l"
+#line 72 "src/parser/lex.l"
 { FX_LexExponentBit(TOKEN_FLOAT, yytext); }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 73 "lib/parser/lex.l"
+#line 73 "src/parser/lex.l"
 { FX_LexIntegerBit(TOKEN_INTEGER, yytext); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 75 "lib/parser/lex.l"
+#line 75 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_ID, yytext); }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 76 "lib/parser/lex.l"
+#line 76 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_REGEX, yytext); }
 	YY_BREAK
 case 35:
 /* rule 35 can match eol */
 YY_RULE_SETUP
-#line 77 "lib/parser/lex.l"
+#line 77 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_EVAL_STRING, yytext); }
 	YY_BREAK
 case 36:
 /* rule 36 can match eol */
 YY_RULE_SETUP
-#line 78 "lib/parser/lex.l"
+#line 78 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_STRING, yytext); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 80 "lib/parser/lex.l"
+#line 80 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_LEX_ERROR_ILLEGAL_VARIABLE, yytext); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 81 "lib/parser/lex.l"
+#line 81 "src/parser/lex.l"
 { FX_LexStringBit(TOKEN_LEX_ERROR_UNKNOWN_TOKEN, yytext); }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 82 "lib/parser/lex.l"
+#line 82 "src/parser/lex.l"
 ECHO;
 	YY_BREAK
-#line 1235 "lib/parser/lex.yy.c"
+#line 1235 "src/parser/lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2416,4 +2416,4 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 82 "lib/parser/lex.l"
+#line 82 "src/parser/lex.l"

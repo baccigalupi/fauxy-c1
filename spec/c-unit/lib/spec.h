@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <string.h>
 
-#include "../../../lib/bricks/helpers.h"
+#include "../../../src/bricks/helpers.h"
 
 #define spec_describe(S)          printf("\n%s %s %s\n", CONSOLE_ORANGE, S, CONSOLE_RESET)
 

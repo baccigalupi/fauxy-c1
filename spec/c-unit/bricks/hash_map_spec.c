@@ -1,6 +1,4 @@
-#include "../../../lib/bricks/_bricks.h"
-#include "../lib/spec.h"
-
+#include "../../../src/bricks/_bricks.h"
 #include "../lib/spec.h"
 
 char *test_create_hash() {

@@ -23,7 +23,7 @@
 
 %option reentrant
 %option noyywrap
-%option header-file="lib/parser/lex.yy.h"
+%option header-file="src/parser/lex.yy.h"
 %option bison-bridge
 %option bison-locations
 %option yylineno

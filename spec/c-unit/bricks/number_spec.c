@@ -1,4 +1,4 @@
-#include "../../../lib/bricks/_bricks.h"
+#include "../../../src/bricks/_bricks.h"
 #include "../lib/spec.h"
 #include <limits.h>
 

@@ -1,6 +1,6 @@
-#include "../../../lib/parser/_parser.h"
-#include "../../../lib/parser/parse.tab.h"
-#include "../../../lib/parser/lex.yy.h"
+#include "../../../src/parser/_parser.h"
+#include "../../../src/parser/parse.tab.h"
+#include "../../../src/parser/lex.yy.h"
 #include "../lib/spec.h"
 
 char *multiline_comment() {

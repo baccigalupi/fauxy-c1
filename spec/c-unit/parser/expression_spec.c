@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "../../../lib/parser/_parser.h"
+#include "../../../src/parser/_parser.h"
 #include "../lib/spec.h"
 
 char *test_create_literal() {

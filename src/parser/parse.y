@@ -8,11 +8,8 @@
   #include "bit.h"
 %}
 
-//lib/parser/parse.y: warning: 45 shift/reduce conflicts [-Wconflicts-sr]
-//lib/parser/parse.y: warning: 16 reduce/reduce conflicts [-Wconflicts-rr]
-
 // bison outputs header and c files in right location
-%file-prefix "lib/parser/parse"
+%file-prefix "src/parser/parse"
 %defines
 
 %error-verbose

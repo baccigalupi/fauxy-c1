@@ -5,10 +5,10 @@
 **/*.a
 **/*.so
 **/*.dSYM/*
+**/*.output
 
 bin/*
-
-lib/parser/parse.output
+build/*
 
 spec/c-unit/bricks/string_spec
 spec/c-unit/bricks/array_spec

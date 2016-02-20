@@ -7,7 +7,7 @@ FLEX=/usr/local/Cellar/flex/2.5.37/bin/flex
 CFLAGS=-g -O3 -std=gnu11 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
 LIBS=-ldl $(OPTLIBS) -ljansson
 
-SOURCES=$(wildcard lib/**/*.c lib/*.c lib/*/**/*.c)
+SOURCES=$(wildcard src/**/*.c src/*.c src/*/**/*.c)
 OBJECTS=$(patsubst %.c,%.o,$(SOURCES))
 
 TEST_SRC=$(wildcard spec/c-unit/**/*_spec.c spec/c-unit/*_spec.c spec/c-unit/*/**/*_spec.c)
@@ -33,14 +33,14 @@ build:
 	@mkdir -p bin
 
 # flex and bison -----------
-bin/fauxy: lib/parser/parse.tab.c lib/parser/lex.yy.c
-	$(CC) $(CFLAGS) -o bin/fauxy $(SOURCES) lib/parser/parse.tab.c lib/parser/lex.yy.c -ll
+bin/fauxy: src/parser/parse.tab.c src/parser/lex.yy.c
+	$(CC) $(CFLAGS) -o bin/fauxy $(SOURCES) src/parser/parse.tab.c src/parser/lex.yy.c -ll
 
-lib/parser/parse.tab.c: lib/parser/parse.y
-	$(BISON) --verbose lib/parser/parse.y
+src/parser/parse.tab.c: src/parser/parse.y
+	$(BISON) --verbose src/parser/parse.y
 
-lib/parser/lex.yy.c: lib/parser/lex.l
-	$(FLEX) -o lib/parser/lex.yy.c lib/parser/lex.l
+src/parser/lex.yy.c: src/parser/lex.l
+	$(FLEX) -o src/parser/lex.yy.c src/parser/lex.l
 
 .PHONY: run
 run:
@@ -51,7 +51,7 @@ list-tests:
 	echo $(TEST_SRC)
 
 # C unit tests
-c-unit: CFLAGS += $(TARGET) lib/parser/parse.tab.c lib/parser/lex.yy.c
+c-unit: CFLAGS += $(TARGET) src/parser/parse.tab.c src/parser/lex.yy.c
 c-unit: $(TESTS)
 	sh ./spec/c-unit/lib/run_specs.sh
 
@@ -59,8 +59,8 @@ c-unit: $(TESTS)
 clean:
 	rm -rf build $(OBJECTS) $(TESTS)
 	rm -f spec/c-unit/spec.log
-	rm -f lib/parser/parse.tab.*
-	rm -f lib/parser/lex.yy.*
+	rm -f src/parser/parse.tab.*
+	rm -f src/parser/lex.yy.*
 	rm -rf bin/*
 	find . -name "*.gc*" -exec rm {} \;
 	rm -rf `find . -name "*.dSYM" -print`
