@@ -38,6 +38,8 @@ FxI_Object *fxi_evaluate(FxI_Interpreter *interpreter, FxP_Expression *expressio
     result = fxi_evaluate_expressions(interpreter, expression);
   } else if ( type == FX_ST_IMPORT ) {
     result = fxi_evaluate_import(interpreter, expression);
+  } else if ( type == FX_ST_NATIVE ) {
+    result = fxi_evaluate_native(interpreter, expression);
   } else {
     printf("%d expression evaluation not defined\n", type);
   }
@@ -170,6 +172,23 @@ FxI_Object *fxi_evaluate_import(FxI_Interpreter *interpreter, FxP_ImportExpressi
 error:
   printf("%d %d\n", fxp_expression_type(path_expression), FX_ST_LITERAL);
   puts("Runtime Error: File path expression is not a string.");
+  return NULL;
+}
+
+FxI_Object *fxi_evaluate_native(FxI_Interpreter *interpreter, FxP_ImportExpression *expression) {
+  FxI_Object *object = FxI_Object_create(interpreter, NULL); // todo: add class for Function
+  // TODO: if it is an eval string, need to eval it :(
+  // or if evaluable to a string need to do both
+  FxP_Expression *path = fxp_native_function_name(expression);
+  verify(fxp_is_string_literal(path));
+  char *function_name = fxp_literal_string_value(path);
+
+  FxB_HashMap *registry = fxi_interpreter_registry(interpreter);
+  FxI_NativeFunction *native_function = fxb_hash_map_get(registry, function_name);
+  fxi_object__value(object) = native_function;
+
+  return object;
+error:
   return NULL;
 }
 

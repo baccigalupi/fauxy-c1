@@ -301,7 +301,7 @@ char *all_specs() {
   run_spec(test_function_declaration);
 
   run_spec(test_import_expression_on_global_space);
-  /*run_spec(test_native);*/
+  run_spec(test_native);
 
   spec_teardown();
 

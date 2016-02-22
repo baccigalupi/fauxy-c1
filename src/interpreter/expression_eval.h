@@ -24,6 +24,7 @@ FxI_Object *fxi_evaluate_colon_expression(              FxI_Interpreter *interpr
 FxI_Object *fxi_evaluate_assignment(                    FxI_Interpreter *interpreter, FxP_Expression *expression);
 FxI_Object *fxi_evaluate_expressions(                   FxI_Interpreter *interpreter, FxP_Expression *expression);
 FxI_Object *fxi_evaluate_import(                        FxI_Interpreter *interpreter, FxP_Expression *expression);
+FxI_Object *fxi_evaluate_native(                        FxI_Interpreter *interpreter, FxP_Expression *expression);
 FxI_Object *fxi_evaluate_parser(                        FxI_Interpreter *interpreter, FxP_ParserContext *context);
 
 #endif
