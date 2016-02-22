@@ -76,15 +76,6 @@ dependencies/jansson:
 	make check; \
 	make install
 
-.PHONY: dependencies/libffi
-dependencies/libffi:
-	cd dependencies/libffi; \
-	./autogen.sh; \
-	./configure; \
-	make; \
-	make check; \
-	make install
-
 # # System Install
 # PREFIX?=/usr/local
 # install: all
