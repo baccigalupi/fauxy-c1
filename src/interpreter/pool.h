@@ -10,7 +10,6 @@
 // that is passed to the `fauxy` command line binary
 #define FXI_POOL_LITERAL_CAPACITY_DEFAULT  400
 #define FXI_POOL_GLOBAL_CAPACITY_DEFAULT   200
-#define FXI_POOL_NATIVE_CAPACITY_DEFAULT   1000
 
 // Garbage managment: ??
 //   * New allocations end up in the literals
@@ -31,7 +30,6 @@
 #define fxi_pool_literals(P)        ((P)->literals)
 #define fxi_pool_all(P)             ((P)->all)
 #define fxi_pool_globals(P)         ((P)->globals)
-#define fxi_pool_natives(P)         ((P)->natives)
 
 #define fxi_pool_literal_get(P, K)      (fxb_hash_map_get(fxi_pool_literals(P), K))
 #define fxi_pool_literal_set(P, K, V)   (fxb_hash_map_set(fxi_pool_literals(P), K, V))
