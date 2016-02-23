@@ -10,9 +10,8 @@
 
 typedef struct FxI_Object {
   int                     type;
-  struct FxI_Object      *scope;
+  struct FxI_Object      *scope; // class
   FxB_HashMap            *attributes;
-  struct FxI_Interpreter *interpreter;
   void                   *value;
   Boolean                 closed; // double negative, but better defaults
 } FxI_Object;

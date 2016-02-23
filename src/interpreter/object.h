@@ -10,7 +10,6 @@
 
 #define fxi_object_type(O)                  ((O)->type)
 #define fxi_object_scope(O)                 ((O)->scope)
-#define fxi_object_interpreter(O)           ((O)->interpreter)
 #define fxi_object_attributes(O)            ((O)->attributes)
 #define fxi_object__value(O)                ((O)->value)
 
