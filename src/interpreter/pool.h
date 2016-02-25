@@ -28,7 +28,6 @@
 #include "structs.h"
 
 #define fxi_pool_literals(P)        ((P)->literals)
-#define fxi_pool_all(P)             ((P)->all)
 #define fxi_pool_globals(P)         ((P)->globals)
 
 #define fxi_pool_literal_get(P, K)      (fxb_hash_map_get(fxi_pool_literals(P), K))

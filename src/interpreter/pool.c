@@ -4,7 +4,6 @@
 FxI_Pool *FxI_Pool_create(FxB_HashMap *config) {
   FxB_HashMap *literals = NULL;
   FxB_HashMap *global_attributes = NULL;
-  FxB_List    *all = NULL;
   FxI_Object *globals  = NULL;
 
   FxI_Pool *pool = fx_alloc(FxI_Pool);
@@ -18,10 +17,6 @@ FxI_Pool *FxI_Pool_create(FxB_HashMap *config) {
   literals = FxB_HashMap_create(literal_capacity);
   verify(literals);
   fxi_pool_literals(pool) = literals;
-
-  all = FxB_List_create();
-  verify(all)
-  fxi_pool_all(pool) = all;
 
   // Smaller version of the code for object create.
   // Classes, Objects and Globals are all objects so that
@@ -37,7 +32,6 @@ FxI_Pool *FxI_Pool_create(FxB_HashMap *config) {
   return pool;
 error:
   if (pool) { fx_pfree(pool); }
-  if (all) { fxb_list_free(all); }
   if (literals) { fxb_hash_map_free(literals); }
   if (global_attributes) { fxb_hash_map_free(global_attributes); }
   if (globals) { fxi_object_free(globals); }

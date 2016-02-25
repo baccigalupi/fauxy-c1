@@ -18,7 +18,6 @@ typedef FxB_HashMap FxI_NativeRegistry;
 
 typedef struct FxI_Pool {
   FxB_HashMap *literals;
-  FxB_List    *all;
   FxI_Object  *globals; // this needs to be an object so that all contexts are objects!
 } FxI_Pool;
 
