@@ -11,7 +11,7 @@
 typedef FxI_Object FxI_Class;
 
 #define fxi_class_name(C)          (char *)((C)->value)
-#define fxi_class_super_class(C)   (fxi_object_scope(C))
+#define fxi_class_super_class(C)   (fxi_object_class(C))
 
 #define fxi_class_method_count(C)           (fxb_hash_map_length(fxi_object_attributes(C)))
 #define fxi_class_get_method_group(C, K)    (fxb_hash_map_get(fxi_object_attributes(C), K))

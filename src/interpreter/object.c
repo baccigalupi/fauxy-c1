@@ -2,14 +2,14 @@
 
 #include "../bricks/helpers.h"
 
-FxI_Object *FxI_Object_create(FxI_Interpreter *interpreter, FxI_Object *scope) {
+FxI_Object *FxI_Object_create(FxI_Interpreter *interpreter, FxI_Object *klass) {
   FxI_Object *object = fx_alloc(FxI_Object);
   verify_memory(object);
 
   FxB_HashMap *attributes = FxB_HashMap_create(FXN_OBJECT_ATTRIBUTE_HASHMAP_SIZE);
   verify(attributes);
 
-  fxi_object_scope(object) = scope;
+  fxi_object_class(object) = klass;
   fxi_object_attributes(object) = attributes;
 
   return object;

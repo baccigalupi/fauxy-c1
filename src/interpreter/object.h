@@ -8,7 +8,7 @@
 
 #define FXN_OBJECT_ATTRIBUTE_HASHMAP_SIZE   50
 
-#define fxi_object_scope(O)                 ((O)->scope)
+#define fxi_object_class(O)                 ((O)->klass)
 #define fxi_object_attributes(O)            ((O)->attributes)
 #define fxi_object__value(O)                ((O)->value)
 
@@ -20,7 +20,7 @@
 
 #define fxi_object_free(O)                  (fxb_hash_map_free(fxi_object_attributes(O)), fx_pfree(O))
 
-FxI_Object *FxI_Object_create(FxI_Interpreter *interpreter, FxI_Object *scope);
+FxI_Object *FxI_Object_create(FxI_Interpreter *interpreter, FxI_Object *klass);
 FxI_Object *fxi_object_set(FxI_Object *self, char *key, FxI_Object *value);
 
 #endif

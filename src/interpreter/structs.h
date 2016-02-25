@@ -9,7 +9,7 @@
  */
 
 typedef struct FxI_Object {
-  struct FxI_Object      *scope; // class
+  struct FxI_Object      *klass;
   FxB_HashMap            *attributes;
   void                   *value;
 } FxI_Object;
