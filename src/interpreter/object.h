@@ -8,7 +8,6 @@
 
 #define FXN_OBJECT_ATTRIBUTE_HASHMAP_SIZE   50
 
-#define fxi_object_type(O)                  ((O)->type)
 #define fxi_object_scope(O)                 ((O)->scope)
 #define fxi_object_attributes(O)            ((O)->attributes)
 #define fxi_object__value(O)                ((O)->value)

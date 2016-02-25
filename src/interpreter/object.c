@@ -6,8 +6,6 @@ FxI_Object *FxI_Object_create(FxI_Interpreter *interpreter, FxI_Object *scope) {
   FxI_Object *object = fx_alloc(FxI_Object);
   verify_memory(object);
 
-  fxi_object_type(object) = FX_OBJECT;
-
   FxB_HashMap *attributes = FxB_HashMap_create(FXN_OBJECT_ATTRIBUTE_HASHMAP_SIZE);
   verify(attributes);
 

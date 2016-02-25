@@ -28,7 +28,6 @@ FxI_Pool *FxI_Pool_create(FxB_HashMap *config) {
   // every possible context is an object
   globals = fx_alloc(FxI_Object);
   verify_memory(globals);
-  fxi_object_type(globals) = FX_GLOBALS;
   global_attributes = FxB_HashMap_create(global_capacity);
   verify(global_attributes);
   fxi_object_attributes(globals) = global_attributes;
