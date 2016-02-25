@@ -13,12 +13,6 @@
 #define fxi_object_attributes(O)            ((O)->attributes)
 #define fxi_object__value(O)                ((O)->value)
 
-#define fxi_object_closed(O)                ((O)->closed)
-#define fxi_object_is_closed(O)             fxi_object_closed(O)
-#define fxi_object_is_open(O)               (!fxi_object_closed(O))
-#define fxi_object_close(O)                 (fxi_object_closed(O) = true)
-#define fxi_object_open(O)                  (fxi_object_closed(O) = false)
-
 #define fxi_object_value(O)                 (FxP_Expression *)((O)->value)
 
 #define fxi_object_get_attribute(O, K)      (fxb_hash_map_get(fxi_object_attributes(O), K))

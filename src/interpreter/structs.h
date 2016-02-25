@@ -13,7 +13,6 @@ typedef struct FxI_Object {
   struct FxI_Object      *scope; // class
   FxB_HashMap            *attributes;
   void                   *value;
-  Boolean                 closed; // double negative, but better defaults
 } FxI_Object;
 
 typedef FxB_HashMap FxI_NativeRegistry;

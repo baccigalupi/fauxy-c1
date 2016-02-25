@@ -21,7 +21,6 @@ error:
 }
 
 FxI_Object *fxi_object_set(FxI_Object *self, char *key, FxI_Object *value) {
-  verify(fxi_object_is_open(self))
   fxi_object_set_attribute(self, key, value);
   return value;
 error:
