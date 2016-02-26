@@ -18,19 +18,8 @@
 
 #include "../lib/spec.h"
 
-#define setup_interpreter()   FxB_HashMap *config = create_config();                     \
-                              FxI_Interpreter *interpreter = FxI_Interpreter_create(config);  \
+#define setup_interpreter()   FxI_Interpreter *interpreter = FxI_Interpreter_create();  \
                               fxi_interpreter_setup(interpreter);
-
-FxB_HashMap *create_config() {
-  // really small inefficient config
-  FxB_HashMap *config = FxB_HashMap_create(1);
-  int *capacity = fx_alloc(int);
-  *capacity = 1;
-  fxb_hash_map_set(config, "literal_capacity", capacity);
-  fxb_hash_map_set(config, "global_capacity", capacity);
-  return config;
-}
 
 void *print_keys(FxB_HashMap *hash_map) {
   FxB_Array *keys = fxb_hash_map_keys(hash_map);

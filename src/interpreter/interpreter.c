@@ -4,7 +4,7 @@
 #include "../parser/expressions.h"
 #include "../native/boolean_methods.h"
 
-FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config) {
+FxI_Interpreter *FxI_Interpreter_create() {
   // literals, contexts, globals = first level of contexts, native registry
   FxI_NativeRegistry *registry = NULL;
   FxB_HashMap *literals = NULL;
@@ -14,6 +14,7 @@ FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config) {
   FxI_Interpreter *self = fx_alloc(FxI_Interpreter);
   verify_memory(self);
 
+  // TODO build these values from configuration in json
   registry = FxB_HashMap_create(100);
   verify(registry);
 

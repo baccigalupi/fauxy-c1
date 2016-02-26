@@ -29,7 +29,7 @@
 
 #define fxi_context_set(I, K, V)            (fxi_object_set_attribute(fxi_current_context(I), K, V))
 
-FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config);
+FxI_Interpreter *FxI_Interpreter_create();
 void             fxi_interpreter_add_base_classes(FxI_Interpreter *self);
 void             fxi_interpreter_add_base_literals(FxI_Interpreter *self);
 FxI_Object      *fxi_lookup(FxI_Interpreter *self, char *key);
