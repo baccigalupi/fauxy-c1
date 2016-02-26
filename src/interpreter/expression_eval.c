@@ -1,7 +1,6 @@
 #include "expression_eval.h"
 #include "expression_key.h"
 #include "literal.h"
-#include "pool.h"
 #include "method_call_arguments.h"
 #include "../parser/_parser.h"
 
@@ -64,7 +63,7 @@ FxI_Object *fxi_evaluate_literal(FxI_Interpreter *interpreter, FxP_Expression *e
       fxi_object__value(object) = expression;
       fxi_literal_set(interpreter, key, object);
     }
-  } else { // floats don't get stored in the literal pool, so just make one
+  } else { // floats don't get stored in the literals, so just make one
     object = FxI_Object_create(interpreter, NULL); // todo: add class context
     verify(object);
     fxi_object__value(object) = expression;

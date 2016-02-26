@@ -12,20 +12,19 @@ typedef struct FxI_Object {
   struct FxI_Object      *klass;
   FxB_HashMap            *attributes;
   void                   *value;
+  // possible flags etc ...
+  // int for ref count
+  // int for closed/open
+  // int for mark and sweep, and maybe don't mark for Class Object etc
 } FxI_Object;
 
 typedef FxB_HashMap FxI_NativeRegistry;
 
-typedef struct FxI_Pool {
-  FxB_HashMap *literals;
-  FxI_Object  *globals; // this needs to be an object so that all contexts are objects!
-} FxI_Pool;
-
 typedef struct FxI_Interpreter {
   // main event loop?
   // references to other loops
-  FxI_Pool            *pool;
-  FxB_List            *contexts;
+  FxB_HashMap         *literals; // this is one of those optimize in advance things that may need to go
+  FxB_List            *contexts; // stack of objects marking who is implicit self
   FxI_NativeRegistry  *registry;
 } FxI_Interpreter;
 
@@ -37,8 +36,7 @@ typedef struct FxI_MethodGroup {
 typedef FxI_Object FxI_FunctionDefinition;
 
 typedef FxI_Object FxI_MethodCallArguments;
-// object has the interpreter, remove from object or don't always pass along the interpreter, think remove it
-// also how is this signature different from a function?
+
 typedef FxI_Object *(* FxI_NativeFunction)(FxI_Interpreter *interpreter, FxI_Object *self, FxI_MethodCallArguments *arguments);
 
 #endif

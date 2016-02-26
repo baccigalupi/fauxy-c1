@@ -18,12 +18,12 @@
 
 #include "../lib/spec.h"
 
-#define setup_interpreter()   FxB_HashMap *config = create_pool_config();                     \
+#define setup_interpreter()   FxB_HashMap *config = create_config();                     \
                               FxI_Interpreter *interpreter = FxI_Interpreter_create(config);  \
                               fxi_interpreter_setup(interpreter);
 
-FxB_HashMap *create_pool_config() {
-  // really small inefficient pool
+FxB_HashMap *create_config() {
+  // really small inefficient config
   FxB_HashMap *config = FxB_HashMap_create(1);
   int *capacity = fx_alloc(int);
   *capacity = 1;

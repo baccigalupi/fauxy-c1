@@ -4,23 +4,22 @@
 #include "../bricks/_bricks.h"
 
 #include "structs.h"
-#include "pool.h"
 
-#define fxi_interpreter_pool(I)           ((I)->pool)
+#define fxi_interpreter_literals(I)       ((I)->literals)
 #define fxi_interpreter_contexts(I)       ((I)->contexts)
 #define fxi_interpreter_registry(I)       ((I)->registry)
 
-#define fxi_interpreter_free(I)           (fxi_pool_free(fxi_interpreter_pool(I)), fxb_hash_map_free(fxi_interpreter_registry(I)), fx_pfree(I))
+                                          // TODO: more better
+#define fxi_interpreter_free(I)           (fxb_hash_map_free(fxi_interpreter_registry(I)), fx_pfree(I))
 
-#define fxi_interpreter_literals(I)       (fxi_pool_literals(fxi_interpreter_pool(I)))
-#define fxi_literal_get(I, K)             (fxi_pool_literal_get(fxi_interpreter_pool(I), K))
-#define fxi_literal_set(I, K, V)          (fxi_pool_literal_set(fxi_interpreter_pool(I), K, V))
-#define fxi_interpreter_literal_length(I) (fxb_hash_map_length(fxi_pool_literals(fxi_interpreter_pool(I))))
+#define fxi_literal_get(I, K)             (fxb_hash_map_get(fxi_interpreter_literals(I), K))
+#define fxi_literal_set(I, K, V)          (fxb_hash_map_set(fxi_interpreter_literals(I), K, V))
+#define fxi_interpreter_literal_length(I) (fxb_hash_map_length(fxi_interpreter_literals(I)))
 
-#define fxi_interpreter_globals(I)        (fxi_pool_globals(fxi_interpreter_pool(I)))
-#define fxi_global_get(I, K)              (fxi_pool_global_get(fxi_interpreter_pool(I), K))
-#define fxi_global_set(I, K, V)           (fxi_pool_global_set(fxi_interpreter_pool(I), K, V))
-#define fxi_interpreter_global_length(I)  (fxb_hash_map_length(fxi_pool_globals(fxi_interpreter_pool(I))))
+#define fxi_interpreter_globals(I)        (FxI_Object *)(fxb_list_first(fxi_interpreter_contexts(I)))
+#define fxi_global_get(I, K)              (fxi_object_get_attribute(fxi_interpreter_globals(I), K))
+#define fxi_global_set(I, K, V)           (fxi_object_set_attribute(fxi_interpreter_globals(I), K, V))
+#define fxi_interpreter_global_length(I)  (fxb_hash_map_length(fxi_object_get_attribute(fxi_interpreter_globals(I))))
 
 #define fxi_interpreter_setup(I)          (fxi_interpreter_add_base_classes(I), fxi_interpreter_add_base_literals(I))
 

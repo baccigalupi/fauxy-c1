@@ -1,14 +1,15 @@
 #include "interpreter.h"
 #include "expression_eval.h"
-#include "pool.h"
 #include "object.h"
 #include "../parser/expressions.h"
 #include "../native/boolean_methods.h"
 
-
 FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config) {
-  FxI_Pool *pool = NULL;
+  // literals, contexts, globals = first level of contexts, native registry
   FxI_NativeRegistry *registry = NULL;
+  FxB_HashMap *literals = NULL;
+  FxB_List *contexts = NULL;
+  FxI_Object *global_space = NULL;
 
   FxI_Interpreter *self = fx_alloc(FxI_Interpreter);
   verify_memory(self);
@@ -16,22 +17,27 @@ FxI_Interpreter *FxI_Interpreter_create(FxB_HashMap *config) {
   registry = FxB_HashMap_create(100);
   verify(registry);
 
-  pool = FxI_Pool_create(config);
-  verify(pool);
-  fxi_interpreter_pool(self) = pool;
+  literals = FxB_HashMap_create(100);
+  verify(literals);
 
-  FxB_List *contexts = FxB_List_create();
+  contexts = FxB_List_create();
   verify(contexts);
 
-  fxb_list_push(contexts, fxi_pool_globals(pool));
+  global_space = FxI_Object_create(self, NULL);
+  verify(global_space);
+  fxb_list_push(contexts, global_space);
+
   fxi_interpreter_contexts(self) = contexts;
   fxi_interpreter_registry(self) = registry;
+  fxi_interpreter_literals(self) = literals;
 
   return self;
 error:
   if (self) { fx_pfree(self); }
-  if (pool) { fxi_pool_free(pool); }
   if (registry) { fxb_hash_map_free(registry); }
+  if (literals) { fxb_hash_map_free(literals); }
+  if (global_space) { fxi_object_free(global_space); }
+  if (contexts) { fxb_list_free(contexts); }
 
   return NULL;
 }

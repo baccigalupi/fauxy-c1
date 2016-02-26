@@ -70,7 +70,7 @@ char *test_interpet_literal_decimal() {
   assert_equal(fxi_object_value_double(object), (double)1.2, "returned the right number");
   // assert that object has the right class
 
-  assert_ints_equal(fxi_interpreter_literal_length(interpreter), 2, "decimal was not added to the interpreter pool");
+  assert_ints_equal(fxi_interpreter_literal_length(interpreter), 2, "decimal was not added to the interpreter literals");
 
   fxi_interpreter_free(interpreter);
 

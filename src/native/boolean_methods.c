@@ -1,5 +1,4 @@
 #include "boolean_methods.h"
-#include "../interpreter/pool.h"
 
 FxI_Object *FxI_Boolean_create(FxI_Interpreter *interpreter, FxP_Literal *value) {
   FxI_Object *self = FxI_Object_create(interpreter, NULL); // TODO: switch to boolean class when there is one
