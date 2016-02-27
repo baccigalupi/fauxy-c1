@@ -8,12 +8,10 @@ char *test_interpet_literal_true() {
   FxI_Object *object = fxi_evaluate(interpreter, literal);
 
   assert_truthy(fxi_boolean_value(object) == true,  "returned object is true");
-  // assert that object has the right class
+  // TODO: assert that object has the right class
 
-  FxI_Object *stored_object = fxi_literal_get(interpreter, TRUE_KEY);
-  assert_truthy(fxi_boolean_value(object) == true, "literal is set in the interpreter");
-
-  assert_equal(object, stored_object, "literal returned is same as one stored in the interpreter");
+  FxI_Object *global_object = fxi_global_get(interpreter, TRUE_KEY);
+  assert_equal(object, global_object, "literal returned is same as one stored in the global context");
 
   fxi_interpreter_free(interpreter);
 
@@ -28,12 +26,10 @@ char *test_interpet_literal_false() {
   FxI_Object *object = fxi_evaluate(interpreter, literal);
 
   assert_truthy(fxi_boolean_value(object) == false,  "returned object is false");
-  // assert that object has the right class
+  // TODO: assert that object has the right class
 
-  FxI_Object *stored_object = fxi_literal_get(interpreter, FALSE_KEY);
-  assert_truthy(fxi_boolean_value(object) == false, "literal is set in the interpreter");
-
-  assert_equal(object, stored_object, "literal returned is same as one stored in the interpreter");
+  FxI_Object *global_object = fxi_global_get(interpreter, FALSE_KEY);
+  assert_equal(object, global_object, "literal returned is same as one stored in the global context");
 
   fxi_interpreter_free(interpreter);
 
@@ -49,10 +45,7 @@ char *test_interpet_literal_integer() {
   FxI_Object *object = fxi_evaluate(interpreter, literal);
 
   assert_equal(fxi_object_value_short(object), (short)12, "returned the right number");
-  // assert that object has the right class
-
-  FxI_Object *stored_object = fxi_literal_get(interpreter, fxi_literal_key(literal));
-  assert_equal(object, stored_object, "literal returned is same as one stored in the interpreter");
+  // TODO: assert that object has the right class
 
   fxi_interpreter_free(interpreter);
 
@@ -68,9 +61,7 @@ char *test_interpet_literal_decimal() {
   FxI_Object *object = fxi_evaluate(interpreter, literal);
 
   assert_equal(fxi_object_value_double(object), (double)1.2, "returned the right number");
-  // assert that object has the right class
-
-  assert_ints_equal(fxi_interpreter_literal_length(interpreter), 2, "decimal was not added to the interpreter literals");
+  // TODO: assert that object has the right class
 
   fxi_interpreter_free(interpreter);
 
@@ -86,10 +77,7 @@ char *test_interpet_literal_string() {
   FxI_Object *object = fxi_evaluate(interpreter, literal);
 
   assert_strings_equal(fxb_string_value(fxi_object_value_string(object)), "hello world", "returned the right string");
-  // assert that object has the right class
-
-  FxI_Object *stored_object = fxi_literal_get(interpreter, fxi_literal_key(literal));
-  assert_equal(object, stored_object, "literal returned is same as one stored in the interpreter");
+  // TODO: assert that object has the right class
 
   fxi_interpreter_free(interpreter);
 
@@ -114,7 +102,11 @@ char *test_global_assigned_lookup() {
 
   assert_equal(value_dup, value_object, "evaluation of assignment returns what is assigned to it");
   FxI_Object *evaluation = fxi_evaluate(interpreter, lookup);
-  assert_equal(evaluation, value_object, "lookup of the id returns the object");
+  assert_equal(
+    fxb_string_value(fxi_object_value_string(evaluation)),
+    fxb_string_value(fxi_object_value_string(value_object)),
+    "lookup of the id returns the object with the same value as the original literal"
+  );
 
   return NULL;
 }
@@ -144,7 +136,11 @@ char *test_context_lookup_of_literal() {
   assert_equal(attr, value_object, "literal is stored in context");
 
   FxI_Object *evaluation = fxi_evaluate(interpreter, lookup);
-  assert_equal(evaluation, value_object, "lookup of the id in context returns the object");
+  assert_equal(
+    fxb_string_value(fxi_object_value_string(evaluation)),
+    fxb_string_value(fxi_object_value_string(value_object)),
+    "lookup of the id returns the object with the same value as the original literal"
+  );
 
   return NULL;
 }
@@ -170,7 +166,11 @@ char *test_context_lookup_of_global() {
   fxi_interpreter_push_context(interpreter, object);
 
   FxI_Object *evaluation = fxi_evaluate(interpreter, lookup);
-  assert_equal(evaluation, value_object, "lookup of the id bypasses context to find it higher up");
+  assert_equal(
+    fxb_string_value(fxi_object_value_string(evaluation)),
+    fxb_string_value(fxi_object_value_string(value_object)),
+    "lookup of the id works in a context higher than current"
+  );
 
   return NULL;
 }

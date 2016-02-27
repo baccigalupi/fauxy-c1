@@ -1,5 +1,6 @@
 #include "interpreter.h"
 #include "expression_eval.h"
+#include "expression_key.h"
 #include "object.h"
 #include "../parser/expressions.h"
 #include "../native/boolean_methods.h"
@@ -62,11 +63,24 @@ void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
 }
 
 void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
+  FxP_Lookup  *lookup;
+  FxP_Expression *assignment;
+  FxP_Bit *lookup_bit;
+
   FxP_Expression *false_literal = FxP_Literal_create(NULL, TOKEN_FALSE);
-  fxi_evaluate(self, false_literal);
+  lookup_bit =     FxP_Bit_string_create(fxi_literal_key(false_literal)); // this should be attached to the expression??
+  lookup =         FxP_Lookup_create(lookup_bit, TOKEN_ID);
+  assignment =     FxP_ColonExpression_create(lookup, false_literal);
+  // free the stuff??
+
+  fxi_evaluate(self, assignment);
 
   FxP_Expression *true_literal = FxP_Literal_create(NULL, TOKEN_TRUE);
-  fxi_evaluate(self, true_literal);
+  lookup_bit =     FxP_Bit_string_create(fxi_literal_key(true_literal)); // this should be attached to the expression??
+  lookup =         FxP_Lookup_create(lookup_bit, TOKEN_ID);
+  assignment =     FxP_ColonExpression_create(lookup, true_literal);
+
+  fxi_evaluate(self, assignment);
 }
 
 FxI_Object *fxi_lookup(FxI_Interpreter *self, char *key) {
