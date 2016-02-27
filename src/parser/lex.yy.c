@@ -1027,12 +1027,12 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 39 "src/parser/lex.l"
-{ FX_LexToken(TOKEN_TRUE); }
+{ FX_LexStringBit(TOKEN_TRUE, yytext); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 40 "src/parser/lex.l"
-{ FX_LexToken(TOKEN_FALSE); }
+{ FX_LexStringBit(TOKEN_FALSE, yytext); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP

@@ -233,8 +233,8 @@ literal
   | INTEGER       { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_INTEGER); }
   | FLOAT         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_FLOAT); }
   | REGEX         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_REGEX); }
-  | TRUE          { $$ = FxP_Literal_create(NULL, TOKEN_TRUE); }
-  | FALSE         { $$ = FxP_Literal_create(NULL, TOKEN_FALSE); }
+  | TRUE          { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_TRUE); }
+  | FALSE         { $$ = FxP_Literal_create((FxP_Bit *)$1, TOKEN_FALSE); }
   ;
 
 string

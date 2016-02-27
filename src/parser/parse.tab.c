@@ -1795,13 +1795,13 @@ yyreduce:
 
   case 60:
 #line 236 "src/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create(NULL, TOKEN_TRUE); }
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_TRUE); }
 #line 1800 "src/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
   case 61:
 #line 237 "src/parser/parse.y" /* yacc.c:1661  */
-    { (yyval) = FxP_Literal_create(NULL, TOKEN_FALSE); }
+    { (yyval) = FxP_Literal_create((FxP_Bit *)(yyvsp[0]), TOKEN_FALSE); }
 #line 1806 "src/parser/parse.tab.c" /* yacc.c:1661  */
     break;
 
