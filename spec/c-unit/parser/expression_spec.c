@@ -41,28 +41,6 @@ char *test_inspect_literal_with_bit() {
   return NULL;
 }
 
-char *test_inspect_literal_without_bit() {
-  spec_describe("inspecting a literal expression without bit");
-
-  FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_TRUE);
-
-  char *inspection = fxp_inspect(literal);
-  char *expected = "{\n"
-    "  \"literal\": {\n"
-    "    \"value\": true,\n"
-    "    \"class\": \"Boolean\"\n"
-    "  }\n"
-    "}";
-
-  assert_strings_equal(inspection, expected, "json");
-
-  fxp_expression_free(literal);
-  free(inspection);
-
-  return NULL;
-}
-
-
 char *test_inspect_lookup() {
   spec_describe("inspecting a lookup expression");
 
@@ -356,7 +334,6 @@ char *all_specs() {
 
   run_spec(test_create_literal);
   run_spec(test_inspect_literal_with_bit);
-  run_spec(test_inspect_literal_without_bit);
   run_spec(test_inspect_lookup);
   run_spec(test_inspect_list);
   run_spec(test_inspect_implicit_method);

@@ -113,10 +113,6 @@ json_t *fxp_literal_body(FxP_Literal *expression) {
     bit_body = fxp_bit_body_inspect(fxp_literal_bit(expression));
     verify(bit_body);
     json_object_set_new(root, "bit", bit_body);
-  } else if (fxp_literal_type(expression) == TOKEN_TRUE) {
-    json_object_set_new(root, "value", json_true());
-  } else {
-    json_object_set_new(root, "value", json_false());
   }
 
   json_object_set_new(root, "class", json_string(description));
