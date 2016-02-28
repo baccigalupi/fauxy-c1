@@ -16,6 +16,7 @@ char *set_method_with_no_name_match() {
   spec_describe("set method with no group yet created");
 
   setup_interpreter();
+
   FxI_Object *klass = FxI_Object_create(interpreter, NULL);
   FxI_FunctionDefinition *function = fx_alloc(FxI_FunctionDefinition);
   fxi_class_set_method(klass, "my-call", function);

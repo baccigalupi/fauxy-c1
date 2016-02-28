@@ -13,6 +13,7 @@
 #define fxi_object__value(O)                ((O)->value)
 
 #define fxi_object_value(O)                 (FxP_Expression *)((O)->value)
+#define fxi_object_string_value(O)          (fxp_literal_string_value(fxi_object_value(O)))
 
 #define fxi_object_get_attribute(O, K)      (fxb_hash_map_get(fxi_object_attributes(O), K))
 #define fxi_object_set_attribute(O, K, V)   (fxb_hash_map_set(fxi_object_attributes(O), K, V))

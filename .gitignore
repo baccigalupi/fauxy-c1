@@ -23,8 +23,6 @@ spec/c-unit/parser/expression_spec
 spec/c-unit/parser/lex_spec
 spec/c-unit/parser/parser_spec
 
-spec/c-unit/interpreter/expression_key_spec
 spec/c-unit/interpreter/class_spec
 spec/c-unit/interpreter/object_spec
-spec/c-unit/interpreter/interpreter_spec
 spec/c-unit/interpreter/expression_eval_spec

@@ -4,13 +4,14 @@ char *test_interpet_literal_true() {
   spec_describe("literal evaluation: 'true' returns true object");
   setup_interpreter();
 
-  FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_TRUE);
-  FxI_Object *object = fxi_evaluate(interpreter, literal);
+  FxP_Bit *bit =         FxP_Bit_string_create("true");
+  FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_TRUE);
+  FxI_Object *object =   fxi_evaluate(interpreter, literal);
 
   assert_truthy(fxi_boolean_value(object) == true,  "returned object is true");
   // TODO: assert that object has the right class
 
-  FxI_Object *global_object = fxi_global_get(interpreter, TRUE_KEY);
+  FxI_Object *global_object = fxi_global_get(interpreter, "true");
   assert_equal(object, global_object, "literal returned is same as one stored in the global context");
 
   fxi_interpreter_free(interpreter);
@@ -22,13 +23,14 @@ char *test_interpet_literal_false() {
   spec_describe("literal evaluation: 'false' returns false object");
   setup_interpreter();
 
-  FxP_Literal *literal = FxP_Literal_create(NULL, TOKEN_FALSE);
-  FxI_Object *object = fxi_evaluate(interpreter, literal);
+  FxP_Bit *bit =         FxP_Bit_string_create("false");
+  FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_FALSE);
+  FxI_Object *object =   fxi_evaluate(interpreter, literal);
 
   assert_truthy(fxi_boolean_value(object) == false,  "returned object is false");
   // TODO: assert that object has the right class
 
-  FxI_Object *global_object = fxi_global_get(interpreter, FALSE_KEY);
+  FxI_Object *global_object = fxi_global_get(interpreter, "false");
   assert_equal(object, global_object, "literal returned is same as one stored in the global context");
 
   fxi_interpreter_free(interpreter);
@@ -100,11 +102,16 @@ char *test_global_assigned_lookup() {
 
   FxI_Object   *value_dup =     fxi_evaluate(interpreter, assignment);
 
-  assert_equal(value_dup, value_object, "evaluation of assignment returns what is assigned to it");
+  assert_strings_equal(
+    fxi_object_string_value(value_dup),
+    fxi_object_string_value(value_object),
+    "evaluation of assignment returns what is assigned to it"
+  );
+
   FxI_Object *evaluation = fxi_evaluate(interpreter, lookup);
   assert_equal(
-    fxb_string_value(fxi_object_value_string(evaluation)),
-    fxb_string_value(fxi_object_value_string(value_object)),
+    fxi_object_string_value(evaluation),
+    fxi_object_string_value(value_object),
     "lookup of the id returns the object with the same value as the original literal"
   );
 
@@ -130,15 +137,23 @@ char *test_context_lookup_of_literal() {
 
   FxI_Object   *assign_return_value = fxi_evaluate(interpreter, assignment);
 
-  assert_equal(assign_return_value, value_object, "evaluation of assignment returns what is assigned to it");
+  assert_strings_equal(
+    fxi_object_string_value(assign_return_value),
+    fxi_object_string_value(value_object),
+    "evaluation of assignment returns what is assigned to it"
+  );
 
   FxI_Object *attr = fxi_object_get_attribute(object, "greeting");
-  assert_equal(attr, value_object, "literal is stored in context");
+  assert_strings_equal(
+    fxi_object_string_value(attr),
+    fxi_object_string_value(value_object),
+    "literal is stored in context"
+  );
 
   FxI_Object *evaluation = fxi_evaluate(interpreter, lookup);
   assert_equal(
-    fxb_string_value(fxi_object_value_string(evaluation)),
-    fxb_string_value(fxi_object_value_string(value_object)),
+    fxi_object_string_value(evaluation),
+    fxi_object_string_value(value_object),
     "lookup of the id returns the object with the same value as the original literal"
   );
 
@@ -201,7 +216,8 @@ char *test_assignment_to_global() {
 
   FxP_Bit *bit = FxP_Bit_string_create("whatever");
   FxP_Lookup *lookup = FxP_Lookup_create(bit, TOKEN_ID);
-  FxP_Literal *true_literal = FxP_Literal_create(NULL, TOKEN_TRUE);
+  FxP_Bit *true_bit =         FxP_Bit_string_create("true");
+  FxP_Literal *true_literal = FxP_Literal_create(true_bit, TOKEN_TRUE);
 
   FxP_ColonExpression *assignment = FxP_ColonExpression_create(lookup, true_literal);
 
@@ -222,10 +238,12 @@ char *test_expressions_evaluation() {
 
   FxP_Bit *bit = FxP_Bit_string_create("what-do-you-think?");
   FxP_Lookup *lookup = FxP_Lookup_create(bit, TOKEN_ID);
-  FxP_Literal *true_literal = FxP_Literal_create(NULL, TOKEN_TRUE);
+  FxP_Bit *true_bit =         FxP_Bit_string_create("true");
+  FxP_Literal *true_literal = FxP_Literal_create(true_bit, TOKEN_TRUE);
   FxP_ColonExpression *assignment = FxP_ColonExpression_create(lookup, true_literal);
 
-  FxP_Literal *false_literal = FxP_Literal_create(NULL, TOKEN_FALSE);
+  FxP_Bit *false_bit =         FxP_Bit_string_create("false");
+  FxP_Literal *false_literal = FxP_Literal_create(false_bit, TOKEN_FALSE);
 
   FxP_Expressions *expressions = FxP_Expressions_create();
   fxp_expression_push(expressions, assignment);

@@ -45,42 +45,40 @@ error:
 }
 
 void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
-  /*FxI_Class *object_class = FxI_Class_create("Object", NULL);*/
-  // add native methods
-  // add to global context
-
   // Setup classes
   // -------------
+  // Class
   // Object
   // Boolean
   // Integer
-  // Float
+  // Decimal
   // String
   // EvalString
   // Function
-  // Regex
-  // Symbol
+  // eventually Regex
 }
 
 void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
   FxP_Lookup  *lookup;
   FxP_Expression *assignment;
   FxP_Bit *lookup_bit;
+  FxP_Expression *literal;
 
-  FxP_Expression *false_literal = FxP_Literal_create(NULL, TOKEN_FALSE);
-  lookup_bit =     FxP_Bit_string_create(fxi_literal_key(false_literal)); // this should be attached to the expression??
+  lookup_bit =     FxP_Bit_string_create("false"); // this should be attached to the expression??
+  literal =        FxP_Literal_create(lookup_bit, TOKEN_FALSE);
   lookup =         FxP_Lookup_create(lookup_bit, TOKEN_ID);
-  assignment =     FxP_ColonExpression_create(lookup, false_literal);
+  assignment =     FxP_ColonExpression_create(lookup, literal);
   // free the stuff??
 
-  fxi_evaluate(self, assignment);
+  fxi_evaluate_assignment(self, assignment);
 
-  FxP_Expression *true_literal = FxP_Literal_create(NULL, TOKEN_TRUE);
-  lookup_bit =     FxP_Bit_string_create(fxi_literal_key(true_literal)); // this should be attached to the expression??
+  lookup_bit =     FxP_Bit_string_create("true"); // this should be attached to the expression??
+  literal =        FxP_Literal_create(lookup_bit, TOKEN_TRUE);
   lookup =         FxP_Lookup_create(lookup_bit, TOKEN_ID);
-  assignment =     FxP_ColonExpression_create(lookup, true_literal);
+  assignment =     FxP_ColonExpression_create(lookup, literal);
+  // more freeing?
 
-  fxi_evaluate(self, assignment);
+  fxi_evaluate_assignment(self, assignment);
 }
 
 FxI_Object *fxi_lookup(FxI_Interpreter *self, char *key) {

@@ -52,19 +52,18 @@ error:
 }
 
 FxI_Object *fxi_evaluate_literal(FxI_Interpreter *interpreter, FxP_Expression *expression) {
-  char *key = fxi_literal_key(expression);
-  FxI_Object *object;
+  int type = fxp_literal_type(expression);
+  FxI_Object *object = NULL;
 
-  if (key) {
-    object = fxi_literal_get(interpreter, key);
+  if (type == TOKEN_FALSE || type == TOKEN_TRUE) {
+    object = fxi_lookup(interpreter, fxp_literal_string_value(expression));
     if (!object) {
-      object = FxI_Object_create(interpreter, NULL); // todo: add class context
+      object = FxI_Object_create(interpreter, NULL); // TODO: add boolean class
       verify(object);
       fxi_object__value(object) = expression;
-      fxi_literal_set(interpreter, key, object);
     }
-  } else { // floats don't get stored in the literals, so just make one
-    object = FxI_Object_create(interpreter, NULL); // todo: add class context
+  } else {
+    object = FxI_Object_create(interpreter, NULL); // TODO: add class context
     verify(object);
     fxi_object__value(object) = expression;
   }
@@ -137,7 +136,6 @@ FxI_Object *fxi_evaluate_assignment(FxI_Interpreter *interpreter, FxP_Expression
   FxI_Object *value = fxi_evaluate(interpreter, right);
   verify(value)
 
-  printf("lookup key for assignement: %s\n", fxp_lookup_key(left));
   fxi_object_set(fxi_current_context(interpreter), fxp_lookup_key(left), value);
   return value;
 error:
