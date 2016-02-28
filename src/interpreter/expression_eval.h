@@ -10,6 +10,8 @@
 
 #define NULL_OBJECT fxi_false(interpreter)
 
+char *fxi_copy_lookup_key(FxP_Lookup *lookup);
+
 FxI_Object *fxi_evaluate(                               FxI_Interpreter *interpreter, FxP_Expression *expression);
 FxI_Object *fxi_evaluate_literal(                       FxI_Interpreter *interpreter, FxP_Expression *expression);
 FxI_Object *fxi_evaluate_lookup(                        FxI_Interpreter *interpreter, FxP_Expression *expression);

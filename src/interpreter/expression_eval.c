@@ -1,19 +1,28 @@
 #include "expression_eval.h"
-#include "expression_key.h"
 #include "literal.h"
 #include "method_call_arguments.h"
 #include "../parser/_parser.h"
 
-#define DEBUG_INTERPRETER false
+char *fxi_copy_lookup_key(FxP_Lookup *lookup) {
+  char *key = NULL;
+  char *original_key = NULL;
+  FxP_Bit *bit = fxp_lookup_bit(lookup);
+  verify(bit);
+
+  original_key = fxp_bit_string_value(bit);
+  verify(original_key);
+
+  key = calloc(strlen(original_key) + 1, sizeof(char));
+  strcpy(key, original_key);
+
+  return key;
+error:
+  return NULL;
+}
 
 FxI_Object *fxi_evaluate(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   int type = fxp_expression_type(expression);
   FxI_Object *result = NULL;
-
-  if (DEBUG_INTERPRETER) {
-    printf("current context has %d attributes\n", fxi_object_attributes_length(fxi_current_context(interpreter)));
-    printf("evaluating: %d %s\n", type, fxb_string_value((FxB_String *)fxp_inspect(expression)));
-  }
 
   if (type == FX_ST_LITERAL) {
     result = fxi_evaluate_literal(interpreter, expression);
@@ -77,7 +86,7 @@ FxI_Object *fxi_evaluate_attr_assign(FxI_Interpreter *interpreter, FxP_Expressio
   FxP_Expression *value_expression = fxp_expression_right(expression);
   FxI_Object *result = fxi_evaluate(interpreter, value_expression);
   verify(result);
-  char *key = fxi_lookup_key(fxp_expression_left(expression));
+  char *key = fxi_copy_lookup_key(fxp_expression_left(expression));
   fxi_context_set(interpreter, key, result);
   return result;
 error:
@@ -85,7 +94,7 @@ error:
 }
 
 FxI_Object *fxi_evaluate_lookup(FxI_Interpreter *interpreter, FxP_Expression *expression) {
-  char *key = fxi_lookup_key(expression);
+  char *key = fxi_copy_lookup_key(expression);
   return fxi_lookup(interpreter, key);
   // TODO: raise evaluation error if not found
 }

@@ -1,6 +1,5 @@
 #include "interpreter.h"
 #include "expression_eval.h"
-#include "expression_key.h"
 #include "object.h"
 #include "../parser/expressions.h"
 #include "../native/boolean_methods.h"
