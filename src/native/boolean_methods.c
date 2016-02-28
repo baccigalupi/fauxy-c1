@@ -1,3 +1,4 @@
+#include "../interpreter/interpreter.h"
 #include "boolean_methods.h"
 
 FxI_Object *FxI_Boolean_create(FxI_Interpreter *interpreter, FxP_Literal *value) {
@@ -13,13 +14,5 @@ error:
 
 // native(:fxi_boolean_not)
 FxI_Object *fxi_boolean_not(FxI_Interpreter *interpreter, FxI_Object *self, FxI_MethodCallArguments *arguments) {
-  FxI_Object *not_value;
-
-  if (fxi_boolean_value(self)) {
-    not_value = fxi_false(interpreter);
-  } else {
-    not_value = fxi_true(interpreter);
-  }
-
-  return not_value;
+  return fxi_boolean(interpreter, !fxi_boolean_value(self));
 }

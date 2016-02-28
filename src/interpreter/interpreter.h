@@ -19,6 +19,7 @@
 
 #define fxi_context_set(I, K, V)            (fxi_object_set_attribute(fxi_current_context(I), K, V))
 
+#define fxi_boolean(I, T)   ((T) ? fxi_true(I) : fxi_false(I))
 #define fxi_false(I)        (fxi_lookup(I, "false"))
 #define fxi_true(I)         (fxi_lookup(I, "true"))
 
