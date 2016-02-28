@@ -8,7 +8,7 @@
 #include "interpreter.h"
 #include "object.h"
 
-#define NULL_OBJECT fxi_literal_get(interpreter, FALSE_KEY)
+#define NULL_OBJECT fxi_false(interpreter)
 
 FxI_Object *fxi_evaluate(                               FxI_Interpreter *interpreter, FxP_Expression *expression);
 FxI_Object *fxi_evaluate_literal(                       FxI_Interpreter *interpreter, FxP_Expression *expression);

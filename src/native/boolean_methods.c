@@ -16,9 +16,9 @@ FxI_Object *fxi_boolean_not(FxI_Interpreter *interpreter, FxI_Object *self, FxI_
   FxI_Object *not_value;
 
   if (fxi_boolean_value(self)) {
-    not_value = fxi_literal_get(interpreter, FALSE_KEY);
+    not_value = fxi_false(interpreter);
   } else {
-    not_value = fxi_literal_get(interpreter, TRUE_KEY);
+    not_value = fxi_true(interpreter);
   }
 
   return not_value;

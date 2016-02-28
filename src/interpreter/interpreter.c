@@ -6,7 +6,7 @@
 #include "../native/boolean_methods.h"
 
 FxI_Interpreter *FxI_Interpreter_create() {
-  // literals, contexts, globals = first level of contexts, native registry
+  // contexts, globals = first level of contexts, native registry
   FxI_NativeRegistry *registry = NULL;
   FxB_HashMap *literals = NULL;
   FxB_List *contexts = NULL;
@@ -19,9 +19,6 @@ FxI_Interpreter *FxI_Interpreter_create() {
   registry = FxB_HashMap_create(100);
   verify(registry);
 
-  literals = FxB_HashMap_create(100);
-  verify(literals);
-
   contexts = FxB_List_create();
   verify(contexts);
 
@@ -31,13 +28,11 @@ FxI_Interpreter *FxI_Interpreter_create() {
 
   fxi_interpreter_contexts(self) = contexts;
   fxi_interpreter_registry(self) = registry;
-  fxi_interpreter_literals(self) = literals;
 
   return self;
 error:
   if (self) { fx_pfree(self); }
   if (registry) { fxb_hash_map_free(registry); }
-  if (literals) { fxb_hash_map_free(literals); }
   if (global_space) { fxi_object_free(global_space); }
   if (contexts) { fxb_list_free(contexts); }
 

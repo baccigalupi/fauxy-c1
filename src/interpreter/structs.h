@@ -23,7 +23,6 @@ typedef FxB_HashMap FxI_NativeRegistry;
 typedef struct FxI_Interpreter {
   // main event loop?
   // references to other loops
-  FxB_HashMap         *literals; // this is one of those optimize in advance things that may need to go
   FxB_List            *contexts; // stack of objects marking who is implicit self
   FxI_NativeRegistry  *registry;
 } FxI_Interpreter;

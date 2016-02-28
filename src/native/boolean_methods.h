@@ -5,18 +5,17 @@
 #define TRUE_KEY  "258"
 #define FALSE_KEY  "259"
 
+
+#include "../bricks/helpers.h"
 #include "../parser/expressions.h"
 #include "../interpreter/object.h"
 #include "../interpreter/interpreter.h"
 
-#define fxi_boolean_value(O)                (fxp_literal_type(fxi_object_value(O)) == TOKEN_TRUE ? 1 : 0)
+#define fxi_boolean_value(O)  (fxp_literal_type(fxi_object_value(O)) == TOKEN_TRUE ? true : false)
 
 FxI_Object *FxI_Boolean_create(FxI_Interpreter *interpreter, FxP_Literal *value);
 
 FxI_Object *fxi_boolean_not(FxI_Interpreter *interpreter, FxI_Object *self, FxI_MethodCallArguments *arguments);
-
-/*FxI_String *fxi_boolean_to_json();*/
-/*FxI_String *fxi_boolean_to_string(FxI_Object *boolean);*/
 
 
 #endif

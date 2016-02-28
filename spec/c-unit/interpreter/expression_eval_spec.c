@@ -11,7 +11,7 @@ char *test_interpet_literal_true() {
   assert_truthy(fxi_boolean_value(object) == true,  "returned object is true");
   // TODO: assert that object has the right class
 
-  FxI_Object *global_object = fxi_global_get(interpreter, "true");
+  FxI_Object *global_object = fxi_true(interpreter);
   assert_equal(object, global_object, "literal returned is same as one stored in the global context");
 
   fxi_interpreter_free(interpreter);
@@ -30,7 +30,7 @@ char *test_interpet_literal_false() {
   assert_truthy(fxi_boolean_value(object) == false,  "returned object is false");
   // TODO: assert that object has the right class
 
-  FxI_Object *global_object = fxi_global_get(interpreter, "false");
+  FxI_Object *global_object = fxi_false(interpreter);
   assert_equal(object, global_object, "literal returned is same as one stored in the global context");
 
   fxi_interpreter_free(interpreter);
