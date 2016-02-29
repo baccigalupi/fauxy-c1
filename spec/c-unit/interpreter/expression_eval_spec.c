@@ -1,5 +1,33 @@
 #include "helpers.h"
 
+char *test_class_objects_exist_in_global() {
+  spec_describe("essential classes are set in the global space");
+  setup_interpreter();
+
+  FxI_Object *return_value = NULL;
+
+  return_value = fxi_lookup(interpreter, "Class");
+  assert_truthy(return_value, "Class exists");
+  // TODO: assert no class name
+
+  return_value = fxi_lookup(interpreter, "Object");
+  assert_truthy(return_value, "Object exists");
+  // TODO: assert about class name == "Class"
+
+  return_value = fxi_lookup(interpreter, "Function");
+  assert_truthy(return_value, "Function exists");
+  // TODO: assert about class name == "Class"
+
+  // String exists
+  // EvalString exists
+  // Integer exists
+  // Decimal exists
+
+  fxi_interpreter_free(interpreter);
+
+  return NULL;
+}
+
 char *test_interpet_literal_true() {
   spec_describe("literal evaluation: 'true' returns true object");
   setup_interpreter();
@@ -301,6 +329,8 @@ char *test_native() {
 
 char *all_specs() {
   spec_setup("Interpreter");
+
+  run_spec(test_class_objects_exist_in_global);
 
   run_spec(test_interpet_literal_true);
   run_spec(test_interpet_literal_false);

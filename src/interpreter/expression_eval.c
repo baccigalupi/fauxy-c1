@@ -34,7 +34,7 @@ FxI_Object *fxi_evaluate(FxI_Interpreter *interpreter, FxP_Expression *expressio
     result = fxi_evaluate_function_definition(interpreter, expression);
   } else if ( type == FX_ST_GROUPED) {
     result = fxi_evaluate_grouped(interpreter, expression);
-  } else if (type == FX_ST_LIST ) {
+  } else if ( type == FX_ST_LIST ) {
     result = fxi_evaluate_list(interpreter, expression);
   } else if ( type == FX_ST_METHOD_CALL_ARGUMENTS ) {
     result = fxi_evaluate_method_call_arguments(interpreter, expression);
@@ -145,7 +145,7 @@ FxI_Object *fxi_evaluate_assignment(FxI_Interpreter *interpreter, FxP_Expression
   FxI_Object *value = fxi_evaluate(interpreter, right);
   verify(value)
 
-  fxi_object_set(fxi_current_context(interpreter), fxp_lookup_key(left), value);
+  fxi_context_set(interpreter, fxp_lookup_key(left), value);
   return value;
 error:
   return NULL;

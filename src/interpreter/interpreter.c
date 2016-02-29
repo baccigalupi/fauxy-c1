@@ -1,6 +1,7 @@
 #include "interpreter.h"
 #include "expression_eval.h"
 #include "object.h"
+#include "class.h"
 #include "../parser/expressions.h"
 #include "../native/boolean_methods.h"
 
@@ -39,17 +40,33 @@ error:
 }
 
 void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
+  FxP_Bit        *lookup_bit;
+  FxP_Lookup     *lookup;
+  FxI_Class      *klass;
+  // set class id on
+
+  klass = FxI_Class_create(self, "Class", NULL);
+  fxi_context_set(self, "Class", klass);
+
+  klass = FxI_Class_create(self, "Object", NULL);
+  fxi_context_set(self, "Object", klass);
+
+  klass = FxI_Class_create(self, "Function", NULL);
+  fxi_context_set(self, "Function", klass);
+
+  klass = FxI_Class_create(self, "Arguments", NULL);
+  fxi_context_set(self, "Arguments", klass);
+
+  klass = FxI_Class_create(self, "Boolean", NULL);
+  fxi_context_set(self, "Boolean", klass);
+
   // Setup classes
   // -------------
-  // Class
-  // Object
-  // Boolean
   // Integer
   // Decimal
   // String
   // EvalString
-  // Function
-  // eventually Regex
+  // Regex
 }
 
 void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
@@ -58,7 +75,7 @@ void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
   FxP_Bit *lookup_bit;
   FxP_Expression *literal;
 
-  lookup_bit =     FxP_Bit_string_create("false"); // this should be attached to the expression??
+  lookup_bit =     FxP_Bit_string_create("false");
   literal =        FxP_Literal_create(lookup_bit, TOKEN_FALSE);
   lookup =         FxP_Lookup_create(lookup_bit, TOKEN_ID);
   assignment =     FxP_ColonExpression_create(lookup, literal);
@@ -66,13 +83,15 @@ void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
 
   fxi_evaluate_assignment(self, assignment);
 
-  lookup_bit =     FxP_Bit_string_create("true"); // this should be attached to the expression??
+  lookup_bit =     FxP_Bit_string_create("true");
   literal =        FxP_Literal_create(lookup_bit, TOKEN_TRUE);
   lookup =         FxP_Lookup_create(lookup_bit, TOKEN_ID);
   assignment =     FxP_ColonExpression_create(lookup, literal);
   // more freeing?
 
   fxi_evaluate_assignment(self, assignment);
+
+  // TODO: verify and return null exception
 }
 
 FxI_Object *fxi_lookup(FxI_Interpreter *self, char *key) {
