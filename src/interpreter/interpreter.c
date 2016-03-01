@@ -40,24 +40,22 @@ error:
 }
 
 void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
-  FxP_Bit        *lookup_bit;
-  FxP_Lookup     *lookup;
-  FxI_Class      *klass;
-  // set class id on
+  FxI_Class *klass;
+  FxI_Class *object_class;
 
   klass = FxI_Class_create(self, "Class", NULL);
   fxi_context_set(self, "Class", klass);
 
-  klass = FxI_Class_create(self, "Object", NULL);
-  fxi_context_set(self, "Object", klass);
+  object_class = FxI_Class_create(self, "Object", klass);
+  fxi_context_set(self, "Object", object_class);
 
-  klass = FxI_Class_create(self, "Function", NULL);
+  klass = FxI_Class_create(self, "Function", object_class);
   fxi_context_set(self, "Function", klass);
 
-  klass = FxI_Class_create(self, "Arguments", NULL);
+  klass = FxI_Class_create(self, "Arguments", object_class);
   fxi_context_set(self, "Arguments", klass);
 
-  klass = FxI_Class_create(self, "Boolean", NULL);
+  klass = FxI_Class_create(self, "Boolean", object_class);
   fxi_context_set(self, "Boolean", klass);
 
   // Setup classes

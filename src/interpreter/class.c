@@ -23,6 +23,7 @@ FxI_Class *FxI_Class_create(FxI_Interpreter *interpreter, char *original_name, F
   verify_memory(name);
   strcpy(name, original_name);
   fxi_object__value(klass) = name;
+  fxi_object_class(klass) = superclass;
 
   return klass;
 error:

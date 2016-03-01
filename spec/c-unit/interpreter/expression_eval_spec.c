@@ -5,18 +5,29 @@ char *test_class_objects_exist_in_global() {
   setup_interpreter();
 
   FxI_Object *return_value = NULL;
+  FxI_Class *klass = NULL;
+  FxI_Class *object_class = NULL;
 
-  return_value = fxi_lookup(interpreter, "Class");
-  assert_truthy(return_value, "Class exists");
-  // TODO: assert no class name
+  klass = fxi_lookup(interpreter, "Class");
+  assert_truthy(klass, "Class exists");
+  assert_equal(fxi_class_super_class(klass), NULL, "Class has no superclass");
 
-  return_value = fxi_lookup(interpreter, "Object");
-  assert_truthy(return_value, "Object exists");
-  // TODO: assert about class name == "Class"
+  object_class = fxi_lookup(interpreter, "Object");
+  assert_truthy(object_class, "Object exists");
+  assert_equal(fxi_class_super_class(object_class), klass, "Object superclass is class");
 
   return_value = fxi_lookup(interpreter, "Function");
   assert_truthy(return_value, "Function exists");
-  // TODO: assert about class name == "Class"
+  assert_equal(fxi_class_super_class(return_value), object_class, "Function superclass is Object");
+
+  return_value = fxi_lookup(interpreter, "Arguments");
+  assert_truthy(return_value, "Arguments exists");
+  assert_equal(fxi_class_super_class(return_value), object_class, "Arguments superclass is Object");
+
+  return_value = fxi_lookup(interpreter, "Boolean");
+  assert_truthy(return_value, "Boolean exists");
+  assert_equal(fxi_class_super_class(return_value), object_class, "Boolean superclass is Object");
+
 
   // String exists
   // EvalString exists
