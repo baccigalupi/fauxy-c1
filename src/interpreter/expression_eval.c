@@ -1,5 +1,4 @@
 #include "expression_eval.h"
-#include "literal.h"
 #include "class.h"
 #include "method_call_arguments.h"
 #include "../parser/_parser.h"
@@ -71,24 +70,36 @@ FxI_Object *fxi_evaluate_literal(FxI_Interpreter *interpreter, FxP_Expression *e
 
   if (!object) {
     FxI_Class *klass = NULL;
+    object = FxI_Object_create(interpreter, klass);
+    verify(object);
 
     if (type == TOKEN_STRING) {
       klass = fxi_lookup(interpreter, "String");
+      fxi_object__value(object) = fxp_literal_string_value(expression);
     } else if (type == TOKEN_EVAL_STRING) {
       klass = fxi_lookup(interpreter, "EvalString");
+      fxi_object__value(object) = fxp_literal_string_value(expression);
     } else if (type == TOKEN_REGEX) {
       klass = fxi_lookup(interpreter, "Regex");
+      fxi_object__value(object) = fxp_literal_string_value(expression);
     } else if (type == TOKEN_INTEGER) {
       klass = fxi_lookup(interpreter, "Integer");
+      /*#define fxi_object_value_short(O)           (fxb_bit_short_int_value(fxi_object_bit(O)))*/
+      /*#define fxi_object_value_standard_int(O)    (fxb_bit_standard_int_value(fxi_object_bit(O)))*/
+      /*#define fxi_object_value_long(O)            (fxb_bit_long_int_value(fxi_object_bit(O)))*/
+      /*#define fxi_object_value_llong(O)           (fxb_bit_llong_int_value(fxi_object_bit(O)))*/
+      fxi_object__value(object) = expression;
     } else if (type == TOKEN_FLOAT) {
       klass = fxi_lookup(interpreter, "Decimal");
+      fxi_object__value(object) = expression;
+      /*#define fxi_object_value_double(O)          (fxb_bit_double_value(fxi_object_bit(O)))*/
+      /*#define fxi_object_value_ldouble(O)         (fxb_bit_ldouble_value(fxi_object_bit(O)))*/
     } else if (type == TOKEN_TRUE || type == TOKEN_FALSE) {
       klass = fxi_lookup(interpreter, "Boolean");
+      fxi_object__value(object) = expression;
     }
 
-    object = FxI_Object_create(interpreter, klass);
-    verify(object);
-    fxi_object__value(object) = expression;
+    fxi_object_class(object) = klass;
   }
 
   return object;

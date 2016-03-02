@@ -2,11 +2,12 @@
 #include "../../../src/interpreter/method_group.h"
 #include "../../../src/interpreter/interpreter.h"
 #include "../../../src/interpreter/object.h"
-#include "../../../src/interpreter/literal.h"
 #include "../../../src/interpreter/expression_eval.h"
 #include "../../../src/interpreter/native_registry.h"
 
 #include "../../../src/native/boolean_methods.h"
+#include "../../../src/native/object_methods.h"
+#include "../../../src/native/integer_methods.h"
 
 #include "../../../src/parser/expressions.h"
 #include "../../../src/parser/expression_inspect.h"

@@ -12,8 +12,8 @@
 #define fxi_object_attributes(O)            ((O)->attributes)
 #define fxi_object__value(O)                ((O)->value)
 
-#define fxi_object_value(O)                 (FxP_Expression *)((O)->value)
-#define fxi_object_string_value(O)          (fxp_literal_string_value(fxi_object_value(O)))
+#define fxi_object_value(O)                 (FxP_Expression *)(fxi_object__value(O))
+#define fxi_object_string_value(O)          (char *)(fxi_object__value(O))
 
 // literals --------
 #define fxi_object_bit(O)                   (fxp_literal_bit(fxi_object_value(O)))
@@ -23,7 +23,6 @@
 #define fxi_object_value_llong(O)           (fxb_bit_llong_int_value(fxi_object_bit(O)))
 #define fxi_object_value_double(O)          (fxb_bit_double_value(fxi_object_bit(O)))
 #define fxi_object_value_ldouble(O)         (fxb_bit_ldouble_value(fxi_object_bit(O)))
-#define fxi_object_value_string(O)          (fxp_bit_string__value(fxi_object_bit(O)))
 // -----
 
 #define fxi_object_get_attribute(O, K)      (fxb_hash_map_get(fxi_object_attributes(O), K))

@@ -111,7 +111,7 @@ char *test_interpet_literal_string() {
   FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_STRING);
   FxI_Object *object = fxi_evaluate(interpreter, literal);
 
-  assert_strings_equal(fxb_string_value(fxi_object_value_string(object)), "hello world", "returned the right string");
+  assert_strings_equal(fxi_object_string_value(object), "hello world", "returned the right string");
   assert_equal(fxi_object_class(object), fxi_lookup(interpreter, "String"), "is a String");
 
   fxi_interpreter_free(interpreter);
@@ -215,8 +215,8 @@ char *test_context_lookup_of_global() {
 
   FxI_Object *evaluation = fxi_evaluate(interpreter, lookup);
   assert_equal(
-    fxb_string_value(fxi_object_value_string(evaluation)),
-    fxb_string_value(fxi_object_value_string(value_object)),
+    fxi_object_string_value(evaluation),
+    fxi_object_string_value(value_object),
     "lookup of the id works in a context higher than current"
   );
 
