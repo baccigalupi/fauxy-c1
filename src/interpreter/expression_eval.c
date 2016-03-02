@@ -1,5 +1,6 @@
 #include "expression_eval.h"
 #include "literal.h"
+#include "class.h"
 #include "method_call_arguments.h"
 #include "../parser/_parser.h"
 
@@ -66,13 +67,26 @@ FxI_Object *fxi_evaluate_literal(FxI_Interpreter *interpreter, FxP_Expression *e
 
   if (type == TOKEN_FALSE || type == TOKEN_TRUE) {
     object = fxi_lookup(interpreter, fxp_literal_string_value(expression));
-    if (!object) {
-      object = FxI_Object_create(interpreter, NULL); // TODO: add boolean class
-      verify(object);
-      fxi_object__value(object) = expression;
+  }
+
+  if (!object) {
+    FxI_Class *klass = NULL;
+
+    if (type == TOKEN_STRING) {
+      klass = fxi_lookup(interpreter, "String");
+    } else if (type == TOKEN_EVAL_STRING) {
+      klass = fxi_lookup(interpreter, "EvalString");
+    } else if (type == TOKEN_REGEX) {
+      klass = fxi_lookup(interpreter, "Regex");
+    } else if (type == TOKEN_INTEGER) {
+      klass = fxi_lookup(interpreter, "Integer");
+    } else if (type == TOKEN_FLOAT) {
+      klass = fxi_lookup(interpreter, "Decimal");
+    } else if (type == TOKEN_TRUE || type == TOKEN_FALSE) {
+      klass = fxi_lookup(interpreter, "Boolean");
     }
-  } else {
-    object = FxI_Object_create(interpreter, NULL); // TODO: add class context
+
+    object = FxI_Object_create(interpreter, klass);
     verify(object);
     fxi_object__value(object) = expression;
   }
@@ -112,7 +126,8 @@ FxI_Object *fxi_evaluate_function_definition_arguments(FxI_Interpreter *interpre
 
 FxI_Object *fxi_evaluate_function_definition(FxI_Interpreter *interpreter, FxP_Expression *expression) {
   // TODO: this is the same as creating a literal without a key, wrap it up!
-  FxI_Object *object = FxI_Object_create(interpreter, NULL); // todo: add class context
+  FxI_Class *klass = fxi_lookup(interpreter, "Function");
+  FxI_Object *object = FxI_Object_create(interpreter, klass);
   verify(object);
   fxi_object__value(object) = expression;
 
@@ -182,7 +197,8 @@ error:
 }
 
 FxI_Object *fxi_evaluate_native(FxI_Interpreter *interpreter, FxP_ImportExpression *expression) {
-  FxI_Object *object = FxI_Object_create(interpreter, NULL); // todo: add class for Function
+  FxI_Class *klass = fxi_lookup(interpreter, "Function");
+  FxI_Object *object = FxI_Object_create(interpreter, klass);
   // TODO: if it is an eval string, need to eval it :(
   // or if evaluable to a string need to do both
   FxP_Expression *path = fxp_native_function_name(expression);

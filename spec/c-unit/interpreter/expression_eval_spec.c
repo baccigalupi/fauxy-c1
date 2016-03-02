@@ -28,12 +28,6 @@ char *test_class_objects_exist_in_global() {
   assert_truthy(return_value, "Boolean exists");
   assert_equal(fxi_class_super_class(return_value), object_class, "Boolean superclass is Object");
 
-
-  // String exists
-  // EvalString exists
-  // Integer exists
-  // Decimal exists
-
   fxi_interpreter_free(interpreter);
 
   return NULL;

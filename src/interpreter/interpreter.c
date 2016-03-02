@@ -58,38 +58,38 @@ void fxi_interpreter_add_base_classes(FxI_Interpreter *self) {
   klass = FxI_Class_create(self, "Boolean", object_class);
   fxi_context_set(self, "Boolean", klass);
 
-  // Setup classes
-  // -------------
-  // Integer
-  // Decimal
-  // String
-  // EvalString
-  // Regex
+  klass = FxI_Class_create(self, "String", object_class);
+  fxi_context_set(self, "String", klass);
+
+  klass = FxI_Class_create(self, "EvalString", object_class);
+  fxi_context_set(self, "EvalString", klass);
+
+  klass = FxI_Class_create(self, "Regex", object_class);
+  fxi_context_set(self, "Regex", klass);
+
+  klass = FxI_Class_create(self, "Integer", object_class);
+  fxi_context_set(self, "Integer", klass);
+
+  klass = FxI_Class_create(self, "Decimal", object_class);
+  fxi_context_set(self, "Decimal", klass);
+
+  // TODO: verify and throw
 }
 
 void fxi_interpreter_add_base_literals(FxI_Interpreter *self) {
-  FxP_Lookup  *lookup;
-  FxP_Expression *assignment;
-  FxP_Bit *lookup_bit;
-  FxP_Expression *literal;
+  FxI_Class *Boolean = fxi_lookup(self, "Boolean");
 
-  lookup_bit =     FxP_Bit_string_create("false");
-  literal =        FxP_Literal_create(lookup_bit, TOKEN_FALSE);
-  lookup =         FxP_Lookup_create(lookup_bit, TOKEN_ID);
-  assignment =     FxP_ColonExpression_create(lookup, literal);
-  // free the stuff??
+  // true
+  FxI_Object *object = FxI_Object_create(self, Boolean);
+  fxi_object__value(object) = FxP_Literal_create(FxP_Bit_string_create("true"), TOKEN_TRUE);
+  fxi_context_set(self, "true", object);
 
-  fxi_evaluate_assignment(self, assignment);
+  // false
+  object = FxI_Object_create(self, Boolean);
+  fxi_object__value(object) = FxP_Literal_create(FxP_Bit_string_create("false"), TOKEN_FALSE);
+  fxi_context_set(self, "false", object);
 
-  lookup_bit =     FxP_Bit_string_create("true");
-  literal =        FxP_Literal_create(lookup_bit, TOKEN_TRUE);
-  lookup =         FxP_Lookup_create(lookup_bit, TOKEN_ID);
-  assignment =     FxP_ColonExpression_create(lookup, literal);
-  // more freeing?
-
-  fxi_evaluate_assignment(self, assignment);
-
-  // TODO: verify and return null exception
+  // TODO: verify stuff and throw
 }
 
 FxI_Object *fxi_lookup(FxI_Interpreter *self, char *key) {
