@@ -42,7 +42,7 @@ char *test_interpet_literal_true() {
   FxI_Object *object =   fxi_evaluate(interpreter, literal);
 
   assert_truthy(fxi_boolean_value(object) == true,  "returned object is true");
-  // TODO: assert that object has the right class
+  assert_equal(fxi_object_class(object), fxi_lookup(interpreter, "Boolean"), "is a Boolean");
 
   FxI_Object *global_object = fxi_true(interpreter);
   assert_equal(object, global_object, "literal returned is same as one stored in the global context");
@@ -61,7 +61,7 @@ char *test_interpet_literal_false() {
   FxI_Object *object =   fxi_evaluate(interpreter, literal);
 
   assert_truthy(fxi_boolean_value(object) == false,  "returned object is false");
-  // TODO: assert that object has the right class
+  assert_equal(fxi_object_class(object), fxi_lookup(interpreter, "Boolean"), "is a Boolean");
 
   FxI_Object *global_object = fxi_false(interpreter);
   assert_equal(object, global_object, "literal returned is same as one stored in the global context");
@@ -80,7 +80,7 @@ char *test_interpet_literal_integer() {
   FxI_Object *object = fxi_evaluate(interpreter, literal);
 
   assert_equal(fxi_object_value_short(object), (short)12, "returned the right number");
-  // TODO: assert that object has the right class
+  assert_equal(fxi_object_class(object), fxi_lookup(interpreter, "Integer"), "is a Integer");
 
   fxi_interpreter_free(interpreter);
 
@@ -96,7 +96,7 @@ char *test_interpet_literal_decimal() {
   FxI_Object *object = fxi_evaluate(interpreter, literal);
 
   assert_equal(fxi_object_value_double(object), (double)1.2, "returned the right number");
-  // TODO: assert that object has the right class
+  assert_equal(fxi_object_class(object), fxi_lookup(interpreter, "Decimal"), "is a Decimal");
 
   fxi_interpreter_free(interpreter);
 
@@ -112,7 +112,7 @@ char *test_interpet_literal_string() {
   FxI_Object *object = fxi_evaluate(interpreter, literal);
 
   assert_strings_equal(fxb_string_value(fxi_object_value_string(object)), "hello world", "returned the right string");
-  // TODO: assert that object has the right class
+  assert_equal(fxi_object_class(object), fxi_lookup(interpreter, "String"), "is a String");
 
   fxi_interpreter_free(interpreter);
 
