@@ -30,7 +30,7 @@ char *test_integer_type_creation() {
   free(text);
 
   assert_ints_equal(fxp_bit_type(bit), FX_BIT_NUMBER, "type");
-  assert_ints_equal(fxb_bit_short_int_value(bit), (short)42, "value");
+  assert_ints_equal(fxp_bit_integer_value(bit), (short)42, "value");
 
   fxp_bit_free(bit);
 

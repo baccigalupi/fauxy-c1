@@ -13,6 +13,7 @@ error:
   return NULL;
 }
 
+// Simplified on 3/2/16 to always use a long long, inefficient but easy
 FxB_Number *FxB_Integer_from_string(char *str) {
   FxB_Number *integer = FxB_Number_create();
   verify(integer);
@@ -22,27 +23,16 @@ FxB_Number *FxB_Integer_from_string(char *str) {
   long long number_value = strtoll(str, &last_char, 10);
   errno = 0; // reset
 
-  int type;
   if (ERANGE == errno) {
     print_error("Integer out of range");
     goto error;
   } else {
-    if ( number_value <= SHRT_MAX ) {
-      fxb_number_create_value(integer, short);
-      type = FX_INT_SHORT;
-    } else if ( number_value <= INT_MAX ) {
-      fxb_number_create_value(integer, int);
-      type = FX_INT_STANDARD;
-    } else if ( number_value <= LONG_MAX ) {
-      fxb_number_create_value(integer, long);
-      type = FX_INT_LONG;
-    } else {
-      fxb_number_create_value(integer, long long);
-      type = FX_INT_LLONG;
-    }
+    long long *value = fx_alloc(long long);
+    verify_memory(value);
+    *value = number_value;
+    fxb_number_value(integer) = value;
+    fxb_number_type(integer) = FX_INT_LLONG;
   }
-
-  fxb_number_type(integer) = type;
 
   return integer;
 error:
@@ -124,84 +114,6 @@ FxB_Number *FxB_Exponent_from_string(char *str) {
 error:
   if (decimal) { fx_pfree(decimal); }
   return NULL;
-}
-
-FxB_String *fxb_integer_inspect(FxB_Number *number) {
-  char str[200];
-
-  if (fxb_number_type(number) == FX_INT_SHORT) {
-    sprintf(str, "%d", fxb_number_value_short(number));
-  } else if (fxb_number_type(number) == FX_INT_STANDARD) {
-    sprintf(str, "%d", fxb_number_value_standard(number));
-  } else if (fxb_number_type(number) == FX_INT_LONG) {
-    sprintf(str, "%ld", fxb_number_value_long(number));
-  } else {
-    sprintf(str, "%lld", fxb_number_value_llong(number));
-  }
-
-  return FxB_String_create(str);
-}
-
-FxB_String *fxb_decimal_inspect(FxB_Number *number) {
-  char str[200];
-
-  if (fxb_number_exponent(number)) {
-    if (fxb_number_type(number) == FX_DECIMAL_DOUBLE) {
-      sprintf(str, "%.1le", fxb_number_value_double(number));
-    } else {
-      sprintf(str, "%.1Le", fxb_number_value_ldouble(number));
-    }
-  } else {
-    if (fxb_number_type(number) == FX_DECIMAL_DOUBLE) {
-      sprintf(str, "%.3lf", fxb_number_value_double(number));
-    } else {
-      sprintf(str, "%.3Lf", fxb_number_value_ldouble(number));
-    }
-  }
-
-  return FxB_String_create(str);
-}
-
-FxB_String *fxb_decimal_full_inspect(FxB_Number *number) {
-  char str[200];
-
-  if (fxb_number_exponent(number)) {
-    if (fxb_number_type(number) == FX_DECIMAL_DOUBLE) {
-      sprintf(str, "%le", fxb_number_value_double(number));
-    } else {
-      sprintf(str, "%Le", fxb_number_value_ldouble(number));
-    }
-  } else {
-    if (fxb_number_type(number) == FX_DECIMAL_DOUBLE) {
-      sprintf(str, "%lf", fxb_number_value_double(number));
-    } else {
-      sprintf(str, "%Lf", fxb_number_value_ldouble(number));
-    }
-  }
-
-  return FxB_String_create(str);
-}
-
-FxB_String *fxb_number_inspect(FxB_Number *number) {
-  FxB_String *string;
-  if (fxb_number_is_decimal(number)) {
-    string = fxb_decimal_inspect(number);
-  } else {
-    string = fxb_integer_inspect(number);
-  }
-
-  return string;
-}
-
-FxB_String *fxb_number_full_inspect(FxB_Number *number) {
-  FxB_String *string;
-  if (fxb_number_is_decimal(number)) {
-    string = fxb_decimal_full_inspect(number);
-  } else {
-    string = fxb_integer_inspect(number);
-  }
-
-  return string;
 }
 
 FxB_String *fxb_number_type_description(FxB_Number *number) {

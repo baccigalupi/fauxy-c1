@@ -20,10 +20,8 @@ typedef struct {
 #define fxp_bit_number__value(F)    ((FxB_Number *)(fxp_bit_value(F)))
 
 #define fxp_bit_string_value(F)       (fxb_string_value(         fxp_bit_string__value(F)))
-#define fxb_bit_short_int_value(F)    (fxb_number_value_short(   fxp_bit_number__value(F)))
-#define fxb_bit_standard_int_value(F) (fxb_number_value_standard(fxp_bit_number__value(F)))
-#define fxb_bit_long_int_value(F)     (fxb_number_value_long(    fxp_bit_number__value(F)))
-#define fxb_bit_llong_int_value(F)    (fxb_number_value_llong(   fxp_bit_number__value(F)))
+#define fxp_bit_integer_value(F)      (fxb_number_value_integer( fxp_bit_number__value(F)))
+
 #define fxb_bit_double_value(F)       (fxb_number_value_double(  fxp_bit_number__value(F)))
 #define fxb_bit_ldouble_value(F)      (fxb_number_value_ldouble( fxp_bit_number__value(F)))
 

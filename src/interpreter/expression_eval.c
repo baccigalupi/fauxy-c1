@@ -84,10 +84,10 @@ FxI_Object *fxi_evaluate_literal(FxI_Interpreter *interpreter, FxP_Expression *e
       fxi_object__value(object) = fxp_literal_string_value(expression);
     } else if (type == TOKEN_INTEGER) {
       klass = fxi_lookup(interpreter, "Integer");
-      /*#define fxi_object_value_short(O)           (fxb_bit_short_int_value(fxi_object_bit(O)))*/
-      /*#define fxi_object_value_standard_int(O)    (fxb_bit_standard_int_value(fxi_object_bit(O)))*/
-      /*#define fxi_object_value_long(O)            (fxb_bit_long_int_value(fxi_object_bit(O)))*/
-      /*#define fxi_object_value_llong(O)           (fxb_bit_llong_int_value(fxi_object_bit(O)))*/
+      /*#define fxi_object_value_short(O)           (fxp_bit_integer_value(fxi_object_bit(O)))*/
+      /*#define fxi_object_value_standard_int(O)    (fxp_bit_integer_value(fxi_object_bit(O)))*/
+      /*#define fxi_object_value_long(O)            (fxp_bit_integer_value(fxi_object_bit(O)))*/
+      /*#define fxi_object_value_llong(O)           (fxp_bit_integer_value(fxi_object_bit(O)))*/
       fxi_object__value(object) = expression;
     } else if (type == TOKEN_FLOAT) {
       klass = fxi_lookup(interpreter, "Decimal");

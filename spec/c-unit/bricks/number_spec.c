@@ -7,8 +7,8 @@ char *test_read_short_int() {
 
   FxB_Number *integer = FxB_Integer_from_string("1");
 
-  assert_ints_equal(fxb_number_type(integer), FX_INT_SHORT, "type");
-  assert_equal(fxb_number_value_short(integer), (short)1, "value");
+  assert_ints_equal(fxb_number_type(integer), FX_INT_LLONG, "type");
+  assert_equal(fxb_number_value_integer(integer), (long long)1, "value");
 
   return NULL;
 }
@@ -22,8 +22,8 @@ char *test_read_standard_int() {
 
   FxB_Number *integer = FxB_Integer_from_string(str_number);
 
-  assert_ints_equal(fxb_number_type(integer), FX_INT_STANDARD, "type");
-  assert_equal(fxb_number_value_standard(integer), number, "value");
+  assert_ints_equal(fxb_number_type(integer), FX_INT_LLONG, "type");
+  assert_equal(fxb_number_value_integer(integer), (long long)number, "value");
 
   return NULL;
 }
@@ -37,8 +37,8 @@ char *test_read_long_int() {
 
   FxB_Number *integer = FxB_Integer_from_string(str_number);
 
-  assert_ints_equal(fxb_number_type(integer), FX_INT_LONG, "type");
-  assert_equal(fxb_number_value_long(integer), number, "value");
+  assert_ints_equal(fxb_number_type(integer), FX_INT_LLONG, "type");
+  assert_equal(fxb_number_value_integer(integer), (long long)number, "value");
 
   return NULL;
 }
