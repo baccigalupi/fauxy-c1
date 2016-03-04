@@ -95,7 +95,7 @@ char *test_interpet_literal_decimal() {
   FxP_Literal *literal = FxP_Literal_create(bit, TOKEN_FLOAT);
   FxI_Object *object = fxi_evaluate(interpreter, literal);
 
-  assert_equal(fxi_object_value_double(object), (double)1.2, "returned the right number");
+  assert_truthy(fxi_object_value_ldouble(object) - (long double)1.2 < 5e-17, "returned the right number");
   assert_equal(fxi_object_class(object), fxi_lookup(interpreter, "Decimal"), "is a Decimal");
 
   fxi_interpreter_free(interpreter);

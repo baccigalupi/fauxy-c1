@@ -44,20 +44,10 @@ FxB_Number *FxB_Decimal_from_string(char *str) {
   FxB_Number *decimal = FxB_Number_create();
   verify(decimal);
 
-  int type;
-  if (strlen(str) - 1 <= DBL_DIG) {
-    double number_value;
-    sscanf(str, "%lf", &number_value);
-    fxb_number_create_value(decimal, double);
-    type = FX_DECIMAL_DOUBLE;
-  } else {
-    long double number_value;
-    sscanf(str, "%Lf", &number_value);
-    fxb_number_create_value(decimal, long double);
-    type = FX_DECIMAL_LDOUBLE;
-  }
-
-  fxb_number_type(decimal) = type;
+  long double number_value;
+  sscanf(str, "%Lf", &number_value);
+  fxb_number_create_value(decimal, long double);
+  fxb_number_type(decimal) = FX_DECIMAL_LDOUBLE;
 
   return decimal;
 error:
@@ -68,7 +58,6 @@ error:
 FxB_Number *FxB_Exponent_from_string(char *str) {
   FxB_Number *decimal = FxB_Number_create();
   verify(decimal);
-  int type;
 
   char *format;
   int length = strlen(str);
@@ -95,20 +84,12 @@ FxB_Number *FxB_Exponent_from_string(char *str) {
     }
   }
 
-  if (is_big) {
-    long double number_value;
-    sscanf(str, format, &number_value);
-    fxb_number_create_value(decimal, long double);
-    type = FX_DECIMAL_LDOUBLE;
-  } else {
-    double number_value;
-    sscanf(str, format, &number_value);
-    fxb_number_create_value(decimal, double);
-    type = FX_DECIMAL_DOUBLE;
-  }
 
+  long double number_value;
+  sscanf(str, format, &number_value);
+  fxb_number_create_value(decimal, long double);
   fxb_number_exponent(decimal) = true;
-  fxb_number_type(decimal) = type;
+  fxb_number_type(decimal) = FX_DECIMAL_LDOUBLE;
 
   return decimal;
 error:
@@ -119,7 +100,7 @@ error:
 FxB_String *fxb_number_type_description(FxB_Number *number) {
   int type = fxb_number_type(number);
   FxB_String *string = NULL;
-  if (type == FX_INT_SHORT || type == FX_INT_STANDARD || type == FX_INT_LONG || type == FX_INT_LLONG) {
+  if (type == FX_INT_LLONG) {
     string = FxB_String_create("INTEGER");
   } else {
     string = FxB_String_create("DECIMAL");

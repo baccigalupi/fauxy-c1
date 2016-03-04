@@ -46,7 +46,7 @@ char *test_float_type_creation() {
   free(text);
 
   assert_ints_equal(fxp_bit_type(bit), FX_BIT_NUMBER, "type");
-  assert_equal(fxb_bit_double_value(bit), (double)3.14, "value");
+  assert_truthy(fxb_bit_ldouble_value(bit) - (long double)3.14 < 1e-15, "value");
 
   fxp_bit_free(bit);
 
@@ -62,7 +62,7 @@ char *test_exponent_type_creation() {
   free(text);
 
   assert_ints_equal(fxp_bit_type(bit), FX_BIT_NUMBER, "type");
-  assert_equal(fxb_bit_double_value(bit), (double)3.1e3, "value");
+  assert_truthy(fxb_bit_ldouble_value(bit) - (long double)3.1e3 < 1e-15, "value");
 
   fxp_bit_free(bit);
 

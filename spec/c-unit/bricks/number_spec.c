@@ -48,8 +48,9 @@ char *test_small_decimals() {
 
   FxB_Number *decimal = FxB_Decimal_from_string("1.2");
 
-  assert_ints_equal(fxb_number_type(decimal), FX_DECIMAL_DOUBLE, "type");
-  assert_equal(fxb_number_value_double(decimal), (double)1.2, "value");
+  assert_ints_equal(fxb_number_type(decimal), FX_DECIMAL_LDOUBLE, "type");
+  double diff = fxb_number_value_ldouble(decimal) - (long double)1.2;
+  assert_truthy(diff < 5e-17, "value");
 
   return NULL;
 }
@@ -61,7 +62,7 @@ char *test_big_decimals() {
 
   assert_ints_equal(fxb_number_type(decimal), FX_DECIMAL_LDOUBLE, "type");
   double diff = fxb_number_value_ldouble(decimal) - (long double)1.2345678901234567;
-  assert_truthy(diff < 1e-17, "value");
+  assert_truthy(diff < 5e-17, "value");
 
   return NULL;
 }
@@ -71,7 +72,7 @@ char *test_exponential_decimals() {
 
   FxB_Number *exponent = FxB_Exponent_from_string("1.2e34");
 
-  assert_ints_equal(fxb_number_type(exponent), FX_DECIMAL_DOUBLE, "type");
+  assert_ints_equal(fxb_number_type(exponent), FX_DECIMAL_LDOUBLE, "type");
   assert_equal(fxb_number_value_double(exponent), (double)1.2e34, "value");
 
   return NULL;
