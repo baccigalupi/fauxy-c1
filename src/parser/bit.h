@@ -21,9 +21,7 @@ typedef struct {
 
 #define fxp_bit_string_value(F)       (fxb_string_value(         fxp_bit_string__value(F)))
 #define fxp_bit_integer_value(F)      (fxb_number_value_integer( fxp_bit_number__value(F)))
-
-#define fxb_bit_double_value(F)       (fxb_number_value_double(  fxp_bit_number__value(F)))
-#define fxb_bit_ldouble_value(F)      (fxb_number_value_ldouble( fxp_bit_number__value(F)))
+#define fxb_bit_decimal_value(F)      (fxb_number_value_decimal( fxp_bit_number__value(F)))
 
 FxP_Bit        *FxP_Bit_string_create(char *text);
 FxP_Bit        *FxP_Bit_integer_create(char *text);

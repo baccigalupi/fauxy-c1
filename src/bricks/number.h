@@ -14,10 +14,8 @@ typedef struct FxB_Number {
 #define fxb_number_value(I)        ((I)->value)
 #define fxb_number_exponent(I)     ((I)->exponent)
 
-#define fxb_number_value_integer(I)  (*(long long  *)(fxb_number_value(I)))
-
-#define fxb_number_value_double(I)   (*(double     *)(fxb_number_value(I)))
-#define fxb_number_value_ldouble(I)  (*(long double*)(fxb_number_value(I)))
+#define fxb_number_value_integer(I)  (*(long long   *)(fxb_number_value(I)))
+#define fxb_number_value_decimal(I)  (*(double      *)(fxb_number_value(I)))
 
 #define fxb_number_is_decimal(I)    (                                               \
                                       (fxb_number_type(I) == FX_DECIMAL_DOUBLE) || \

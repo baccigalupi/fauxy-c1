@@ -127,7 +127,7 @@ json_t *fxp_bit_body_inspect(FxP_Bit *bit) {
     if (fxb_number_type(number) == FX_INT_LLONG) {
       json_object_set_new(root, fxb_string_value(bit_key), json_integer(fxb_number_value_integer(number)));
     } else {
-      json_object_set_new(root, fxb_string_value(bit_key), json_real(fxb_number_value_double(number)));
+      json_object_set_new(root, fxb_string_value(bit_key), json_real(fxb_number_value_decimal(number)));
     }
   } else {
     json_object_set_new(root, fxb_string_value(bit_key), json_string(fxp_bit_string_value(bit)));

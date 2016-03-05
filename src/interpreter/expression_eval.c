@@ -92,8 +92,8 @@ FxI_Object *fxi_evaluate_literal(FxI_Interpreter *interpreter, FxP_Expression *e
     } else if (type == TOKEN_FLOAT) {
       klass = fxi_lookup(interpreter, "Decimal");
       fxi_object__value(object) = expression;
-      /*#define fxi_object_value_double(O)          (fxb_bit_double_value(fxi_object_bit(O)))*/
-      /*#define fxi_object_value_ldouble(O)         (fxb_bit_ldouble_value(fxi_object_bit(O)))*/
+      /*#define fxi_object_value_double(O)          (fxb_bit_decimal_value(fxi_object_bit(O)))*/
+      /*#define fxi_object_value_ldouble(O)         (fxb_bit_decimal_value(fxi_object_bit(O)))*/
     } else if (type == TOKEN_TRUE || type == TOKEN_FALSE) {
       klass = fxi_lookup(interpreter, "Boolean");
       fxi_object__value(object) = expression;

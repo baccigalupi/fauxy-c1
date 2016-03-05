@@ -44,10 +44,10 @@ FxB_Number *FxB_Decimal_from_string(char *str) {
   FxB_Number *decimal = FxB_Number_create();
   verify(decimal);
 
-  long double number_value;
-  sscanf(str, "%Lf", &number_value);
-  fxb_number_create_value(decimal, long double);
-  fxb_number_type(decimal) = FX_DECIMAL_LDOUBLE;
+  double number_value;
+  sscanf(str, "%lf", &number_value);
+  fxb_number_create_value(decimal, double);
+  fxb_number_type(decimal) = FX_DECIMAL_DOUBLE;
 
   return decimal;
 error:
@@ -70,18 +70,11 @@ FxB_Number *FxB_Exponent_from_string(char *str) {
       break;
     }
   }
-  if (is_big) {
-    if (is_big_e) {
-      format = "%LE";
-    } else {
-      format = "%Le";
-    }
+
+  if (is_big_e) {
+    format = "%lE";
   } else {
-    if (is_big_e) {
-      format = "%lE";
-    } else {
-      format = "%le";
-    }
+    format = "%le";
   }
 
 
@@ -89,7 +82,7 @@ FxB_Number *FxB_Exponent_from_string(char *str) {
   sscanf(str, format, &number_value);
   fxb_number_create_value(decimal, long double);
   fxb_number_exponent(decimal) = true;
-  fxb_number_type(decimal) = FX_DECIMAL_LDOUBLE;
+  fxb_number_type(decimal) = FX_DECIMAL_DOUBLE;
 
   return decimal;
 error:

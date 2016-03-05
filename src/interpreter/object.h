@@ -21,8 +21,8 @@
 #define fxi_object_value_standard_int(O)    (fxp_bit_integer_value(fxi_object_bit(O)))
 #define fxi_object_value_long(O)            (fxp_bit_integer_value(fxi_object_bit(O)))
 #define fxi_object_value_llong(O)           (fxp_bit_integer_value(fxi_object_bit(O)))
-#define fxi_object_value_double(O)          (fxb_bit_double_value(fxi_object_bit(O)))
-#define fxi_object_value_ldouble(O)         (fxb_bit_ldouble_value(fxi_object_bit(O)))
+#define fxi_object_value_double(O)          (fxb_bit_decimal_value(fxi_object_bit(O)))
+#define fxi_object_value_ldouble(O)         (fxb_bit_decimal_value(fxi_object_bit(O)))
 // -----
 
 #define fxi_object_get_attribute(O, K)      (fxb_hash_map_get(fxi_object_attributes(O), K))
